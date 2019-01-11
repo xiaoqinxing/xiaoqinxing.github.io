@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="（一）推库不用重启的方法：可以节省大量时间，需要重启启动程序，和第二条搭配使用另外还可以方便的查看开camera初始化时的一些打印注意：需要有APK，部分IPC上不能使用 660/8998平台:123adb shell stop cameraserveradb shell start cameraserveradb shell sync 老平台：12345adb shell stop mediaa">
+<meta name="keywords" content="高通camera">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADB指令小结">
+<meta property="og:url" content="http://yoursite.com/2019/01/10/study/index.html">
+<meta property="og:site_name" content="qinxing">
+<meta property="og:description" content="（一）推库不用重启的方法：可以节省大量时间，需要重启启动程序，和第二条搭配使用另外还可以方便的查看开camera初始化时的一些打印注意：需要有APK，部分IPC上不能使用 660/8998平台:123adb shell stop cameraserveradb shell start cameraserveradb shell sync 老平台：12345adb shell stop mediaa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-10T12:08:17.046Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ADB指令小结">
+<meta name="twitter:description" content="（一）推库不用重启的方法：可以节省大量时间，需要重启启动程序，和第二条搭配使用另外还可以方便的查看开camera初始化时的一些打印注意：需要有APK，部分IPC上不能使用 660/8998平台:123adb shell stop cameraserveradb shell start cameraserveradb shell sync 老平台：12345adb shell stop mediaa">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/10/study/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ADB指令小结 | qinxing</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qinxing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">welcome to my world</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/10/study/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiaoqinxing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qinxing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ADB指令小结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-10 16:15:01 / 修改时间：20:08:17" itemprop="dateCreated datePublished" datetime="2019-01-10T16:15:01+08:00">2019-01-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/工作/" itemprop="url" rel="index"><span itemprop="name">工作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/10/study/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/01/10/study/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="（一）推库不用重启的方法："><a href="#（一）推库不用重启的方法：" class="headerlink" title="（一）推库不用重启的方法："></a>（一）推库不用重启的方法：</h2><p>可以节省大量时间，需要重启启动程序，和第二条搭配使用<br>另外还可以方便的查看开camera初始化时的一些打印<br>注意：需要有APK，部分IPC上不能使用</p>
+<h3 id="660-8998平台"><a href="#660-8998平台" class="headerlink" title="660/8998平台:"></a>660/8998平台:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell stop cameraserver</span><br><span class="line">adb shell start cameraserver</span><br><span class="line">adb shell sync</span><br></pre></td></tr></table></figure>
+<h3 id="老平台："><a href="#老平台：" class="headerlink" title="老平台："></a>老平台：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb shell stop media</span><br><span class="line">adb shell start media</span><br><span class="line">adb shell stop qcamerasvr</span><br><span class="line">adb shell start qcamerasvr</span><br><span class="line">adb shell sync</span><br></pre></td></tr></table></figure>
+<h2 id="（二）adb启动和关闭程序的方法"><a href="#（二）adb启动和关闭程序的方法" class="headerlink" title="（二）adb启动和关闭程序的方法"></a>（二）adb启动和关闭程序的方法</h2><h3 id="先找到当前窗口的程序名，拿骁龙相机举例"><a href="#先找到当前窗口的程序名，拿骁龙相机举例" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例"></a>先找到当前窗口的程序名，拿骁龙相机举例</h3><p>输入：adb shell dumpsys window windows | findstr Current<br>输出：mCurrentFocus=Window{59a08b7 u0 org.codeaurora.snapcam/com.android.camera.CameraLauncher}<br>后面一长串的字母就是程序名</p>
+<h3 id="先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb-shell-am-start-–n-程序名"><a href="#先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb-shell-am-start-–n-程序名" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名"></a>先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名</h3><p>adb shell am start -n org.codeaurora.snapcam/com.android.camera.CameraLauncher</p>
+<h3 id="先找到当前窗口的程序名，拿骁龙相机举例关闭程序"><a href="#先找到当前窗口的程序名，拿骁龙相机举例关闭程序" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例关闭程序"></a>先找到当前窗口的程序名，拿骁龙相机举例关闭程序</h3><p>adb shell pkill snapcam(缩写就够了)</p>
+<h2 id="（三）拍照：用模拟抓拍键的方式抓拍"><a href="#（三）拍照：用模拟抓拍键的方式抓拍" class="headerlink" title="（三）拍照：用模拟抓拍键的方式抓拍"></a>（三）拍照：用模拟抓拍键的方式抓拍</h2><p>adb shell input keyevent 27<br>如果写成脚本，速度较快，有的时候图片不能立即pull出来，建议加个延时，具体延时长度自己试验<br>延时：ping /n 2 127.1&gt;nul<br>此处的2代表延时2秒</p>
+<h2 id="（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）"><a href="#（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）" class="headerlink" title="（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）"></a>（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）</h2><h3 id="先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限"><a href="#先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限"></a>先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限</h3><p>adb shell chmod 777 /data/misc/camera</p>
+<h3 id="先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW"><a href="#先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW"></a>先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW</h3><p>可以在QCamera2HWICallbacks.cpp的dumpFrameToFile函数查看具体实现过程。可能会出现抓拍到不止1张raw图的情况。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.raw_yuv 1</span><br><span class="line">adb shell setprop persist.camera.preview_raw 1</span><br><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131088</span><br></pre></td></tr></table></figure></p>
+<h3 id="先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式"><a href="#先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式"></a>先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式</h3><p>而这里格式要改成packed，图片的名称中有图片的大小<br>注意：第一次抓取raw图，设置好要重启camera<br>由于persist.camera.raw_yuv只有在给channel添加通道的时候才会读取，因此设置之后需要重启camera，可以重启设备或者重启应用程序。</p>
+<h2 id="（五）抓YUV图的方法（660平台）："><a href="#（五）抓YUV图的方法（660平台）：" class="headerlink" title="（五）抓YUV图的方法（660平台）："></a>（五）抓YUV图的方法（660平台）：</h2><h3 id="VFE输出"><a href="#VFE输出" class="headerlink" title="VFE输出"></a>VFE输出</h3><p>和上面一个类似，先改权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.isp.dump_cnt 1</span><br><span class="line">adb shell setprop persist.camera.isp.dump 0</span><br><span class="line">adb shell setprop persist.camera.isp.dump 2</span><br></pre></td></tr></table></figure></p>
+<p>实现函数：iface_util.c中的 iface_util_dump_frame</p>
+<h3 id="CPP输出（方法和抓raw图差不多）"><a href="#CPP输出（方法和抓raw图差不多）" class="headerlink" title="CPP输出（方法和抓raw图差不多）"></a>CPP输出（方法和抓raw图差不多）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131073</span><br></pre></td></tr></table></figure>
+<h3 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h3><p>persist.camera.isp.dump 0到12位的意义：<br>CAM_STREAM_TYPE_PREVIEW – 0x2<br>CAM_STREAM_TYPE_SNAPSHOT – 0x8<br>CAM_STREAM_TYPE_VIDEO – 0x10<br>persist.camera.dumpimg<br>16到23位表示dump多少帧，但如果是0，就是10帧<br>8-15位表示跳过多少帧，默认不跳过.<br>0到7位：<br>QCAMERA_DUMP_FRM_PREVIEW –0x1<br>QCAMERA_DUMP_FRM_VIDEO –0x2<br>QCAMERA_DUMP_FRM_SNAPSHOT –0x4<br>QCAMERA_DUMP_FRM_THUMBNAIL –0x8<br>QCAMERA_DUMP_FRM_RAW –0x10<br>QCAMERA_DUMP_FRM_JPEG –0x20</p>
+<h2 id="（六）查看HAL层和客户端设置的参数值"><a href="#（六）查看HAL层和客户端设置的参数值" class="headerlink" title="（六）查看HAL层和客户端设置的参数值"></a>（六）查看HAL层和客户端设置的参数值</h2><p>adb shell dumpsys media.camera</p>
+<h2 id="（七）log打印"><a href="#（七）log打印" class="headerlink" title="（七）log打印"></a>（七）log打印</h2><p>logcat|grep xxx –搜索包含xxx的log<br>logcat|grep xxx &gt; /data/log.log –将包含xxx的log存到/data/log.log中<br>setprop persist.camera.stats.aec.debug 5 –stats中的AEC模块等级小于等于5的都打印出来</p>
+<h3 id="关键词："><a href="#关键词：" class="headerlink" title="关键词："></a>关键词：</h3><p>查看曝光信：target_luma<br>查看灰点信息：simple-grey-world<br>查看决策点：final_awb_decision<br>查看HAL层帧率：PROFILE_PREVIEW_FRAMES_PER_SECOND<br>查看camera层模块帧率：fps</p>
+<h3 id="推库技巧："><a href="#推库技巧：" class="headerlink" title="推库技巧："></a>推库技巧：</h3><p>如果一次生成的so文件比较多，可以放在一个文件夹内，把文件夹的内容推入设备。<br>adb push C:\ROM. System/vendor/lib      注意.不能少</p>
+<h2 id="（八）参考脚本："><a href="#（八）参考脚本：" class="headerlink" title="（八）参考脚本："></a>（八）参考脚本：</h2><h3 id="push-bat（推动态库）"><a href="#push-bat（推动态库）" class="headerlink" title="push.bat（推动态库）"></a>push.bat（推动态库）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">REM 在推库之前关闭应用程序，不然可能会卡死在应用程序的界面</span><br><span class="line">REM IPC上建议不要关掉程序，重启会很慢，直接推库会卡一会儿，然后就可以正常使用</span><br><span class="line">adb shell pkill ptt</span><br><span class="line">REM HAL层动态库</span><br><span class="line">adb push adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\camera.sdm660.so system/lib/hw</span><br><span class="line">REM camera层动态库</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_default_preview_3a.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_cpp_preview.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_preview.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_common.so system/vendor/lib</span><br><span class="line">REM 重启cameraserver（8998/sdm660平台）</span><br><span class="line">adb shell stop cameraserver</span><br><span class="line">adb shell start cameraserver</span><br><span class="line">adb shell sync</span><br><span class="line">REM 启动应用程序</span><br><span class="line">adb shell am start -n com.kedacom.ptt/com.kedacom.kdmipw300.activity.IPW300MainActivity</span><br><span class="line">ping /n 3 127.1&gt;nul</span><br><span class="line">REM 确认是否打开</span><br><span class="line">adb shell dumpsys window windows | findstr Current</span><br></pre></td></tr></table></figure>
+<h3 id="capture-bat（拍照）"><a href="#capture-bat（拍照）" class="headerlink" title="capture.bat（拍照）"></a>capture.bat（拍照）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">REM 先清空原来的图片</span><br><span class="line">adb shell rm -r /sdcard/DCIM/Camera/*</span><br><span class="line">adb shell rm -r /storage/extdisk/ipw300/image/chn0_0/*</span><br><span class="line">REM 拍照</span><br><span class="line">adb shell input keyevent 27</span><br><span class="line">ping /n 3 127.1&gt;nul</span><br><span class="line">REM 导出照片</span><br><span class="line">adb pull /storage/extdisk/ipw300/image/chn0_0 Z:\liqinxing\test_photo\sixth_tunning</span><br><span class="line">adb pull /sdcard/DCIM/Camera Z:\liqinxing\test_photo\sixth_tunning</span><br></pre></td></tr></table></figure>
+<h3 id="sdm660-root-bat"><a href="#sdm660-root-bat" class="headerlink" title="sdm660_root.bat"></a>sdm660_root.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb shell setprop service.user.test 1</span><br><span class="line">ping -n 5 127.1 &gt; nul</span><br><span class="line">adb shell setenforce 0</span><br><span class="line">ping -n 1 127.1 &gt; nul</span><br><span class="line">adb remount</span><br></pre></td></tr></table></figure>
+<h3 id="captureraw-bat"><a href="#captureraw-bat" class="headerlink" title="captureraw.bat"></a>captureraw.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell chmod 777 /data/misc/camera</span><br><span class="line">adb shell rm  /data/misc/camera/*</span><br><span class="line">adb shell setprop persist.camera.raw_yuv 1</span><br><span class="line">adb shell setprop persist.camera.preview_raw 1</span><br><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131088</span><br><span class="line">adb pull /data/misc/camera Z:\liqinxing\test_photo\raw</span><br></pre></td></tr></table></figure>
+<h3 id="captureyuv-bat"><a href="#captureyuv-bat" class="headerlink" title="captureyuv.bat"></a>captureyuv.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb shell chmod 777 /data/misc/camera</span><br><span class="line">adb shell rm  /data/misc/camera/*</span><br><span class="line">adb shell setprop persist.camera.isp.dump_cnt 1</span><br><span class="line">adb shell setprop persist.camera.isp.dump 0</span><br><span class="line">adb shell setprop persist.camera.isp.dump 2 </span><br><span class="line">adb pull /data/misc/camera Z:\liqinxing\test_photo\raw</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/高通camera/" rel="tag"># 高通camera</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/10/love/" rel="next" title="2018年度总结">
+                <i class="fa fa-chevron-left"></i> 2018年度总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">xiaoqinxing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#（一）推库不用重启的方法："><span class="nav-number">1.</span> <span class="nav-text">（一）推库不用重启的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#660-8998平台"><span class="nav-number">1.1.</span> <span class="nav-text">660/8998平台:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老平台："><span class="nav-number">1.2.</span> <span class="nav-text">老平台：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（二）adb启动和关闭程序的方法"><span class="nav-number">2.</span> <span class="nav-text">（二）adb启动和关闭程序的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例"><span class="nav-number">2.1.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb-shell-am-start-–n-程序名"><span class="nav-number">2.2.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例关闭程序"><span class="nav-number">2.3.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例关闭程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（三）拍照：用模拟抓拍键的方式抓拍"><span class="nav-number">3.</span> <span class="nav-text">（三）拍照：用模拟抓拍键的方式抓拍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）"><span class="nav-number">4.</span> <span class="nav-text">（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限"><span class="nav-number">4.1.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW"><span class="nav-number">4.2.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式"><span class="nav-number">4.3.</span> <span class="nav-text">先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（五）抓YUV图的方法（660平台）："><span class="nav-number">5.</span> <span class="nav-text">（五）抓YUV图的方法（660平台）：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VFE输出"><span class="nav-number">5.1.</span> <span class="nav-text">VFE输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPP输出（方法和抓raw图差不多）"><span class="nav-number">5.2.</span> <span class="nav-text">CPP输出（方法和抓raw图差不多）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充："><span class="nav-number">5.3.</span> <span class="nav-text">补充：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（六）查看HAL层和客户端设置的参数值"><span class="nav-number">6.</span> <span class="nav-text">（六）查看HAL层和客户端设置的参数值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（七）log打印"><span class="nav-number">7.</span> <span class="nav-text">（七）log打印</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键词："><span class="nav-number">7.1.</span> <span class="nav-text">关键词：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推库技巧："><span class="nav-number">7.2.</span> <span class="nav-text">推库技巧：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（八）参考脚本："><span class="nav-number">8.</span> <span class="nav-text">（八）参考脚本：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#push-bat（推动态库）"><span class="nav-number">8.1.</span> <span class="nav-text">push.bat（推动态库）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#capture-bat（拍照）"><span class="nav-number">8.2.</span> <span class="nav-text">capture.bat（拍照）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sdm660-root-bat"><span class="nav-number">8.3.</span> <span class="nav-text">sdm660_root.bat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#captureraw-bat"><span class="nav-number">8.4.</span> <span class="nav-text">captureraw.bat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#captureyuv-bat"><span class="nav-number">8.5.</span> <span class="nav-text">captureyuv.bat</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiaoqinxing</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function (item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'rHsnw3f4WFcVFLBuD7lvDg08-gzGzoHsz',
+    appKey: 'QfsaTUF5s1BhrBLXfB7GL0b2',
+    placeholder: '快到碗里来*w*',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
