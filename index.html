@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,14 +76,14 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
+    scheme: 'Pisces',
     version: '6.7.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: false,
     fastclick: false,
     lazyload: false,
     tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"bounceLeftIn","sidebar":"bounceLeftIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -164,8 +164,12 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+	
+	<script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+	
   
   
     
@@ -251,9 +255,6 @@
   
 
   
-    
-
-  
 
   
 </nav>
@@ -273,6 +274,9 @@
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
           
           <div id="content" class="content">
             
@@ -406,31 +410,20 @@
       
         
           
-            <h2 id="（一）推库不用重启的方法："><a href="#（一）推库不用重启的方法：" class="headerlink" title="（一）推库不用重启的方法："></a>（一）推库不用重启的方法：</h2><p>可以节省大量时间，需要重启启动程序，和第二条搭配使用<br>另外还可以方便的查看开camera初始化时的一些打印<br>注意：需要有APK，部分IPC上不能使用</p>
-<h3 id="660-8998平台"><a href="#660-8998平台" class="headerlink" title="660/8998平台:"></a>660/8998平台:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell stop cameraserver</span><br><span class="line">adb shell start cameraserver</span><br><span class="line">adb shell sync</span><br></pre></td></tr></table></figure>
-<h3 id="老平台："><a href="#老平台：" class="headerlink" title="老平台："></a>老平台：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb shell stop media</span><br><span class="line">adb shell start media</span><br><span class="line">adb shell stop qcamerasvr</span><br><span class="line">adb shell start qcamerasvr</span><br><span class="line">adb shell sync</span><br></pre></td></tr></table></figure>
-<h2 id="（二）adb启动和关闭程序的方法"><a href="#（二）adb启动和关闭程序的方法" class="headerlink" title="（二）adb启动和关闭程序的方法"></a>（二）adb启动和关闭程序的方法</h2><h3 id="先找到当前窗口的程序名，拿骁龙相机举例"><a href="#先找到当前窗口的程序名，拿骁龙相机举例" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例"></a>先找到当前窗口的程序名，拿骁龙相机举例</h3><p>输入：adb shell dumpsys window windows | findstr Current<br>输出：mCurrentFocus=Window{59a08b7 u0 org.codeaurora.snapcam/com.android.camera.CameraLauncher}<br>后面一长串的字母就是程序名</p>
-<h3 id="先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb-shell-am-start-–n-程序名"><a href="#先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb-shell-am-start-–n-程序名" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名"></a>先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名</h3><p>adb shell am start -n org.codeaurora.snapcam/com.android.camera.CameraLauncher</p>
-<h3 id="先找到当前窗口的程序名，拿骁龙相机举例关闭程序"><a href="#先找到当前窗口的程序名，拿骁龙相机举例关闭程序" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例关闭程序"></a>先找到当前窗口的程序名，拿骁龙相机举例关闭程序</h3><p>adb shell pkill snapcam(缩写就够了)</p>
-<h2 id="（三）拍照：用模拟抓拍键的方式抓拍"><a href="#（三）拍照：用模拟抓拍键的方式抓拍" class="headerlink" title="（三）拍照：用模拟抓拍键的方式抓拍"></a>（三）拍照：用模拟抓拍键的方式抓拍</h2><p>adb shell input keyevent 27<br>如果写成脚本，速度较快，有的时候图片不能立即pull出来，建议加个延时，具体延时长度自己试验<br>延时：ping /n 2 127.1&gt;nul<br>此处的2代表延时2秒</p>
-<h2 id="（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）"><a href="#（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）" class="headerlink" title="（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）"></a>（四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）</h2><h3 id="先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限"><a href="#先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限"></a>先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限</h3><p>adb shell chmod 777 /data/misc/camera</p>
-<h3 id="先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW"><a href="#先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW"></a>先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW</h3><p>可以在QCamera2HWICallbacks.cpp的dumpFrameToFile函数查看具体实现过程。可能会出现抓拍到不止1张raw图的情况。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.raw_yuv 1</span><br><span class="line">adb shell setprop persist.camera.preview_raw 1</span><br><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131088</span><br></pre></td></tr></table></figure></p>
-<h3 id="先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式"><a href="#先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式" class="headerlink" title="先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式"></a>先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式</h3><p>而这里格式要改成packed，图片的名称中有图片的大小<br>注意：第一次抓取raw图，设置好要重启camera<br>由于persist.camera.raw_yuv只有在给channel添加通道的时候才会读取，因此设置之后需要重启camera，可以重启设备或者重启应用程序。</p>
-<h2 id="（五）抓YUV图的方法（660平台）："><a href="#（五）抓YUV图的方法（660平台）：" class="headerlink" title="（五）抓YUV图的方法（660平台）："></a>（五）抓YUV图的方法（660平台）：</h2><h3 id="VFE输出"><a href="#VFE输出" class="headerlink" title="VFE输出"></a>VFE输出</h3><p>和上面一个类似，先改权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.isp.dump_cnt 1</span><br><span class="line">adb shell setprop persist.camera.isp.dump 0</span><br><span class="line">adb shell setprop persist.camera.isp.dump 2</span><br></pre></td></tr></table></figure></p>
-<p>实现函数：iface_util.c中的 iface_util_dump_frame</p>
-<h3 id="CPP输出（方法和抓raw图差不多）"><a href="#CPP输出（方法和抓raw图差不多）" class="headerlink" title="CPP输出（方法和抓raw图差不多）"></a>CPP输出（方法和抓raw图差不多）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131073</span><br></pre></td></tr></table></figure>
-<h3 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h3><p>persist.camera.isp.dump 0到12位的意义：<br>CAM_STREAM_TYPE_PREVIEW – 0x2<br>CAM_STREAM_TYPE_SNAPSHOT – 0x8<br>CAM_STREAM_TYPE_VIDEO – 0x10<br>persist.camera.dumpimg<br>16到23位表示dump多少帧，但如果是0，就是10帧<br>8-15位表示跳过多少帧，默认不跳过.<br>0到7位：<br>QCAMERA_DUMP_FRM_PREVIEW –0x1<br>QCAMERA_DUMP_FRM_VIDEO –0x2<br>QCAMERA_DUMP_FRM_SNAPSHOT –0x4<br>QCAMERA_DUMP_FRM_THUMBNAIL –0x8<br>QCAMERA_DUMP_FRM_RAW –0x10<br>QCAMERA_DUMP_FRM_JPEG –0x20</p>
-<h2 id="（六）查看HAL层和客户端设置的参数值"><a href="#（六）查看HAL层和客户端设置的参数值" class="headerlink" title="（六）查看HAL层和客户端设置的参数值"></a>（六）查看HAL层和客户端设置的参数值</h2><p>adb shell dumpsys media.camera</p>
-<h2 id="（七）log打印"><a href="#（七）log打印" class="headerlink" title="（七）log打印"></a>（七）log打印</h2><p>logcat|grep xxx –搜索包含xxx的log<br>logcat|grep xxx &gt; /data/log.log –将包含xxx的log存到/data/log.log中<br>setprop persist.camera.stats.aec.debug 5 –stats中的AEC模块等级小于等于5的都打印出来</p>
-<h3 id="关键词："><a href="#关键词：" class="headerlink" title="关键词："></a>关键词：</h3><p>查看曝光信：target_luma<br>查看灰点信息：simple-grey-world<br>查看决策点：final_awb_decision<br>查看HAL层帧率：PROFILE_PREVIEW_FRAMES_PER_SECOND<br>查看camera层模块帧率：fps</p>
-<h3 id="推库技巧："><a href="#推库技巧：" class="headerlink" title="推库技巧："></a>推库技巧：</h3><p>如果一次生成的so文件比较多，可以放在一个文件夹内，把文件夹的内容推入设备。<br>adb push C:\ROM. System/vendor/lib      注意.不能少</p>
-<h2 id="（八）参考脚本："><a href="#（八）参考脚本：" class="headerlink" title="（八）参考脚本："></a>（八）参考脚本：</h2><h3 id="push-bat（推动态库）"><a href="#push-bat（推动态库）" class="headerlink" title="push.bat（推动态库）"></a>push.bat（推动态库）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">REM 在推库之前关闭应用程序，不然可能会卡死在应用程序的界面</span><br><span class="line">REM IPC上建议不要关掉程序，重启会很慢，直接推库会卡一会儿，然后就可以正常使用</span><br><span class="line">adb shell pkill ptt</span><br><span class="line">REM HAL层动态库</span><br><span class="line">adb push adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\camera.sdm660.so system/lib/hw</span><br><span class="line">REM camera层动态库</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_default_preview_3a.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_cpp_preview.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_preview.so system/vendor/lib</span><br><span class="line">adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_common.so system/vendor/lib</span><br><span class="line">REM 重启cameraserver（8998/sdm660平台）</span><br><span class="line">adb shell stop cameraserver</span><br><span class="line">adb shell start cameraserver</span><br><span class="line">adb shell sync</span><br><span class="line">REM 启动应用程序</span><br><span class="line">adb shell am start -n com.kedacom.ptt/com.kedacom.kdmipw300.activity.IPW300MainActivity</span><br><span class="line">ping /n 3 127.1&gt;nul</span><br><span class="line">REM 确认是否打开</span><br><span class="line">adb shell dumpsys window windows | findstr Current</span><br></pre></td></tr></table></figure>
-<h3 id="capture-bat（拍照）"><a href="#capture-bat（拍照）" class="headerlink" title="capture.bat（拍照）"></a>capture.bat（拍照）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">REM 先清空原来的图片</span><br><span class="line">adb shell rm -r /sdcard/DCIM/Camera/*</span><br><span class="line">adb shell rm -r /storage/extdisk/ipw300/image/chn0_0/*</span><br><span class="line">REM 拍照</span><br><span class="line">adb shell input keyevent 27</span><br><span class="line">ping /n 3 127.1&gt;nul</span><br><span class="line">REM 导出照片</span><br><span class="line">adb pull /storage/extdisk/ipw300/image/chn0_0 Z:\liqinxing\test_photo\sixth_tunning</span><br><span class="line">adb pull /sdcard/DCIM/Camera Z:\liqinxing\test_photo\sixth_tunning</span><br></pre></td></tr></table></figure>
-<h3 id="sdm660-root-bat"><a href="#sdm660-root-bat" class="headerlink" title="sdm660_root.bat"></a>sdm660_root.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb shell setprop service.user.test 1</span><br><span class="line">ping -n 5 127.1 &gt; nul</span><br><span class="line">adb shell setenforce 0</span><br><span class="line">ping -n 1 127.1 &gt; nul</span><br><span class="line">adb remount</span><br></pre></td></tr></table></figure>
-<h3 id="captureraw-bat"><a href="#captureraw-bat" class="headerlink" title="captureraw.bat"></a>captureraw.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell chmod 777 /data/misc/camera</span><br><span class="line">adb shell rm  /data/misc/camera/*</span><br><span class="line">adb shell setprop persist.camera.raw_yuv 1</span><br><span class="line">adb shell setprop persist.camera.preview_raw 1</span><br><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131088</span><br><span class="line">adb pull /data/misc/camera Z:\liqinxing\test_photo\raw</span><br></pre></td></tr></table></figure>
-<h3 id="captureyuv-bat"><a href="#captureyuv-bat" class="headerlink" title="captureyuv.bat"></a>captureyuv.bat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb shell chmod 777 /data/misc/camera</span><br><span class="line">adb shell rm  /data/misc/camera/*</span><br><span class="line">adb shell setprop persist.camera.isp.dump_cnt 1</span><br><span class="line">adb shell setprop persist.camera.isp.dump 0</span><br><span class="line">adb shell setprop persist.camera.isp.dump 2 </span><br><span class="line">adb pull /data/misc/camera Z:\liqinxing\test_photo\raw</span><br></pre></td></tr></table></figure>
-
+            <p>
+              （一）推库不用重启的方法：可以节省大量时间，需要重启启动程序，和第二条搭配使用另外还可以方便的查看开camera初始化时的一些打印注意：需要有APK，部分IPC上不能使用
+660/8998平台:adb shell stop cameraserveradb shell start cameraserv
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/01/10/study/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -592,8 +585,19 @@
       
         
           
-            
+            <p>
+              
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/01/10/love/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -773,13 +777,21 @@
       
         
           
-            <blockquote><p>那个时候没有察觉到，最重要的东西其实就在眼前，才了解到，那些数不清的偶然，就是爱上你的必然，那些所有都是最珍贵的宝物，现在的我已经明白，我的最爱，不管多少次轮回，还是想要遇见你。</p>
-<footer><strong>because of my love</strong></footer></blockquote>
-<p>一个偶然，让我听到围围歌单中的第一首歌《because of my love》，感觉是上天送给我的礼物，不偏不倚让我遇到。回忆起来，我的喜欢可能是从之前的点点滴滴积累起来，到这一步可能都是顺其自然。</p>
-<p>而那这些点点滴滴又是如今最美好的回忆，那么我有必要记录下我心动的每个瞬间，保持这份喜欢到永远。</p>
-<p>感谢围围给了我一次爱你的机会，我会珍惜和守护你的一切。请相信我！</p>
-
+            <p>
+              那个时候没有察觉到，最重要的东西其实就在眼前，才了解到，那些数不清的偶然，就是爱上你的必然，那些所有都是最珍贵的宝物，现在的我已经明白，我的最爱，不管多少次轮回，还是想要遇见你。
+because of my love
+一个偶然，让我听到围围歌单中的第一首歌《because of my love》，感
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/01/09/2019-1-9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1004,11 +1016,26 @@
 
 
 
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
 
+  
+  
 
 
+
+  
+  
+
+
+
+  
+  
 
 
 
@@ -1025,6 +1052,18 @@
   
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
 
   
 
@@ -1039,8 +1078,9 @@
   
 
 
-  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+  <script src="/js/src/affix.js?v=6.7.0"></script>
 
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
 
 
 
