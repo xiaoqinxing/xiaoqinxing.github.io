@@ -108,7 +108,7 @@
 <meta property="og:site_name" content="qinxing">
 <meta property="og:description" content="背光补偿是忽略强光，将暗处提亮，提高整体亮度强光抑制是重视强光，将亮处抑制，降低整体亮度 这两者的本质都是对曝光进行操作，再对图像进行gamma映射等轻微的调整。本文用三种方案对问题进行讨论和实现">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-11T09:03:15.862Z">
+<meta property="og:updated_time" content="2019-01-11T09:29:43.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="背光补偿和强光抑制算法实现">
 <meta name="twitter:description" content="背光补偿是忽略强光，将暗处提亮，提高整体亮度强光抑制是重视强光，将亮处抑制，降低整体亮度 这两者的本质都是对曝光进行操作，再对图像进行gamma映射等轻微的调整。本文用三种方案对问题进行讨论和实现">
@@ -345,7 +345,7 @@
                 
               
 
-              <time title="创建时间：2019-01-11 16:46:52 / 修改时间：17:03:15" itemprop="dateCreated datePublished" datetime="2019-01-11T16:46:52+08:00">2019-01-11</time>
+              <time title="创建时间：2019-01-11 16:46:52 / 修改时间：17:29:43" itemprop="dateCreated datePublished" datetime="2019-01-11T16:46:52+08:00">2019-01-11</time>
             
 
             
@@ -412,7 +412,9 @@
 
       
         <p><strong>背光补偿</strong>是忽略强光，将暗处提亮，提高整体亮度<br><strong>强光抑制</strong>是重视强光，将亮处抑制，降低整体亮度</p>
-<p>这两者的本质都是对曝光进行操作，再对图像进行gamma映射等轻微的调整。<br>本文用三种方案对问题进行讨论和实现<br><a id="more"></a> </p>
+<p>这两者的本质都是对曝光进行操作，再对图像进行gamma映射等轻微的调整。<br>本文用三种方案对问题进行讨论和实现</p>
+<a id="more"></a> 
+<hr>
 <h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ul>
 <li>强光抑制太注重亮区，当车辆快速驶来，车灯的影响可能会很大，暗区看不清，甚至导致<code>AE不稳定</code></li>
 <li>强光抑制可能会导致噪声比较大，是否可以通过增大降噪触发点去自动增大<code>降噪等级</code></li>
