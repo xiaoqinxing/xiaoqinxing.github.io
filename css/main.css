@@ -1895,7 +1895,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #3dff85;
+  background: #627dff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2877,18 +2877,18 @@ body {
   background-size: cover;
 }
 #sidebar {
-  background: url("/images/sidebar.jpg");
-  background-size: cover;
-  background-position: center;
+  background: url("http://img.hb.aicdn.com/59fc08d65227058669cf06cc1f08e948e45493d346e1-WrJvy7_fw658");
+  background-position: bottom left;
+  background-size: 200% 100%;
   background-repeat: no-repeat;
 }
 #sidebar p,
 #sidebar span,
 #sidebar a {
-  color: rgba(255,255,255,0.2);
+  color: #e61a94;
 }
 .content {
   border-radius: 20px;
-  padding: 30px 60px 30px 60px;
-  background: rgba(255,255,255,0.6) none repeat scroll !important;
+  padding: 30px 50px 30px 50px;
+  background: rgba(255,255,255,0.7) none repeat scroll !important;
 }
