@@ -109,7 +109,7 @@
 <meta property="og:description" content="用来提高整体亮度并抑制过曝，混合使用GTM和LTM。用直方图AEC设置更低的目标亮度，用更高的数字增益来增大暗处的亮度，会带来噪声的增加，尤其是户外的场景。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/01/15/work/adrc_brightness.jpg">
-<meta property="og:updated_time" content="2019-01-15T07:39:46.924Z">
+<meta property="og:updated_time" content="2019-01-15T07:58:24.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ADRC">
 <meta name="twitter:description" content="用来提高整体亮度并抑制过曝，混合使用GTM和LTM。用直方图AEC设置更低的目标亮度，用更高的数字增益来增大暗处的亮度，会带来噪声的增加，尤其是户外的场景。">
@@ -347,7 +347,7 @@
                 
               
 
-              <time title="创建时间：2019-01-15 13:49:09 / 修改时间：15:39:46" itemprop="dateCreated datePublished" datetime="2019-01-15T13:49:09+08:00">2019-01-15</time>
+              <time title="创建时间：2019-01-15 13:49:09 / 修改时间：15:58:24" itemprop="dateCreated datePublished" datetime="2019-01-15T13:49:09+08:00">2019-01-15</time>
             
 
             
@@ -423,40 +423,40 @@
 <li>在<strong>isp头文件</strong>里不要使能<strong>GTM</strong></li>
 </ul>
 <h2 id="（二）判断是否设置成功"><a href="#（二）判断是否设置成功" class="headerlink" title="（二）判断是否设置成功"></a>（二）判断是否设置成功</h2><p>3A信息：<code>AEC Debug Info -&gt;Histogram Adjustment</code> 中<code>ADRC target gain</code></p>
-<h2 id="（三）基础调试"><a href="#（三）基础调试" class="headerlink" title="（三）基础调试"></a>（三）基础调试</h2><h3 id="微调直方图AEC获得恰当的整体亮度和DRC增益"><a href="#微调直方图AEC获得恰当的整体亮度和DRC增益" class="headerlink" title="微调直方图AEC获得恰当的整体亮度和DRC增益"></a>微调直方图AEC获得恰当的整体亮度和DRC增益</h3><p> ADRC工作范围：ideal_luma_target &lt; legacy_luma_target * Min_Target_Adj_Ratio<br> <em>在ADRC的情况下，亮度由final_luma_target \</em> drc_gain决定</p>
+<h2 id="（三）基础调试"><a href="#（三）基础调试" class="headerlink" title="（三）基础调试"></a>（三）基础调试</h2><h3 id="微调直方图AEC获得恰当的整体亮度和DRC增益"><a href="#微调直方图AEC获得恰当的整体亮度和DRC增益" class="headerlink" title="微调直方图AEC获得恰当的整体亮度和DRC增益"></a>微调直方图AEC获得恰当的整体亮度和DRC增益</h3><p>ADRC工作范围：ideal_luma_target &lt; legacy_luma_target * Min_Target_Adj_Ratio<br>在ADRC的情况下，亮度由final_luma_target * drc_gain决定</p>
 <p> <img src="/2019/01/15/work/adrc_brightness.jpg" alt="ADRC brightness"></p>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">ITEM</th>
-<th style="text-align:center">AEC模块</th>
+<th style="text-align:left">AEC模块</th>
 <th>注释</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:center">luma_target (legacy_luma_target)</td>
-<td style="text-align:center">luma targets</td>
-<td>整体亮越强，值越大</td>
+<td style="text-align:left">luma targets</td>
+<td>整体亮度越强，值越大</td>
 </tr>
 <tr>
 <td style="text-align:center">ideal_luma_target</td>
-<td style="text-align:center">Histogram Metering</td>
-<td>ADRC越强，值越小,可以调节sat_low_ref, sat_high_ref, dark_low_ref, dark_high_ref ,hist sat range and hist darc range。<code>sat</code>参数是调节ADRC的关键</td>
+<td style="text-align:left">Histogram Metering</td>
+<td>ADRC越强，值越小。可以调节sat_low_ref,sat_high_ref,dark_low_ref,dark_high_ref,hist sat range,hist darc range。<code>sat</code>参数是调节ADRC的关键</td>
 </tr>
 <tr>
 <td style="text-align:center">Min Target Adj Ratio</td>
-<td style="text-align:center">Histogram Metering</td>
+<td style="text-align:left">Histogram Metering</td>
 <td>整体亮度越亮，ADRC越强，值越大</td>
 </tr>
 <tr>
 <td style="text-align:center">max_drc_gain</td>
-<td style="text-align:center">Histogram Metering</td>
+<td style="text-align:left">Histogram Metering</td>
 <td>限制ADRC的最大增益，ADRC越强，值越大；一开始调试不要超过2，谨慎增大这个值</td>
 </tr>
 </tbody>
 </table>
-<h3 id="调试ADRC比例"><a href="#调试ADRC比例" class="headerlink" title="调试ADRC比例"></a>调试ADRC比例</h3><p> 如果用了LTM，会提升对比度。不应该期望有明显的改进，也不应该过度使用LTM，因为他可能导致几种问题。<br> 一般来说，LTM比GTM/gamma对对比度和强光抑制更好，但是它可能产生一些副作用。对于对比度改善，高光抑制你也可以细调遗留的目标亮度和gamma<br> <strong>建议</strong>：第一次调LTM不要超过0.5，留下的给gamma/gtm</p>
+<h3 id="调试ADRC比例"><a href="#调试ADRC比例" class="headerlink" title="调试ADRC比例"></a>调试ADRC比例</h3><p> 如果用了LTM，会提升对比度。不应该期望有明显的改进，也不应该过度使用LTM，因为他可能导致几种问题。<br> 一般来说，LTM比GTM/gamma对对比度和强光抑制更好，但是它可能产生一些副作用。对于对比度改善，高光抑制你也可以细调遗留的目标亮度和gamma<br><strong>建议</strong>：第一次调LTM不要超过0.5，留下的给gamma/gtm</p>
 <h2 id="（四）高级ADRC调试"><a href="#（四）高级ADRC调试" class="headerlink" title="（四）高级ADRC调试"></a>（四）高级ADRC调试</h2><h3 id="LTM调试"><a href="#LTM调试" class="headerlink" title="LTM调试"></a>LTM调试</h3><pre><code>我们可以调试`Global Tone Contrast`(修改对比度)和`Fixed content low`(修改暗区亮度)
 </code></pre><h3 id="抗闪烁优先还是ADRC"><a href="#抗闪烁优先还是ADRC" class="headerlink" title="抗闪烁优先还是ADRC"></a>抗闪烁优先还是ADRC</h3><pre><code>由于启用了ADRC，曝光时间可能小于10Ms，因此`可能出现闪烁问题`
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* 3A头文件 Histogram Metering 最后*/</span><br><span class="line">1.000000f,/* adrc_antibanding_priority_enable */</span><br><span class="line">170.000000f,/* atb_cutoff_idx_50hz */</span><br><span class="line">160.000000f,/* atb_cutoff_idx_60hz */</span><br><span class="line">200.000000f,/* atb_trigger.start */</span><br><span class="line">230.000000f,/* atb_trigger.end */</span><br></pre></td></tr></table></figure>
