@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[ADRC]]></title>
+    <url>%2F2019%2F01%2F15%2Fwork%2F</url>
+    <content type="text"><![CDATA[用来提高整体亮度并抑制过曝，混合使用GTM和LTM。用直方图AEC设置更低的目标亮度，用更高的数字增益来增大暗处的亮度，会带来噪声的增加，尤其是户外的场景。 （一）ADRC初始化设置 使能直方图和ADRC: Histogram Metering 为每个区间设置最大ADRC增益 Max ADRC Gain 设置每个区间GTM/LTM的比例 LTM/GTM Percentage 在直方图保留部分使能DRC增益标志位 ltm/gtm_enable，如果没有GTM的平台，使能gamma和ltm 使能LTMLocal Tone Mapping 在isp头文件里不要使能GTM （二）判断是否设置成功3A信息：AEC Debug Info -&gt;Histogram Adjustment 中ADRC target gain （三）基础调试微调直方图AEC获得恰当的整体亮度和DRC增益ADRC工作范围：ideal_luma_target &lt; legacy_luma_target * Min_Target_Adj_Ratio在ADRC的情况下，亮度由final_luma_target * drc_gain决定 ITEM AEC模块 注释 luma_target (legacy_luma_target) luma targets 整体亮度越强，值越大 ideal_luma_target Histogram Metering ADRC越强，值越小。可以调节sat_low_ref,sat_high_ref,dark_low_ref,dark_high_ref,hist sat range,hist darc range。sat参数是调节ADRC的关键 Min Target Adj Ratio Histogram Metering 整体亮度越亮，ADRC越强，值越大 max_drc_gain Histogram Metering 限制ADRC的最大增益，ADRC越强，值越大；一开始调试不要超过2，谨慎增大这个值 调试ADRC比例 如果用了LTM，会提升对比度。不应该期望有明显的改进，也不应该过度使用LTM，因为他可能导致几种问题。 一般来说，LTM比GTM/gamma对对比度和强光抑制更好，但是它可能产生一些副作用。对于对比度改善，高光抑制你也可以细调遗留的目标亮度和gamma建议：第一次调LTM不要超过0.5，留下的给gamma/gtm （四）高级ADRC调试LTM调试我们可以调试`Global Tone Contrast`(修改对比度)和`Fixed content low`(修改暗区亮度) 抗闪烁优先还是ADRC由于启用了ADRC，曝光时间可能小于10Ms，因此`可能出现闪烁问题` 123456/* 3A头文件 Histogram Metering 最后*/1.000000f,/* adrc_antibanding_priority_enable */170.000000f,/* atb_cutoff_idx_50hz */160.000000f,/* atb_cutoff_idx_60hz */200.000000f,/* atb_trigger.start */230.000000f,/* atb_trigger.end */ 如果lux_idx &lt;atb_trigger.end(非常非常明亮的情况下)，我们认为这是一个明确的亮度户外情况下，没有闪烁。所以，什么都不会发生。 当lux_idx &gt;atb_trigger.end(可能在door中)，如果检测到条带，ADRC算法使曝光指数小于cutoff_idx，则该特性将把曝光指数限制在cutoff_idx，并降低drc idx(更小的drc gain)来调节亮度。 如果lux_idx在start和endzhi之间。调整比例将从0.0到1.0插值，使调整平滑。 闪烁问题和建议： 也可能有曝光表的设计和模块的灵敏度有关 一开始关闭这个功能，除非你发现ADRC会引起闪烁问题 减少触发点可以对抗闪烁更有帮助 设置cutoff index比理论值略大一点 ADRC WNR调整我们有机会调整CPP头中WNR的权重，DRC 增益是触发。ADRC WNR Adjustment feature，这个值可以大于或者小于1，最后WNR的设置会乘上ADRC WNR adjustment value。注意：我们总是为WNR设置增益触发，而WNR的触发中也包含ADRC增益。gain(wnr-trigger) = gain * drc_gain ADRC ACE调整我们可以在isp头中设置颜色调整，DRC Sat Adj Factor将会在color conversion模块中乘上a_m,a_p,c_m,c_p，可以对饱和度进行增强或者减少建议：不是必须的，一开始不需要打开]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>直方图AEC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo markdown常用语法]]></title>
+    <url>%2F2019%2F01%2F14%2Fblog-set%2F</url>
+    <content type="text"><![CDATA[hexo是本站使用的博客框架，可以利用markdown进行写作，但又和标准markdown语法略有不同。在此进行总结： 分段 两个回车 换行 两个空格 + 回车 标题 # ~ ######，#号的个数表示几级标题，即表示一级标题到六级标题 强调 **文字**，__文字__ ， _文字_ ， *文字* ， ~~文字~~ 引用 &gt; 注意后面紧跟个空格；两个空格结束引用。 表格 - 和 | 分割行和列 ， 用:控制对其方式 代码块 四个空格 开头或， 使用` 链接 [文字] (链接地址) 图片 ![图片说明] (图片地址) ，地址可以是本地路劲，也可以是网络地址 列表 * ， +， -， 1. ，选其中之一，注意后面紧跟个空格，如果是二级列表就在前面加一个空格 首页显示内容 &lt;!-- more --&gt;]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[背光补偿和强光抑制算法实现]]></title>
+    <url>%2F2019%2F01%2F11%2Fwork%2F</url>
+    <content type="text"><![CDATA[背光补偿是忽略强光，将暗处提亮，提高整体亮度强光抑制是重视强光，将亮处抑制，降低整体亮度 这两者的本质都是对曝光进行操作，再对图像进行gamma映射等轻微的调整。本文用三种方案对问题进行讨论和实现 注意点 强光抑制太注重亮区，当车辆快速驶来，车灯的影响可能会很大，暗区看不清，甚至导致AE不稳定 强光抑制可能会导致噪声比较大，是否可以通过增大降噪触发点去自动增大降噪等级 注意ABF可能会对亮区进行降噪，是否可以对ABF增加一个亮区参数 通过调节锐化和降噪的LNR对亮区进行锐化，对暗区进行进一步的降噪 方案方案一：对测光权重进行调整实现方案 自动模式：修改亮区的权重 手动模式：修改相应区域的权重 实现过程方案二：对高通GTM/LTM进行调整实现方案查看高通直方图AEC以及GTM/LTM的调节 自动模式：修改GTM/LTM的等级 方案三：对Bayer域和YUV域的直方图数据进行处理实现方案 通过Bayer域直方图统计数据得到亮区的区间，或者修改目标亮度 在yuv域直方图对gamma进行细微调整，可以通过调整LTM，也可以直接对亮区的gamma曲线进行抑制]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>算法实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[伞下的晴天]]></title>
+    <url>%2F2019%2F01%2F11%2Flove%2F</url>
+    <content type="text"><![CDATA[今夜，又是一个雨天好似我们和雨有缘我们的相遇总是或多或少的下着小雨 上天是这么的眷顾让我又可以帮你撑着伞两个人就这样静静的走着即使周围是喧闹的观前街 而我的眼眸里，独有你一个人，就像这周围的世界只是一面单调的绿色，而你是那一抹粉红。 与你面对面吃着饭已经忘记自己是在吃饭还是在看你不知道自己吃了什么就想狠狠地记住你的每一点美 我任性的沾着辣酱想要一个小小的逞强却被你一把夺过放进了你那小嘴中嗔怪着我的任性却不知你的心疼早已在我心里注入了一股股暖流 回去的路上低头看着你发现自己是多么的幸福你的频频回头你的盈盈笑靥你的软惜娇羞总会让我抑制不住想亲的冲动 柔软的脸庞带着少女的清香我已经醉倒在你的身边那条幽静的小路多么希望一直走不到头这样我可以一直一直的把你搂在怀里 踮起脚尖东张西望立在人流之中等你只为第一个看见你好像只翘首等待的鹅呀 哈哈，说真的我还是第一次站在人海中等着我的心上人那样的迫不及待又带丝羞涩刚拿起手机安慰一下自己期待又兴奋的内心却没想到你就已经悄然来到了我的身边傻乎乎的看着我我想这冬日有你就够了足以给我暖阳般的温暖 最后塞下一瓶牛奶既然喜爱你的美那就要一直美下去我要好好守护你的这份美你可以生活不精致但是我要学会照顾你的一切从此以后呵护你就是我的责任了！]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+      <tags>
+        <tag>围围</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ADB指令小结]]></title>
+    <url>%2F2019%2F01%2F10%2Fwork%2F</url>
+    <content type="text"><![CDATA[ADB，即 Android Debug Bridge。利用ADB指令可以对安卓设备进行命令行操作。下面总结一些常用的ADB指令方便设备的开发与调试。 （一）推库不用重启的方法：可以节省大量时间，需要重启启动程序，和第二条搭配使用另外还可以方便的查看开camera初始化时的一些打印注意：需要有APK，部分IPC上不能使用 660/8998平台:123adb shell stop cameraserveradb shell start cameraserveradb shell sync 老平台：12345adb shell stop mediaadb shell start mediaadb shell stop qcamerasvradb shell start qcamerasvradb shell sync （二）adb启动和关闭程序的方法先找到当前窗口的程序名，拿骁龙相机举例输入：adb shell dumpsys window windows | findstr Current输出：mCurrentFocus=Window{59a08b7 u0 org.codeaurora.snapcam/com.android.camera.CameraLauncher}后面一长串的字母就是程序名 先找到当前窗口的程序名，拿骁龙相机举例启动程序，adb shell am start –n + 程序名adb shell am start -n org.codeaurora.snapcam/com.android.camera.CameraLauncher 先找到当前窗口的程序名，拿骁龙相机举例关闭程序adb shell pkill snapcam(缩写就够了) （三）拍照：用模拟抓拍键的方式抓拍adb shell input keyevent 27如果写成脚本，速度较快，有的时候图片不能立即pull出来，建议加个延时，具体延时长度自己试验延时：ping /n 2 127.1&gt;nul此处的2代表延时2秒 （四）抓raw图的方法：不一定要骁龙相机，方便拍raw图以及平时的分析（660平台）先找到当前窗口的程序名，拿骁龙相机举例先修改文件夹权限adb shell chmod 777 /data/misc/camera 先找到当前窗口的程序名，拿骁龙相机举例抓取一帧RAW可以在QCamera2HWICallbacks.cpp的dumpFrameToFile函数查看具体实现过程。可能会出现抓拍到不止1张raw图的情况。1234adb shell setprop persist.camera.raw_yuv 1adb shell setprop persist.camera.preview_raw 1adb shell setprop persist.camera.dumpimg 0adb shell setprop persist.camera.dumpimg 131088 先找到当前窗口的程序名，拿骁龙相机举例导入chromatix时，用骁龙相机抓出来的raw图是MIPI格式而这里格式要改成packed，图片的名称中有图片的大小注意：第一次抓取raw图，设置好要重启camera由于persist.camera.raw_yuv只有在给channel添加通道的时候才会读取，因此设置之后需要重启camera，可以重启设备或者重启应用程序。 （五）抓YUV图的方法（660平台）：VFE输出和上面一个类似，先改权限123adb shell setprop persist.camera.isp.dump_cnt 1adb shell setprop persist.camera.isp.dump 0adb shell setprop persist.camera.isp.dump 2 实现函数：iface_util.c中的 iface_util_dump_frame CPP输出（方法和抓raw图差不多）12adb shell setprop persist.camera.dumpimg 0adb shell setprop persist.camera.dumpimg 131073 补充：persist.camera.isp.dump 0到12位的意义：CAM_STREAM_TYPE_PREVIEW – 0x2CAM_STREAM_TYPE_SNAPSHOT – 0x8CAM_STREAM_TYPE_VIDEO – 0x10persist.camera.dumpimg16到23位表示dump多少帧，但如果是0，就是10帧8-15位表示跳过多少帧，默认不跳过.0到7位：QCAMERA_DUMP_FRM_PREVIEW –0x1QCAMERA_DUMP_FRM_VIDEO –0x2QCAMERA_DUMP_FRM_SNAPSHOT –0x4QCAMERA_DUMP_FRM_THUMBNAIL –0x8QCAMERA_DUMP_FRM_RAW –0x10QCAMERA_DUMP_FRM_JPEG –0x20 （六）查看HAL层和客户端设置的参数值adb shell dumpsys media.camera （七）log打印logcat|grep xxx –搜索包含xxx的loglogcat|grep xxx &gt; /data/log.log –将包含xxx的log存到/data/log.log中setprop persist.camera.stats.aec.debug 5 –stats中的AEC模块等级小于等于5的都打印出来 关键词：查看曝光信：target_luma查看灰点信息：simple-grey-world查看决策点：final_awb_decision查看HAL层帧率：PROFILE_PREVIEW_FRAMES_PER_SECOND查看camera层模块帧率：fps 推库技巧：如果一次生成的so文件比较多，可以放在一个文件夹内，把文件夹的内容推入设备。adb push C:\ROM. System/vendor/lib 注意.不能少 （八）参考脚本：push.bat（推动态库）12345678910111213141516171819REM 在推库之前关闭应用程序，不然可能会卡死在应用程序的界面REM IPC上建议不要关掉程序，重启会很慢，直接推库会卡一会儿，然后就可以正常使用adb shell pkill pttREM HAL层动态库adb push adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\camera.sdm660.so system/lib/hwREM camera层动态库adb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_default_preview_3a.so system/vendor/libadb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_cpp_preview.so system/vendor/libadb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_preview.so system/vendor/libadb push Z:\liqinxing\sdm660\sdm660_ipw300\out\target\product\u2p\obj_arm\lib\libchromatix_imx290_common.so system/vendor/libREM 重启cameraserver（8998/sdm660平台）adb shell stop cameraserveradb shell start cameraserveradb shell syncREM 启动应用程序adb shell am start -n com.kedacom.ptt/com.kedacom.kdmipw300.activity.IPW300MainActivityping /n 3 127.1&gt;nulREM 确认是否打开adb shell dumpsys window windows | findstr Current capture.bat（拍照）123456789REM 先清空原来的图片adb shell rm -r /sdcard/DCIM/Camera/*adb shell rm -r /storage/extdisk/ipw300/image/chn0_0/*REM 拍照adb shell input keyevent 27ping /n 3 127.1&gt;nulREM 导出照片adb pull /storage/extdisk/ipw300/image/chn0_0 Z:\liqinxing\test_photo\sixth_tunningadb pull /sdcard/DCIM/Camera Z:\liqinxing\test_photo\sixth_tunning sdm660_root.bat123456adb rootadb shell setprop service.user.test 1ping -n 5 127.1 &gt; nuladb shell setenforce 0ping -n 1 127.1 &gt; nuladb remount captureraw.bat1234567adb shell chmod 777 /data/misc/cameraadb shell rm /data/misc/camera/*adb shell setprop persist.camera.raw_yuv 1adb shell setprop persist.camera.preview_raw 1adb shell setprop persist.camera.dumpimg 0adb shell setprop persist.camera.dumpimg 131088adb pull /data/misc/camera Z:\liqinxing\test_photo\raw captureyuv.bat123456adb shell chmod 777 /data/misc/cameraadb shell rm /data/misc/camera/*adb shell setprop persist.camera.isp.dump_cnt 1adb shell setprop persist.camera.isp.dump 0adb shell setprop persist.camera.isp.dump 2 adb pull /data/misc/camera Z:\liqinxing\test_photo\raw]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2018年度总结]]></title>
+    <url>%2F2019%2F01%2F10%2Flove%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[偶然，又或是必然]]></title>
+    <url>%2F2019%2F01%2F09%2F2019-1-9%2F</url>
+    <content type="text"><![CDATA[那个时候没有察觉到，最重要的东西其实就在眼前，才了解到，那些数不清的偶然，就是爱上你的必然，那些所有都是最珍贵的宝物，现在的我已经明白，我的最爱，不管多少次轮回，还是想要遇见你。—— because of my love 一个偶然，让我听到围围歌单中的第一首歌《because of my love》，感觉是上天送给我的礼物，不偏不倚让我遇到。回忆起来，我的喜欢可能是从之前的点点滴滴积累起来，到这一步可能都是顺其自然。 而那这些点点滴滴又是如今最美好的回忆，那么我有必要记录下我心动的每个瞬间，保持这份喜欢到永远。 感谢围围给了我一次爱你的机会，我会珍惜和守护你的一切。请相信我！]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+      <tags>
+        <tag>围围</tag>
+      </tags>
+  </entry>
+</search>
