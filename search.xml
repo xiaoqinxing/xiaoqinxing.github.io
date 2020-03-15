@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>BUG：畸变校正算法不生效</title>
+    <url>/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/</url>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>设备从老版本R2B1切到了R2B3流，畸变校正算法不生效</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><ul>
+<li><input checked disabled type="checkbox"> 代码解决编译问题</li>
+<li><input checked disabled type="checkbox"> 2241设备已经切到R2B3了，把动态库放到设备里面看一下是否生效 ——测试：葛志海</li>
+<li><input disabled type="checkbox"> 把动态库库放到2431中是否生效，确认一下用的媒控库是新的还是老的 —— 测试：王海龙</li>
+<li><input disabled type="checkbox"> 如果生效了，检查路径</li>
+<li><input disabled type="checkbox"> 如果不生效，IMGVideoAlgOpen函数返回1，在其中加打印，看一下传入结构体里的值对不对</li>
+</ul>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
+<li><p>编译 到<code>jni</code>目录下，运行<code>ndk_build.cmd</code></p>
+</li>
+<li><p>2241设备IP：<code>10.67.36.191</code></p>
+</li>
+<li><p>启动ssh登陆后，登陆17230端口，<code>openssh</code>。然后打开10023端口，输入网口转usb指令：<code>setprop service.adb.tcp.port 5555 && stop adbd && start adbd</code>，然后root：<code>setprop service.ipc.root 1</code>，最后用adb连上</p>
+</li>
+<li><p>防止换的库被覆盖，<code>mv /etc/update.bz2 /etc/update.bz2.bak</code>，换库路径<code>/storage/sdcard0/bin/lib</code></p>
+</li>
+<li><p>发现2241开关没有明显作用，联系葛志海测试多台设备发现，R2B3的每日流有效果，封闭流没效果。</p>
+</li>
+<li><p>又找了一台设备<code>10.67.36.194</code>发现花屏</p>
+<p><a href="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cf0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cf0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" class="lazyload" title="img"></a></p>
+</li>
+<li><p>换到中试R2B1版本，有点效果</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">cmd</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight cmd"><table><tbody><tr><td class="code"><pre><span class="line"># IPC</span><br><span class="line">setcapratio <span class="number">1920</span> <span class="number">1080</span> # 上面这一条是切分辨率的，<span class="number">2241</span>是<span class="number">200</span>万的，但是没有用</span><br><span class="line">mcsetldc <span class="number">1500</span> <span class="number">100</span></span><br></pre></td></tr></tbody></table></figure></div>
+</li>
+<li><p>换上我的库后在界面上开关没有反应，但是输入命令mcsetldc就生效了 。由于mcsetldc命令是媒控封装的，是否能证明是业务的问题？</p>
+</li>
+<li><p>在2241上的R2B3测试：原有的库输入命令就会花屏，换上最新的算法库，在web界面上调没有反应，但是输入指令就正常了</p>
+</li>
+<li><p>在2431上换上最新的算法库也会报错 </p>
+</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>BUG</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>BUG</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>镜头畸变的那些事</title>
     <url>/2020/03/11/%E5%8E%9F%E5%88%9B-%E7%95%B8%E5%8F%98%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</url>
     <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h1 id="镜头畸变的那些事"><a href="#镜头畸变的那些事" class="headerlink" title="镜头畸变的那些事"></a>镜头畸变的那些事</h1><h2 id="畸变"><a href="#畸变" class="headerlink" title="畸变"></a>畸变</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于理想光学系统，在一对共轭的物像平面上，像的放大率是一个常数。但是对于实际的光学系统，当视场较大或很大时，像的放大率就要随视场而异，这样就会使像相对于物体失去相似性。这种使像变形的成像缺陷称为畸变。</p>
@@ -113,6 +158,49 @@
         <tag>镜头</tag>
         <tag>畸变</tag>
         <tag>原创</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BUG：红外回调不生效</title>
+    <url>/2020/03/11/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%BA%A2%E5%A4%96%E5%9B%9E%E8%B0%83%E4%B8%8D%E7%94%9F%E6%95%88/</url>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><ol>
+<li>同一个版本，业务获取不到回调值，但是我们能获取到。同一个设备，有时能回调，有时没有回调。</li>
+<li>关采集的时候没有给回调值</li>
+<li>自动模式下，开红外之后关采集，再打开的时候，画面正常切到白天，但是回调给的状态是开红外</li>
+</ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li><input checked disabled type="checkbox"> 在同一个设备中进行打印，观察何时能回调，何时没有回调</li>
+</ul>
+<p>关闭采集的时候没有给回调值，有两种可能性： </p>
+<ul>
+<li><input checked disabled type="checkbox"> 红外开关是在ROM中设置，可能关闭采集的时候，isp组件先关闭了，再去关红外灯的，就没法去执行业务的回调</li>
+<li><input checked disabled type="checkbox"> 在关闭采集的时候，没有对property进行设置，isp组件中也就没有获取到当前的红外状态</li>
+</ul>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
+<li>同一台设备中打印，有的时候有回调，有的是否没有回调，后来发现和root权限有关。没有root过就没有回调，root过就有回调。这个现象在之前创建fd的时候也遇到过，SElinux对创建fd等操作进行了权限管理。</li>
+<li>整理红外回调的思路：ROM中设置红外开关的时候都会设置对应的property值。在isp组件中创建一个线程，对property的值轮询，如果发生了改变，就执行业务的回调。</li>
+<li>由于isp组件可能在红外灯关闭之前就被kill掉了，而不管是手动还是自动模式，关闭采集的时候都需要关闭红外，所以直接在isp组件退出的时候，回调红外关闭的状态。</li>
+<li>isp组件需要保存上一次的值，否则很可能在关闭采集的时候，回调两次红外关闭的状态（isp组件检测到红外关闭回调一次，isp组件退出的时候回调一次）。回调红外关闭的状态，从isp组件退出的地方，修改到轮询property线程结束的地方，这样可以利用static保存上一次的值。</li>
+<li>关闭采集的时候，发现ROM那边仅仅是把红外灯设置成关闭状态，没有更新property值，所以需要增加一句设置property的代码</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li>SElinux权限，需要找负责ROM的人开</li>
+<li>isp组件：在更新红外状态的线程结束时，把红外状态设置成关，回调给业务</li>
+<li>rom: 在camera关闭的状态下，也要注意更新property的值</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li>不仅仅fd的创建与读写，property的读写也是由SElinux管理的，以后代码提交的时候，需要在非root的情况下也验证一下，防止出现此类问题</li>
+<li>这种更新状态的问题，需要考虑到开关机，线程中途退出等等问题，必须要考虑全面</li>
+<li>线程结束的时候，多思考一下，需要释放哪些资源，需要重置哪些状态等等</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>BUG</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>BUG</tag>
       </tags>
   </entry>
   <entry>
@@ -241,7 +329,30 @@
   <entry>
     <title>BUG：两路摄像头偶尔不能同时切换日夜模式</title>
     <url>/2020/02/29/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E4%B8%A4%E8%B7%AF%E6%91%84%E5%83%8F%E5%A4%B4%E5%81%B6%E5%B0%94%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E5%88%87%E6%8D%A2%E6%97%A5%E5%A4%9C%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="定位问题"><a href="#定位问题" class="headerlink" title="定位问题"></a>定位问题</h2></body></html>]]></content>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>两个摄像头对着同一个场景，从夜模式切到日模式，两个摄像头切换的速度不一致，有一个会慢一点，有的时候可以到5-10s</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li><input checked disabled type="checkbox"> 确定是日夜切换判断慢了还是日夜切换执行慢了</li>
+<li><input checked disabled type="checkbox"> 如果是执行慢了就好说，如果是判断慢了，需要确定是两路摄像头一起切换才有问题，还是一路摄像头自己切换也会慢</li>
+<li><input checked disabled type="checkbox"> 从AE打印上来看两路摄像头的增益有什么区别，尽量保证两个摄像头的增益一致</li>
+<li><input checked disabled type="checkbox"> 查看代码逻辑，尤其注意是否因为上锁，进程是否一直被抢占，以及有一路日夜模式判断那么久</li>
+</ul>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
+<li>因为执行的过程，手动日夜切换和自动日夜切换是同一个过程，因此可以用手动模式下测试摄像头切换的速度。测试结果是并未出现某一路过慢的问题。</li>
+<li>由于逻辑上切5次就会锁住，测试的时候经常锁住，非常不方便，而且影响判断，将锁住的逻辑去掉了</li>
+<li>之前发现一个寄存器配置问题，会造成增益小一倍（至今都不知道是不是触发了这颗sensor的隐藏技能，这里记录一下，IMX290的0x3011寄存器手册上写的是应该赋值0x0A，结果弄成了0x20，反而提高了亮度）</li>
+<li>把两颗摄像头的ISP参数都设置成一致，让唐佳琪和小范帮忙测试，原以为已经修复，其实并未</li>
+<li>两路摄像头基本上是交替进行的，偶尔会有连续两次处理同一个摄像头的情况，不存在进程被抢占的问题</li>
+<li>查看日夜模式判断，打开AE打印，找到原因</li>
+</ol>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>夜切回日模式的条件是，sensor当前的增益要连续小于日夜切换的阈值五秒。由于日夜切换的阈值默认值很小，接近普通场景下的增益，容易不满足连续小于阈值五秒的条件。虽然两个摄像头对着同一个地方，但是稍微的一点偏差增益就不同，只要大于阈值，就会开始重新计时五秒，因此偶尔会出现有的快有的慢的现象。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>打开web界面的设置，日夜切换那一栏里面的灵敏度和日夜切换阈值都调大些。比如都设置到80，这样可以提高这个阈值，就不会出现这个问题了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><p>一开始主要是一直纠结于两路摄像头切换速度不一致，其实本质是一个摄像头切换时间不固定，第二步的思路没有执行下去，导致后面绕了很多的弯路。定好了思路就该去按照思路去一步一步测试，不然就像无头苍蝇一样乱碰，浪费时间。</p>
+</li>
+<li><p>对db值不敏感，6db是2倍，12db只有4倍，依次类推。</p>
+</li>
+</ol>
+</body></html>]]></content>
       <categories>
         <category>工作</category>
         <category>BUG</category>
@@ -256,17 +367,17 @@
     <url>/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/</url>
     <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><p>作者github上的博客是xiaoqinxing.github.io，如何cdn加速，并用域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 进行访问呢？</p>
 <p>由于国外的cdn流量较贵，因此国外就用github的源站，拥有无限的空间和不错的速度。国内由于网速较慢，需要用cdn进行加速，然后将<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 与cdn的加速域名绑定即可。</p>
-<p><a href="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892494033.png" data-fancybox="group" data-caption="1583892494033" class="fancybox"><img alt="1583892494033" title="1583892494033" data-src="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892494033.png" class="lazyload"></a></p>
+<p><a href="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892494033.png" data-fancybox="group" data-caption="1583892494033" class="fancybox"><img alt="1583892494033" data-src="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892494033.png" class="lazyload" title="1583892494033"></a></p>
 <p>至于为什么不用云存储呢，因为我希望上传一次代码，网站可以直接更新，相比云存储还需要把生成的代码传到云端，少了一步。同时也省了一笔费用。</p>
 <h2 id="cdn加速"><a href="#cdn加速" class="headerlink" title="cdn加速"></a>cdn加速</h2><p>作者使用的是又拍云，由于加入又拍云联盟每个月可以有15G免费的HTTPS流量。这是活动的<a href="https://www.upyun.com/league" target="_blank" rel="noopener">网址</a>。</p>
 <p>接下来进入正题。</p>
 <p>首先，国内云服务商的域名都是需要备案的，我的域名是在阿里云备案的，一两天就通过了，十分的简单。</p>
 <p>第二步，在又拍云创建一个cdn服务，源站就设置成xiaoqinxing.github.io，回源协议用https（github强制https)，源站证书校验关闭。使用又拍云的朋友注意了，回源管理中的<strong>回源Host一定要再填一遍源站域名</strong>，被坑了好久，这里还是xiaoqinxing.github.io。</p>
-<p>第三步，绑定域名，将域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 绑定在这个cdn上，又拍云会生成一个CNAME名称（我理解中这个是cdn服务器的域名，CNAME就是让一个域名跳转到另外一个域名上）</p>
+<p>第三步，绑定域名，首先将域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 绑定在这个cdn上，又拍云会生成一个CNAME名称（我理解中这个是cdn服务器的域名，CNAME就是让一个域名跳转到另外一个域名上）。其次在github.io的设置中设置自定义域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> </p>
 <p>第四步，域名解析，这个域名解析是在你的域名服务商那里完成的，比如说就拿阿里云来说，创建两条<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 的域名解析记录，记录类型都是CNAME，第一条记录的解析线路是默认，记录值是又拍云cdn的CNAME名称。第二条的解析线路是境外，记录值是源站域名xiaoqinxing.github.io。</p>
 <p>第五步，申请证书，开启https服务的时候需要申请SSL证书，这个可以在又拍云里面申请免费的SSL证书。申请好了之后再https配置中，勾选https访问和强制HTTPS访问。</p>
-<p><a href="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892988361.png" data-fancybox="group" data-caption="1583892988361" class="fancybox"><img alt="1583892988361" title="1583892988361" data-src="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892988361.png" class="lazyload"></a></p>
-<p>第六步，刷新缓存查看是否生效，由于cdn相当于把源站的内容在国内缓存了好多份，想要实时生效，需要刷新cdn缓存。</p>
+<p><a href="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892988361.png" data-fancybox="group" data-caption="1583892988361" class="fancybox"><img alt="1583892988361" data-src="/2020/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-%E5%88%A9%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91cdn%E5%8A%A0%E9%80%9Fgithub-pages/1583892988361.png" class="lazyload" title="1583892988361"></a></p>
+<p>第六步，刷新缓存查看是否生效，由于cdn相当于把源站的内容在国内缓存了好多份，想要实时生效，需要刷新cdn缓存。另外浏览器也会把原来的网站缓存一份，浏览器里面直接刷新不出来不代表真的没有生效。拿chrome浏览器举例，刷新的时候要<code>ctrl + F5</code>，才能刷新缓存。</p>
 <p>最后，如果有什么问题，可以提交工单，询求技术支持，我的问题就是在他们的帮助下解决的，感谢。</p>
 </body></html>]]></content>
       <categories>
@@ -277,6 +388,109 @@
       <tags>
         <tag>hexo</tag>
         <tag>cdn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BUG：高温导致帧率异常</title>
+    <url>/2019/08/06/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E9%AB%98%E6%B8%A9%E5%AF%BC%E8%87%B4%E5%B8%A7%E7%8E%87%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><ul>
+<li>温度过高时户外出现过曝，夏天出现的频率更高</li>
+<li>图像高温下出现偏绿的情况</li>
+<li>设备崩溃，崩溃在thermal</li>
+<li>界面上调节自动快门的下限图像上不生效</li>
+</ul>
+<h2 id="排查方式"><a href="#排查方式" class="headerlink" title="排查方式"></a>排查方式</h2><ol>
+<li>增加thermal level的打印，可以在QCamera2HWI.cpp中的updateThermalLevel中增加thermal_level的打印</li>
+<li>打开sensor，stats模块的打印，<code>logcat|grep  fps</code>，查看是否有帧率有异常，比如说负数</li>
+<li>此时如果打开骁龙相机，会出现异常而打不开</li>
+</ol>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>温控策略中的bug</p>
+<p>QCamera2HWI.cpp中的updateThermalLevel是对不同温度等级实现帧率控制，温度比较高，实行降帧策略。</p>
+<p>其中的<code>calcThermalLevel</code>是根据温度等级计算目标的帧率。当在<code>QCAMERA_THERMAL_SHUTDOWN</code>模式下，却没有对目标帧率进行赋值，<code>adjustPreviewFpsRange</code>函数就将没有赋初值的帧率设置下去了，导致异常。</p>
+<p>这个异常的设置不会影响到sensor的采集帧率，也不会影响到hal层每帧回调的输出帧率，但是会影响到stats模块，导致最大曝光行等参数错误，随后写入sensor的曝光时间出错，最终导致图像或者设备异常。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li>去除温度对帧率的控制代码</li>
+</ul>
+<ol>
+<li>注释掉updateThermalLevel函数中的内容</li>
+<li>注释掉setPreviewFpsRange函数中<code>QCAMERA_THERMAL_ADJUST_FPS</code>模式下对帧率的控制</li>
+</ol>
+<ul>
+<li>联系驱动提高ISP温度上限</li>
+</ul>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>BUG</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>BUG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高通预览流实现60帧</title>
+    <url>/2019/07/25/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A%E9%A2%84%E8%A7%88%E6%B5%81%E5%AE%9E%E7%8E%B060%E5%B8%A7/</url>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>首先需要实现高通平台采集帧率的切换，参考前一篇文章</p>
+</blockquote>
+<p>我们拍照和录像的数据流一直都是使用的预览流，由媒控去编码，实现拍照和录像的功能。高通的高帧率HFR模式需要在video流下实现，这就意味着我们的很多代码都失效了，加上初步配置video流出现异常的问题，最后还是决定在preview数据流上实现60帧采集</p>
+<ol>
+<li><p>首先我们需要工作在普通的预览模式，sensor配置文件中out_info的mode需要是SENSOR_DEFAULT_MODE，而非是SENSOR_HFR_MODE</p>
+</li>
+<li><p>相比于配置30帧，注意一下60帧需要的寄存器配置更多，主要是<code>global timing</code>。我们需要根据sensor手册修改60帧对应的寄存器列表<code>RES_1080P60_REG_ARRAY</code>，如下图：</p>
+<p><a href="/2019/07/25/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A%E9%A2%84%E8%A7%88%E6%B5%81%E5%AE%9E%E7%8E%B060%E5%B8%A7/1584288030980.png" data-fancybox="group" data-caption="1584288030980" class="fancybox"><img alt="1584288030980" title="1584288030980" data-src="/2019/07/25/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A%E9%A2%84%E8%A7%88%E6%B5%81%E5%AE%9E%E7%8E%B060%E5%B8%A7/1584288030980.png" class="lazyload"></a></p>
+</li>
+<li><p>preview默认限制在最高30帧，我们修改到60帧</p>
+</li>
+</ol>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//mct_pipeline.c mct_pipeline_fill_dimensions_snapshot() #ifdef IPC_60FPS_SUPPORT   property_get("persist.camera.max.previewfps", fps_str, "60"); #else   property_get("persist.camera.max.previewfps", fps_str, "30"); #endif</span></span><br></pre></td></tr></tbody></table></figure></div></body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>帧率</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高通660平台实现实时切换采集帧率</title>
+    <url>/2019/07/16/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A660%E5%B9%B3%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%88%87%E6%8D%A2%E9%87%87%E9%9B%86%E5%B8%A7%E7%8E%87/</url>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="配置及代码改动（ROM"><a href="#配置及代码改动（ROM" class="headerlink" title="配置及代码改动（ROM)"></a>配置及代码改动（ROM)</h2><h3 id="（一）寄存器配置"><a href="#（一）寄存器配置" class="headerlink" title="（一）寄存器配置"></a>（一）寄存器配置</h3><p>按照已经配置好的imx327.lib.h为例，之后新的sensor可以照着配置</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line">.out_info_array =</span><br><span class="line">    {</span><br><span class="line">        .out_info =</span><br><span class="line">        {</span><br><span class="line">            #<span class="keyword">if</span> IMX327_INC_RES_1920x1080P25</span><br><span class="line">            {</span><br><span class="line">                .x_output           = <span class="number">1948</span>, <span class="comment">/* 4+8+1920+9+4+3 */</span></span><br><span class="line">                .y_output           = <span class="number">1097</span>, <span class="comment">/* 8+1080+9 */</span></span><br><span class="line">                .line_length_pclk   = <span class="number">5280</span>,</span><br><span class="line">                .frame_length_lines = <span class="number">1125</span>,</span><br><span class="line">                .vt_pixel_clk       = <span class="number">148500000</span>,</span><br><span class="line">                .op_pixel_clk       = <span class="number">237600000</span>,</span><br><span class="line">                .binning_factor     = <span class="number">1</span>,</span><br><span class="line">                .min_fps            = <span class="number">12.5</span>,</span><br><span class="line">                .max_fps            = <span class="number">25.0</span>,</span><br><span class="line">                .mode               = SENSOR_DEFAULT_MODE,</span><br><span class="line">                .offset_x           = <span class="number">0</span>,</span><br><span class="line">                .offset_y           = <span class="number">0</span>,</span><br><span class="line">                .scale_factor       = <span class="number">0</span>,</span><br><span class="line">            },</span><br><span class="line">           #endif</span><br><span class="line">            #<span class="keyword">if</span> IMX327_INC_RES_1920x1080P30</span><br><span class="line">            {</span><br><span class="line">                .x_output           = <span class="number">1948</span>, <span class="comment">/* 4+8+1920+9+4+3 */</span></span><br><span class="line">                .y_output           = <span class="number">1097</span>, <span class="comment">/* 8+1080+9 */</span></span><br><span class="line">                .line_length_pclk   = <span class="number">4400</span>,</span><br><span class="line">                .frame_length_lines = <span class="number">1125</span>,</span><br><span class="line">                .vt_pixel_clk       = <span class="number">148500000</span>,<span class="comment">//74250000,</span></span><br><span class="line">                .op_pixel_clk       = <span class="number">237600000</span>,<span class="comment">//74250000, //DDR 92.8125,4 lane,10bit</span></span><br><span class="line">                .binning_factor     = <span class="number">1</span>,</span><br><span class="line">                .min_fps            = <span class="number">15.0</span>,</span><br><span class="line">                .max_fps            = <span class="number">30.0</span>,</span><br><span class="line">                .mode               = SENSOR_DEFAULT_MODE,</span><br><span class="line">                .offset_x           = <span class="number">0</span>,</span><br><span class="line">                .offset_y           = <span class="number">0</span>,</span><br><span class="line">                .scale_factor       = <span class="number">0</span>,</span><br><span class="line">            },</span><br><span class="line">           #endif</span><br><span class="line">           ...</span><br><span class="line">        },</span><br><span class="line">        .<span class="built_in">size</span> = <span class="number">0</span></span><br><span class="line">        #<span class="keyword">if</span> IMX327_INC_RES_1920x1080P25</span><br><span class="line">         +<span class="number">1</span></span><br><span class="line">        #endif</span><br><span class="line">        #<span class="keyword">if</span> IMX327_INC_RES_1920x1080P30</span><br><span class="line">         +<span class="number">1</span></span><br><span class="line">        #endif</span><br><span class="line">         ...</span><br><span class="line">        ,</span><br><span class="line">    },</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="（二）寄存器选择"><a href="#（二）寄存器选择" class="headerlink" title="（二）寄存器选择"></a>（二）寄存器选择</h3><p>由于原生高通代码没有切换sensor采集帧率的功能，我们只是在此基础上修改。<br>out_info_array是每组寄存器配置的属性。sensor_pick_res.c文件中sensor_pick_resolution则是根据上层设置的帧率分辨率等去选择最适合的一组寄存器值。<br>但是由于这个原先是用来设置分辨率的，相同分辨率的情况下它永远会选择第一套配置，这就导致我们不能根据帧率切换寄存器。因此注释掉下面的函数。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IPC_FPS_SWITCH</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">sensor_pick_check_aspect_ratio</span><span class="params">(<span class="keyword">sensor_pick_data_t</span> *pick_data)</span></span></span><br><span class="line"><span class="function"> </span>{</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> IPC_FPS_SWITCH</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  ......</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="（三）xml配置"><a href="#（三）xml配置" class="headerlink" title="（三）xml配置"></a>（三）xml配置</h3><p>每组分辨率以及帧率都有对应的chromatix头文件，如果没有进行配置，会出现没有图像或者崩溃的情况。需要注意！</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">xml</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">ChromatixName</span> <span class="attr">sensor_resolution_index</span>=<span class="string">"0"</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ISPPreview</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPPreview</span>></span><br><span class="line">  <span class="tag"><<span class="name">ISPSnapshot</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPSnapshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">ISPVideo</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPVideo</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPPreview</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPPreview</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPSnapshot</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPSnapshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPVideo</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPVideo</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPLiveshot</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPLiveshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">A3Preview</span>></span>imx327_default_preview_3a<span class="tag"><!--<span class="name"-->A3Preview</span>></span><br><span class="line">  <span class="tag"><<span class="name">A3Video</span>></span>imx327_default_preview_3a<span class="tag"><!--<span class="name"-->A3Video</span>></span><br><span class="line"><span class="tag"><!--<span class="name"-->ChromatixName</span>></span><br><span class="line">    <span class="tag"><<span class="name">ChromatixName</span> <span class="attr">sensor_resolution_index</span>=<span class="string">"1"</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ISPPreview</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPPreview</span>></span><br><span class="line">  <span class="tag"><<span class="name">ISPSnapshot</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPSnapshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">ISPVideo</span>></span>imx327_preview<span class="tag"><!--<span class="name"-->ISPVideo</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPPreview</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPPreview</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPSnapshot</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPSnapshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPVideo</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPVideo</span>></span><br><span class="line">  <span class="tag"><<span class="name">CPPLiveshot</span>></span>imx327_cpp_preview<span class="tag"><!--<span class="name"-->CPPLiveshot</span>></span><br><span class="line">  <span class="tag"><<span class="name">A3Preview</span>></span>imx327_default_preview_3a<span class="tag"><!--<span class="name"-->A3Preview</span>></span><br><span class="line">  <span class="tag"><<span class="name">A3Video</span>></span>imx327_default_preview_3a<span class="tag"><!--<span class="name"-->A3Video</span>></span><br></pre></td></tr></tbody></table></figure></div>
+
+<p>有几组寄存器配置，sensor_resolution_index就需要写几组。</p>
+<h3 id="（四）能力集配置"><a href="#（四）能力集配置" class="headerlink" title="（四）能力集配置"></a>（四）能力集配置</h3><p>由于媒控设置帧率的时候需要检测设备是否支持这个帧率，这就需要提供该设备的能力集，告诉媒控我们支持哪些帧率。帧率的能力集不仅仅是我们lib.h中配置的那几个帧率，还有高通默认帧率，这就可能出现设备并不支持这个帧率，能力集中却依旧有的情况。因此我们把默认支持的帧率清空，让这个能力集呈现出来的全部都是我们自己配置的。<br><strong>注意：</strong>部分8953设备不支持，因为老媒控检测到能力集中没有30帧，会停止采集，如果想设置25帧，会出现没有图像的情况。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//mct_pipeline.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IPC_FPS_SWITCH</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">cam_fps_range_t</span> default_fps_ranges[] = {</span><br><span class="line">#ifdef IPC_FPS_SWITCH</span><br><span class="line">  {  <span class="number">0.0</span>,  <span class="number">0.0</span>,  <span class="number">0.0</span>,  <span class="number">0.0</span>},</span><br><span class="line">#<span class="keyword">else</span></span><br><span class="line">   { <span class="number">15.0</span>, <span class="number">15.0</span>, <span class="number">15.0</span>, <span class="number">15.0</span>},</span><br><span class="line">   { <span class="number">20.0</span>, <span class="number">20.0</span>, <span class="number">20.0</span>, <span class="number">20.0</span>},</span><br><span class="line">   { <span class="number">24.0</span>, <span class="number">24.0</span>, <span class="number">24.0</span>, <span class="number">24.0</span>},</span><br><span class="line">   { <span class="number">30.0</span>, <span class="number">30.0</span>, <span class="number">30.0</span>, <span class="number">30.0</span>},</span><br><span class="line">   { <span class="number">60.0</span>, <span class="number">60.0</span>, <span class="number">60.0</span>, <span class="number">60.0</span>},</span><br><span class="line">#endif</span><br><span class="line"> };</span><br></pre></td></tr></tbody></table></figure></div>
+<h3 id="（五）hal层设置代码修改"><a href="#（五）hal层设置代码修改" class="headerlink" title="（五）hal层设置代码修改"></a>（五）hal层设置代码修改</h3><h4 id="1-帧率设置需要重启"><a href="#1-帧率设置需要重启" class="headerlink" title="1. 帧率设置需要重启"></a>1. 帧率设置需要重启</h4><p>采集帧率只有在camera启动的时候才会去设置。高通设置参数有两种方式，一种是不需要重启，一种是重启才能把参数设置进去。原生的程序没有去修改采集帧率，所以走的是需要重启的方式。</p>
+<p>如果想让设置参数之后重启camera，只需要加上一句<code>m_bNeedRestart = true;</code>。</p>
+<h4 id="2-删除其他可能对帧率造成影响的代码"><a href="#2-删除其他可能对帧率造成影响的代码" class="headerlink" title="2. 删除其他可能对帧率造成影响的代码"></a>2. 删除其他可能对帧率造成影响的代码</h4><p>防止帧率对，删去温度对帧率的影响代码</p>
+<h4 id="3-需要将帧率立刻传到vendor层"><a href="#3-需要将帧率立刻传到vendor层" class="headerlink" title="3. 需要将帧率立刻传到vendor层"></a>3. 需要将帧率立刻传到vendor层</h4><p><strong>注意：</strong>在<code>ADD_SET_PARAM_ENTRY_TO_BATCH</code>之后需要加上<code>rc = commitSetBatch();</code>,让帧率立刻传递到vendor层，否则可能会出现启动之后帧率还没有传下去，用的是上一次的值的BUG。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int32_t</span> <span class="title">QCameraParameters::setPreviewFpsRange</span><span class="params">(<span class="keyword">int</span> min_fps,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> max_fps, <span class="keyword">int</span> vid_min_fps,<span class="keyword">int</span> vid_max_fps)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="keyword">int32_t</span> rc = NO_ERROR;</span><br><span class="line">    ...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> REMOVE_THERMAL_ADJUST</span></span><br><span class="line">    <span class="keyword">if</span> ( <span class="literal">NULL</span> != m_AdjustFPS ) {</span><br><span class="line">        <span class="keyword">if</span> (m_ThermalMode == QCAMERA_THERMAL_ADJUST_FPS &&</span><br><span class="line">                !m_bRecordingHint_new) {</span><br><span class="line">            <span class="keyword">float</span> minVideoFps = min_fps, maxVideoFps = max_fps;</span><br><span class="line">            <span class="keyword">if</span> (isHfrMode()) {</span><br><span class="line">                minVideoFps = m_hfrFpsRange.video_min_fps;</span><br><span class="line">                maxVideoFps = m_hfrFpsRange.video_max_fps;</span><br><span class="line">            }</span><br><span class="line">            m_AdjustFPS->recalcFPSRange(min_fps, max_fps, minVideoFps,</span><br><span class="line">                                         maxVideoFps, fps_range, m_bRecordingHint_new);</span><br><span class="line">            LOGH(<span class="string">"Thermal adjusted Preview fps range %3.2f,%3.2f, %3.2f, %3.2f"</span>,</span><br><span class="line">                   fps_range.min_fps, fps_range.max_fps,</span><br><span class="line">                  fps_range.video_min_fps, fps_range.video_max_fps);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">if</span> (ADD_SET_PARAM_ENTRY_TO_BATCH(m_pParamBuf, CAM_INTF_PARM_FPS_RANGE, fps_range)) {</span><br><span class="line">        <span class="keyword">return</span> BAD_VALUE;</span><br><span class="line">    }</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> IPC_SET_FPS</span></span><br><span class="line">    rc = commitSetBatch();</span><br><span class="line">    <span class="keyword">if</span> (rc != NO_ERROR) {</span><br><span class="line">        LOGE(<span class="string">"Failed to parameter changes"</span>);</span><br><span class="line">        <span class="keyword">return</span> rc;</span><br><span class="line">    }</span><br><span class="line">    m_bNeedRestart = <span class="literal">true</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> NO_ERROR;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h2 id="对外接口（ispctrl部分）"><a href="#对外接口（ispctrl部分）" class="headerlink" title="对外接口（ispctrl部分）"></a>对外接口（ispctrl部分）</h2><h3 id="（一）帧率切换代码逻辑"><a href="#（一）帧率切换代码逻辑" class="headerlink" title="（一）帧率切换代码逻辑"></a>（一）帧率切换代码逻辑</h3><p>高通配置sensor输出帧率只有在sensor启动时设置分辨率的时候进行配置。寄存器手册中也要求设置帧率等寄存器时需要先让sensor进入standby模式。也就是说设置帧率的时候，得重启一下。之前切换帧率是媒控帮忙停流，我们再去设置帧率，会浪费比较多的时间。现在我们可以在hal层设置参数后让sensor重启，减少了需要重新设置的模块，实测切换速度不少。<br>这样帧率可以我们自己控制，我们可以提供给外部接口，这就需要修改ispctrl层的代码。</p>
+<h3 id="（二）ispctrl接口修改"><a href="#（二）ispctrl接口修改" class="headerlink" title="（二）ispctrl接口修改"></a>（二）ispctrl接口修改</h3><h4 id="解除帧率与抗闪烁的绑定"><a href="#解除帧率与抗闪烁的绑定" class="headerlink" title="解除帧率与抗闪烁的绑定"></a>解除帧率与抗闪烁的绑定</h4><p>50Hz的抗闪烁要求快门是1/100的整数倍，60Hz的抗闪烁要求快门是1/120的整数倍。帧率是限制了快门的最大值，30帧意味着快门最大1/30，但是同样是可以支持50Hz的抗闪烁。25帧也可以支持60Hz的抗闪烁，这两者并没有必然联系。因此将它们之间的联系去除。<br><strong>注意：</strong>25帧的采集帧率，有利于50Hz供电频率的抗闪烁。即使曝光时间小于10ms，25帧仍然可以让日光灯产生条纹带稳定在图像的同一个位置。如果是30帧，条纹就会不停的跳动，让人难以接受。所以最后还是加上了采集帧率和抗闪烁的绑定，不过优化了代码结构。</p>
+<h3 id="（三）平台的适配"><a href="#（三）平台的适配" class="headerlink" title="（三）平台的适配"></a>（三）平台的适配</h3><p>apq8056_one是比较老的设备，更注重稳定性，不会去解除绑定帧率与抗闪烁的关系</p>
+<p>平台的识别，取自媒控</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function">platform_e <span class="title">GetPlatform</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    FILE *pfile;</span><br><span class="line">    <span class="keyword">char</span> tmp[<span class="number">128</span>], *buf;</span><br><span class="line">    <span class="keyword">static</span> s32 is_first = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">static</span> platform_e platform = PLATFORM_UNKNOWN;</span><br><span class="line">    <span class="keyword">if</span> (is_first)</span><br><span class="line">    {</span><br><span class="line">        is_first = <span class="number">0</span>;</span><br><span class="line">        pfile = fopen(<span class="string">"/proc/cpuinfo"</span>, <span class="string">"r"</span>);</span><br><span class="line">        <span class="keyword">if</span> (pfile == <span class="literal">NULL</span>)</span><br><span class="line">        {</span><br><span class="line">            PRINT(<span class="string">"open %s error\n"</span>, <span class="string">"/proc/cpuinfo"</span>);</span><br><span class="line">            <span class="keyword">return</span> PLATFORM_UNKNOWN;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        {</span><br><span class="line">            buf = fgets(tmp, <span class="keyword">sizeof</span>(tmp), pfile);</span><br><span class="line">            <span class="keyword">if</span> (buf == <span class="literal">NULL</span>)</span><br><span class="line">            {</span><br><span class="line">                PRINT(<span class="string">"%s fgets error\n"</span>, __func__);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">strncmp</span>(tmp, <span class="string">"Hardware"</span>, <span class="number">8</span>))</span><br><span class="line">            {</span><br><span class="line">                PRINT(<span class="string">"%s\n"</span>, tmp);</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">strstr</span>(tmp, <span class="string">"8076"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">                {</span><br><span class="line">                    platform = PLATFORM_QCOM8076;</span><br><span class="line">                    PRINT(<span class="string">"this platfom is qcom 8076\n"</span>);</span><br><span class="line">                }</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strstr</span>(tmp, <span class="string">"8056"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">                {</span><br><span class="line">                    platform = PLATFORM_QCOM8056;</span><br><span class="line">                    PRINT(<span class="string">"this platfom is qcom 8056\n"</span>);</span><br><span class="line">                }</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strstr</span>(tmp, <span class="string">"8094"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">                {</span><br><span class="line">                    platform = PLATFORM_QCOM8094;</span><br><span class="line">                    PRINT(<span class="string">"this platfom is qcom 8094\n"</span>);</span><br><span class="line">                }</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strstr</span>(tmp, <span class="string">"8939"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">                {</span><br><span class="line">                    platform = PLATFORM_QCOM8939;</span><br><span class="line">                    PRINT(<span class="string">"this platfom is qcom 8039\n"</span>);</span><br><span class="line">                }</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strstr</span>(tmp, <span class="string">"SDM660"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">                {</span><br><span class="line">                platform = PLATFORM_SDM660;</span><br><span class="line">                PRINT(<span class="string">"this platfom is SDM660\n"</span>);</span><br><span class="line">                }</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">       fclose(pfile);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> platform;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+<h3 id="（四）遇到过的问题"><a href="#（四）遇到过的问题" class="headerlink" title="（四）遇到过的问题"></a>（四）遇到过的问题</h3><p>现象：图像偶尔会闪烁</p>
+<p>排查结果：采集帧率在25帧和30帧跳动，ispctrl收到业务设置的帧率值也在25和30帧跳动</p>
+<p>原因：业务那边做过一个根据网络状况改变帧率的逻辑。很可能是由于网络问题，导致设置的帧率一直在跳动，需要让业务修改或者去掉这个逻辑。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>高通camera</tag>
+        <tag>帧率</tag>
       </tags>
   </entry>
   <entry>
@@ -1579,11 +1793,9 @@
     <title>BUG:手动增益不能连续增大</title>
     <url>/2019/03/07/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E5%A2%9E%E7%9B%8A%E8%AE%BE%E7%BD%AE%E4%B8%8D%E6%AD%A3%E7%A1%AE/</url>
     <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p><strong>现象</strong>：从web端将增益快门改成手动，会发现随着增益的增大，图片亮度先递增，到了54时，图片瞬间变暗，再继续递增。  </p>
-<a id="more"></a>
-
 <p><strong>思路</strong>：从增益从上到下传递的地方推断出可能会改变的地方：<br>业务–ispctrl层–hal层–camera层的aec输出（aec.biz）–camera层的sensor模块的（设置）–写入寄存器</p>
 <p><strong>过程</strong>：经过排查发现随着web界面上增益的增大，aec的输出是逐步增大的，对sensor模块进行打印，发现寄存器写入的值也是正确的。怀疑是寄存器初始化有问题，和8056平台的IMX385进行比较，没有找到异常。查看手册，发现相比于290，增益寄存器是两个字节组成的，而web界面上的53对应的是0xff，54对应的是0x100，猜测可能是寄存器只写了低八位。</p>
-<p><a href="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" title="img" data-src="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" class="lazyload"></a></p>
+<p><a href="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" class="lazyload" title="img"></a></p>
 <p>查看代码：</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">reg_setting->reg_setting[reg_count].reg_addr =</span><br><span class="line">sensor_lib_ptr.exp_gain_info.global_gain_addr;</span><br><span class="line">reg_setting->reg_setting[reg_count].reg_data = gain & 0xFF;</span><br><span class="line">reg_setting->reg_setting[reg_count].delay = 0;</span><br><span class="line">reg_count = reg_count + 1;</span><br></pre></td></tr></tbody></table></figure></div>
 
