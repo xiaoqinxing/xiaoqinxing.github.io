@@ -23,7 +23,7 @@
 <li><p>发现2241开关没有明显作用，联系葛志海测试多台设备发现，R2B3的每日流有效果，封闭流没效果。</p>
 </li>
 <li><p>又找了一台设备<code>10.67.36.194</code>发现花屏</p>
-<p><a href="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cf0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cf0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" class="lazyload" title="img"></a></p>
+<p><a href="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/f0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" data-fancybox="group" data-caption="f0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com" class="fancybox"><img alt="f0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com" data-src="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%95%B8%E5%8F%98%E6%A0%A1%E6%AD%A3%E4%B8%8D%E7%94%9F%E6%95%88/f0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com.png" class="lazyload" title="f0c18288-1de3-4c2f-8811-3a8354be5218_1d808b11-dc95-4acf-81fe-05e86b38e90b@kedacom.com"></a></p>
 </li>
 <li><p>换到中试R2B1版本，有点效果</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">cmd</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight cmd"><table><tbody><tr><td class="code"><pre><span class="line"># IPC</span><br><span class="line">setcapratio <span class="number">1920</span> <span class="number">1080</span> # 上面这一条是切分辨率的，<span class="number">2241</span>是<span class="number">200</span>万的，但是没有用</span><br><span class="line">mcsetldc <span class="number">1500</span> <span class="number">100</span></span><br></pre></td></tr></tbody></table></figure></div>
@@ -658,12 +658,12 @@
       </tags>
   </entry>
   <entry>
-    <title>2412M设备补光灯及IR-CUT调试</title>
+    <title>2412M设备记录</title>
     <url>/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>记录一下这个任务的工作情况，以及作为工作的备忘录。</p>
-<a id="more"></a>
-
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>孔德喜<br>boot.img是我们定制过的<br>不能用服务器的版本，服务器的版本驱动不对，因为这个是硬件飞线的<br>所以才只有一台设备</p>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>记录一下这个2412M设备的工作情况，以及作为工作的备忘录。</p>
+</blockquote>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>boot.img是我们定制过的<br>不能用服务器的版本，服务器的版本驱动不对，因为这个是硬件飞线的<br>所以才只有一台设备</p>
 <h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><p>ispctrl分支：<br>android-dev-v1.0-muti-camera<br>ROM分支：<br>repo init -u 172.16.6.148:android-mirror/manifest -b sysdev_qcom_v1.x -m SDM660-WIRELESS.xml</p>
 <h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><p>1、一个是把我们当前660 IPC上做的功能移植到这个分支上<br>2、确认下当前的图像效果，sensor用的imx327，镜头暂不确定。可以把当前我们调的327参数移过来<br>3、红外灯和IR-CUT调试</p>
 <h2 id="联系人"><a href="#联系人" class="headerlink" title="联系人"></a>联系人</h2><p>驱动联系人：陈务<br>媒控联系人：孔德喜</p>
@@ -673,7 +673,7 @@
 <h2 id="镜像版本地址"><a href="#镜像版本地址" class="headerlink" title="镜像版本地址"></a>镜像版本地址</h2><p>\172.16.0.99\DailyVersions\system\android\android-rom\SDM660\KDM2412MX</p>
 <h2 id="APK版本地址"><a href="#APK版本地址" class="headerlink" title="APK版本地址"></a>APK版本地址</h2><p>\172.16.0.99\DailyVersions\KDM\NVR\NVRV7\nvrv7_qcom\20190424\NVR_V7R2B3SP567_R50471\ProductDir\exe\release\qcom\apk</p>
 <h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="网络连接"><a href="#网络连接" class="headerlink" title="网络连接"></a>网络连接</h2><p>2412m可以usb和网络同时连接<br>由于IP不在同一个网段，ping不同，需要添加电脑的IP网段，在本地连接->属性设置->IPV4->高级->ip地址添加，加一个没有人用的同一网段的IP就行了（前两个数一样的IP，如果ping不通就是没人用）</p>
-<h2 id="代码查看"><a href="#代码查看" class="headerlink" title="代码查看"></a>代码查看</h2><h2 id="git版本查看"><a href="#git版本查看" class="headerlink" title="git版本查看"></a>git版本查看</h2><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1553233398584.png" data-fancybox="group" data-caption="1553233398584" class="fancybox"><img alt="1553233398584" title="1553233398584" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1553233398584.png" class="lazyload"></a></p>
+<h2 id="代码查看"><a href="#代码查看" class="headerlink" title="代码查看"></a>代码查看</h2><h2 id="git版本查看"><a href="#git版本查看" class="headerlink" title="git版本查看"></a>git版本查看</h2><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1553233398584.png" data-fancybox="group" data-caption="1553233398584" class="fancybox"><img alt="1553233398584" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1553233398584.png" class="lazyload" title="1553233398584"></a></p>
 <p>可以看到代码在2412M的时候拉出了不同的分支，其中主要对IPC的分支进行了维护，理论上我们可以直接将IPC上的分支同步一下就行了</p>
 <p>–hal层成功同步</p>
 <p>但是camera层合并不成功</p>
@@ -694,7 +694,7 @@
 <li><p><strong>error:contains uncommitted changes</strong></p>
 <p>因为那个目录下有修改没有进行提交。因此去那个目录，将修改提交stash一下，继续到根目录下repo sync。</p>
 </li>
-<li><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cd4ffb1e3-9658-46e1-b432-dfaa6e7a76d0_337ae144-7595-43c8-abe5-737344a7e3c4@kedacom.com.png" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" title="img" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cd4ffb1e3-9658-46e1-b432-dfaa6e7a76d0_337ae144-7595-43c8-abe5-737344a7e3c4@kedacom.com.png" class="lazyload"></a>如果出现文件权限不够的情况，就把它删除重新下载</p>
+<li><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cd4ffb1e3-9658-46e1-b432-dfaa6e7a76d0_337ae144-7595-43c8-abe5-737344a7e3c4@kedacom.com.png" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/C:%5CUsers%5CPublic%5CDocuments%5CTrueLink%5CUsers%5C%E6%9D%8E%E9%92%A6%E6%98%9F%5CKDCPic%5Cd4ffb1e3-9658-46e1-b432-dfaa6e7a76d0_337ae144-7595-43c8-abe5-737344a7e3c4@kedacom.com.png" class="lazyload" title="img"></a>如果出现文件权限不够的情况，就把它删除重新下载</p>
 </li>
 <li><p>如果出现某个仓库权限不够的情况，就把向CMO（蔡燕）发邮件申请权限。</p>
 </li>
@@ -736,7 +736,7 @@
 </li>
 <li><p>media-controller\modules\sensors\configs中是摄像头配置信息（型号名字等）</p>
 </li>
-<li><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1554368196213.png" data-fancybox="group" data-caption="1554368196213" class="fancybox"><img alt="1554368196213" title="1554368196213" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1554368196213.png" class="lazyload"></a></p>
+<li><p><a href="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1554368196213.png" data-fancybox="group" data-caption="1554368196213" class="fancybox"><img alt="1554368196213" data-src="/2019/03/22/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-2412M%E8%AE%BE%E5%A4%87%E8%A1%A5%E5%85%89%E7%81%AF%E5%8F%8AIR-CUT%E8%B0%83%E8%AF%95/../../../Users/keda/Pictures/photo/1554368196213.png" class="lazyload" title="1554368196213"></a></p>
 <p>一看就是Makefile没有把头文件包进来，查看mk文件，果然也有target_product的选择指令，加入2412的设备</p>
 </li>
 </ol>
@@ -744,7 +744,7 @@
 <h2 id="ispctrl层数据传输"><a href="#ispctrl层数据传输" class="headerlink" title="ispctrl层数据传输"></a>ispctrl层数据传输</h2><p>发现数据传递不对，查找ispctrl中设置日夜切换的函数，会发现660平台的2412可以获取的HID，却没有添加id号，因此没有把值传下去。</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="number">0</span>==PID && <span class="number">0</span> ==HWID && temp_hid != IPC2258_MUTI_MASTER_HID && temp_hid != IPC2258_MUTI_SLAVE_HID</span><br><span class="line">        && temp_hid != IPC2412_660_HID){ <span class="comment">//2412m专用条件，无PID和HID</span></span><br><span class="line">        <span class="keyword">switch</span>(ptNewSetParam->eDayNightMode)</span><br><span class="line">        {</span><br><span class="line">            <span class="keyword">case</span> ISP_IRCUT_MODE_DAY:</span><br><span class="line">            {</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_CAMERA_ID, camera_id);</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_DAY_NIGHT_MODE, CameraParameters::DAY_NIGHT_MODE_DAY);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">case</span> ISP_IRCUT_MODE_NIGHT:</span><br><span class="line">            {</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_CAMERA_ID, camera_id);</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_DAY_NIGHT_MODE, CameraParameters::DAY_NIGHT_MODE_NIGHT);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">case</span> ISP_IRCUT_MODE_AUTO:</span><br><span class="line">            {</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_CAMERA_ID, camera_id);</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_DAY_NIGHT_MODE, CameraParameters::DAY_NIGHT_MODE_AUTO);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">case</span> ISP_IRCUT_MODE_LDRAUTO:</span><br><span class="line">            {</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_CAMERA_ID, camera_id);</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_DAY_NIGHT_MODE, CameraParameters::DAY_NIGHT_MODE_LDR_AUTO);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">            {</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_CAMERA_ID, camera_id);</span><br><span class="line">                newParamParser.<span class="built_in">set</span>(CameraParameters::KEY_QC_DAY_NIGHT_MODE, <span class="number">-1</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure></div>
 
-<h2 id="HAL代码修改"><a href="#HAL代码修改" class="headerlink" title="HAL代码修改"></a>HAL代码修改</h2><p>在adb shell里面输入，发现两者都是可以用的</p>
+<h2 id="HAL代码修改"><a href="#HAL代码修改" class="headerlink" title="HAL代码修改"></a>HAL代码修改</h2><p>在adb shell里面输入驱动的控制指令，发现两者都是可以用的，因此硬件和驱动是没有问题的</p>
 <p>hw_test lens set -n 1 -c 1 </p>
 <p>hw_test lens set -n 1 -l 1 -m 1</p>
 <p>阅读测试的c文件，了解使用方法，了解到每个参数代表什么意思</p>
@@ -829,14 +829,12 @@
   <entry>
     <title>version信息打印</title>
     <url>/2019/03/20/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%E6%89%93%E5%8D%B0%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>如何打印分支和目标设备的信息？如何进行Makefile的编写？如何引用Makefile中的宏定义？</p>
-<a id="more"></a>
-
-<p>要求：</p>
-<p>分支信息</p>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>如何打印分支和目标设备的信息？如何进行Makefile的编写？如何引用Makefile中的宏定义？</p>
+</blockquote>
+<h2 id="要求："><a href="#要求：" class="headerlink" title="要求："></a>要求：</h2><p>分支信息</p>
 <p>编译时间</p>
-<p>过程：</p>
-<p>Android.mk对宏定义进行赋值；不可以赋值字符串形式</p>
+<h2 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h2><p>Android.mk对宏定义进行赋值；不可以赋值字符串形式</p>
 <p>TARGET_PRODUCT</p>
 <p>编译一个宏定义后，就算Makefile里面删除了，也还会存在</p>
 <p>在make.mk中定义一个自定义的mk变量，在子mk中引用这个变量 不行</p>
@@ -872,7 +870,8 @@
 <p>单链表可以通过链从开始位置遍历链表知道结束位置，<strong>但是链表无法从相反的方向进行遍历。</strong></p>
 <p><strong>疑问：</strong>为什么无法从相反方向遍历？通过&查找不行么？</p>
 <p><strong>思考：</strong>一个内存地址可以由很多指针指向。地址说到底也只是一串数，指针就是在内存的其他位置存着这一串数，可能你又怎么知道那个位置存着这一串数呢？这串数可能出现很多次，也根本没法判断。<strong>&符号只是取出地址，而这个地址可以给其他任意地方存着。</strong></p>
-<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>​                                                                                                               </p>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>略</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a><br>​                                                                                                               </p>
 <p>​                                                                     </p>
 </body></html>]]></content>
       <categories>
@@ -930,7 +929,7 @@
 <li>注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算，free的时候就会出问题，可能<strong>只释放了内存的一部分</strong>。另外如果运算了，其他地方进行引用，也容易内存块<strong>位置偏移</strong>的问题。</li>
 <li>用strcpy的时候需要注意不能超出规定的内存范围，注意不能越界访问</li>
 </ul>
-<p>代码位置：<code>https://github.com/xiaoqinxing/myrepo_c</code></p>
+<p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a></p>
 </body></html>]]></content>
       <categories>
         <category>学习</category>
@@ -951,7 +950,7 @@
 <blockquote>
 <p>《c和指针》阅读笔记</p>
 </blockquote>
-<h1 id="结构（struct）"><a href="#结构（struct）" class="headerlink" title="结构（struct）"></a>结构（struct）</h1><p>聚合数据类型就是能够同时存储超过一个的单个数据。包括数据和结构，数组是相同类型的集合，结构的各个成员可能有不同的类型。</p>
+<h1 id="（一）结构（struct）"><a href="#（一）结构（struct）" class="headerlink" title="（一）结构（struct）"></a>（一）结构（struct）</h1><p>聚合数据类型就是能够同时存储超过一个的单个数据。包括数据和结构，数组是相同类型的集合，结构的各个成员可能有不同的类型。</p>
 <p>数组元素可以通过下标访问，这是因为数组的元素长度相同；而结构成员都有自己的名字，大小可能不同，只能通过名字访问的。</p>
 <h2 id="结构体声明"><a href="#结构体声明" class="headerlink" title="结构体声明"></a>结构体声明</h2><p><strong>注意：</strong>定义两个结构体的声明，即使他们的成员列表完全相同，也会被当做两种截然不同的类型，因此不能进行赋值或者指针的赋值。</p>
 <p><strong>解决方案：</strong>用标签来创建变量，可以用typedef创建一种新的类型。  </p>
@@ -991,7 +990,7 @@
 <p>但是这个缺陷是函数会对调用程序的结构变量进行修改。</p>
 <p>如果我们不希望如此，可以在函数中使用const关键字来防止这类修改。现在函数原型变成了：</p>
 <p><code>void print_rec(register SELF_REF const *trans );</code></p>
-<h1 id="位段"><a href="#位段" class="headerlink" title="位段"></a>位段</h1><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>位段的声明和普通的结构成员声明相同，但是有两个例外，位段成员必须声明为int、unsigned int类型。其次，在成员名的后面是一个冒号和整数，这个整数指定该位段所占用的位的数目。</p>
+<h1 id="（二）位段"><a href="#（二）位段" class="headerlink" title="（二）位段"></a>（二）位段</h1><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>位段的声明和普通的结构成员声明相同，但是有两个例外，位段成员必须声明为int、unsigned int类型。其次，在成员名的后面是一个冒号和整数，这个整数指定该位段所占用的位的数目。</p>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>可移植性程序应该避免使用位段，因为不同的系统，位段可能有不同的结构。</p>
 <ol>
 <li>int位段被当做有符号数还是无符号书</li>
@@ -1000,7 +999,7 @@
 <li>当一个声明指定了两个位段，第二个位段比较大，无法容纳于第一个位段剩余的位时，编译器可能吧第二个位段放在内存的下一个字，也可能直接放在第一个位段后面，从而在两个内存位置的边界上形成重叠。</li>
 </ol>
 <p>是用于控制寄存器的较好的方法。任何可以用位段实现的功能都可以用移位和屏蔽（用与或者非）实现，在源代码中用位段表示这个处理过程更加简单一点，但在目标代码中，这两种方法并不存在任何区别。</p>
-<h1 id="联合（union）"><a href="#联合（union）" class="headerlink" title="联合（union）"></a>联合（union）</h1><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>当你想在不同的时刻把不同的东西存储于同一个位置时，就可以用联合。</p>
+<h1 id="（三）联合（union）"><a href="#（三）联合（union）" class="headerlink" title="（三）联合（union）"></a>（三）联合（union）</h1><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>当你想在不同的时刻把不同的东西存储于同一个位置时，就可以用联合。</p>
 <p>一般和自定义的类型连用，如：</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">VARIABLE</span> {</span></span><br><span class="line">    <span class="keyword">enum</span> {INT, FLOAT, STRING} type;</span><br><span class="line">    <span class="keyword">union</span> {</span><br><span class="line">        <span class="keyword">int</span>   i;</span><br><span class="line">        <span class="keyword">float</span> f;</span><br><span class="line">        <span class="keyword">char</span>  *s;</span><br><span class="line">    }value;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
 
@@ -1120,8 +1119,9 @@
   <entry>
     <title>手动快门增益功能实现</title>
     <url>/2019/03/14/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E6%89%8B%E5%8A%A8%E5%BF%AB%E9%97%A8%E5%A2%9E%E7%9B%8A%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>如何避免因为不同的数据流在不同的地方设置增益和快门？</p>
-<a id="more"></a>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>如何实现手动设置快门和增益？<br>如何避免因为不同的数据流在不同的地方设置增益和快门？</p>
+</blockquote>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>拍照和预览设置增益可能会发生改变，如果用手动AE也可能出问题。最好的地方是他们共用的地方，可以想到的是sensor模块，sensor模块是和硬件最密切的，在这里可以进行寄存器的设置。我们找到不论何种模式都会进行设置的地方进行修改就行了。</p>
 <h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>拿imx290举例，它的常用寄存器地址和函数是在imx290_lib.h中定义的。</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">sensor_lib_t</span> sensor_lib_ptr =</span><br><span class="line">{</span><br><span class="line">    .sensor_slave_info =</span><br><span class="line">    {</span><br><span class="line">        .sensor_name    = SENSOR_MODEL,</span><br><span class="line">        .slave_addr     = <span class="number">0x34</span>,</span><br><span class="line">        .i2c_freq_mode  = SENSOR_I2C_MODE_FAST,</span><br><span class="line">        .addr_type      = CAMERA_I2C_WORD_ADDR,</span><br><span class="line">        .sensor_id_info =</span><br><span class="line">        {</span><br><span class="line">            .sensor_id_reg_addr = <span class="number">0x301E</span>, <span class="comment">// a fake id register</span></span><br><span class="line">            .sensor_id          = <span class="number">0xB201</span>, <span class="comment">// a fixed value</span></span><br><span class="line">        }</span><br><span class="line">        ...</span><br><span class="line">    }</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
@@ -1142,9 +1142,10 @@
 <p>对比660设备的代码，发现660代码进行了设置。</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (lib->sensor_lib_ptr->exposure_func_table.calc_exp_array_type ==</span><br><span class="line">  CALC_CUSTOM_IN_LIB &&</span><br><span class="line">  lib->sensor_lib_ptr->exposure_func_table.sensor_calculate_exposure) {</span><br><span class="line">  lib->sensor_lib_ptr->exposure_func_table.sensor_calculate_exposure(</span><br><span class="line">     real_gain, linecount, &exp_info, exposure.s_real_gain);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">  sensor_cmn_calc_exposure(lib->sensor_lib_ptr,</span><br><span class="line">    real_gain, linecount, &exp_info, exposure.s_real_gain);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
 <p>这里应该是高通之前代码的错误，并没有像手册一样实现手动控制增益的功能。</p>
-<p><a href="https://image.qinxing.xyz/1552546053938.png" data-fancybox="group" data-caption="1552546053938" class="fancybox"><img alt="1552546053938" title="1552546053938" data-src="https://image.qinxing.xyz/1552546053938.png" class="lazyload"></a></p>
+<p><a href="https://image.qinxing.xyz/1552546053938.png" data-fancybox="group" data-caption="1552546053938" class="fancybox"><img alt="1552546053938" data-src="https://image.qinxing.xyz/1552546053938.png" class="lazyload" title="1552546053938"></a></p>
 <h2 id="功能叙述"><a href="#功能叙述" class="headerlink" title="功能叙述"></a>功能叙述</h2><p><code>persist.camera.sensor.gain</code>用来设置手动增益，默认是整数，我改成了浮点数，方便去细调。如果不设置或者设置为0,则增益是自动</p>
 <p><code>persist.camera.sensor.linecount</code>用来设置手动快门，需要是整数，同样不进行设置或者设置为0，快门是自动。</p>
+<p><strong>注意：</strong> 8056平台不适用这套代码逻辑</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -1156,10 +1157,11 @@
       </tags>
   </entry>
   <entry>
-    <title>sensor模块理解及学习</title>
+    <title>sensor模块代码理解及学习</title>
     <url>/2019/03/13/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-sensor%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%8F%B7%E7%9A%84%E9%80%BB%E8%BE%91/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>sensor模块如何识别不同的设备和型号？如何选用相应型号的头文件？</p>
-<a id="more"></a>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>sensor模块如何识别不同的设备和型号？如何选用相应型号的头文件？</p>
+</blockquote>
 <p>拿imx290举例，它的常用寄存器地址和函数是在imx290_lib.h中定义的。</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">sensor_lib_t</span> sensor_lib_ptr =</span><br><span class="line">{</span><br><span class="line">    .sensor_slave_info =</span><br><span class="line">    {</span><br><span class="line">        .sensor_name    = SENSOR_MODEL,</span><br><span class="line">        .slave_addr     = <span class="number">0x34</span>,</span><br><span class="line">        .i2c_freq_mode  = SENSOR_I2C_MODE_FAST,</span><br><span class="line">        .addr_type      = CAMERA_I2C_WORD_ADDR,</span><br><span class="line">        .sensor_id_info =</span><br><span class="line">        {</span><br><span class="line">            .sensor_id_reg_addr = <span class="number">0x301E</span>, <span class="comment">// a fake id register</span></span><br><span class="line">            .sensor_id          = <span class="number">0xB201</span>, <span class="comment">// a fixed value</span></span><br><span class="line">        }</span><br><span class="line">        ...</span><br><span class="line">    }</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
 <p>这是对结构体的乱序赋值，既能初始化时赋值，也可以不考虑顺序。</p>
@@ -1234,7 +1236,7 @@
 <p>那么又是如何区分的呢？</p>
 <p>media-controller/modules/sensors/configs/Android.mk文件中</p>
 <p>LOCAL_SRC_FILES代表着根据不同的设备选用不同的xml文件</p>
-<p><a href="/2019/03/13/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-sensor%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%8F%B7%E7%9A%84%E9%80%BB%E8%BE%91/../../../Users/keda/Pictures/photo/1553493767329.png" data-fancybox="group" data-caption="1553493767329" class="fancybox"><img alt="1553493767329" title="1553493767329" data-src="/2019/03/13/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-sensor%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%8F%B7%E7%9A%84%E9%80%BB%E8%BE%91/../../../Users/keda/Pictures/photo/1553493767329.png" class="lazyload"></a></p>
+<p><a href="/2019/03/13/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-sensor%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%8F%B7%E7%9A%84%E9%80%BB%E8%BE%91/../../../Users/keda/Pictures/photo/1553493767329.png" data-fancybox="group" data-caption="1553493767329" class="fancybox"><img alt="1553493767329" data-src="/2019/03/13/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-sensor%E6%A8%A1%E5%9D%97%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E5%9E%8B%E5%8F%B7%E7%9A%84%E9%80%BB%E8%BE%91/../../../Users/keda/Pictures/photo/1553493767329.png" class="lazyload" title="1553493767329"></a></p>
 <p>看xml文件，里面交代了每个sensor的名字，以及镜头，视场角等信息，</p>
 <p>xml里面还有HWID，每个HWID对应了不同的sensor和chromatix文件</p>
 </body></html>]]></content>
@@ -1250,10 +1252,9 @@
   <entry>
     <title>makefile编译模板</title>
     <url>/2019/03/13/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-c-makefile%E7%BC%96%E8%AF%91%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>如何进行Makefile的编写？如何编译动态库？如何引用动态库？</p>
-<a id="more"></a>
-
-
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>如何进行Makefile的编写？<br>如何编译动态库？<br>如何引用动态库？</p>
+</blockquote>
 <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="Makefile-gcc的参数"><a href="#Makefile-gcc的参数" class="headerlink" title="Makefile gcc的参数"></a>Makefile gcc的参数</h2><p>-Wall： 是打开警告开关，</p>
 <p>-O：    代表默认优化，可选：-O0不优化，-O1低级优化，-O2中级优化，-O3高级优化，-Os代码空间优化。</p>
 <p>-g：     是生成调试信息，生成的可执行文件具有和源代码关联的可调试的信息。 </p>
@@ -1681,16 +1682,16 @@
       </categories>
       <tags>
         <tag>Makefile</tag>
+        <tag>c/c++</tag>
       </tags>
   </entry>
   <entry>
     <title>BUG:AE打印延迟</title>
     <url>/2019/03/08/%E5%B7%A5%E4%BD%9C-BUG-BUG-AE%E6%89%93%E5%8D%B0%E5%BB%B6%E8%BF%9F/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p><strong>现象</strong>：在HWI的ProcessAEinfo函数中进行打印，发现AE有延迟</p>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a><strong>现象</strong></h2><p>在HWI的ProcessAEinfo函数中进行打印，发现AE有延迟</p>
 <a id="more"></a>
 
-<p><strong>解决思路：</strong></p>
-<ol>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a><strong>解决思路</strong></h2><ol>
 <li>查看ProcessAEinfo函数的执行位置，发现ProcessAEinfo函数是在状态机中的<code>QCAMERA_INTERNAL_EVT_AE_UPDATE</code>状态下1执行的</li>
 <li>相应的找到了只有<code>matadata_stream_cb_routine</code>函数对状态机发送这个状态事件，在执行processEVT的地方进行打印，发现这个AE打印是没有延时的；在对状态机这个状态下加打印，发现这个AE打印是有延时的</li>
 <li>processAEinfo函数里的内容，会发现，状态机状态下的AE打印又没有异常了</li>
@@ -1698,15 +1699,16 @@
 <li>发现加上persist进行赋值的地方，ae就会有延迟，对persist设置的函数前后进行打印，发现这个赋值语句需要10Ms才能执行完成。</li>
 <li>需要重新设置HAL对ispctrl层传递的方法，不能使用persist的方法了</li>
 </ol>
-<p><strong>小结：</strong></p>
-<p>如果上一个模块的输出和下一个模块的输入对不上，很可能是由于FIFO导致的，如果下一个模块的处理跟不上上一个</p>
-<p>函数中尽量不要去设置persist的值，根据打印发现，平均设置需要10ms，大大影响运行性能。</p>
-<p><strong>疑问：</strong></p>
-<p>callback一直在给statemachine发送事件消息，假设每帧发10个事件，但是statemachine由于什么问题，只处理了9个事件，并不会造成太大的影响，图像还是正常出，就是控制可能慢了0.003s</p>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a><strong>疑问</strong></h2><p>callback一直在给statemachine发送事件消息，假设每帧发10个事件，但是statemachine由于什么问题，只处理了9个事件，并不会造成太大的影响，图像还是正常出，就是控制可能慢了0.003s</p>
 <p>但是存在一个问题，那个事件被callback创建了，并没有被处理完，释放内存，当过了100帧率，就有10个事件没有进行处理，那这些事件依旧在内存中，没有被释放，长此以往，内存被占满了，程序不就各种崩溃了么。</p>
-<p><strong>解决方案</strong>：</p>
-<p>是否在检查队列的时候对队列的长度进行判断，防止队列太长崩溃。</p>
+<h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a><strong>解决方案</strong>：</h2><p>是否在检查队列的时候对队列的长度进行判断，防止队列太长崩溃。</p>
 <p>另外就是我们在调试代码的时候，在端口的输入端加上打印，查看每个模块处理的速度，如果低于正常的帧率，就抛出异常。当然一帧看不出什么问题，100帧检测一次，看时间是否超过了正常的时间。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a><strong>小结</strong></h2><ol>
+<li><p>如果上一个模块的输出和下一个模块的输入对不上，很可能是由于FIFO导致的，如果下一个模块的处理跟不上上一个</p>
+</li>
+<li><p>函数中尽量不要去设置persist的值，根据打印发现，平均设置需要10ms，大大影响运行性能。</p>
+</li>
+</ol>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -1720,13 +1722,10 @@
   <entry>
     <title>高通WNR滤波理解</title>
     <url>/2019/03/08/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E9%AB%98%E9%80%9AWNR%E6%BB%A4%E6%B3%A2%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>这是我对高通WNR的理解，便于调试，也为自己设计图像滤波器提供了参考。</p>
-<a id="more"></a>
-
-<p><strong>详细原理：</strong></p>
-<p><a href="https://image.qinxing.xyz/1552274631266.png" data-fancybox="group" data-caption="1552274631266" class="fancybox"><img alt="1552274631266" title="1552274631266" data-src="https://image.qinxing.xyz/1552274631266.png" class="lazyload"></a></p>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p><strong>详细原理：</strong></p>
+<p><a href="https://image.qinxing.xyz/1552274631266.png" data-fancybox="group" data-caption="1552274631266" class="fancybox"><img alt="1552274631266" data-src="https://image.qinxing.xyz/1552274631266.png" class="lazyload" title="1552274631266"></a></p>
 <p>先将原图和经过双边滤波之后的图相减，得到下图的噪声和细节分布图，是第一个+号的输出。edge softness来调节这个滤波器的强度。</p>
-<p><a href="https://image.qinxing.xyz/1552274655450.png" data-fancybox="group" data-caption="1552274655450" class="fancybox"><img alt="1552274655450" title="1552274655450" data-src="https://image.qinxing.xyz/1552274655450.png" class="lazyload"></a></p>
+<p><a href="https://image.qinxing.xyz/1552274655450.png" data-fancybox="group" data-caption="1552274655450" class="fancybox"><img alt="1552274655450" data-src="https://image.qinxing.xyz/1552274655450.png" class="lazyload" title="1552274655450"></a></p>
 <p>这个噪声和细节分布图和阈值λ进行比较，profile*scale就是阈值λ，1-w就是斜率。横坐标是每个像素点的差值，而Y轴是将要去除的噪声大小。第二个+号的过程是将原图和第二个图的Y（输出）进行相减，也就是用原图减去噪声得到滤波后的图。</p>
 <p>当w=0，就是斜率等于1，X=Y，也就是说小于λ将会完全用双边滤波得到的图片。</p>
 <p>如果说平坦区域的降噪不符合要求，应该加大edge softness，也就是第一个滤波器的强度，加大阈值是没有用的。</p>
@@ -1746,9 +1745,9 @@
   <entry>
     <title>aec重载chromatix功能实现</title>
     <url>/2019/03/07/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-8056%E5%B9%B3%E5%8F%B0aec%E6%A8%A1%E5%9D%97%E9%87%8D%E8%BD%BDchromatix%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p>8056平台中如何实现对aec模块重载chromatix？</p>
-<a id="more"></a>
-
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
+<p>8056平台中如何实现对aec模块重载chromatix？</p>
+</blockquote>
 <h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="第一版本"><a href="#第一版本" class="headerlink" title="第一版本"></a>第一版本</h2><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">c</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">search_dynamic_region</span><span class="params">(<span class="keyword">char</span> *<span class="built_in">array</span>, <span class="keyword">int</span> x, <span class="keyword">int</span> y,<span class="keyword">int</span> row,<span class="keyword">int</span> col)</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">-1</span>; i < <span class="number">2</span>; i++) {</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">-1</span>; j < <span class="number">2</span>; j++) {</span><br><span class="line">    			<span class="keyword">if</span> (x + i >= <span class="number">0</span> && x + i < row &&</span><br><span class="line">    				y + j >= <span class="number">0</span> && y + j < col &&</span><br><span class="line">    				(x || y == <span class="number">1</span>) && <span class="built_in">array</span>[(x + i)*col + y + j] == <span class="number">1</span>) {</span><br><span class="line">				<span class="built_in">array</span>[(x + i)*col + y + j] = <span class="number">2</span>;</span><br><span class="line">				search_dynamic_region(<span class="built_in">array</span>, x + i, y + j, row, col);</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//BRIGHT_REGION_RANGE range:0.1-1.0 值越小，亮区越大</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BRIGHT_REGION_RANGE 0.6</span></span><br><span class="line"><span class="comment">//DYNAMIC_REGION_THRESHOLD range:>1.0 值越小，越容易判定为动态亮区</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DYNAMIC_REGION_THRESHOLD 1.2</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">keda_backlight_algo</span><span class="params">(<span class="keyword">aec_biz_t</span> *aec, <span class="keyword">const</span> <span class="keyword">stats_t</span>* stats)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="comment">//detect input</span></span><br><span class="line">    <span class="keyword">if</span> (!aec || !stats) {</span><br><span class="line">      AEC_ERR(<span class="string">"Invalid input: %p,%p"</span>,aec, stats);</span><br><span class="line">      <span class="keyword">return</span> FALSE;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//define var</span></span><br><span class="line">    <span class="keyword">char</span> value[PROPERTY_VALUE_MAX];</span><br><span class="line">    <span class="keyword">float</span> aec_ratio = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> aec_dynamic_ratio=<span class="number">1000</span>,aec_static_ratio=<span class="number">1</span>;</span><br><span class="line">    chromatix_3a_parms_type *chromatix;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">q3a_bg_stats_t</span>* q3a_bg_stats = stats->bayer_stats.p_q3a_bg_stats;</span><br><span class="line">    <span class="keyword">uint32_t</span> threhold_h = q3a_bg_stats->rMax * q3a_bg_stats->region_pixel_cnt * BRIGHT_REGION_RANGE /<span class="number">4</span>;</span><br><span class="line">    chromatix = (chromatix_3a_parms_type*)backlight_set_parameter.u.init_param.chromatix;</span><br><span class="line">    <span class="keyword">if</span> (!chromatix) {</span><br><span class="line">        AEC_ERR(<span class="string">"Invalid chromatix: %p"</span>, chromatix)</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">int</span> v_step = q3a_bg_stats->bg_region_v_num/NUM_AEC_STATS;</span><br><span class="line">    <span class="keyword">int</span> h_step = q3a_bg_stats->bg_region_h_num/NUM_AEC_STATS;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span> bg_sum[MAX_BG_STATS_NUM]={<span class="number">0</span>};</span><br><span class="line">    <span class="keyword">char</span> grid_region[MAX_BG_STATS_NUM] ={<span class="number">0</span>};</span><br><span class="line">    <span class="keyword">int</span> grid_v_num, grid_h_num;</span><br><span class="line">    <span class="keyword">int</span> weight_grid_count[NUM_AEC_STATS][NUM_AEC_STATS] = {{<span class="number">0</span>}};</span><br><span class="line">    <span class="keyword">uint32_t</span> bg_count=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (property_get(<span class="string">"persist.liqinxing.backlight"</span>, value, <span class="string">""</span>) > <span class="number">0</span>){</span><br><span class="line">        aec_static_ratio = atoi(value)/<span class="number">1000.0</span>;</span><br><span class="line">        <span class="comment">//reduce traverse times and prevent data overflow</span></span><br><span class="line">        <span class="keyword">int</span> grid_count = q3a_bg_stats->bg_region_h_num * q3a_bg_stats->bg_region_v_num;</span><br><span class="line">        <span class="comment">//find bright region and dynamic spot</span></span><br><span class="line">        <span class="keyword">int</span> i,j;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i < grid_count; i++){</span><br><span class="line">            <span class="keyword">if</span>(q3a_bg_stats->bg_r_sum[i] > threhold_h ||</span><br><span class="line">               q3a_bg_stats->bg_gr_sum[i] > threhold_h ||</span><br><span class="line">               q3a_bg_stats->bg_b_sum[i] > threhold_h){</span><br><span class="line">                    bg_count = q3a_bg_stats->bg_r_sum[i]+q3a_bg_stats->bg_gr_sum[i]+</span><br><span class="line">                    q3a_bg_stats->bg_gb_sum[i]+q3a_bg_stats->bg_b_sum[i];</span><br><span class="line">                    <span class="keyword">if</span>(bg_count*<span class="number">10</span>/bg_sum[i] > <span class="number">12</span>)</span><br><span class="line">                        grid_region[i] = <span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        grid_region[i] = <span class="number">1</span>;</span><br><span class="line">            }</span><br><span class="line">            bg_sum[i] = q3a_bg_stats->bg_r_sum[i]+q3a_bg_stats->bg_gr_sum[i]+</span><br><span class="line">                    q3a_bg_stats->bg_gb_sum[i]+q3a_bg_stats->bg_b_sum[i];</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="comment">//find dynamic bright region</span></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i < grid_count; i++){</span><br><span class="line">            <span class="keyword">if</span>(grid_region[i] == <span class="number">2</span>){</span><br><span class="line">                search_dynamic_region(grid_region, i/q3a_bg_stats->bg_region_h_num,</span><br><span class="line">                    i%q3a_bg_stats->bg_region_h_num, q3a_bg_stats->bg_region_v_num,</span><br><span class="line">                    q3a_bg_stats->bg_region_h_num);</span><br><span class="line">            }</span><br><span class="line"></span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="comment">//convert to aec weight grid table</span></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i<grid_count; i++){< span><br><span class="line">            <span class="keyword">if</span>(grid_region[i] != <span class="number">0</span>){</span><br><span class="line">                grid_v_num = i/q3a_bg_stats->bg_region_h_num/v_step;<span class="comment">//calculate current position v</span></span><br><span class="line">                grid_h_num = i%q3a_bg_stats->bg_region_h_num/h_step;<span class="comment">//calculate current position h</span></span><br><span class="line">                <span class="keyword">if</span>(grid_region[i] == <span class="number">2</span>)</span><br><span class="line">                    weight_grid_count[grid_v_num][grid_h_num] = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(weight_grid_count[grid_v_num][grid_h_num] != <span class="number">2</span>)</span><br><span class="line">                    weight_grid_count[grid_v_num][grid_h_num] = <span class="number">1</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="comment">//pthread_rwlock_wrlock(&chromatix->lock);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i < NUM_AEC_STATS; i++){</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">0</span>; j < NUM_AEC_STATS; j++){</span><br><span class="line">                <span class="keyword">if</span>(weight_grid_count[i][j] == <span class="number">2</span>){</span><br><span class="line">                    chromatix->AEC_algo_data.aec_metering_tables.AEC_weight_center_weighted[i][j] =</span><br><span class="line">                        keda_exposure_weight[i][j] * aec_dynamic_ratio;</span><br><span class="line">                }</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(weight_grid_count[i][j] == <span class="number">1</span>)</span><br><span class="line">                    chromatix->AEC_algo_data.aec_metering_tables.AEC_weight_center_weighted[i][j] =</span><br><span class="line">                        keda_exposure_weight[i][j] * aec_static_ratio;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    chromatix->AEC_algo_data.aec_metering_tables.AEC_weight_center_weighted[i][j] =</span><br><span class="line">                        keda_exposure_weight[i][j];</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//pthread_rwlock_unlock(&chromatix->lock);</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (aec->aec_algo_ops.set_parameters) {</span><br><span class="line">            aec->aec_algo_ops.set_parameters(aec->handle, &backlight_set_parameter);</span><br><span class="line">          } <span class="keyword">else</span> {</span><br><span class="line">            <span class="keyword">return</span> FALSE;</span><br><span class="line">          }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">}</span><br></grid_count;></span></pre></td></tr></tbody></table></figure></div>
 
 <h3 id="问题一：一运行就崩溃"><a href="#问题一：一运行就崩溃" class="headerlink" title="问题一：一运行就崩溃"></a>问题一：一运行就崩溃</h3><p>访问了禁止访问的区域？</p>
@@ -1795,7 +1794,7 @@
     <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><p><strong>现象</strong>：从web端将增益快门改成手动，会发现随着增益的增大，图片亮度先递增，到了54时，图片瞬间变暗，再继续递增。  </p>
 <p><strong>思路</strong>：从增益从上到下传递的地方推断出可能会改变的地方：<br>业务–ispctrl层–hal层–camera层的aec输出（aec.biz）–camera层的sensor模块的（设置）–写入寄存器</p>
 <p><strong>过程</strong>：经过排查发现随着web界面上增益的增大，aec的输出是逐步增大的，对sensor模块进行打印，发现寄存器写入的值也是正确的。怀疑是寄存器初始化有问题，和8056平台的IMX385进行比较，没有找到异常。查看手册，发现相比于290，增益寄存器是两个字节组成的，而web界面上的53对应的是0xff，54对应的是0x100，猜测可能是寄存器只写了低八位。</p>
-<p><a href="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="https://upload-images.jianshu.io/upload_images/16170287-d3930c2e426c5095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/673/format/webp" class="lazyload" title="img"></a></p>
+<p><a href="https://image.qinxing.xyz/20200317001223.png" data-fancybox="group" data-caption="img" class="fancybox"><img alt="img" data-src="https://image.qinxing.xyz/20200317001223.png" class="lazyload" title="img"></a></p>
 <p>查看代码：</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">reg_setting->reg_setting[reg_count].reg_addr =</span><br><span class="line">sensor_lib_ptr.exp_gain_info.global_gain_addr;</span><br><span class="line">reg_setting->reg_setting[reg_count].reg_data = gain & 0xFF;</span><br><span class="line">reg_setting->reg_setting[reg_count].delay = 0;</span><br><span class="line">reg_count = reg_count + 1;</span><br></pre></td></tr></tbody></table></figure></div>
 
@@ -3410,16 +3409,13 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
   <entry>
     <title>BUG:手动增益过大时闪烁</title>
     <url>/2019/01/17/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E6%89%8B%E5%8A%A8%E5%A2%9E%E7%9B%8A%E8%BF%87%E5%A4%A7%E6%97%B6%E9%97%AA%E7%83%81/</url>
-    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><blockquote>
-<p>当手动增益调节到90多时，图像会有闪烁<br>当调到100时，增益突然变低，图像突然变好</p>
-</blockquote>
-<a id="more"></a>
-<h1 id="可能的原因"><a href="#可能的原因" class="headerlink" title="可能的原因"></a>可能的原因</h1><ol>
+    <content><![CDATA[<html><head><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>当手动增益调节到90多时，图像会有闪烁<br>当调到100时，增益突然变低，图像突然变好</p>
+<h2 id="可能的原因"><a href="#可能的原因" class="headerlink" title="可能的原因"></a>可能的原因</h2><ol>
 <li>增益太高，导致曝光行一行跨度太大，达不到目标亮度</li>
 <li>虽然增益很高，我们是在AE模块的输出截取修改，其实AE会把这个场景当做很亮的场景，曝光行在很小的地方波动，那个时候的曝光行不够平滑</li>
 <li>是否可能增益到100时候超过了IMX327的最大数字增益</li>
 </ol>
-<h1 id="排查经过"><a href="#排查经过" class="headerlink" title="排查经过"></a>排查经过</h1><ul>
+<h2 id="排查经过"><a href="#排查经过" class="headerlink" title="排查经过"></a>排查经过</h2><ul>
 <li>1/17/2019 13:28:49</li>
 </ul>
 <p>烧写最新版本启动不了  –烧写1.4版本<br>搭好环境，更新代码</p>
@@ -3436,7 +3432,7 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
 <li>2019/1/17 14:38:34  </li>
 </ul>
 <p>可能是在之前乘以的倍数比较大？超过了最大值？ –可以到达600多倍</p>
-<p><a href="/2019/01/17/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E6%89%8B%E5%8A%A8%E5%A2%9E%E7%9B%8A%E8%BF%87%E5%A4%A7%E6%97%B6%E9%97%AA%E7%83%81/bug1-1583661012571.jpg" data-fancybox="group" data-caption="bug1" class="fancybox"><img alt="bug1" title="bug1" data-src="/2019/01/17/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E6%89%8B%E5%8A%A8%E5%A2%9E%E7%9B%8A%E8%BF%87%E5%A4%A7%E6%97%B6%E9%97%AA%E7%83%81/bug1-1583661012571.jpg" class="lazyload"></a></p>
+<p><a href="/2019/01/17/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E6%89%8B%E5%8A%A8%E5%A2%9E%E7%9B%8A%E8%BF%87%E5%A4%A7%E6%97%B6%E9%97%AA%E7%83%81/bug1-1583661012571.jpg" data-fancybox="group" data-caption="bug1" class="fancybox"><img alt="bug1" data-src="/2019/01/17/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E6%89%8B%E5%8A%A8%E5%A2%9E%E7%9B%8A%E8%BF%87%E5%A4%A7%E6%97%B6%E9%97%AA%E7%83%81/bug1-1583661012571.jpg" class="lazyload" title="bug1"></a></p>
 <ul>
 <li>2019/1/17 15:38:45 </li>
 </ul>
@@ -3460,12 +3456,12 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
 <li>2019/1/18 15:00:40 </li>
 </ul>
 <p>尝试将IMX327_MAX_GAIN改小，发现不再闪烁了，但是并不能解释根本原因</p>
-<p><strong>根本原因</strong>：写入寄存器是字节型写入的，需要将float型转换成十六进制，它是通过一个查找表<code>reg_value_lookup_table</code>去设置对应的倍数的。但是有个问题，超过查找表的最大值就没有进行赋值。而查找表的最大值只有251倍，我们设置的最大倍数有252倍，所以会出现问题。我们只需要将查找表加长，让每个倍数有对应的写入寄存器的值。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<h2 id="根本原因"><a href="#根本原因" class="headerlink" title="根本原因"></a>根本原因</h2><p>写入寄存器是字节型写入的，需要将float型转换成十六进制，它是通过一个查找表<code>reg_value_lookup_table</code>去设置对应的倍数的。但是有个问题，超过查找表的最大值就没有进行赋值。而查找表的最大值只有251倍，我们设置的最大倍数有252倍，所以会出现问题。我们只需要将查找表加长，让每个倍数有对应的写入寄存器的值。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>与camera相关参数的设置，注意是以字节形式写入，有时需要进入底层去查看原因。</li>
 <li>aec_port中的real_gain并不是最终写入寄存器的值，需要经过sensor模块（可能会经过截取等简单操作），还有最后转换成字节型。</li>
 </ul>
-<h1 id="备忘录"><a href="#备忘录" class="headerlink" title="备忘录"></a>备忘录</h1><ul>
+<h2 id="备忘录"><a href="#备忘录" class="headerlink" title="备忘录"></a>备忘录</h2><ul>
 <li>imx327数字增益范围是0.3-42dB；换算一下最大数字增益是125.89；最大增益为71.4dB</li>
 <li>imx327_lib.h文件中最大增益是252，也就是24dB</li>
 <li>增益和倍数的换算是20lg(倍数)=dB</li>
