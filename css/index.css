@@ -2178,7 +2178,7 @@ blockquote footer cite:before {
   float: left;
   overflow: hidden;
   margin: 20px 7px;
-  width: calc(100% / 3 - 15px);
+  width: calc(100% / 4 - 15px);
   height: 90px;
   border-radius: 8px;
   line-height: 17px;
@@ -2271,12 +2271,12 @@ blockquote footer cite:before {
 }
 @media screen and (max-width: 1100px) {
   .flink .md-links .md-links-item {
-    width: calc(50% - 15px) !important;
+    width: calc(100% / 3 - 15px) !important;
   }
 }
 @media screen and (max-width: 600px) {
   .flink .md-links .md-links-item {
-    width: calc(100% - 15px) !important;
+    width: calc(100% / 2 - 15px) !important;
   }
 }
 #footer {
