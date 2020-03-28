@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人卡微卡调试注意事项总结 | 清新的日子</title><meta name="description" content="主要关注相机的安装，标定，图像参数以及夜间效果"><meta name="keywords" content="调试"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="人卡微卡调试注意事项总结"><meta name="twitter:description" content="主要关注相机的安装，标定，图像参数以及夜间效果"><meta name="twitter:image" content="https://image.qinxing.xyz/20200317000856.png"><meta property="og:type" content="article"><meta property="og:title" content="人卡微卡调试注意事项总结"><meta property="og:url" content="https://qinxing.xyz/2020/03/20/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E4%BA%BA%E5%8D%A1%E5%BE%AE%E5%8D%A1%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="主要关注相机的安装，标定，图像参数以及夜间效果"><meta property="og:image" content="https://image.qinxing.xyz/20200317000856.png"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = ''
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      now = new Date();
+      hour = now.getHours();
+      isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://qinxing.xyz/2020/03/20/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E4%BA%BA%E5%8D%A1%E5%BE%AE%E5%8D%A1%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"><link rel="prev" title="相机成像原理之sensor篇" href="https://qinxing.xyz/2020/03/28/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/"><link rel="next" title="BUG：红外回调不生效" href="https://qinxing.xyz/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%BA%A2%E5%A4%96%E5%9B%9E%E8%B0%83%E4%B8%8D%E7%94%9F%E6%95%88/"><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: undefined","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: false,
+  isFontAwesomeV5: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">76</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">67</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">24</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 导航</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#微卡"><span class="toc-number">1.</span> <span class="toc-text">微卡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一．相机安装"><span class="toc-number">1.1.</span> <span class="toc-text">一．相机安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二．相机标定"><span class="toc-number">1.2.</span> <span class="toc-text">二．相机标定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三．图像参数"><span class="toc-number">1.3.</span> <span class="toc-text">三．图像参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-微调"><span class="toc-number">1.4.</span> <span class="toc-text">四. 微调</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#人卡"><span class="toc-number">2.</span> <span class="toc-text">人卡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-相机安装"><span class="toc-number">2.1.</span> <span class="toc-text">一. 相机安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-相机标定"><span class="toc-number">2.2.</span> <span class="toc-text">二. 相机标定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-图像参数"><span class="toc-number">2.3.</span> <span class="toc-text">三. 图像参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-夜间注意事项"><span class="toc-number">2.4.</span> <span class="toc-text">四. 夜间注意事项</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200317000856.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 导航</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">人卡微卡调试注意事项总结</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-20</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F%E6%95%88%E6%9E%9C%E8%B0%83%E8%AF%95/">图像效果调试</a></span><div class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">858</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 2 分钟</span><div class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/03/20/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E4%BA%BA%E5%8D%A1%E5%BE%AE%E5%8D%A1%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/03/20/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E4%BA%BA%E5%8D%A1%E5%BE%AE%E5%8D%A1%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" itemprop="commentCount"></span></a></div></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><html><head></head><body><h2 id="微卡"><a href="#微卡" class="headerlink" title="微卡"></a>微卡</h2><h3 id="一．相机安装"><a href="#一．相机安装" class="headerlink" title="一．相机安装"></a>一．相机安装</h3><p>1.垂直角度在13正负3度<br>2.为保障车牌识别的准确性，监控区域画面近端，保持两个车道7m。<br>3.画面中心在保持在需要监控道路的中心。<br>4.相机安装水平不倾斜。</p>
+<h3 id="二．相机标定"><a href="#二．相机标定" class="headerlink" title="二．相机标定"></a>二．相机标定</h3><p>根据远近处的车牌大小进行标定，具体如下图：<br><img src="/" alt="车牌标定" class="lazyload" data-src="https://image.qinxing.xyz/20200329000918.png"></p>
+<h3 id="三．图像参数"><a href="#三．图像参数" class="headerlink" title="三．图像参数"></a>三．图像参数</h3><ol>
+<li><p>快门：默认先用1/240，能覆盖大多数情况</p>
+</li>
+<li><p>增益：增益上限默认到50，</p>
+</li>
+<li><p>对比度：降低对比度调成20，有助于在比较暗环境下提高暗区亮度。</p>
+</li>
+<li><p>补光灯：智能配置->补光灯配置那里，根据环境中是否有外置补光灯，无外置灯的，默认模式设置为自动，阈值35，内置补光灯2 强度设置20， 有外置补光灯的默认关闭内置补光灯。</p>
+</li>
+<li><p>为保障车牌识别的准确性，监控区域画面近端，保持两个车道7m;<br><img src="/" alt="微卡车道拍摄" class="lazyload" data-src="https://image.qinxing.xyz/20200329001136.png"></p>
+</li>
+</ol>
+<h3 id="四-微调"><a href="#四-微调" class="headerlink" title="四. 微调"></a>四. 微调</h3><ol>
+<li>若聚焦已经调整到中下部，车速太快，早上或者傍晚抓拍到大量运动模糊的车牌，降低快门下限至1/300.</li>
+<li>这样配置后还是车牌过曝，优先降低一点内置补光灯强度，若降至0还不行（此时肯定有外置灯直射车牌），可以降低下增益上限，以5为单位降低增益上限。</li>
+<li>若夜间车牌比较灰暗，不够亮，可以稍加内置补光灯强度，以5为单位。</li>
+<li>若发现不管白天晚上，中下抓拍区域车牌亮度正常，但是整体很糊，可以试着调试聚焦，建议在白天时候 ，调试，聚焦在中下部，聚完焦后再设置镜头锁定。（保证下一半清晰）</li>
+</ol>
+<h2 id="人卡"><a href="#人卡" class="headerlink" title="人卡"></a>人卡</h2><h3 id="一-相机安装"><a href="#一-相机安装" class="headerlink" title="一. 相机安装"></a>一. 相机安装</h3><p>1.垂直角度在13正负3度<br>2.为保障车牌识别的准确性，监控区域纵向在2人高以内，横向5米以内。<br>3.画面中心在保持在需要监控区域的中心。<br>4.相机安装水平不倾斜。</p>
+<h3 id="二-相机标定"><a href="#二-相机标定" class="headerlink" title="二. 相机标定"></a>二. 相机标定</h3><p><img src="/" alt="人卡相机标定" class="lazyload" data-src="https://image.qinxing.xyz/20200329001629.png"></p>
+<h3 id="三-图像参数"><a href="#三-图像参数" class="headerlink" title="三. 图像参数"></a>三. 图像参数</h3><ol>
+<li><p>快门：根据实际场景中人员状态，若行人居多，默认快门上限1/100; 若电瓶车或者小三轮居多，快门往下降1/150,或1/200。</p>
+</li>
+<li><p>聚焦：聚焦在画面中下部，白天调完聚焦后，保存在配置->摄像机->图像->聚焦中，若晚上切换到夜模式后出现中下部比中上明显偏糊，需要再调整下聚焦保存在夜模式中，后面自动切换日夜的时候就会自动调用两个位置。</p>
+</li>
+<li><p>若架设场景是全天大多数时间都是背光的室内对着大门的场景，开启智能配置->参数配置->智能曝光，其他正常场景关闭该功能。</p>
+</li>
+</ol>
+<h3 id="四-夜间注意事项"><a href="#四-夜间注意事项" class="headerlink" title="四. 夜间注意事项"></a>四. 夜间注意事项</h3><ol>
+<li><p>建议在环境光比较好的场景，在配置->摄像机->图像->日夜转换的模式设置为白天。</p>
+</li>
+<li><p>若进行日夜切换，开启红外灯的设备，根据抓取的人脸亮度，先用默认参数，若过曝或者较暗，调整红外强度手动模式，并且修改强度。</p>
+</li>
+<li><p>若聚焦以及亮度都调整完后，还是觉得有点糊，可以尝试减小2D降噪，但是会引入更多噪声，谨慎调试。</p>
+</li>
+</ol>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qinxing.xyz/2020/03/20/%E5%B7%A5%E4%BD%9C-%E5%9B%BE%E5%83%8F-%E4%BA%BA%E5%8D%A1%E5%BE%AE%E5%8D%A1%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">https://qinxing.xyz/2020/03/20/工作-图像-人卡微卡调试注意事项/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B0%83%E8%AF%95/">调试    </a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200318095107.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/28/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/"><img class="prev_cover lazyload" data-src="https://image.qinxing.xyz/20200318095107.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">相机成像原理之sensor篇</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/12/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E7%BA%A2%E5%A4%96%E5%9B%9E%E8%B0%83%E4%B8%8D%E7%94%9F%E6%95%88/"><img class="next_cover lazyload" data-src="https://image.qinxing.xyz/20200316001926.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">BUG：红外回调不生效</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify: false,
+  verify: false,
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  placeholder: '快来留言吧~',
+  avatar: 'wavatar',
+  meta: guest_info,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: ''
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/local-search.js"></script></body></html>
