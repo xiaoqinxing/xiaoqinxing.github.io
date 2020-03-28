@@ -276,7 +276,7 @@
 <li>站点配置文件_config.yml中，url那一栏填域名，注意只能填顶级域名，不能填二级域名</li>
 <li>hexo升级到4.2之后，hexo_asset_image这个插件就出bug了，原来的作者不维护了，有人出了一个修复后的插件，叫hexo_asset_image_fixed。解决方法是：把原来的插件卸载，用命令<code>npm install hexo-asset-image-fixed</code>安装一下即可</li>
 <li>网站文件更新后，访问网址并没有进行更新。这是因为cdn缓存了之前的文件，需要刷新cdn缓存，拿七牛举例，需要在cdn的刷新预期->刷新目录即可</li>
-<li>想要用PWA的功能，manifest.json一定不能被渲染了，不然浏览器解析不出来。除了手册说的那些操作外，还需要在站点配置文件_config.yml中增加<code>skip_render: 'manifest.json'</code></li>
+<li>想要用PWA的功能，manifest.json一定不能被渲染了，不然浏览器解析不出来。除了手册说的那些操作外，还需要在站点配置文件_config.yml中增加<code>skip_render: 'manifest.json'</code>。还需要注意的是，配置offline属性的时候，要把html去掉，否则他会把html文件缓存在本地，即使文章更新了也看不到。</li>
 <li><code>hexo g -d</code>会漏掉service-worker.js，以后尽量用hexo g && hexo d</li>
 </ol>
 <h2 id="编辑器typora配置"><a href="#编辑器typora配置" class="headerlink" title="编辑器typora配置"></a>编辑器typora配置</h2><h3 id="图片设置"><a href="#图片设置" class="headerlink" title="图片设置"></a>图片设置</h3><p>要让图片复制到当前目录下同名文件夹下，需要修改<strong>偏好设置->图片插入->复制到指定目录./${filename}->对本地和网络图片应用以上规则->勾选优先使用相对路径</strong>。这样编辑器里面的图片，网站也可以正常显示了</p>
