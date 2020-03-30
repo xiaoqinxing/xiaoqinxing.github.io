@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>docker 入门 | 清新的日子</title><meta name="description" content="Docker是什么？有什么优点？&lt;br&gt;整理一些常用命令&lt;br&gt;如何用docker安装xwiki"><meta name="keywords" content="docker,web"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="docker 入门"><meta name="twitter:description" content="Docker是什么？有什么优点？&lt;br&gt;整理一些常用命令&lt;br&gt;如何用docker安装xwiki"><meta name="twitter:image" content="https://image.qinxing.xyz/20200330230227.png"><meta property="og:type" content="article"><meta property="og:title" content="docker 入门"><meta property="og:url" content="https://qinxing.xyz/2019/07/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-web-docker%E5%85%A5%E9%97%A8/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="Docker是什么？有什么优点？&lt;br&gt;整理一些常用命令&lt;br&gt;如何用docker安装xwiki"><meta property="og:image" content="https://image.qinxing.xyz/20200330230227.png"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = ''
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://qinxing.xyz/2019/07/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-web-docker%E5%85%A5%E9%97%A8/"><link rel="prev" title="高通预览流实现60帧" href="https://qinxing.xyz/2019/07/25/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A%E9%A2%84%E8%A7%88%E6%B5%81%E5%AE%9E%E7%8E%B060%E5%B8%A7/"><link rel="next" title="高通660平台实现实时切换采集帧率" href="https://qinxing.xyz/2019/07/16/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A660%E5%B9%B3%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%88%87%E6%8D%A2%E9%87%87%E9%9B%86%E5%B8%A7%E7%8E%87/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: true
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">82</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">71</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">25</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 导航</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）简介"><span class="toc-number">1.</span> <span class="toc-text">（一）简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker的应用场景"><span class="toc-number">1.1.</span> <span class="toc-text">Docker的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-的优点"><span class="toc-number">1.2.</span> <span class="toc-text">Docker 的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍与优点"><span class="toc-number">1.3.</span> <span class="toc-text">介绍与优点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）安装"><span class="toc-number">2.</span> <span class="toc-text">（二）安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加速"><span class="toc-number">2.1.</span> <span class="toc-text">加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pull报错"><span class="toc-number">2.2.</span> <span class="toc-text">pull报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#官网docker安装"><span class="toc-number">2.3.</span> <span class="toc-text">官网docker安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）常用命令："><span class="toc-number">3.</span> <span class="toc-text">（三）常用命令：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）使用docker现成的xwiki模板来部署"><span class="toc-number">4.</span> <span class="toc-text">（四）使用docker现成的xwiki模板来部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装教程："><span class="toc-number">4.1.</span> <span class="toc-text">安装教程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">4.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-number">4.3.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIPS-0-0-0-0-127-0-0-1和localhost之间有什么区别？"><span class="toc-number">4.4.</span> <span class="toc-text">TIPS:0.0.0.0,127.0.0.1和localhost之间有什么区别？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#127-0-0-1"><span class="toc-number">4.4.1.</span> <span class="toc-text">127.0.0.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#localhost"><span class="toc-number">4.4.2.</span> <span class="toc-text">localhost</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0-0-0-0"><span class="toc-number">4.4.3.</span> <span class="toc-text">0.0.0.0</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200330230227.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 导航</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">docker 入门</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date" title="发表于 2019-07-20 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-07-20</time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/">编程</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/web/">web</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.7k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 6 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2019/07/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-web-docker%E5%85%A5%E9%97%A8/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2019/07/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-web-docker%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><html><head></head><body><h2 id="（一）简介"><a href="#（一）简介" class="headerlink" title="（一）简介"></a>（一）简介</h2><p>Docker 是一个开源的应用容器引擎,可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。<br>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<h3 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h3><p>• Web 应用的自动化打包和发布。<br>• 自动化测试和持续集成、发布。<br>• 在服务型环境中部署和调整数据库或其他的后台应用。<br>• 从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</p>
+<h3 id="Docker-的优点"><a href="#Docker-的优点" class="headerlink" title="Docker 的优点"></a>Docker 的优点</h3><p>• 1、简化程序：<br>    Docker 让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，便可以实现虚拟化。Docker改变了虚拟化的方式，使开发者可以直接将自己的成果放入Docker中进行管理。方便快捷已经是 Docker的最大优势，过去需要用数天乃至数周的 任务，在Docker容器的处理下，只需要数秒就能完成。<br>• 2、避免选择恐惧症：<br>    如果你有选择恐惧症，还是资深患者。那么你可以使用 Docker 打包你的纠结！比如 Docker 镜像；Docker 镜像中包含了运行环境和配置，所以 Docker 可以简化部署多种应用实例工作。比如 Web 应用、后台应用、数据库应用、大数据应用比如 Hadoop 集群、消息队列等等都可以打包成一个镜像部署。<br>• 3、节省开支：<br>    一方面，云计算时代到来，使开发者不必为了追求效果而配置高额的硬件，Docker 改变了高性能必然高价格的思维定势。Docker 与云的结合，让云空间得到更充分的利用。不仅解决了硬件管理的问题，也改变了虚拟化的方式。</p>
+<p>我的理解是可以将依赖程序等打包好，就像一个镜像一下，下载下来可以直接用，省了一大堆的安装步骤</p>
+<h3 id="介绍与优点"><a href="#介绍与优点" class="headerlink" title="介绍与优点"></a>介绍与优点</h3><p><a href="https://blog.csdn.net/nfzhlk/article/details/78430152" target="_blank" rel="noopener">https://blog.csdn.net/nfzhlk/article/details/78430152</a><br>可以在windows上使用</p>
+<h2 id="（二）安装"><a href="#（二）安装" class="headerlink" title="（二）安装"></a>（二）安装</h2><p>从官网下载比较慢：<br>在这个DaoCloud网站可以快速下载<br><a href="https://www.jianshu.com/p/b21c508514ae" target="_blank" rel="noopener">https://www.jianshu.com/p/b21c508514ae</a><br><a href="https://www.cnblogs.com/mq0036/p/8512703.html" target="_blank" rel="noopener">https://www.cnblogs.com/mq0036/p/8512703.html</a></p>
+<h3 id="加速"><a href="#加速" class="headerlink" title="加速"></a>加速</h3><p>Docker For Windows<br>在桌面右下角状态栏中右键 docker 图标，修改在 Docker Daemon 标签页中的 json ，把下面的地址:<br><a href="http://f1361db2.m.daocloud.io" target="_blank" rel="noopener">http://f1361db2.m.daocloud.io</a><br>加到” registry-mirrors”的数组里。点击 Apply 。</p>
+<h3 id="pull报错"><a href="#pull报错" class="headerlink" title="pull报错"></a>pull报错</h3><p>在docker pull 镜像时一直报错：<br>Error response from daemon: Get <a href="https://registry-1.docker.io/v2/" target="_blank" rel="noopener">https://registry-1.docker.io/v2/</a>: dial tcp: lookup registry-1.docker.io on 10.0.2.3:53: server misbehaving<br>一开始以为服务器挂了，后来觉得不太可能，就网上搜了下，原来是dns服务器的错误，把服务器改成8.8.8.8或者114.114.114.114即可<br>linux下安装不了也可能是DNS错误</p>
+<h3 id="官网docker安装"><a href="#官网docker安装" class="headerlink" title="官网docker安装"></a>官网docker安装</h3><pre><code>1. 建立
+Docker镜像是一个私有文件系统，仅适用于您的容器。它提供了容器所需的所有文件和代码。运行docker build命令可以使用Dockerfile创建Docker镜像。此构建的映像位于计算机的本地Docker映像注册表中。
+
+cd doodle\cheers2019 ; docker build -t qinxing/cheers2019 .
+
+2. run
+docker run -it --rm qinxing/cheers2019
+3. 分享
+docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常用命令："><a href="#（三）常用命令：" class="headerlink" title="（三）常用命令："></a>（三）常用命令：</h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">docker run ubuntu:15.10 /bin/echo "Hello world"</span><br><span class="line">docker run -i -t ubuntu:15.10 /bin/bash</span><br></pre></td></tr></tbody></table></figure>
+<p>• -t:在新容器内指定一个伪终端或终端。<br>• -i:允许你对容器内的标准输入 (STDIN) 进行交互<br>• ubuntu:15.10指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。<br>• /bin/echo “Hello world”: 在启动的容器里执行的命令</p>
+<ol>
+<li>查看运行的容器：<code>docker ps</code></li>
+<li>查看容器标准输出 ：<code>docker logs</code></li>
+<li>载入镜像: <code>docker pull name</code></li>
+<li><code>docker run -d -P training/webapp python app.py</code><ul>
+<li>-d:让容器在后台运行。</li>
+<li>-P:将容器内部使用的网络端口映射到我们使用的主机上。</li>
+<li>-p : 是容器内部端口绑定到指定的主机端口。<br>可以通过 -p 参数来设置不一样的端口，前面的是主机端口，后者是docker端口<br><code>docker run -d -p 5000:5000 training/webapp python app.py</code></li>
+</ul>
+</li>
+<li>查看docker底层信息： <code>docker inspect</code></li>
+</ol>
+<h2 id="（四）使用docker现成的xwiki模板来部署"><a href="#（四）使用docker现成的xwiki模板来部署" class="headerlink" title="（四）使用docker现成的xwiki模板来部署"></a>（四）使用docker现成的xwiki模板来部署</h2><h3 id="安装教程："><a href="#安装教程：" class="headerlink" title="安装教程："></a>安装教程：</h3><ol>
+<li><a href="https://github.com/xwiki-contrib/docker-xwiki/blob/master/README.md#docker-run-example" target="_blank" rel="noopener">https://github.com/xwiki-contrib/docker-xwiki/blob/master/README.md#docker-run-example</a></li>
+<li><a href="http://help.websoft9.com/lms-guide/xwiki/install.html" target="_blank" rel="noopener">http://help.websoft9.com/lms-guide/xwiki/install.html</a></li>
+</ol>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>创建网络<br><code>docker network create -d bridge xwiki-nw</code></p>
+</li>
+<li><p>创建mysql<br><code>docker run --net=xwiki-nw --name mysql-xwiki -v /my/own/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=xwiki -e MYSQL_USER=xwiki -e MYSQL_PASSWORD=xwiki -e MYSQL_DATABASE=xwiki -d mysql:5.7 --character-set-server=utf8 --collation-server=utf8_bin --explicit-defaults-for-timestamp=1</code></p>
+</li>
+<li><p>创建xwiki<br><code>docker run -d --net=xwiki-nw --name xwiki -p 0.0.0.0:8080:8080 -v /my/own/xwiki:/usr/local/xwiki -e DB_USER=xwiki -e DB_PASSWORD=xwiki -e DB_DATABASE=xwiki -e DB_HOST=mysql-xwiki xwiki:mysql-tomcat</code></p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>外网可以访问需要指定IP：0.0.0.0<br>之前是127.0.0.1，结果外网无法访问，需要改成0.0.0.0。要去搞清楚两者的区别。</li>
+</ol>
+<h3 id="TIPS-0-0-0-0-127-0-0-1和localhost之间有什么区别？"><a href="#TIPS-0-0-0-0-127-0-0-1和localhost之间有什么区别？" class="headerlink" title="TIPS:0.0.0.0,127.0.0.1和localhost之间有什么区别？"></a>TIPS:0.0.0.0,127.0.0.1和localhost之间有什么区别？</h3><h4 id="127-0-0-1"><a href="#127-0-0-1" class="headerlink" title="127.0.0.1"></a>127.0.0.1</h4><p>是个（特殊的）IP地址，往往被分配给了loopback或仅局域网可以访问的接口本地接口<br>这是一个伪照的，假的，网络适配器，其只能于同主机的主机内通信<br>常用于：让一个可以支持网络的程序，仅仅响应于同主机的主机内的客户端<br>一个程序监听127.0.0.1的话，则只能接受来自于本地的访问</p>
+<h4 id="localhost"><a href="#localhost" class="headerlink" title="localhost"></a>localhost</h4><p>往往是127.0.0.1这个IP地址的主机名的主机名</p>
+<ul>
+<li>Linux的中是在/etc/hosts中设置的</li>
+<li>windows中等价于host，往往在％WINDIR％中设置的<ul>
+<li>换句话说，你也可以设置为其它名字</li>
+<li>ping localhost，则会输出：127.0.0.1</li>
+</ul>
+</li>
+</ul>
+<h4 id="0-0-0-0"><a href="#0-0-0-0" class="headerlink" title="0.0.0.0"></a>0.0.0.0</h4><p>本身包含很多方面的含义，但是此处指的是：<br>当一个服务器监听这个IP地址的话，意味着：监听所有的网络请求<br>（对应着IP地址为127.0.0.1的）回送这个适配器适配器的请求，就像其它本机中的其它的网络适配器一样。<br>如果一个服务器有两个IP地址：192.168.1.1和10.1.2.1，则本机中的一个服务监听0.0.0.0的话，则两个IP地址都可以访问该服务</p>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qinxing.xyz/2019/07/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-web-docker%E5%85%A5%E9%97%A8/">https://qinxing.xyz/2019/07/20/学习-编程-web-docker入门/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/docker/">docker</a><a class="post-meta__tags" href="/tags/web/">web</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200318095107.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/07/25/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A%E9%A2%84%E8%A7%88%E6%B5%81%E5%AE%9E%E7%8E%B060%E5%B8%A7/"><img class="prev_cover lazyload" data-src="https://image.qinxing.xyz/20200316001407.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">高通预览流实现60帧</div></div></a></div><div class="next-post pull_right"><a href="/2019/07/16/%E5%B7%A5%E4%BD%9C-%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%80%9A660%E5%B9%B3%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%88%87%E6%8D%A2%E9%87%87%E9%9B%86%E5%B8%A7%E7%8E%87/"><img class="next_cover lazyload" data-src="https://image.qinxing.xyz/20200317000142.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">高通660平台实现实时切换采集帧率</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2019/01/03/学习-编程-web-linux服务器基本操作/" title="linux服务器的基本操作"><img class="relatedPosts_cover lazyload"data-src="https://image.qinxing.xyz/20200331002628.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-01-03</div><div class="relatedPosts_title">linux服务器的基本操作</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify: false,
+  verify: false,
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  placeholder: '快来留言吧~',
+  avatar: 'wavatar',
+  meta: guest_info,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: ''
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/local-search.js"></script></body></html>
