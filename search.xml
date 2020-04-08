@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>相机成像原理之sensor篇</title>
-    <url>/2020/04/03/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/</url>
+    <url>/2020/04/09/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="（一）sensor的硬件结构"><a href="#（一）sensor的硬件结构" class="headerlink" title="（一）sensor的硬件结构"></a>（一）sensor的硬件结构</h2><h3 id="1-每个像素的结构"><a href="#1-每个像素的结构" class="headerlink" title="1. 每个像素的结构"></a>1. 每个像素的结构</h3><p>每个像素点的最上方有个微透镜，增加透光量。有镜头就有CRA的问题，超出一定角度的光线无法被收集，需要和镜头进行匹配。</p>
 <p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200325171710.png"  alt="像素的结构"></p>
 <h3 id="2-sensor的纵向结构"><a href="#2-sensor的纵向结构" class="headerlink" title="2. sensor的纵向结构"></a>2. sensor的纵向结构</h3><p>光透过电路会发生反射，造成每个像素点之间的干扰。背照式的结构（感光层在电路的上方）不会受到电路的影响。</p>
@@ -48,9 +48,9 @@
 <p>sensor的曝光方式有两种，卷帘曝光和全局曝光。</p>
 <h3 id="1-卷帘曝光（rolling-shutter）"><a href="#1-卷帘曝光（rolling-shutter）" class="headerlink" title="1. 卷帘曝光（rolling shutter）"></a>1. 卷帘曝光（rolling shutter）</h3><ol>
 <li><p>sensor曝光是每一行依次开始曝光的，所以图像中每一行的起始曝光时间是不一致的，目前大部分sensor属于这种。下图是卷帘曝光拍摄高速运动的物体的现象。</p>
-<p><img src="/" class="lazyload" data-src="/2020/04/03/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/20200325172907.png"  alt="卷帘曝光失真"></p>
+<p><img src="/" class="lazyload" data-src="/2020/04/09/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/20200325172907.png"  alt="卷帘曝光失真"></p>
 </li>
-<li><p>这是IMX290的sensor曝光与输出示意图<br> <img src="/" class="lazyload" data-src="/2020/04/03/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/20200325172932.png"  alt="IMX290 曝光序列"></p>
+<li><p>这是IMX290的sensor曝光与输出示意图<br> <img src="/" class="lazyload" data-src="/2020/04/09/%E5%8E%9F%E5%88%9B-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86%E4%B9%8Bsensor%E7%AF%87/20200325172932.png"  alt="IMX290 曝光序列"></p>
 <p> 黄色区域是sensor处于感光的时间，蓝色区域是sensor每一行数据的输出时间，红色是曝光开始的时间。XHS是进行每个操作的最小时间单位。</p>
 <p> 从时间先后来看，一幅图像是从第一行开始曝光，一个XHS之后，再从第二行开始曝光，依次类推。图像的第一行曝光结束后，进行输出，输出数据的时间是一个XHS，依此类推。</p>
 </li>
@@ -350,76 +350,6 @@
         <tag>BUG</tag>
         <tag>高通camera</tag>
         <tag>版本信息</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>相机成像模型</title>
-    <url>/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>此文转载自<a href="https://zhuanlan.zhihu.com/p/23090593" target="_blank" rel="noopener">知乎</a></p>
-</blockquote>
-<p>相机在计算机视觉应用中起着重要作用，作为图像数据来源，影响着后续各个处理步骤。成像模型就是用数学公式刻画整个成像过程，即被拍摄物体空间点到照片成像点之间的几何变换关系。</p>
-<p>总体上，相机成像可以分为四个步骤：刚体变换、透视投影、畸变校正和数字化图像。</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-6d70200c60c2fb80595bd931a2167c89_1440w.png"  alt></p>
-<h2 id="1、刚体变换"><a href="#1、刚体变换" class="headerlink" title="1、刚体变换"></a>1、刚体变换</h2><p>刚体变换只改变物体的空间位置(平移)和朝向(旋转)，而不改变其形状，可用两个变量来描述：旋转矩阵R和平移向量t</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-0dc276d40437a5f17ed0ec039b18953f_1440w.png"  alt></p>
-<p>其次坐标下可写为：<br><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-47be6823de88962d67c5dbe13567d460_1440w.png"  alt></p>
-<p>旋转矩阵R是正交矩阵，可通过罗德里格斯（Rodrigues）变换转换为只有三个独立变量的旋转向量：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-bfa1bff196934d0d6e19da2b404067aa_1440w.png"  alt></p>
-<p>因此，刚体变换可用6个参数来描述，这6个参数就称为相机的外参(Extrinsic)，相机外参决定了空间点从世界坐标系转换到相机坐标系的变换，也可以说外参描述了相机在世界坐标系中的位置和朝向。</p>
-<p><strong>我的理解：</strong></p>
-<p><strong>相机的旋转就是改变了旋转矩阵R，旋转图像就是修改这个R</strong></p>
-<p><strong>如果放在GPU中运行，其实其他过程都是一样的，只是要修改这个R，其他都是同一个流程，是不是简化很多算法</strong></p>
-<h2 id="2、透视投影"><a href="#2、透视投影" class="headerlink" title="2、透视投影"></a>2、透视投影</h2><p>我们可以将透镜的成像简单地抽象成下图所示：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-860767727cf42fb84c60d435e41a83e4_1440w.png"  alt></p>
-<p>设 f=OB 表示透镜的焦距，m=OC 为像距，n=AO 为物距，有：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-084365a995c90a05793383d030edad4c_1440w.png"  alt></p>
-<p>一般地，由于物距远大于焦距，即 n>>f，所以 m≈f，此时可以用小孔模型代替透镜成像：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-e94f94883bb903f9fa8ad52581bc9033_1440w.png"  alt></p>
-<p>可得：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-4adc27fdfd0e1028ab3e1d2aaabc2d49_1440w.png"  alt></p>
-<p>齐次坐标下有：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-c0dcd00c16c8315216125077d4b8ad06_1440w.png"  alt></p>
-<p>如果将成像平面移到相机光心与物体之间，则有中心透视模型：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-a76d8f55905611284570f06f0d77676a_1440w.png"  alt></p>
-<p>可得：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-9d87d744835b0044a20f3d6559d24d31_1440w.png"  alt></p>
-<p>齐次坐标下有：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-619b0d27a64e6fa74641670610ade0b0_1440w.png"  alt></p>
-<p>总体上看，透视投影将相机坐标系中的点投影到理想图像坐标系，其变换过程只与相机焦距 f 有关。</p>
-<h2 id="3、畸变校正"><a href="#3、畸变校正" class="headerlink" title="3、畸变校正"></a>3、畸变校正</h2><p>理想的针孔成像模型确定的坐标变换关系均为线性的，而实际上，现实中使用的相机由于镜头中镜片因为光线的通过产生的不规则的折射，镜头畸变（lens distortion）总是存在的，即根据理想针孔成像模型计算出来的像点坐标与实际坐标存在偏差。畸变的引入使得成像模型中的几何变换关系变为非线性，增加了模型的复杂度，但更接近真实情形。畸变导致的成像失真可分为径向失真和切向失真两类：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-3f443a32bacc0ed8ec9df0a6b60eadc0_1440w.png"  alt></p>
-<p>畸变类型很多，总体上可分为径向畸变和切向畸变两类，径向畸变的形成原因是镜头制造工艺不完美，使得镜头形状存在缺陷，包括枕形畸变和桶形畸变等，可以用如下表达式来描述：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-4b34d0de42f559659da4ee261b11c98b_1440w.png"  alt></p>
-<p>切向畸变又分为薄透镜畸变和离心畸变等，薄透镜畸变则是因为透镜存在一定的细微倾斜造成的；离心畸变的形成原因是镜头是由多个透镜组合而成的，而各个透镜的光轴不在同一条中心线上。切向畸变可以用如下数学表达式来描述：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-504d609395301742f3c875b3f8023731_1440w.png"  alt></p>
-<p>在引入镜头的畸变后，成像点从理想图像坐标系到真实图像坐标系的变换关系可以表示为：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-8535c6123110df3296799e1a74016612_1440w.png"  alt></p>
-<p>实际计算过程中，如果考虑太多高阶的畸变参数，会导致标定求解的不稳定。</p>
-<h2 id="4、数字化图像"><a href="#4、数字化图像" class="headerlink" title="4、数字化图像"></a>4、数字化图像</h2><p>光线通过相机镜头后最终成像在感光阵列(CCD或CMOS)上，然后感光阵列将光信号转化为电信号，最后形成完整的图像。我们用dx和dy分别表示感光阵列的每个点在x和y方向上物理尺寸，即一个像素是多少毫米，这两个值一般比较接近，但由于制造工艺的精度问题，会有一定误差，同样的，感光阵列的法向和相机光轴也不是完全重合，即可以看作成像平面与光轴不垂直。</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-1259ab99566c20fb28c30ee2d0e6fcfb_1440w.png"  alt></p>
-<p>我们用仿射变换来描述这个过程，如上图，O点是图像中心点，对应图像坐标(u0，v0)，Xd - Yd是真实图像坐标系，U-V是数字化图像坐标系，有：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-09d962a72f187320ca46e409fd6b364f_1440w.png"  alt></p>
-<p>齐次坐标下有：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-b187fdfd286e725a3a140b003f812e6c_1440w.png"  alt></p>
-<p>上式中的变换矩阵即为相机的内参数矩阵 K，其描述了相机坐标系中点到二维图像上点的变换过程。</p>
-<p>综上所述，在不考虑镜头畸变的情况下，相机的整个成像过程可表示为：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-904b09f24a1ea84d64d425760ca8a796_1440w.png"  alt></p>
-<p><strong>我的疑问：</strong></p>
-<p>一般来说图像的中心并不是（0,0)，而是(w/2,h/2)，也就是说u0=w/2,v0=h/2;<br> 如果说不考虑dx不等于dy的情况，因为大部分像素都是正方形的，那么公式应该变成</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/1583673008090.png"  alt></p>
-<p>而这与透视投影的矩阵乘在一起，变成了</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/1583673022764.png"  alt></p>
-<p>f可以乘做为像素焦距。如果我们需要做畸变校正的话，这两者就不能乘在一起了。</p>
-<p>那么最前面的Zc如何计算？</p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>camera原理</tag>
       </tags>
   </entry>
   <entry>
@@ -930,6 +860,27 @@
       </tags>
   </entry>
   <entry>
+    <title>一维卡尔曼滤波</title>
+    <url>/2019/11/27/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E4%B8%80%E7%BB%B4%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
+<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
+<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
+<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
+<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>AI超微光简介</title>
     <url>/2019/11/27/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-AI%E8%B6%85%E5%BE%AE%E5%85%89/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="任何一个函数都可以被一个两层的神经网络近似-–李宏毅"><a href="#任何一个函数都可以被一个两层的神经网络近似-–李宏毅" class="headerlink" title="任何一个函数都可以被一个两层的神经网络近似 –李宏毅"></a>任何一个函数都可以被一个两层的神经网络近似 –李宏毅</h2><p>这是神经网络的基础，可以去逼近真实的函数，不过也终究不会超过真实的函数<br><a href="http://neuralnetworksanddeeplearning.com/chap4.html" target="_blank" rel="noopener">http://neuralnetworksanddeeplearning.com/chap4.html</a></p>
@@ -948,27 +899,6 @@
 <p>带来的问题，L1损失基于全图的平均，导致图像模糊，细节丢失。这个损失函数也就决定了这个模型训练出来的就类似一个低通滤波器</p>
 <p><strong>疑问</strong>：为什么不可以直接用统计值去训练，而不是直接用像素一一对应  </p>
 <p>回答：如果只需要统计值，那可以说是非监督训练，一般来说，非监督训练99.9%不如监督训练，能用监督训练，就尽量用监督训练 </p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一维卡尔曼滤波</title>
-    <url>/2019/11/27/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E4%B8%80%E7%BB%B4%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
-<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
-<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
-<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
-<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -1022,6 +952,63 @@
       </tags>
   </entry>
   <entry>
+    <title>视频防抖预研（二）—— 数据采集</title>
+    <url>/2019/10/25/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E8%A7%86%E9%A2%91%E9%98%B2%E6%8A%96%E9%A2%84%E7%A0%94%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p><code>代码仓库</code>：<a href="https://github.com/xiaoqinxing/EIS_data_request_app" target="_blank" rel="noopener">https://github.com/xiaoqinxing/EIS_data_request_app</a></p>
+</blockquote>
+<h2 id="规划"><a href="#规划" class="headerlink" title="规划"></a>规划</h2><p>第一个方案是从camera底层获取录像和陀螺仪数据。</p>
+<ol>
+<li>问题1：我们一直使用的是预览流数据，根本不知道从什么时候开始录像，录像和拍照只是媒控取得预览流数据进行编码得到的。</li>
+<li>问题2：很难将每帧图像对应的陀螺仪数据采集下来。</li>
+</ol>
+<p>第二个方案是用Java做一个APP去实现陀螺仪和图像数据的采集<br>毫无疑问，我们选择第二种方案。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="（一）权限申请"><a href="#（一）权限申请" class="headerlink" title="（一）权限申请"></a>（一）权限申请</h3><h4 id="1-安卓6-0之前"><a href="#1-安卓6-0之前" class="headerlink" title="1. 安卓6.0之前"></a>1. 安卓6.0之前</h4><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.CAMERA"</span> /></span></span><br><span class="line"><span class="tag"><<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /></span></span><br></pre></td></tr></tbody></table></figure>
+<p>放在xml中申请权限，位置在application之前</p>
+<h4 id="2-安卓6-0之后"><a href="#2-安卓6-0之后" class="headerlink" title="2. 安卓6.0之后"></a>2. 安卓6.0之后</h4><p>权限需要动态申请：在APP初始化的时候，进行权限的申请。本文引用了一个权限的工具类，具体的内容可以查看<a href="https://github.com/xiaoqinxing/EIS_data_request_app/blob/master/app/src/main/java/com/example/eis_test/PermissionsUtils.java" target="_blank" rel="noopener">源码</a>。</p>
+<h3 id="（二）实现预览及录像功能"><a href="#（二）实现预览及录像功能" class="headerlink" title="（二）实现预览及录像功能"></a>（二）实现预览及录像功能</h3><h4 id="1-修改界面布局xml"><a href="#1-修改界面布局xml" class="headerlink" title="1. 修改界面布局xml"></a>1. 修改界面布局xml</h4><ol>
+<li>添加一个textureView作为预览画面的显示</li>
+<li>添加一个button控制录像的开关</li>
+</ol>
+<h4 id="2-初始化（去除申请权限的代码）"><a href="#2-初始化（去除申请权限的代码）" class="headerlink" title="2. 初始化（去除申请权限的代码）"></a>2. 初始化（去除申请权限的代码）</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Recorder</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{</span><br><span class="line">    <span class="keyword">private</span> TextureView mPreview;  <span class="comment">// For displaying the live camera preview</span></span><br><span class="line">    <span class="keyword">private</span> Camera mCamera;        <span class="comment">// Object to contact the camera hardware</span></span><br><span class="line">    <span class="keyword">private</span> MediaRecorder mMediaRecorder;    <span class="comment">// Store the camera's image stream as a video</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isRecording = <span class="keyword">false</span>; <span class="comment">// Is video being recoded</span></span><br><span class="line">    <span class="keyword">private</span> Button btnRecord;            <span class="comment">// Button that triggers recording</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String TAG = <span class="string">"GyroRecorder"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="comment">//显示一个页面</span></span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//id is elements's id to find which elements you choose</span></span><br><span class="line">        mPreview = (TextureView)findViewById(R.id.textureView1);</span><br><span class="line">        btnRecord = (Button)findViewById(R.id.button1);</span><br><span class="line"></span><br><span class="line">        btnRecord.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>{</span><br><span class="line">                onCaptureClick(view);</span><br><span class="line">            }</span><br><span class="line">        });</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="3-处理按键按下的逻辑"><a href="#3-处理按键按下的逻辑" class="headerlink" title="3. 处理按键按下的逻辑"></a>3. 处理按键按下的逻辑</h4><ol>
+<li>当没有录像时，按下按键就创建一个新的线程，启动录像。在启动录像的之后，把按键上的名称改成“Stop”</li>
+<li>当正在录像的时候，就停止录像并释放资源</li>
+</ol>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCaptureClick</span><span class="params">(View view)</span> </span>{</span><br><span class="line">    <span class="keyword">if</span> (isRecording) {</span><br><span class="line">        <span class="comment">// Already recording? Release camera lock for others</span></span><br><span class="line">        mMediaRecorder.stop();</span><br><span class="line">        releaseMediaRecorder();</span><br><span class="line">        mCamera.lock();</span><br><span class="line"></span><br><span class="line">        isRecording = <span class="keyword">false</span>;</span><br><span class="line">        releaseCamera();</span><br><span class="line">        mGyroFile.close();</span><br><span class="line">        mGyroFile = <span class="keyword">null</span>;</span><br><span class="line">        btnRecord.setText(<span class="string">"Start"</span>);</span><br><span class="line">        mStartTime = -<span class="number">1</span>;</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="comment">// Not recording – launch new "thread" to initiate!</span></span><br><span class="line">        <span class="keyword">new</span> MediaPrepareTask().execute(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MediaPrepareTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span><<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">Boolean</span>> </span>{</span><br><span class="line">    <span class="comment">//automatically creates a new thread and runs doInBackground in that thread</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Boolean <span class="title">doInBackground</span><span class="params">(Void... voids)</span> </span>{</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//identifying supported image sizes from the camera, finding the suitable height,</span></span><br><span class="line">        <span class="comment">// setting the bitrate of the video and specifying the destination video file.</span></span><br><span class="line">        <span class="keyword">if</span>(prepareVideoRecorder()) {</span><br><span class="line">            mMediaRecorder.start();</span><br><span class="line">            isRecording = <span class="keyword">true</span>;</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            releaseMediaRecorder();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Boolean result)</span> </span>{</span><br><span class="line">        <span class="keyword">if</span>(!result) {</span><br><span class="line">            Recorder.<span class="keyword">this</span>.finish();</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        btnRecord.setText(<span class="string">"Stop"</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放recorder</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">releaseMediaRecorder</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">if</span>(mMediaRecorder != <span class="keyword">null</span>) {</span><br><span class="line">        mMediaRecorder.reset();</span><br><span class="line">        mMediaRecorder.release();</span><br><span class="line">        mMediaRecorder = <span class="keyword">null</span>;</span><br><span class="line">        mCamera.lock();</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="comment">//释放camera</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">releaseCamera</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">if</span>(mCamera != <span class="keyword">null</span>) {</span><br><span class="line">        mCamera.release();</span><br><span class="line">        mCamera = <span class="keyword">null</span>;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="4-打开预览及开始录像"><a href="#4-打开预览及开始录像" class="headerlink" title="4. 打开预览及开始录像"></a>4. 打开预览及开始录像</h4><ol>
+<li>打开相机</li>
+<li>查找并设置camera预览的尺寸</li>
+<li>开启camera的预览，并通过textureView显示出来</li>
+<li>查找并设置camera录像的尺寸、格式、输出路径等参数</li>
+</ol>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@TargetApi</span>(Build.VERSION_CODES.HONEYCOMB)</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">prepareVideoRecorder</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="comment">// because mCamera is privated object, so other class can't used</span></span><br><span class="line">    mCamera = Camera.open();</span><br><span class="line">    <span class="keyword">if</span> (mCamera == <span class="keyword">null</span>) {</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"没有可用相机"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    Camera.Parameters parameters = mCamera.getParameters();</span><br><span class="line">    List<Camera.Size> mSupportedPreviewSizes = parameters.getSupportedPreviewSizes();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the optimal image size for the camera</span></span><br><span class="line">    Camera.Size optimalSize = getOptimalPreviewSize(mSupportedPreviewSizes,mPreview.getWidth(),mPreview.getHeight());</span><br><span class="line">    parameters.setPreviewSize(optimalSize.width,optimalSize.height);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//With the optimal size in hand, we can now set up the camera recorder settings</span></span><br><span class="line">    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//contact the camera hardware and set up these parameters</span></span><br><span class="line">    mCamera.setParameters(parameters);</span><br><span class="line">    mCamera.startPreview();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        mCamera.setPreviewTexture(mPreview.getSurfaceTexture());</span><br><span class="line">    } <span class="keyword">catch</span>(IOException e) {</span><br><span class="line">        Log.e(TAG,<span class="string">"Surface texture is unavailable or unsuitable"</span> + e.getMessage());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//camera unlock need before new a MediaRecorder object</span></span><br><span class="line">    mCamera.unlock();</span><br><span class="line">    <span class="comment">//set up the media recorder</span></span><br><span class="line">    mMediaRecorder = <span class="keyword">new</span> MediaRecorder();</span><br><span class="line"></span><br><span class="line">    mMediaRecorder.setCamera(mCamera);</span><br><span class="line"></span><br><span class="line">    mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);</span><br><span class="line"></span><br><span class="line">    mMediaRecorder.setOutputFormat(profile.fileFormat);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//maybe video sizes are different from preview stream, so get max supported video sizes</span></span><br><span class="line">    List<Camera.Size> supportedVideoSizes = parameters.getSupportedVideoSizes();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i<supportedVideoSizes.size();i++){</span><br><span class="line">        Log.d(<span class="string">"init"</span>, <span class="string">"supportedVideoSize:"</span>+supportedVideoSizes.get(i).height+</span><br><span class="line">                <span class="string">"x"</span>+supportedVideoSizes.get(i).width);</span><br><span class="line">    }</span><br><span class="line">    profile.videoFrameWidth = supportedVideoSizes.get(<span class="number">0</span>).width;</span><br><span class="line">    profile.videoFrameHeight = supportedVideoSizes.get(<span class="number">0</span>).height;</span><br><span class="line">    mMediaRecorder.setVideoSize(profile.videoFrameWidth,profile.videoFrameHeight);</span><br><span class="line"></span><br><span class="line">    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);</span><br><span class="line"></span><br><span class="line">    mMediaRecorder.setVideoEncoder(profile.videoCodec);</span><br><span class="line">    mMediaRecorder.setOutputFile(getOutputMediaFile().toString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//initialize the PrintStream</span></span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        mGyroFile = <span class="keyword">new</span> PrintStream(getOutputGyroFile());</span><br><span class="line">        mGyroFile.append(<span class="string">"gyro\n"</span>);</span><br><span class="line">    } <span class="keyword">catch</span>(IOException e) {</span><br><span class="line">        Log.d(TAG, <span class="string">"Unable to create acquisition file"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        mMediaRecorder.prepare();</span><br><span class="line">    } <span class="keyword">catch</span> (IllegalStateException e) {</span><br><span class="line">        Log.d(TAG, <span class="string">"IllegalStateException preparing MediaRecorder: "</span> + e.getMessage());</span><br><span class="line">        releaseMediaRecorder();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    } <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">        Log.d(TAG, <span class="string">"IOException preparing MediaRecorder: "</span> + e.getMessage());</span><br><span class="line">        releaseMediaRecorder();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="（三）添加传感器数据"><a href="#（三）添加传感器数据" class="headerlink" title="（三）添加传感器数据"></a>（三）添加传感器数据</h3><p>当录像的时候开始记录陀螺仪的数据，主要记录陀螺仪的值以及对应的时间戳</p>
+<h4 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//The SensorManager object manages all sensors on the hardware</span></span><br><span class="line"><span class="keyword">private</span> SensorManager mSensorManager;</span><br><span class="line"><span class="keyword">private</span> Sensor mGyro;</span><br><span class="line"><span class="keyword">private</span> PrintStream mGyroFile;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">long</span> mStartTime = -<span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> List<Sensor> sensorList;</span><br><span class="line">mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//print all sensor's name</span></span><br><span class="line">    List<String> sensorNameList = <span class="keyword">new</span> ArrayList<String>();</span><br><span class="line">    sensorList = mSensorManager.getSensorList(Sensor.TYPE_ALL);</span><br><span class="line">    <span class="keyword">for</span>(Sensor sensor : sensorList) {</span><br><span class="line">        sensorNameList.add(sensor.getName()+<span class="string">"\r\n"</span>);</span><br><span class="line">    }</span><br><span class="line">    Log.d(<span class="string">"sensor"</span>,sensorNameList.toString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//register sensor listener for gyro</span></span><br><span class="line">    mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);</span><br><span class="line">    <span class="comment">//fetching the gyroscope sensor and registering that this class should receive events (registerListener)</span></span><br><span class="line">    mSensorManager.registerListener(gyro_listener, mGyro, SensorManager.SENSOR_DELAY_FASTEST);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="2-数据打印流初始化"><a href="#2-数据打印流初始化" class="headerlink" title="2. 数据打印流初始化"></a>2. 数据打印流初始化</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//initialize the PrintStream</span></span><br><span class="line"><span class="keyword">try</span> {</span><br><span class="line">    <span class="comment">//获取陀螺仪文件输出路径</span></span><br><span class="line">    mGyroFile = <span class="keyword">new</span> PrintStream(getOutputGyroFile());</span><br><span class="line">    mGyroFile.append(<span class="string">"gyro\n"</span>);</span><br><span class="line">} <span class="keyword">catch</span>(IOException e) {</span><br><span class="line">    Log.d(TAG, <span class="string">"Unable to create acquisition file"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">}</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">#### 3. 监听传感器数据</span><br><span class="line">``` java</span><br><span class="line"><span class="keyword">private</span> SensorEventListener gyro_listener = <span class="keyword">new</span> SensorEventListener(){</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAccuracyChanged</span><span class="params">(Sensor sensor, <span class="keyword">int</span> accuracy)</span> </span>{</span><br><span class="line">        <span class="comment">// Empty on purpose</span></span><br><span class="line">        <span class="comment">// Required because we implement SensorEventListener</span></span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSensorChanged</span><span class="params">(SensorEvent sensorEvent)</span> </span>{</span><br><span class="line">        <span class="keyword">if</span>(isRecording) {</span><br><span class="line">            <span class="keyword">if</span>(mStartTime == -<span class="number">1</span>) {</span><br><span class="line">                mStartTime = sensorEvent.timestamp;</span><br><span class="line">            }</span><br><span class="line">            mGyroFile.append(sensorEvent.values[<span class="number">0</span>] + <span class="string">","</span> +</span><br><span class="line">                    sensorEvent.values[<span class="number">1</span>] + <span class="string">","</span> +</span><br><span class="line">                    sensorEvent.values[<span class="number">2</span>] + <span class="string">","</span> +</span><br><span class="line">                    (sensorEvent.timestamp-mStartTime) + <span class="string">"\n"</span>);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="（四）遇到过的问题"><a href="#（四）遇到过的问题" class="headerlink" title="（四）遇到过的问题"></a>（四）遇到过的问题</h3><h4 id="1-编译问题以及gradle的配置问题"><a href="#1-编译问题以及gradle的配置问题" class="headerlink" title="1. 编译问题以及gradle的配置问题"></a>1. 编译问题以及gradle的配置问题</h4><p>删除.gradle目录（AS和用户目录下都删除），重新打开Android studio进行同步就好了<br>代理配置问题可以查看这个<a href="https://blog.csdn.net/fongim/article/details/100272588" target="_blank" rel="noopener">博客</a></p>
+<h4 id="2-图像崩溃"><a href="#2-图像崩溃" class="headerlink" title="2. 图像崩溃"></a>2. 图像崩溃</h4><p>预览和录像的分辨率设置的有问题，需要先进行获取！</p>
+<h4 id="3-添加陀螺仪传感器数据"><a href="#3-添加陀螺仪传感器数据" class="headerlink" title="3. 添加陀螺仪传感器数据"></a>3. 添加陀螺仪传感器数据</h4><p>监听错误</p>
+<h4 id="4-android6-0权限申请问题"><a href="#4-android6-0权限申请问题" class="headerlink" title="4. android6.0权限申请问题"></a>4. android6.0权限申请问题</h4><p>android6.0之后权限需要动态申请：在APP初始化的时候，进行权限的申请。本文引用了一个权限的工具类，具体的内容可以查看<a href="https://github.com/xiaoqinxing/EIS_data_request_app/blob/master/app/src/main/java/com/example/eis_test/PermissionsUtils.java" target="_blank" rel="noopener">源码</a>。</p>
+<h4 id="5-U2P安装不了第三方应用程序"><a href="#5-U2P安装不了第三方应用程序" class="headerlink" title="5. U2P安装不了第三方应用程序"></a>5. U2P安装不了第三方应用程序</h4><p>业务对外部app的安装进行了限制：<code>kdb shell setprop sys.pkg.plat_sign_req false</code></p>
+<h4 id="6-录像图像只有一部分，没有全部的视场角"><a href="#6-录像图像只有一部分，没有全部的视场角" class="headerlink" title="6. 录像图像只有一部分，没有全部的视场角"></a>6. 录像图像只有一部分，没有全部的视场角</h4><p>分辨率设置问题</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>camera原理</tag>
+        <tag>防抖</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BUG：帧率切换遇到的问题</title>
     <url>/2019/10/23/%E5%B7%A5%E4%BD%9C-BUG-BUG-%E5%B8%A7%E7%8E%87%E5%88%87%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>切换夜模式后，切换采集帧率，图像会出现斑点<br><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200330111659.png"  alt="切换夜模式后，切换采集帧率，图像会出现斑点"></p>
@@ -1051,6 +1038,76 @@
       </categories>
       <tags>
         <tag>帧率</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>相机成像模型</title>
+    <url>/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>此文转载自<a href="https://zhuanlan.zhihu.com/p/23090593" target="_blank" rel="noopener">知乎</a></p>
+</blockquote>
+<p>相机在计算机视觉应用中起着重要作用，作为图像数据来源，影响着后续各个处理步骤。成像模型就是用数学公式刻画整个成像过程，即被拍摄物体空间点到照片成像点之间的几何变换关系。</p>
+<p>总体上，相机成像可以分为四个步骤：刚体变换、透视投影、畸变校正和数字化图像。</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-6d70200c60c2fb80595bd931a2167c89_1440w.png"  alt></p>
+<h2 id="1、刚体变换"><a href="#1、刚体变换" class="headerlink" title="1、刚体变换"></a>1、刚体变换</h2><p>刚体变换只改变物体的空间位置(平移)和朝向(旋转)，而不改变其形状，可用两个变量来描述：旋转矩阵R和平移向量t</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-0dc276d40437a5f17ed0ec039b18953f_1440w.png"  alt></p>
+<p>其次坐标下可写为：<br><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-47be6823de88962d67c5dbe13567d460_1440w.png"  alt></p>
+<p>旋转矩阵R是正交矩阵，可通过罗德里格斯（Rodrigues）变换转换为只有三个独立变量的旋转向量：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-bfa1bff196934d0d6e19da2b404067aa_1440w.png"  alt></p>
+<p>因此，刚体变换可用6个参数来描述，这6个参数就称为相机的外参(Extrinsic)，相机外参决定了空间点从世界坐标系转换到相机坐标系的变换，也可以说外参描述了相机在世界坐标系中的位置和朝向。</p>
+<p><strong>我的理解：</strong></p>
+<p><strong>相机的旋转就是改变了旋转矩阵R，旋转图像就是修改这个R</strong></p>
+<p><strong>如果放在GPU中运行，其实其他过程都是一样的，只是要修改这个R，其他都是同一个流程，是不是简化很多算法</strong></p>
+<h2 id="2、透视投影"><a href="#2、透视投影" class="headerlink" title="2、透视投影"></a>2、透视投影</h2><p>我们可以将透镜的成像简单地抽象成下图所示：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-860767727cf42fb84c60d435e41a83e4_1440w.png"  alt></p>
+<p>设 f=OB 表示透镜的焦距，m=OC 为像距，n=AO 为物距，有：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-084365a995c90a05793383d030edad4c_1440w.png"  alt></p>
+<p>一般地，由于物距远大于焦距，即 n>>f，所以 m≈f，此时可以用小孔模型代替透镜成像：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-e94f94883bb903f9fa8ad52581bc9033_1440w.png"  alt></p>
+<p>可得：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-4adc27fdfd0e1028ab3e1d2aaabc2d49_1440w.png"  alt></p>
+<p>齐次坐标下有：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-c0dcd00c16c8315216125077d4b8ad06_1440w.png"  alt></p>
+<p>如果将成像平面移到相机光心与物体之间，则有中心透视模型：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-a76d8f55905611284570f06f0d77676a_1440w.png"  alt></p>
+<p>可得：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-9d87d744835b0044a20f3d6559d24d31_1440w.png"  alt></p>
+<p>齐次坐标下有：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-619b0d27a64e6fa74641670610ade0b0_1440w.png"  alt></p>
+<p>总体上看，透视投影将相机坐标系中的点投影到理想图像坐标系，其变换过程只与相机焦距 f 有关。</p>
+<h2 id="3、畸变校正"><a href="#3、畸变校正" class="headerlink" title="3、畸变校正"></a>3、畸变校正</h2><p>理想的针孔成像模型确定的坐标变换关系均为线性的，而实际上，现实中使用的相机由于镜头中镜片因为光线的通过产生的不规则的折射，镜头畸变（lens distortion）总是存在的，即根据理想针孔成像模型计算出来的像点坐标与实际坐标存在偏差。畸变的引入使得成像模型中的几何变换关系变为非线性，增加了模型的复杂度，但更接近真实情形。畸变导致的成像失真可分为径向失真和切向失真两类：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-3f443a32bacc0ed8ec9df0a6b60eadc0_1440w.png"  alt></p>
+<p>畸变类型很多，总体上可分为径向畸变和切向畸变两类，径向畸变的形成原因是镜头制造工艺不完美，使得镜头形状存在缺陷，包括枕形畸变和桶形畸变等，可以用如下表达式来描述：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-4b34d0de42f559659da4ee261b11c98b_1440w.png"  alt></p>
+<p>切向畸变又分为薄透镜畸变和离心畸变等，薄透镜畸变则是因为透镜存在一定的细微倾斜造成的；离心畸变的形成原因是镜头是由多个透镜组合而成的，而各个透镜的光轴不在同一条中心线上。切向畸变可以用如下数学表达式来描述：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-504d609395301742f3c875b3f8023731_1440w.png"  alt></p>
+<p>在引入镜头的畸变后，成像点从理想图像坐标系到真实图像坐标系的变换关系可以表示为：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-8535c6123110df3296799e1a74016612_1440w.png"  alt></p>
+<p>实际计算过程中，如果考虑太多高阶的畸变参数，会导致标定求解的不稳定。</p>
+<h2 id="4、数字化图像"><a href="#4、数字化图像" class="headerlink" title="4、数字化图像"></a>4、数字化图像</h2><p>光线通过相机镜头后最终成像在感光阵列(CCD或CMOS)上，然后感光阵列将光信号转化为电信号，最后形成完整的图像。我们用dx和dy分别表示感光阵列的每个点在x和y方向上物理尺寸，即一个像素是多少毫米，这两个值一般比较接近，但由于制造工艺的精度问题，会有一定误差，同样的，感光阵列的法向和相机光轴也不是完全重合，即可以看作成像平面与光轴不垂直。</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-1259ab99566c20fb28c30ee2d0e6fcfb_1440w.png"  alt></p>
+<p>我们用仿射变换来描述这个过程，如上图，O点是图像中心点，对应图像坐标(u0，v0)，Xd - Yd是真实图像坐标系，U-V是数字化图像坐标系，有：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-09d962a72f187320ca46e409fd6b364f_1440w.png"  alt></p>
+<p>齐次坐标下有：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-b187fdfd286e725a3a140b003f812e6c_1440w.png"  alt></p>
+<p>上式中的变换矩阵即为相机的内参数矩阵 K，其描述了相机坐标系中点到二维图像上点的变换过程。</p>
+<p>综上所述，在不考虑镜头畸变的情况下，相机的整个成像过程可表示为：</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/v2-904b09f24a1ea84d64d425760ca8a796_1440w.png"  alt></p>
+<p><strong>我的疑问：</strong></p>
+<p>一般来说图像的中心并不是（0,0)，而是(w/2,h/2)，也就是说u0=w/2,v0=h/2;<br> 如果说不考虑dx不等于dy的情况，因为大部分像素都是正方形的，那么公式应该变成</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/1583673008090.png"  alt></p>
+<p>而这与透视投影的矩阵乘在一起，变成了</p>
+<p><img src="/" class="lazyload" data-src="/2019/10/15/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E7%9B%B8%E6%9C%BA%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B/1583673022764.png"  alt></p>
+<p>f可以乘做为像素焦距。如果我们需要做畸变校正的话，这两者就不能乘在一起了。</p>
+<p>那么最前面的Zc如何计算？</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>camera原理</tag>
       </tags>
   </entry>
   <entry>
@@ -1102,8 +1159,78 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>fd泄露</tag>
+        <tag>hal</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>视频防抖预研（一）—— 提纲与路线</title>
+    <url>/2019/10/08/%E5%B7%A5%E4%BD%9C-%E7%AE%97%E6%B3%95-%E8%A7%86%E9%A2%91%E9%98%B2%E6%8A%96%E9%A2%84%E7%A0%94%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="（一）计划"><a href="#（一）计划" class="headerlink" title="（一）计划"></a>（一）计划</h2><ol>
+<li>实现高通原生防抖</li>
+<li>视频防抖调研</li>
+<li>自研防抖算法<ol>
+<li>确定技术路线：阅读相关论文和资料，熟悉防抖算法原理后确定合适的基础版本算法</li>
+<li>数据采集：获取原始正常行走的视频以及对应的陀螺仪数据</li>
+<li>验证算法：在PC端仿真算法，分析起来更加直观直观</li>
+<li>优化算法：通过基础版本的验证发现问题，继续查找解决方案，给予优化</li>
+<li>移植算法：考虑性能，针对高通设备进行移植</li>
+</ol>
+</li>
+</ol>
+<h2 id="（二）高通660平台原生防抖"><a href="#（二）高通660平台原生防抖" class="headerlink" title="（二）高通660平台原生防抖"></a>（二）高通660平台原生防抖</h2><h3 id="开启方法"><a href="#开启方法" class="headerlink" title="开启方法"></a>开启方法</h3><p>开启防抖：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">adb shell setprop persist.camera.is_type 5</span><br></pre></td></tr></tbody></table></figure>
+<p>开启log：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">adb shell setprop persist.camera.stats.debug 49152</span><br><span class="line">adb shell setprop persist.camera.imglib.logs 6</span><br><span class="line">adb shell setprop persist.camera.stats.is.debug 7</span><br></pre></td></tr></tbody></table></figure>
+<p><code>判断是否生效的方法</code>：logcat中是否出现eis3_init，如果没有出现，代表着没有初始化成功</p>
+<p>查看代码发现需要打开m_bDISEnabled，在骁龙相机中找到有打开防抖功能的开关。但是当打开开关后，发现骁龙相机报错：不支持当前分辨率，而高通文档明显是支持的。经过网上的理解，电子防抖是需要牺牲分辨率的。<strong>分辨率改成720p</strong>就成功的打开了防抖！可以很明显的看到开启电子防抖后，视场角小了很多</p>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
+<li>分辨率损失严重<br>由于是电子防抖，需要对图像进行裁剪，会带来分辨率和视场角的损失，下面实际测算了一下高通算法裁剪的比例：<br><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200405224120.png"  alt="防抖前后视野对比"><br>左边的是开启防抖，右边的是关闭防抖的图像，左边的图是右边的图像经过裁剪得来的，可以算出裁剪掉的比例，大概是1/4到1/5的样子。也就是说如果需要1080p的图像，像素需要约260万像素以上的摄像头，目前的IMX290是达不到要求的。</li>
+<li>原生防抖效果不好<br>实际测试出来发现开了防抖比不开抖动还要大。<br>根据高通的文档90-p2482-80_a，SDM660算是老平台，用的是EIS3.0，没有什么可以调的参数，只能开关。670/710等是新平台，用的是EIS4，在文档80-nd928-8_a中说明了一些可以调试的参数，如镜头失真模型，陀螺仪角度等，但是这些参数660都找不到。<br>执法仪的镜头有严重的畸变，这就带来一个问题：同一物体在图像的不同位置呈现出来的图像不同。当防抖算法对这一物体进行旋转或平移使之稳定的时候，会带来图像的失真。<br>在新平台中会用工具校准出镜头的失真模型，类似于先做一遍畸变校正再进行防抖。在2241上那种畸变较小的镜头我觉得可以试一下效果。执法仪的镜头我觉得需要用新平台可能会好一些，但是高通那边也没有个明确的说法，因为手机上用的镜头大多没有什么畸变，其次对防抖效果没有那么重视，可能需要向高通提需求。</li>
+</ol>
+<h2 id="（三）防抖调研"><a href="#（三）防抖调研" class="headerlink" title="（三）防抖调研"></a>（三）防抖调研</h2><h3 id="光学防抖与电子防抖"><a href="#光学防抖与电子防抖" class="headerlink" title="光学防抖与电子防抖"></a>光学防抖与电子防抖</h3><ol>
+<li><p>OIS（Optical Image Stabilization）光学防抖技术：<br> 在模组内的陀螺仪侦测到微小的移动时，将信号传至微处理器立即计算需要补偿的位移量，然后通过补偿镜片组或者感光元件的相对位置，根据镜头的抖动方向及位移量加以补偿，从而有效的克服因相机的振动产生的影像模糊</p>
+<p> 镜片移动式和感光元件相对移动式的差异在于，一个是移动镜片组一个是移动整个镜头或者sensor。镜片移动式常用在单反相机或一体机镜头中，利用镜组中了n组镜片做XY方向的移动达到光学防抖的效果。由于手机镜头轻、小、像面尺寸小，更容易实现感光芯片相对移动式的防抖。<br> <img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200405230432.png"  alt></p>
+<p> 优点：防抖效果好，可做到0-20Hz/0-±10°的防抖、保证图像清晰度<br> 缺点：成本高、镜头或者VCM需要特别设计、芯片算法难做、功耗高、抗跌落是个隐患</p>
+</li>
+<li><p>EIS（Electronic Image Stabilization ）电子防抖：<br> 优点：成本低、易兼容、容易实现<br> 缺点：损失图像清晰度、降低sensor利用率、防抖效果较差</p>
+</li>
+</ol>
+<h3 id="实测以及可行性分析"><a href="#实测以及可行性分析" class="headerlink" title="实测以及可行性分析"></a>实测以及可行性分析</h3><p>通过实测，人在走路、跑步、打斗、推搡时，穿戴在上衣口袋、帽檐、肩部的振动频率集中在5Hz；人体摆动幅度比较大，振动角度需要±5°以上。这个数据和运动相机比较类似。<br>电子防抖不能满足需求，在条件允许的情况下，尽量选用光学防抖。</p>
+<ol>
+<li>纽扣相机镜头尺寸是：M12*9.4mm，镜头尺寸相对较小，选用感光元件相对移动式OIS技术比较合适。</li>
+<li>纽扣相机使用场合不同于手机，人在运动时，运动频率和方向不规律，属于低频率高振幅。手机OIS现状：防抖频率和振幅较小，4-5Hz，1°左右。手机防抖不能适用</li>
+<li>马达需要重新开模定制</li>
+<li>由于防抖模组要给镜头一个摆动空间，所以镜头基本处于腾空状态，耐跌落会是一项隐患</li>
+<li>模组体积会增大，原有的框架不能兼容</li>
+<li>功耗增大，预计峰值电流有200mA</li>
+</ol>
+<h3 id="厂家调研"><a href="#厂家调研" class="headerlink" title="厂家调研"></a>厂家调研</h3><p>舜宇：研发实力、生产能力都是国内领先。实力雄厚。目前量产5Hz，±2°的手机防抖模组，无意向合作定制更高振幅的OIS模组<br>信利：有EIS和OIS两种技术，只做模组，防抖芯片用的ST，马达需重新开模。<br>三鸣科技：与HTC、华硕、舜宇、欧菲光、夏普都合作过。有自己的防抖算法芯片。已经有5Hz、±5°类似规格的样品，用在运动相机上的，效果很不错。<br>科宝：科宝与小蚁商议10Hz、±10°的运动相机项目，与长步道也在开发防抖产品。防抖芯片是第三方的，与小蚁合作的项目用的东芝芯片。iPhone 7的后置摄像头防抖也科宝也做过（一年内不能开放）。<br>其他：大部分不愿意合作定制，量少成本高利润低</p>
+<h2 id="（四）电子视频防抖"><a href="#（四）电子视频防抖" class="headerlink" title="（四）电子视频防抖"></a>（四）电子视频防抖</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>目前的视频防抖主要有两个方向。一个是纯粹基于图像的，另一个是基于陀螺仪的。<br>不用陀螺仪稳定图像需要找到关键点，理解整张图像的移动。有一些著名的算法，SIFT，SURF，ORB，FREAK等。然而这个关键点检测器有自身的缺点：</p>
+<ol>
+<li>稳定的结果高度依赖于图像的质量。低分辨率图像可能无法生成最佳功能集，还可能失焦和模糊图像</li>
+<li>图像中的关键点图案有很多重复的，会使算法混淆，不能判断图像运动的轨迹。</li>
+<li>如果图像中有大量的运动（例如人们在背景中行走或 一辆卡车越过马路，稳定性将因此而倾斜。关键点是跟踪移动物体而不是摄像机本身的运动。</li>
+</ol>
+<p>当然还有一点原因没有讲到，基于图像防抖很吃资源，在低功耗的设备中实现基本不可能。因此我们肯定是选择用陀螺仪防抖了。利用陀螺仪感知到相机的运动角度，对图像进行旋转变换，补偿相机的运动。</p>
+<h3 id="挑选算法"><a href="#挑选算法" class="headerlink" title="挑选算法"></a>挑选算法</h3><p>高通的EIS是electronic image stablization。所以一开始搜索的是image stablization，图像防抖，发现大部分是多帧抖动的图片合成一张图片，适用于拍照。我们产品的定位是录像，应该视频防抖，video stablization。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>意法半导体OIS的介绍文章：<a href="https://www.st.com/content/ccc/resource/technical/document/white_paper/c9/a6/fd/e4/e6/4e/48/60/ois_white_paper.pdf/files/ois_white_paper.pdf/jcr:content/translations/en.ois_white_paper.pdf" target="_blank" rel="noopener">Optical Image Stabilization</a></p>
+<p>防抖算法论文参考：<br>Gyroscope-based Video Stabilisation With Auto-Calibration<br>Stabilizing Cell Phone Video using Inertial Measurement Sensors</p>
+<p>比较好的参考书籍：<br><a href="https://files.qinxing.xyz/OpenCV%203%20Blueprints%20by%20Howse%20J.%20et%20al.%20(z-lib.org).epub" target="_blank" rel="noopener">OpenCV3 Blueprints</a></p>
+<h3 id="事前准备"><a href="#事前准备" class="headerlink" title="事前准备"></a>事前准备</h3><ol>
+<li>由于电子视频防抖只是让视频稳定，不能让因为运动模糊的物体复原，所以尽可能的使图像清晰。因此开启防抖时快门应该为1/100,可能会导致夜间效果不好，可以在AE算法中增加一段，在比较亮的环境下，快门上限为1/100，在比较暗的环境下，快门上限调至1/50</li>
+<li>收集传感器和镜头等资料，算法中需要用到一些参数</li>
+<li>准备一个视场角小畸变小的镜头，与原镜头进行效果对比</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>camera原理</tag>
+        <tag>防抖</tag>
       </tags>
   </entry>
   <entry>
@@ -1551,8 +1678,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>推荐</tag>
         <tag>软件</tag>
+        <tag>推荐</tag>
       </tags>
   </entry>
   <entry>
@@ -1674,8 +1801,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>网站</tag>
         <tag>推荐</tag>
+        <tag>网站</tag>
       </tags>
   </entry>
   <entry>
@@ -1824,7 +1951,11 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
 <p>pthread_mutex_unlock(&mutex);</p>
 <p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
 <p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
-<h2 id="cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。"><a href="#cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。" class="headerlink" title="cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。"></a>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</h2></body></html>]]></content>
+<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
+<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
+<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
+</body></html>]]></content>
       <categories>
         <category>学习</category>
         <category>编程</category>
@@ -1972,85 +2103,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>指针</tag>
-        <tag>结构体</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c 结构和联合</title>
-    <url>/2019/03/19/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-c-c-%E7%BB%93%E6%9E%84%E5%92%8C%E8%81%94%E5%90%88/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>结构体和联合体的简单介绍</p>
-<a id="more"></a>
-
-<blockquote>
-<p>《c和指针》阅读笔记</p>
-</blockquote>
-<h1 id="（一）结构（struct）"><a href="#（一）结构（struct）" class="headerlink" title="（一）结构（struct）"></a>（一）结构（struct）</h1><p>聚合数据类型就是能够同时存储超过一个的单个数据。包括数据和结构，数组是相同类型的集合，结构的各个成员可能有不同的类型。</p>
-<p>数组元素可以通过下标访问，这是因为数组的元素长度相同；而结构成员都有自己的名字，大小可能不同，只能通过名字访问的。</p>
-<h2 id="结构体声明"><a href="#结构体声明" class="headerlink" title="结构体声明"></a>结构体声明</h2><p><strong>注意：</strong>定义两个结构体的声明，即使他们的成员列表完全相同，也会被当做两种截然不同的类型，因此不能进行赋值或者指针的赋值。</p>
-<p><strong>解决方案：</strong>用标签来创建变量，可以用typedef创建一种新的类型。  </p>
-<p>只有当两个变量是同一结构体类型，才可以进行赋值或者指向。</p>
-<p>如果你想在多个源文件中使用同一种类型的结构体，你应该吧标签声明或者typedef形式的声明放在一个头文件中。当源文件需要这个声明是可以使用#include指令将头文件包含进来。</p>
-<h2 id="成员访问"><a href="#成员访问" class="headerlink" title="成员访问"></a>成员访问</h2><p>直接访问，直接访问结构的成员：<strong>.</strong></p>
-<p>结合性：从左往右</p>
-<p>间接访问，访问变量所指向的结构的成员：<strong>-></strong></p>
-<h2 id="自引用"><a href="#自引用" class="headerlink" title="自引用"></a>自引用</h2><p>一个结构体中不可以包含它自身，这样重复包含自己永无止境。</p>
-<p>但是可以包含一个指向该结构类型本身的指针。如：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF</span> {</span></span><br><span class="line">    <span class="keyword">int</span>    a;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF</span> *<span class="title">b</span>;</span></span><br><span class="line">    <span class="keyword">int</span>    c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>它事实上所指向的是<strong>同类型的不同结构</strong>。更加高级的数据结构，如链表和树都是用这个技巧实现的。</p>
-<p>注意下面这个是错误的：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="keyword">int</span>     a;</span><br><span class="line">    SELF_REF *b;</span><br><span class="line">    <span class="keyword">int</span>     c;</span><br><span class="line">}SELF_REF;</span><br></pre></td></tr></tbody></table></figure>
-
-<p>类型名知道声明的末尾才定义，所以在结构体声明的内部它尚未定义。</p>
-<p>应该写成</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF_TAG</span>{</span></span><br><span class="line">    <span class="keyword">int</span>     a;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF_TAG</span> *<span class="title">b</span>;</span></span><br><span class="line">    <span class="keyword">int</span>     c;</span><br><span class="line">}SELF_REF;</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="不完整声明"><a href="#不完整声明" class="headerlink" title="不完整声明"></a>不完整声明</h2><p>偶尔要声明一些互相之间存在依赖的结构，也就是说其中一个结构包含了另一个结构体的一个或者多个成员，那么哪个结构应该首先声明呢？</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> {</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">B</span> *<span class="title">p</span>;</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> {</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">A</span> *<span class="title">p</span>;</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>解决方案是不完整声明，它先声明一个作为结构标签的标识符。然后可以把这个标签用在不需要知道这个结构长度的声明中，如声明指向这个结构体的指针（指针长度都一样）。接下来的声明吧这个标签和成员列表联系在一起。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>用花括号和逗号隔开。如果初始化列表的值不够，剩余的结构成员将使用缺省值进行初始化。</p>
-<h2 id="结构的存储分配"><a href="#结构的存储分配" class="headerlink" title="结构的存储分配"></a>结构的存储分配</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ALIGH</span>{</span></span><br><span class="line">    <span class="keyword">char</span>  a;</span><br><span class="line">    <span class="keyword">int</span>   b;</span><br><span class="line">    <span class="keyword">char</span>  c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>如果某个机器的整型值长度为4，并且它的其实存储位置必须要能够被4整除，那么这个结构体的长度为12个字节。因为系统静止编译器在一个结构的其实位置跳过几个字节来满足边界对齐要求，因此所有结构的其实存储位置必须死结构中边界要求最严格的数据类型所要求的位置。</p>
-<p><strong>解决方案：</strong>我们可以对结构的成员列表重新排泄，让那些对边界要求最严格的成员首先出现，对边界要求最弱的成员最后出现，可以最大限度的减少因为边界对齐带来的空间损失。</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ALIGN</span>{</span></span><br><span class="line">    <span class="keyword">int</span>   b;</span><br><span class="line">    <span class="keyword">char</span>  a;</span><br><span class="line">    <span class="keyword">char</span>  c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>如果需要确定结构体中某个成员的实际位置，应该考虑边界对齐因素的影响，可以使用<strong>offsetof宏</strong>（定义于stddef.h）</p>
-<p>offsetof ( type,  member);  表示一个指定成员开始存储的位置距离结构体开始存储的位置偏移几个字节。</p>
-<h2 id="作为函数参数的结构"><a href="#作为函数参数的结构" class="headerlink" title="作为函数参数的结构"></a>作为函数参数的结构</h2><p>如果用按值传递的调用方式效率很低，会把结构体中的所有数据复制到堆栈再丢弃。</p>
-<p>我们可以用按地址传递的调用方式，只是传递结构体的地址，可以大大提高效率，也节省了内存。</p>
-<p>在许多机器中，可以把参数声明为寄存器变量，从而进一步提高指针传递方案的效率。在有些机器上，这种声明在函数的起始部分还需要一条额外的指令，用于吧堆栈中的参数（参数先传递给堆栈）赋值到寄存器，供函数使用。但是如果函数对这个指针的间接访问次数超过两三次，那么使用这种方法所节省的时间将远远高于一条额外指令所花费的时间。</p>
-<p>但是这个缺陷是函数会对调用程序的结构变量进行修改。</p>
-<p>如果我们不希望如此，可以在函数中使用const关键字来防止这类修改。现在函数原型变成了：</p>
-<p><code>void print_rec(register SELF_REF const *trans );</code></p>
-<h1 id="（二）位段"><a href="#（二）位段" class="headerlink" title="（二）位段"></a>（二）位段</h1><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>位段的声明和普通的结构成员声明相同，但是有两个例外，位段成员必须声明为int、unsigned int类型。其次，在成员名的后面是一个冒号和整数，这个整数指定该位段所占用的位的数目。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>可移植性程序应该避免使用位段，因为不同的系统，位段可能有不同的结构。</p>
-<ol>
-<li>int位段被当做有符号数还是无符号书</li>
-<li>位段中位的最大数目。许多编译器把位段成员的长度限制在一个整型值的长度以内，所以32位机器上运行的16位可能不能运行。</li>
-<li>位段中的成员在内存中是从左往右分配的还是从右往左分配的</li>
-<li>当一个声明指定了两个位段，第二个位段比较大，无法容纳于第一个位段剩余的位时，编译器可能吧第二个位段放在内存的下一个字，也可能直接放在第一个位段后面，从而在两个内存位置的边界上形成重叠。</li>
-</ol>
-<p>是用于控制寄存器的较好的方法。任何可以用位段实现的功能都可以用移位和屏蔽（用与或者非）实现，在源代码中用位段表示这个处理过程更加简单一点，但在目标代码中，这两种方法并不存在任何区别。</p>
-<h1 id="（三）联合（union）"><a href="#（三）联合（union）" class="headerlink" title="（三）联合（union）"></a>（三）联合（union）</h1><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>当你想在不同的时刻把不同的东西存储于同一个位置时，就可以用联合。</p>
-<p>一般和自定义的类型连用，如：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">VARIABLE</span> {</span></span><br><span class="line">    <span class="keyword">enum</span> {INT, FLOAT, STRING} type;</span><br><span class="line">    <span class="keyword">union</span> {</span><br><span class="line">        <span class="keyword">int</span>   i;</span><br><span class="line">        <span class="keyword">float</span> f;</span><br><span class="line">        <span class="keyword">char</span>  *s;</span><br><span class="line">    }value;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>在高通的代码中就很常见，通常是一个模块的接口，不同的事件请求 携带不同的数据。</p>
-<p><strong>疑问：为何不能不同的事件请求都用相同的data指针，这个data指针根据事件请求指向不同的地址。高通的代码中两种写法都有，是不是如果用union传递可以保护原来的变量不被修改？</strong></p>
-<p>在成员长度不同的联合里，分配给联合的内存数量取决于它的最长成员的长度，这样联合的长度总是足以容纳它最大的长远，如果这些成员的长度相差悬殊，节省的空间相当可观。</p>
-<p>在这种情况下，更好的方法是：在联合中存储指向不同成员的指针，而不是直接存储成员本身。所有的指针长度都是相同的，这样就解决了内存浪费的问题。</p>
-<p><strong>疑问：这样还有必要去声明一个union么？直接定义一个data指针，不同的时候指向不同的地址不就行了么？</strong></p>
-<h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>可以初始化，但是这个初始值必须是联合第一个成员的类型，而且他必须位于一对花括号里面。</p>
-<p>比如定义一个union，第一个成员是int，第二个是float；我们不能把这个变量初始化为一个浮点数或者字符值。如果给出的初始值是其他类型，它可能会转换为int类型，进行使用。</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
         <tag>结构体</tag>
       </tags>
   </entry>
@@ -2205,6 +2257,85 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       <tags>
         <tag>python</tag>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c 结构和联合</title>
+    <url>/2019/03/19/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-c-c-%E7%BB%93%E6%9E%84%E5%92%8C%E8%81%94%E5%90%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>结构体和联合体的简单介绍</p>
+<a id="more"></a>
+
+<blockquote>
+<p>《c和指针》阅读笔记</p>
+</blockquote>
+<h1 id="（一）结构（struct）"><a href="#（一）结构（struct）" class="headerlink" title="（一）结构（struct）"></a>（一）结构（struct）</h1><p>聚合数据类型就是能够同时存储超过一个的单个数据。包括数据和结构，数组是相同类型的集合，结构的各个成员可能有不同的类型。</p>
+<p>数组元素可以通过下标访问，这是因为数组的元素长度相同；而结构成员都有自己的名字，大小可能不同，只能通过名字访问的。</p>
+<h2 id="结构体声明"><a href="#结构体声明" class="headerlink" title="结构体声明"></a>结构体声明</h2><p><strong>注意：</strong>定义两个结构体的声明，即使他们的成员列表完全相同，也会被当做两种截然不同的类型，因此不能进行赋值或者指针的赋值。</p>
+<p><strong>解决方案：</strong>用标签来创建变量，可以用typedef创建一种新的类型。  </p>
+<p>只有当两个变量是同一结构体类型，才可以进行赋值或者指向。</p>
+<p>如果你想在多个源文件中使用同一种类型的结构体，你应该吧标签声明或者typedef形式的声明放在一个头文件中。当源文件需要这个声明是可以使用#include指令将头文件包含进来。</p>
+<h2 id="成员访问"><a href="#成员访问" class="headerlink" title="成员访问"></a>成员访问</h2><p>直接访问，直接访问结构的成员：<strong>.</strong></p>
+<p>结合性：从左往右</p>
+<p>间接访问，访问变量所指向的结构的成员：<strong>-></strong></p>
+<h2 id="自引用"><a href="#自引用" class="headerlink" title="自引用"></a>自引用</h2><p>一个结构体中不可以包含它自身，这样重复包含自己永无止境。</p>
+<p>但是可以包含一个指向该结构类型本身的指针。如：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF</span> {</span></span><br><span class="line">    <span class="keyword">int</span>    a;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF</span> *<span class="title">b</span>;</span></span><br><span class="line">    <span class="keyword">int</span>    c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>它事实上所指向的是<strong>同类型的不同结构</strong>。更加高级的数据结构，如链表和树都是用这个技巧实现的。</p>
+<p>注意下面这个是错误的：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="keyword">int</span>     a;</span><br><span class="line">    SELF_REF *b;</span><br><span class="line">    <span class="keyword">int</span>     c;</span><br><span class="line">}SELF_REF;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>类型名知道声明的末尾才定义，所以在结构体声明的内部它尚未定义。</p>
+<p>应该写成</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF_TAG</span>{</span></span><br><span class="line">    <span class="keyword">int</span>     a;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">SELF_REF_TAG</span> *<span class="title">b</span>;</span></span><br><span class="line">    <span class="keyword">int</span>     c;</span><br><span class="line">}SELF_REF;</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="不完整声明"><a href="#不完整声明" class="headerlink" title="不完整声明"></a>不完整声明</h2><p>偶尔要声明一些互相之间存在依赖的结构，也就是说其中一个结构包含了另一个结构体的一个或者多个成员，那么哪个结构应该首先声明呢？</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> {</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">B</span> *<span class="title">p</span>;</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> {</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">A</span> *<span class="title">p</span>;</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>解决方案是不完整声明，它先声明一个作为结构标签的标识符。然后可以把这个标签用在不需要知道这个结构长度的声明中，如声明指向这个结构体的指针（指针长度都一样）。接下来的声明吧这个标签和成员列表联系在一起。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>用花括号和逗号隔开。如果初始化列表的值不够，剩余的结构成员将使用缺省值进行初始化。</p>
+<h2 id="结构的存储分配"><a href="#结构的存储分配" class="headerlink" title="结构的存储分配"></a>结构的存储分配</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ALIGH</span>{</span></span><br><span class="line">    <span class="keyword">char</span>  a;</span><br><span class="line">    <span class="keyword">int</span>   b;</span><br><span class="line">    <span class="keyword">char</span>  c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果某个机器的整型值长度为4，并且它的其实存储位置必须要能够被4整除，那么这个结构体的长度为12个字节。因为系统静止编译器在一个结构的其实位置跳过几个字节来满足边界对齐要求，因此所有结构的其实存储位置必须死结构中边界要求最严格的数据类型所要求的位置。</p>
+<p><strong>解决方案：</strong>我们可以对结构的成员列表重新排泄，让那些对边界要求最严格的成员首先出现，对边界要求最弱的成员最后出现，可以最大限度的减少因为边界对齐带来的空间损失。</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ALIGN</span>{</span></span><br><span class="line">    <span class="keyword">int</span>   b;</span><br><span class="line">    <span class="keyword">char</span>  a;</span><br><span class="line">    <span class="keyword">char</span>  c;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果需要确定结构体中某个成员的实际位置，应该考虑边界对齐因素的影响，可以使用<strong>offsetof宏</strong>（定义于stddef.h）</p>
+<p>offsetof ( type,  member);  表示一个指定成员开始存储的位置距离结构体开始存储的位置偏移几个字节。</p>
+<h2 id="作为函数参数的结构"><a href="#作为函数参数的结构" class="headerlink" title="作为函数参数的结构"></a>作为函数参数的结构</h2><p>如果用按值传递的调用方式效率很低，会把结构体中的所有数据复制到堆栈再丢弃。</p>
+<p>我们可以用按地址传递的调用方式，只是传递结构体的地址，可以大大提高效率，也节省了内存。</p>
+<p>在许多机器中，可以把参数声明为寄存器变量，从而进一步提高指针传递方案的效率。在有些机器上，这种声明在函数的起始部分还需要一条额外的指令，用于吧堆栈中的参数（参数先传递给堆栈）赋值到寄存器，供函数使用。但是如果函数对这个指针的间接访问次数超过两三次，那么使用这种方法所节省的时间将远远高于一条额外指令所花费的时间。</p>
+<p>但是这个缺陷是函数会对调用程序的结构变量进行修改。</p>
+<p>如果我们不希望如此，可以在函数中使用const关键字来防止这类修改。现在函数原型变成了：</p>
+<p><code>void print_rec(register SELF_REF const *trans );</code></p>
+<h1 id="（二）位段"><a href="#（二）位段" class="headerlink" title="（二）位段"></a>（二）位段</h1><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>位段的声明和普通的结构成员声明相同，但是有两个例外，位段成员必须声明为int、unsigned int类型。其次，在成员名的后面是一个冒号和整数，这个整数指定该位段所占用的位的数目。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>可移植性程序应该避免使用位段，因为不同的系统，位段可能有不同的结构。</p>
+<ol>
+<li>int位段被当做有符号数还是无符号书</li>
+<li>位段中位的最大数目。许多编译器把位段成员的长度限制在一个整型值的长度以内，所以32位机器上运行的16位可能不能运行。</li>
+<li>位段中的成员在内存中是从左往右分配的还是从右往左分配的</li>
+<li>当一个声明指定了两个位段，第二个位段比较大，无法容纳于第一个位段剩余的位时，编译器可能吧第二个位段放在内存的下一个字，也可能直接放在第一个位段后面，从而在两个内存位置的边界上形成重叠。</li>
+</ol>
+<p>是用于控制寄存器的较好的方法。任何可以用位段实现的功能都可以用移位和屏蔽（用与或者非）实现，在源代码中用位段表示这个处理过程更加简单一点，但在目标代码中，这两种方法并不存在任何区别。</p>
+<h1 id="（三）联合（union）"><a href="#（三）联合（union）" class="headerlink" title="（三）联合（union）"></a>（三）联合（union）</h1><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>当你想在不同的时刻把不同的东西存储于同一个位置时，就可以用联合。</p>
+<p>一般和自定义的类型连用，如：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">VARIABLE</span> {</span></span><br><span class="line">    <span class="keyword">enum</span> {INT, FLOAT, STRING} type;</span><br><span class="line">    <span class="keyword">union</span> {</span><br><span class="line">        <span class="keyword">int</span>   i;</span><br><span class="line">        <span class="keyword">float</span> f;</span><br><span class="line">        <span class="keyword">char</span>  *s;</span><br><span class="line">    }value;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在高通的代码中就很常见，通常是一个模块的接口，不同的事件请求 携带不同的数据。</p>
+<p><strong>疑问：为何不能不同的事件请求都用相同的data指针，这个data指针根据事件请求指向不同的地址。高通的代码中两种写法都有，是不是如果用union传递可以保护原来的变量不被修改？</strong></p>
+<p>在成员长度不同的联合里，分配给联合的内存数量取决于它的最长成员的长度，这样联合的长度总是足以容纳它最大的长远，如果这些成员的长度相差悬殊，节省的空间相当可观。</p>
+<p>在这种情况下，更好的方法是：在联合中存储指向不同成员的指针，而不是直接存储成员本身。所有的指针长度都是相同的，这样就解决了内存浪费的问题。</p>
+<p><strong>疑问：这样还有必要去声明一个union么？直接定义一个data指针，不同的时候指向不同的地址不就行了么？</strong></p>
+<h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>可以初始化，但是这个初始值必须是联合第一个成员的类型，而且他必须位于一对花括号里面。</p>
+<p>比如定义一个union，第一个成员是int，第二个是float；我们不能把这个变量初始化为一个浮点数或者字符值。如果给出的初始值是其他类型，它可能会转换为int类型，进行使用。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>结构体</tag>
       </tags>
   </entry>
   <entry>
@@ -2812,8 +2943,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>persist_set</tag>
         <tag>hal</tag>
+        <tag>persist_set</tag>
       </tags>
   </entry>
   <entry>
@@ -3408,6 +3539,29 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>c++ private外部访问问题</title>
+    <url>/2019/02/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-c-c-%EF%BC%9Aprivate%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
+</blockquote>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>private数据外部不能直接获取</li>
+<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
+<li>protected和private都可以利用指针在外部进行读取和修改</li>
+</ul>
+<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>问题：中文乱码</title>
     <url>/2019/02/20/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-git-%E9%97%AE%E9%A2%98-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="认识编码及Python乱码"><a href="#认识编码及Python乱码" class="headerlink" title="认识编码及Python乱码"></a>认识编码及Python乱码</h1><p><a href="https://blog.csdn.net/joyfixing/article/details/79971667" target="_blank" rel="noopener">彻底搞懂 python 中文乱码问题</a>这篇博客讲的很透彻，以及在Python中如何进行转码</p>
@@ -3431,29 +3585,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>中文乱码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c++ private外部访问问题</title>
-    <url>/2019/02/20/%E5%AD%A6%E4%B9%A0-%E7%BC%96%E7%A8%8B-c-c-%EF%BC%9Aprivate%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
-</blockquote>
-<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>private数据外部不能直接获取</li>
-<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
-<li>protected和private都可以利用指针在外部进行读取和修改</li>
-</ul>
-<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
       </tags>
   </entry>
   <entry>
@@ -4335,6 +4466,28 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>hexo 多终端同步</title>
+    <url>/2019/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-hexo-%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
+<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
+<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
+<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git常用命令</title>
     <url>/2019/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-git-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
@@ -4484,28 +4637,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo 多终端同步</title>
-    <url>/2019/01/21/%E5%AD%A6%E4%B9%A0-%E5%B7%A5%E5%85%B7-hexo-hexo-%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
-<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
-<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
-<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
