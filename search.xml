@@ -338,8 +338,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -398,8 +398,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
         <tag>版本信息</tag>
       </tags>
   </entry>
@@ -655,8 +655,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -1210,8 +1210,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>fd泄露</tag>
         <tag>hal</tag>
+        <tag>fd泄露</tag>
       </tags>
   </entry>
   <entry>
@@ -1318,8 +1318,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -2154,65 +2154,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>c/c++</category>
       </categories>
       <tags>
-        <tag>指针</tag>
         <tag>结构体</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c 动态内存分配</title>
-    <url>/posts/ca78d72f/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>为什么要使用动态内存分配？函数的局部变量会进行回收，相比于函数的局部变量，有什么好处呢？</p>
-</blockquote>
-<blockquote>
-<p>《c和指针》阅读笔记</p>
-</blockquote>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>动态内存分配就是在程序运行的时候去再去申请所需要的内存空间。</p>
-<h2 id="malloc-和free"><a href="#malloc-和free" class="headerlink" title="malloc 和free"></a>malloc 和free</h2><p>malloc所分配的是一块连续的内存。并没有进行初始化，要么手动初始化，要么用calloc进行初始化。</p>
-<p>注意：如果内存池是空的，或者他的可用内存无法满足你的需要，会返回一个NULL指针，因此对每个从malloc返回的指针进行检查，确保它并非NULL非常重要。</p>
-<p>malloc又是如何知道你说请求的内存是整数，浮点还是数组呢？它并不知情，它只是返回了一个void *指针。标准表示一个void *类型的指针可以转换为其他任何类型的指针，但是有些编译器，可能要求你在转换时强制类型转换。</p>
-<h2 id="calloc和realloc"><a href="#calloc和realloc" class="headerlink" title="calloc和realloc"></a>calloc和realloc</h2><p>malloc和calloc的主要区别是后者在返回指向内存的指针之前将它初始化为0。另一个小区别是，它们请求内存数量的方式不同，calloc的参数包括所需元素的数量和每个元素的字节数，根据这个值去计算出总共需要分配多少内存。</p>
-<p>realloc用于修改一个原先已经分配的内存块的大小。使用这个函数，你可以是一块内存扩大或者缩小。扩大的话，不会对原先的内容有所改变，缩小的话，剩余部分的内容也依然保留。</p>
-<p>如果原先的内存块无法改变大小，会将另外分配一个正确大小的内存，并把原先的内存内容复制到新的块上。<strong>因此，使用realloc之后，就不能再使用指向就内存的指针，而是应该改用realloc返回的指针。</strong></p>
-<p>如果realloc的第一个参数是NULL，那么和malloc一样。</p>
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p>对NULL指针进行解引用操作</p>
-<p>对分配的内存进行操作是越过边界</p>
-<p>释放并非动态分配的内存</p>
-<p>试图释放一块动态分配的内存的一部分</p>
-<p>一块动态内存被释放后被继续使用</p>
-<h1 id="实例测试"><a href="#实例测试" class="headerlink" title="实例测试"></a>实例测试</h1><h2 id="不易发生错误的内存分配器实现"><a href="#不易发生错误的内存分配器实现" class="headerlink" title="不易发生错误的内存分配器实现"></a>不易发生错误的内存分配器实现</h2><p>动态内存分配最常见的错误是忘记检查所请求的内存是否成功分配。下面是一种技巧，可以很可靠的进行这个错误检查。不经过直接调用malloc函数，通过自定义的alloc函数调用malloc，并对malloc进行检查。</p>
-<p>这个#define malloc指令，是用于防止由于其他代码块直接调用malloc的行为。增加这个指令后，直接调用malloc将会因为语法错误而无法编译。在alloc.v中必须加入#undef，这样它才能调用malloc而不至于出错。</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.h</span></span><br><span class="line"><span class="comment">**定义一个不易发生错误的内存分配器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="comment">//不要直接调用malloc!</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> malloc  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MALLOC(num, type) (type *)alloc((num) * sizeof(type))</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.c</span></span><br><span class="line"><span class="comment">**不易发生错误的内存分配器的实现</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"alloc.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> malloc</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>{</span><br><span class="line">    <span class="keyword">void</span> *new_mem;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ** 请求所需的内存</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    new_mem = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">if</span>(new_mem == <span class="literal">NULL</span>){</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"out of memory\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> new_mem;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**a_client.c</span></span><br><span class="line"><span class="comment">**一个使用很少引起错误的内存分配器的程序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>{</span><br><span class="line">    <span class="keyword">int</span> *new_memory;</span><br><span class="line">    mew_memory = MALLOC(<span class="number">25</span>,<span class="keyword">int</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>当动态内存分配的程序失败时，我们很容易将问题责任推给malloc和free函数，其实往往都是出现在了自己的程序中，而且常常是由于访问了分配内存以外的区域而引起的。</p>
-<p>当使用free的时候，可能会出现不同的错误，传递给free的指针必须死一个从malloc，calloc，realloc返回的指针。让free函数释放一块不是动态分配的内存可能导致程序立刻终止或者晚些时候终止。</p>
-<p><strong>试图释放一块动态内存的一部分也可能会引起类似问题</strong>。比如说在程序中对指针进行了修改，如自增自减之后，再去free，就可能会出现问题。</p>
-<p><strong>必须小心不要访问已经被free函数释放了的内存</strong>。（很容易出现）假设你对一个指向动态分配的内存的指针进行了赋值，而且这个指针的几个拷贝散布于程序各处。<strong>你无法保证当你使用其中一个指针的时候它所指向的内存是不是已经被另一个指针释放。</strong>另一方面，你必须确保程序中所有使用这块内存的地方在这块内存被释放之前停止对它的使用。</p>
-<h2 id="内存分配实例"><a href="#内存分配实例" class="headerlink" title="内存分配实例"></a>内存分配实例</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//invendor.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __INVENDOR_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __INVENDOR_H__</span></span><br><span class="line"><span class="comment">//定义一个存货记录的声明</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> cost;</span><br><span class="line">	<span class="keyword">int</span> supplier;</span><br><span class="line">}Partinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	short quan;</span><br><span class="line">}SUBASSYPART;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> n_parts;</span><br><span class="line">	SUBASSYPART *part;</span><br><span class="line">}Subassyinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	<span class="keyword">int</span> quan;</span><br><span class="line">	<span class="keyword">enum</span> {PART, SUBASSY}type;</span><br><span class="line">	<span class="keyword">union</span> {</span><br><span class="line">		Partinfo *part;</span><br><span class="line">		Subassyinfo *subassy;</span><br><span class="line">	}info;</span><br><span class="line">}Invrec;</span><br><span class="line"></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !__DATA_TYPE_H__</span></span></span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**invrecord.c</span></span><br><span class="line"><span class="comment">**用于创建SUBASSEMBLY存货纪录的函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建存货信息</span></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span> </span>{</span><br><span class="line">	Invrec *new_rec;</span><br><span class="line">	<span class="comment">//尝试为Invrec部分分配内存</span></span><br><span class="line">	new_rec = MALLOC(<span class="number">1</span>, Invrec);</span><br><span class="line">	new_rec->info.subassy = MALLOC(<span class="number">1</span>, Subassyinfo);</span><br><span class="line">	new_rec->info.subassy->part = MALLOC(n_parts, SUBASSYPART);</span><br><span class="line">	new_rec->type = SUBASSY;</span><br><span class="line">	new_rec->info.subassy->n_parts = n_parts;</span><br><span class="line">	<span class="keyword">return</span> new_rec;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除存货信息</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span> </span>{</span><br><span class="line">	<span class="keyword">switch</span> (record->type) {</span><br><span class="line">	<span class="keyword">case</span> SUBASSY:</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy->part);</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> PART:</span><br><span class="line">		<span class="built_in">free</span>(record->info.part);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"record type is error"</span>);</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">free</span>(record);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	Invrec *a;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	**注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算</span></span><br><span class="line"><span class="comment">	**free的时候就会出问题，另外如果运算了，其他地方进行引用，也容易</span></span><br><span class="line"><span class="comment">	**出现找错内存块的问题。</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	a = create_subassy_record(<span class="number">3</span>);</span><br><span class="line">	<span class="comment">//将参与运算的指针保护起来。</span></span><br><span class="line">	SUBASSYPART *new_part = a->info.subassy->part;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno,<span class="string">"hello world"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"this is my"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="comment">//注意此处如果拷贝的数据超过数组长度，内存溢出</span></span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"first function"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>, new_part->partno);</span><br><span class="line">	discard_inventory_record(a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ok"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>出现过的问题：</p>
-<ul>
-<li>注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算，free的时候就会出问题，可能<strong>只释放了内存的一部分</strong>。另外如果运算了，其他地方进行引用，也容易内存块<strong>位置偏移</strong>的问题。</li>
-<li>用strcpy的时候需要注意不能超出规定的内存范围，注意不能越界访问</li>
-</ul>
-<p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a></p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
         <tag>指针</tag>
-        <tag>内存</tag>
       </tags>
   </entry>
   <entry>
@@ -2292,6 +2235,63 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>结构体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c 动态内存分配</title>
+    <url>/posts/ca78d72f/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>为什么要使用动态内存分配？函数的局部变量会进行回收，相比于函数的局部变量，有什么好处呢？</p>
+</blockquote>
+<blockquote>
+<p>《c和指针》阅读笔记</p>
+</blockquote>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>动态内存分配就是在程序运行的时候去再去申请所需要的内存空间。</p>
+<h2 id="malloc-和free"><a href="#malloc-和free" class="headerlink" title="malloc 和free"></a>malloc 和free</h2><p>malloc所分配的是一块连续的内存。并没有进行初始化，要么手动初始化，要么用calloc进行初始化。</p>
+<p>注意：如果内存池是空的，或者他的可用内存无法满足你的需要，会返回一个NULL指针，因此对每个从malloc返回的指针进行检查，确保它并非NULL非常重要。</p>
+<p>malloc又是如何知道你说请求的内存是整数，浮点还是数组呢？它并不知情，它只是返回了一个void *指针。标准表示一个void *类型的指针可以转换为其他任何类型的指针，但是有些编译器，可能要求你在转换时强制类型转换。</p>
+<h2 id="calloc和realloc"><a href="#calloc和realloc" class="headerlink" title="calloc和realloc"></a>calloc和realloc</h2><p>malloc和calloc的主要区别是后者在返回指向内存的指针之前将它初始化为0。另一个小区别是，它们请求内存数量的方式不同，calloc的参数包括所需元素的数量和每个元素的字节数，根据这个值去计算出总共需要分配多少内存。</p>
+<p>realloc用于修改一个原先已经分配的内存块的大小。使用这个函数，你可以是一块内存扩大或者缩小。扩大的话，不会对原先的内容有所改变，缩小的话，剩余部分的内容也依然保留。</p>
+<p>如果原先的内存块无法改变大小，会将另外分配一个正确大小的内存，并把原先的内存内容复制到新的块上。<strong>因此，使用realloc之后，就不能再使用指向就内存的指针，而是应该改用realloc返回的指针。</strong></p>
+<p>如果realloc的第一个参数是NULL，那么和malloc一样。</p>
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p>对NULL指针进行解引用操作</p>
+<p>对分配的内存进行操作是越过边界</p>
+<p>释放并非动态分配的内存</p>
+<p>试图释放一块动态分配的内存的一部分</p>
+<p>一块动态内存被释放后被继续使用</p>
+<h1 id="实例测试"><a href="#实例测试" class="headerlink" title="实例测试"></a>实例测试</h1><h2 id="不易发生错误的内存分配器实现"><a href="#不易发生错误的内存分配器实现" class="headerlink" title="不易发生错误的内存分配器实现"></a>不易发生错误的内存分配器实现</h2><p>动态内存分配最常见的错误是忘记检查所请求的内存是否成功分配。下面是一种技巧，可以很可靠的进行这个错误检查。不经过直接调用malloc函数，通过自定义的alloc函数调用malloc，并对malloc进行检查。</p>
+<p>这个#define malloc指令，是用于防止由于其他代码块直接调用malloc的行为。增加这个指令后，直接调用malloc将会因为语法错误而无法编译。在alloc.v中必须加入#undef，这样它才能调用malloc而不至于出错。</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.h</span></span><br><span class="line"><span class="comment">**定义一个不易发生错误的内存分配器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="comment">//不要直接调用malloc!</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> malloc  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MALLOC(num, type) (type *)alloc((num) * sizeof(type))</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.c</span></span><br><span class="line"><span class="comment">**不易发生错误的内存分配器的实现</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"alloc.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> malloc</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>{</span><br><span class="line">    <span class="keyword">void</span> *new_mem;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ** 请求所需的内存</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    new_mem = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">if</span>(new_mem == <span class="literal">NULL</span>){</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"out of memory\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> new_mem;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**a_client.c</span></span><br><span class="line"><span class="comment">**一个使用很少引起错误的内存分配器的程序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>{</span><br><span class="line">    <span class="keyword">int</span> *new_memory;</span><br><span class="line">    mew_memory = MALLOC(<span class="number">25</span>,<span class="keyword">int</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当动态内存分配的程序失败时，我们很容易将问题责任推给malloc和free函数，其实往往都是出现在了自己的程序中，而且常常是由于访问了分配内存以外的区域而引起的。</p>
+<p>当使用free的时候，可能会出现不同的错误，传递给free的指针必须死一个从malloc，calloc，realloc返回的指针。让free函数释放一块不是动态分配的内存可能导致程序立刻终止或者晚些时候终止。</p>
+<p><strong>试图释放一块动态内存的一部分也可能会引起类似问题</strong>。比如说在程序中对指针进行了修改，如自增自减之后，再去free，就可能会出现问题。</p>
+<p><strong>必须小心不要访问已经被free函数释放了的内存</strong>。（很容易出现）假设你对一个指向动态分配的内存的指针进行了赋值，而且这个指针的几个拷贝散布于程序各处。<strong>你无法保证当你使用其中一个指针的时候它所指向的内存是不是已经被另一个指针释放。</strong>另一方面，你必须确保程序中所有使用这块内存的地方在这块内存被释放之前停止对它的使用。</p>
+<h2 id="内存分配实例"><a href="#内存分配实例" class="headerlink" title="内存分配实例"></a>内存分配实例</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//invendor.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __INVENDOR_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __INVENDOR_H__</span></span><br><span class="line"><span class="comment">//定义一个存货记录的声明</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> cost;</span><br><span class="line">	<span class="keyword">int</span> supplier;</span><br><span class="line">}Partinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	short quan;</span><br><span class="line">}SUBASSYPART;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> n_parts;</span><br><span class="line">	SUBASSYPART *part;</span><br><span class="line">}Subassyinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	<span class="keyword">int</span> quan;</span><br><span class="line">	<span class="keyword">enum</span> {PART, SUBASSY}type;</span><br><span class="line">	<span class="keyword">union</span> {</span><br><span class="line">		Partinfo *part;</span><br><span class="line">		Subassyinfo *subassy;</span><br><span class="line">	}info;</span><br><span class="line">}Invrec;</span><br><span class="line"></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !__DATA_TYPE_H__</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**invrecord.c</span></span><br><span class="line"><span class="comment">**用于创建SUBASSEMBLY存货纪录的函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建存货信息</span></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span> </span>{</span><br><span class="line">	Invrec *new_rec;</span><br><span class="line">	<span class="comment">//尝试为Invrec部分分配内存</span></span><br><span class="line">	new_rec = MALLOC(<span class="number">1</span>, Invrec);</span><br><span class="line">	new_rec->info.subassy = MALLOC(<span class="number">1</span>, Subassyinfo);</span><br><span class="line">	new_rec->info.subassy->part = MALLOC(n_parts, SUBASSYPART);</span><br><span class="line">	new_rec->type = SUBASSY;</span><br><span class="line">	new_rec->info.subassy->n_parts = n_parts;</span><br><span class="line">	<span class="keyword">return</span> new_rec;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除存货信息</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span> </span>{</span><br><span class="line">	<span class="keyword">switch</span> (record->type) {</span><br><span class="line">	<span class="keyword">case</span> SUBASSY:</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy->part);</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> PART:</span><br><span class="line">		<span class="built_in">free</span>(record->info.part);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"record type is error"</span>);</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">free</span>(record);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	Invrec *a;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	**注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算</span></span><br><span class="line"><span class="comment">	**free的时候就会出问题，另外如果运算了，其他地方进行引用，也容易</span></span><br><span class="line"><span class="comment">	**出现找错内存块的问题。</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	a = create_subassy_record(<span class="number">3</span>);</span><br><span class="line">	<span class="comment">//将参与运算的指针保护起来。</span></span><br><span class="line">	SUBASSYPART *new_part = a->info.subassy->part;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno,<span class="string">"hello world"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"this is my"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="comment">//注意此处如果拷贝的数据超过数组长度，内存溢出</span></span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"first function"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>, new_part->partno);</span><br><span class="line">	discard_inventory_record(a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ok"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>出现过的问题：</p>
+<ul>
+<li>注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算，free的时候就会出问题，可能<strong>只释放了内存的一部分</strong>。另外如果运算了，其他地方进行引用，也容易内存块<strong>位置偏移</strong>的问题。</li>
+<li>用strcpy的时候需要注意不能超出规定的内存范围，注意不能越界访问</li>
+</ul>
+<p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a></p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+        <tag>内存</tag>
       </tags>
   </entry>
   <entry>
@@ -2995,8 +2995,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>persist_set</tag>
+        <tag>hal</tag>
       </tags>
   </entry>
   <entry>
@@ -3928,78 +3928,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>写给初恋的第一首歌</title>
-    <url>/posts/a4501dbf/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>你甜甜的笑靥</p>
-<p>已闯入我的心扉</p>
-<p>我痴痴地望着</p>
-<p>为何只有你喜欢</p>
-<p>你望着我傻笑</p>
-<p>我看你傻笑而傻笑</p>
-<p>围围</p>
-<p>你太可爱</p>
-<p>我不知怎么办</p>
-<p>感谢你</p>
-<p>让我如痴如醉的甜蜜</p>
-<p>喜欢你</p>
-<p>让我生活撒上阳光</p>
-<p>原谅我</p>
-<p>不解细腻的少女心</p>
-<p>感谢你</p>
-<p>出现在这里</p>
-<br>
-
-<p>你动情的歌声</p>
-<p>总萦绕我的耳畔</p>
-<p>我轻盈的思绪</p>
-<p>却缠上你的发梢</p>
-<p>我念你的心跳</p>
-<p>我因你心跳而心跳</p>
-<p>围围</p>
-<p>你太可爱</p>
-<p>我已知怎么办</p>
-<p>我喜欢你的甜</p>
-<p>有你那就是晴天</p>
-<p>我许你一世</p>
-<p>期待着每天的你</p>
-<p>你就是那未来</p>
-<p>我憧憬未来和未来</p>
-<p>围围</p>
-<p>你太可爱</p>
-<p>我不会放开</p>
-<p>喜欢你</p>
-<p>那样沁人心脾的爱恋</p>
-<p>感谢你</p>
-<p>让我人生重新起航</p>
-<p>原谅我</p>
-<p>有点笨拙的小脾气</p>
-<p>感谢你</p>
-<p>一直在那里</p>
-<br>
-
-<p>有一个</p>
-<p>早已被你猜到的秘密</p>
-<p>请允许</p>
-<p>我把你放进我的心</p>
-<p>红蜡烛</p>
-<p>融入爱恋燃烧着自己</p>
-<p>不知你</p>
-<p>能否会忘记</p>
-<p>相信我</p>
-<p>予你幸福的一辈子</p>
-</body></html>]]></content>
-      <categories>
-        <category>生活</category>
-        <category>围围</category>
-        <category>诗歌</category>
-      </categories>
-      <tags>
-        <tag>围围</tag>
-        <tag>情书</tag>
-        <tag>诗歌</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>背光算法代码实现</title>
     <url>/posts/1b12e938/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>如何实现强光下自由降低曝光阶？修改stats数据是否有效？如何动态修改曝光权重？</p>
@@ -4106,6 +4034,78 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       <tags>
         <tag>高通camera</tag>
         <tag>代码实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>写给初恋的第一首歌</title>
+    <url>/posts/a4501dbf/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>你甜甜的笑靥</p>
+<p>已闯入我的心扉</p>
+<p>我痴痴地望着</p>
+<p>为何只有你喜欢</p>
+<p>你望着我傻笑</p>
+<p>我看你傻笑而傻笑</p>
+<p>围围</p>
+<p>你太可爱</p>
+<p>我不知怎么办</p>
+<p>感谢你</p>
+<p>让我如痴如醉的甜蜜</p>
+<p>喜欢你</p>
+<p>让我生活撒上阳光</p>
+<p>原谅我</p>
+<p>不解细腻的少女心</p>
+<p>感谢你</p>
+<p>出现在这里</p>
+<br>
+
+<p>你动情的歌声</p>
+<p>总萦绕我的耳畔</p>
+<p>我轻盈的思绪</p>
+<p>却缠上你的发梢</p>
+<p>我念你的心跳</p>
+<p>我因你心跳而心跳</p>
+<p>围围</p>
+<p>你太可爱</p>
+<p>我已知怎么办</p>
+<p>我喜欢你的甜</p>
+<p>有你那就是晴天</p>
+<p>我许你一世</p>
+<p>期待着每天的你</p>
+<p>你就是那未来</p>
+<p>我憧憬未来和未来</p>
+<p>围围</p>
+<p>你太可爱</p>
+<p>我不会放开</p>
+<p>喜欢你</p>
+<p>那样沁人心脾的爱恋</p>
+<p>感谢你</p>
+<p>让我人生重新起航</p>
+<p>原谅我</p>
+<p>有点笨拙的小脾气</p>
+<p>感谢你</p>
+<p>一直在那里</p>
+<br>
+
+<p>有一个</p>
+<p>早已被你猜到的秘密</p>
+<p>请允许</p>
+<p>我把你放进我的心</p>
+<p>红蜡烛</p>
+<p>融入爱恋燃烧着自己</p>
+<p>不知你</p>
+<p>能否会忘记</p>
+<p>相信我</p>
+<p>予你幸福的一辈子</p>
+</body></html>]]></content>
+      <categories>
+        <category>生活</category>
+        <category>围围</category>
+        <category>诗歌</category>
+      </categories>
+      <tags>
+        <tag>围围</tag>
+        <tag>情书</tag>
+        <tag>诗歌</tag>
       </tags>
   </entry>
   <entry>
@@ -4346,41 +4346,9 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>闪烁</tag>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>送行</title>
-    <url>/posts/9069499e/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>又是一个明媚的清晨<br>天气真好<br>你就是我的太阳<br>在我的身边<br>总让我抑制不住<br>内心的燥热</p>
-<a id="more"></a>
-
-<p>你的笑容<br>我想用亲吻去守护<br>你的娇躯<br>我想用拥抱去挽留<br>多么不想你走呀  </p>
-<p>想狠狠的吻下去<br>吮吸每一处<br>属于你的芳香<br>品尝每一处<br>属于你的香甜<br>摩挲每一处<br>属于你的细腻  </p>
-<p>运气很好<br>路过的每一地方都是那么顺利<br>刚到站台就来公交<br>刚到地铁就来列车<br>刚出电梯就是出口<br>好像一切都是安排好的<br>这么凑巧<br>运气爆棚<br>却又好像是老天<br>让我快快度过这个<br>离别的时刻  </p>
-<p>高铁上<br>让你坐在我的腿上<br>俏皮可爱的脸上<br>泛起了娇羞的红晕<br>我轻轻一个拥抱<br>一个娇小的身体<br>贴在我的腿上<br>身心好像找到了依偎<br>不是你坐在我身上<br>而是我<br>坐在你的身边<br>看着窗外的风景<br>还有你温柔的脸庞<br>真的好美</p>
-<p>美好的时光<br>总是如此短暂<br>这趟列车<br>自顾自的的走着<br>丝毫不顾及<br>我的不舍<br>不顾及我的腿<br>还留有你的体温</p>
-<p>你<br>一个人走了<br>去见你的弟妹<br>而我<br>只能像捉迷藏一样<br>躲着你们<br>紧张刺激地<br>玩一局<br>跟踪游戏<br>内心有一丝的落寞<br>却在你回头的一瞬<br>又露出激动的笑容<br>这就是矛盾的我呀</p>
-<p>车站里<br>依依不舍<br>想躲掉你的眼神<br>怕一不留心<br>掉下一颗眼泪<br>因为<br>现在的我<br>异常脆弱  </p>
-<p>小憩一会儿<br>眼角居然湿润<br>刚刚一定是做了一个<br>思念的梦吧<br>睁眼醒来<br>すきだよ<br>映入眼帘<br>竟在我内心没有掀起<br>滔天巨浪<br>千万句表白<br>换来你的一句表白<br>我却只是微笑着回答<br>我也喜欢你，围围  </p>
-<p>傻瓜<br>那是因为<br>在你的眉宇间<br>在你的言语中<br>在你的轻抚下<br>我早已找到了自己想要的<br>表白<br>这可能就是心照不宣吧  </p>
-<p>悲伤是今天的旋律<br>一不留神<br>便沉浸其中<br>却时不时蹦出欢快的笑声<br>暂时的打断<br>我沉闷的演奏<br>让我呼吸急促<br>忘却一切的烦恼</p>
-<p>想打电话<br>听你的呢喃细语<br>听你的开怀大笑<br>想你的莞尔一笑<br>想你的痴情相望<br>我是傻瓜么<br>这才多久呀<br>接下来的一个月<br>怕是该以泪洗面了<br>两情若是长久时<br>又岂在朝朝暮暮<br>这何尝不是<br>安慰自己呢  </p>
-<p>站起身<br>伸伸懒腰<br>深呼一口气<br>迷上了你<br>那是我的荣幸<br>我可不能迷失自我<br>我还要记录下<br>这爱的点点滴滴呢</p>
-<div class="justified-gallery"><p><img src="/" class="lazyload" data-src="/posts/9069499e/5.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/1.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/2.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/3.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/4.jpg"  alt></p>
-          </div>
-
-</body></html>]]></content>
-      <categories>
-        <category>生活</category>
-        <category>围围</category>
-        <category>诗歌</category>
-      </categories>
-      <tags>
-        <tag>围围</tag>
-        <tag>情书</tag>
+        <tag>高通camera</tag>
+        <tag>闪烁</tag>
       </tags>
   </entry>
   <entry>
@@ -4518,6 +4486,38 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       <tags>
         <tag>高通camera</tag>
         <tag>算法实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>送行</title>
+    <url>/posts/9069499e/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>又是一个明媚的清晨<br>天气真好<br>你就是我的太阳<br>在我的身边<br>总让我抑制不住<br>内心的燥热</p>
+<a id="more"></a>
+
+<p>你的笑容<br>我想用亲吻去守护<br>你的娇躯<br>我想用拥抱去挽留<br>多么不想你走呀  </p>
+<p>想狠狠的吻下去<br>吮吸每一处<br>属于你的芳香<br>品尝每一处<br>属于你的香甜<br>摩挲每一处<br>属于你的细腻  </p>
+<p>运气很好<br>路过的每一地方都是那么顺利<br>刚到站台就来公交<br>刚到地铁就来列车<br>刚出电梯就是出口<br>好像一切都是安排好的<br>这么凑巧<br>运气爆棚<br>却又好像是老天<br>让我快快度过这个<br>离别的时刻  </p>
+<p>高铁上<br>让你坐在我的腿上<br>俏皮可爱的脸上<br>泛起了娇羞的红晕<br>我轻轻一个拥抱<br>一个娇小的身体<br>贴在我的腿上<br>身心好像找到了依偎<br>不是你坐在我身上<br>而是我<br>坐在你的身边<br>看着窗外的风景<br>还有你温柔的脸庞<br>真的好美</p>
+<p>美好的时光<br>总是如此短暂<br>这趟列车<br>自顾自的的走着<br>丝毫不顾及<br>我的不舍<br>不顾及我的腿<br>还留有你的体温</p>
+<p>你<br>一个人走了<br>去见你的弟妹<br>而我<br>只能像捉迷藏一样<br>躲着你们<br>紧张刺激地<br>玩一局<br>跟踪游戏<br>内心有一丝的落寞<br>却在你回头的一瞬<br>又露出激动的笑容<br>这就是矛盾的我呀</p>
+<p>车站里<br>依依不舍<br>想躲掉你的眼神<br>怕一不留心<br>掉下一颗眼泪<br>因为<br>现在的我<br>异常脆弱  </p>
+<p>小憩一会儿<br>眼角居然湿润<br>刚刚一定是做了一个<br>思念的梦吧<br>睁眼醒来<br>すきだよ<br>映入眼帘<br>竟在我内心没有掀起<br>滔天巨浪<br>千万句表白<br>换来你的一句表白<br>我却只是微笑着回答<br>我也喜欢你，围围  </p>
+<p>傻瓜<br>那是因为<br>在你的眉宇间<br>在你的言语中<br>在你的轻抚下<br>我早已找到了自己想要的<br>表白<br>这可能就是心照不宣吧  </p>
+<p>悲伤是今天的旋律<br>一不留神<br>便沉浸其中<br>却时不时蹦出欢快的笑声<br>暂时的打断<br>我沉闷的演奏<br>让我呼吸急促<br>忘却一切的烦恼</p>
+<p>想打电话<br>听你的呢喃细语<br>听你的开怀大笑<br>想你的莞尔一笑<br>想你的痴情相望<br>我是傻瓜么<br>这才多久呀<br>接下来的一个月<br>怕是该以泪洗面了<br>两情若是长久时<br>又岂在朝朝暮暮<br>这何尝不是<br>安慰自己呢  </p>
+<p>站起身<br>伸伸懒腰<br>深呼一口气<br>迷上了你<br>那是我的荣幸<br>我可不能迷失自我<br>我还要记录下<br>这爱的点点滴滴呢</p>
+<div class="justified-gallery"><p><img src="/" class="lazyload" data-src="/posts/9069499e/5.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/1.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/2.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/3.jpg"  alt></p><p><img src="/" class="lazyload" data-src="/posts/9069499e/4.jpg"  alt></p>
+          </div>
+
+</body></html>]]></content>
+      <categories>
+        <category>生活</category>
+        <category>围围</category>
+        <category>诗歌</category>
+      </categories>
+      <tags>
+        <tag>围围</tag>
+        <tag>情书</tag>
       </tags>
   </entry>
   <entry>
@@ -4778,9 +4778,9 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <category>BUG</category>
       </categories>
       <tags>
+        <tag>高通camera</tag>
         <tag>bug</tag>
         <tag>闪烁</tag>
-        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
