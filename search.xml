@@ -88,6 +88,146 @@
       </tags>
   </entry>
   <entry>
+    <title>阅读笔记——数码单反摄影从入门到精通</title>
+    <url>/posts/29fcc0b6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>本书有不少错误和纰漏，我在这里做了记录。同时学习一些单反摄影的基本知识和构图技巧。</p>
+</blockquote>
+<h2 id="（一）构造"><a href="#（一）构造" class="headerlink" title="（一）构造"></a>（一）构造</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>书中说的是小孔成像，我更认为应该是凸透镜成像原理，当物距远远大于焦距的时候，才可以近似成小孔成像。<br>详细分析请看<a href="https://qinxing.xyz/posts/b31d381e/">《相机成像原理之镜头篇》</a></p>
+<p>sensor尺寸为36mm×24mm，这种相机就称为全画幅相机</p>
+<h3 id="常用附件"><a href="#常用附件" class="headerlink" title="常用附件"></a>常用附件</h3><h4 id="1-UV滤镜"><a href="#1-UV滤镜" class="headerlink" title="1. UV滤镜"></a>1. UV滤镜</h4><p>UV（Ultra Violet Filter）滤镜有两个作用，其一是滤除光线中的紫外线；其二是保护镜头镜片不被擦刮、污损。在日光照射很强时，光线中的紫外线成分较多，如果不带滤镜拍摄，可能会使拍出来的照片偏蓝，</p>
+<h4 id="2-偏光滤镜"><a href="#2-偏光滤镜" class="headerlink" title="2. 偏光滤镜"></a>2. 偏光滤镜</h4><p>摄影者经常遇到照片效果色彩饱和度不足、拍摄对象反光严重等问题，而这又不是拍摄技术以及相机本身所引起的，此时可能需要通过偏光滤镜来进行调节。偏光镜基本上就是用偏光角度来过滤光线的一种滤镜。<br>偏振镜允许特定方向照射来的光线，同样也会滤除另外一些方向射来的光线，最终可以调整光线进入镜头后的拍摄效果。当两者夹角为0°，即光波上下震动方向与偏振夹角相同时，透过的光线最多；夹角为90°时，通过的光线非常少。</p>
+<h4 id="3-渐变滤镜"><a href="#3-渐变滤镜" class="headerlink" title="3. 渐变滤镜"></a>3. 渐变滤镜</h4><p>在拍摄部分场景的画面时，有时会遇到场景中各个部分明暗对比较强的情况。如果要获得曝光比较均匀的相片，则必须要将画面反射入镜头的光线调匀，此时可以通过渐变滤镜来调整。将滤镜的暗色部分遮挡住画面中光线较亮的场景，透光性较好的部分用于通过被摄场景中较暗的反射光，以保证绝大多数光线能够进入镜头。通过调整，可以使画面获得较均匀的曝光效果。</p>
+<h4 id="4-遮光罩"><a href="#4-遮光罩" class="headerlink" title="4. 遮光罩"></a>4. 遮光罩</h4><p>在逆光、侧光或使用闪光灯摄影时，遮光罩能防止非成像光进入镜头，避免产生雾霭；在顺光和侧光摄影时，可以避免周围的散射光进入镜头；在灯光摄影或夜间摄影时，可以避免周围的干扰光进入镜头；此外，还可以在一定程度上防止意外损伤镜头。<br>遮光罩广泛用于逆光摄影，一般可以避免眩光。但如果光源距离过近，仍有可能发生眩光现象。</p>
+<hr>
+<h2 id="（二）镜头"><a href="#（二）镜头" class="headerlink" title="（二）镜头"></a>（二）镜头</h2><h3 id="1-焦距"><a href="#1-焦距" class="headerlink" title="1. 焦距"></a>1. 焦距</h3><p>镜头焦距的长短决定着照片的成像、视角、景深大小和透视强弱。<br>标准镜头是50mm，需要记住视场角47度，五百万的像素大概可以拍摄九米处80x80像素的人脸。<br><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200428234613.png"  alt="17mm焦距到300mm焦距，镜头视角从104°缩小为8°的视角范围"></p>
+<h3 id="2-非球面镜片"><a href="#2-非球面镜片" class="headerlink" title="2. 非球面镜片"></a>2. 非球面镜片</h3><p>光线通过透镜时，透镜中间位置附近透过的光线会准确地汇聚在焦点位置，但是通过透镜边缘部位的光线则会汇聚在焦点与透镜之间的位置，这样光线汇聚的散乱性就会造成最终拍摄照片的模糊。这种汇聚焦点的偏差，称为“球面像差”。如果要修正通过透镜边缘光线的汇聚偏差问题，可以使用特殊种类的透镜来解决，这种特殊的镜片即为“非球面镜片”，是指镜片中间的弧度与镜片边缘的弧度不同，以此来修正光线折射的焦距，确保通过镜片任何位置的光线都能准确地聚集在焦点上，形成清晰的图像品质。</p>
+<h3 id="3-低色散镜片"><a href="#3-低色散镜片" class="headerlink" title="3. 低色散镜片"></a>3. 低色散镜片</h3><p>自然界中的光线都是复合型光线，是红、橙、黄、绿、青、蓝、紫等颜色的光线复合而成的，不同颜色的光线通过透镜后的焦点位置也不相同，这样就会造成聚集点的不一致，造成色散的问题。摄影学中，物体发出或反射的光线进入相机，在感光元件上成像时，如果发生色散，会对成像质量有严重影响，因此相机厂商多采用低色散镜片。通过低色散镜片，可以有效抑制光线通过透镜后色散严重的程度，提高画质。</p>
+<h3 id="4-定焦镜头"><a href="#4-定焦镜头" class="headerlink" title="4. 定焦镜头"></a>4. 定焦镜头</h3><p>定焦镜头的光学品质一般非常好，优于一般的变焦镜头，特别是焦距、拍摄条件相同时，可以看出两者拍摄效果的明显差别。定焦镜头对拍摄画面四周的变形抑制能力很强，比变焦镜头要好一些，特别是在大广角焦段，它可达到的最大光圈较大，如F1.2、F1.4等超大光圈一般只出现在定焦镜头上。<br>另外，定焦镜头还有重量较轻、便于携带的优点</p>
+<h3 id="5-微距镜头"><a href="#5-微距镜头" class="headerlink" title="5. 微距镜头"></a>5. 微距镜头</h3><p>由于物体越近，景深越小，为了达到比较大的景深效果需要很小的光圈，所以微距的光圈值都比较小<br>微距镜头特点如下：最小光圈值较小，通常可以缩至F38、F45等，因为拍摄距离很近时，比较容易造成对焦点前后景物虚化的效果，如果要将对焦点前后都拍摄清楚，就要使用非常小的光圈；对焦速度很慢，由于微距镜头从最近到最远的对焦过程比较长，因此对焦速度非常慢，即使使用超声波马达对焦，其对焦速度比一般镜头也要慢。</p>
+<h3 id="6-外接设备"><a href="#6-外接设备" class="headerlink" title="6. 外接设备"></a>6. 外接设备</h3><ul>
+<li>使用增倍镜后，画质会变差，包括色彩饱和度和锐度等都要有所下降；另外，使用增倍镜后，原本的最大光圈会缩小一级，如F2.8的最大光圈镜头在加装增倍镜后，最大光圈会变为F4.0。</li>
+<li>使用近摄环后，最终拍摄照片的画质并不会受到明显影响，因为近摄环就是一个金属环，没有安装光学镜片；但使用近摄环后，快门速度会变慢，因为近摄环会影响进入镜头的入光量。使用近摄环后，对焦方式与一般镜头不同，必须先转动变焦环进行初步对焦，才能转动对焦环进行对焦修正；如果是定焦镜头使用近摄环，则必须前后移动拍摄位置，否则无法完成对焦。近摄环的功能就是缩短镜头的对焦距离，达到提升镜头放大倍率的目的</li>
+</ul>
+<hr>
+<h2 id="（三）光圈"><a href="#（三）光圈" class="headerlink" title="（三）光圈"></a>（三）光圈</h2><h3 id="1-标识与种类"><a href="#1-标识与种类" class="headerlink" title="1. 标识与种类"></a>1. 标识与种类</h3><p>镜头上都会有光圈的标识，有的是1∶3.5-5.6，也有的标为1∶2.8等。1∶3.5-5.6的意思是镜头最大光圈为F3.5～F5.6，这表示假设焦距为20mm时镜头最大光圈为F3.5，当焦距变为50mm时，最大光圈可能变为F5.6，也就是说镜头的最大光圈不是恒定的，称为非恒定光圈；1∶2.8则表示无论焦距为20mm还是50mm，镜头的最大光圈都是F2.8。<br>简单地说，恒定光圈镜头无论是在广角端还是长焦端，最大光圈值都是恒定的；非恒定光圈镜头的最大光圈值随着焦距的变化而有所变动。</p>
+<h3 id="2-光圈叶片"><a href="#2-光圈叶片" class="headerlink" title="2. 光圈叶片"></a>2. 光圈叶片</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200428234744.png"  alt="每组光圈金属片两侧都会发出一条星芒，可以看到路灯有10条星芒，则可以判定拍摄所用镜头内的光圈金属片有5组"><br>有的星芒多，有的星芒少，这是由光圈金属片组数决定的。但要注意，奇数组金属片和偶数组金属片形成星芒的规律也不相同<br>由此得出一个规律：当光圈金属片组数为奇数时，星芒数为组数的2倍；当金属片组数为偶数时，星芒数与组数相等。例如10组金属片有10条星芒；11组金属片和22组金属片都有22条星芒。</p>
+<h3 id="3-光圈大小"><a href="#3-光圈大小" class="headerlink" title="3. 光圈大小"></a>3. 光圈大小</h3><p>光圈F值 = 镜头的焦距/镜头口径的直径。光圈值系列： F1， F1.4， F2， F2.8， F4， F5.6， F8， F11， F16</p>
+<p>原文内容：并且光圈每缩小一级，实际的光圈孔径会缩小一半，这样曝光量就会降低一半，即F后的数字越大，光圈越小，反之越大。<br><strong>质疑</strong>：文中关于光圈与通光量的叙述有问题，F后面跟的就是孔径，F1相比于F1.4，孔径大了1.414倍（根号2），面积应该是半径的平方，也就是原来的两倍，通光量就增大了一倍。</p>
+<p><strong>质疑：</strong>文中sensor越大，景深越小的这个结论我觉得是有问题的，景深三要素定了之后，景深就定了，和sensor大小是没有关系的。</p>
+<h3 id="4-光圈大小的选择"><a href="#4-光圈大小的选择" class="headerlink" title="4. 光圈大小的选择"></a>4. 光圈大小的选择</h3><p>当光圈开至很大时，外界进入镜头的光量很足，镜头内的透镜边缘部分也会允许光线通过，但透镜上下两个端点的弧度比中间的弧度要大，所以它们的会聚性能就有差别，这会在会聚的成像点周围有一些乱光干扰，使成像质量有一定的下降，造成最终拍摄的照片画质稍差的现象。<br>当光圈缩至最小时，孔径非常小，如果有光线透过，就会在孔后发生光线衍射的现象，这也会破坏入射光线的规律性，造成成像画质下降的现象。</p>
+<hr>
+<h2 id="（四）拍照模式"><a href="#（四）拍照模式" class="headerlink" title="（四）拍照模式"></a>（四）拍照模式</h2><h3 id="情景模式"><a href="#情景模式" class="headerlink" title="情景模式"></a>情景模式</h3><ol>
+<li>人像模式<br>拍摄人像类题材的照片时，一般的拍摄方法是采用极大的光圈，焦距设定在中长焦段，这样可以极大地虚化背景，并充分拉近人物，使人物主体在画面中非常突出。<br>使用人像拍摄模式拍摄的照片，可以使人物肤色还原较好，并且能够表现得白皙粉嫩。应该注意，人像模式下镜头光圈开得较大，这时画面中景深景浅的各个部位要求区别比较严格，因此在对焦点合焦时应该特别小心，避免失焦的情况发生，否则就会造成对焦点不够清晰的情况。<br>人像拍摄模式为程序控制曝光模式，因此在光线不足时，相机会自动弹起闪光灯进行补光。按住相机快门不放，可以将驱动模式由单拍改为连拍，方便摄影者从拍摄到的多张照片中挑选最满意的作品。</li>
+<li>风光拍摄模式<br>相比于全自动模式，风光拍摄模式的色彩比较鲜艳明快，绿色和蓝色较多，因为这样比较善于表现绿色植物和蓝色的天空。为达到这样的效果，风景拍摄模式下相机会自动设定光圈为F8.0～F11.0，光圈在这一范围内可保持相对高速的快门速度，避免照片因相机震荡而变得模糊不清</li>
+<li>微距模式<br>在微距模式下，相机会自动将光圈开大，照片风格默认为风光。对于摄影者来说，需要进行的操作就是尽量靠近被摄的主体，这样可以将微观对象拍摄得更大，并对要表现的具体部位对焦，使其清晰，而由于光圈较大，对焦点前后有虚化的效果。</li>
+<li>运动模式<br>主要用于拍摄运动主体的画面，在这种模式下，如果环境光线条件合适，相机会自动将快门速度设定在一个比较快的程度，以凝结运动主体瞬间的画面。但这里会涉及对焦的问题，如果对焦速度较慢，可能还没合焦但主体已经移动到取景框外。</li>
+<li>夜景人像<br>夜景人像模式则不同，开启这种模式后，相对于正常的人像模式，夜景人像模式的闪光灯闪光强度会有轻微的减弱，且最为重要的是相机会启动闪光灯慢速同步模式，拍摄时快门速度并没有明显加快，闪光灯作用主体仍然会曝光准确，但由于较慢的快门速度，会使画面中的背景可以得到充分的曝光时间而整体曝光充足，显得比较明亮。也就是说，使用夜景人像模式拍摄夜晚中的人像，主体与背景都能够拍摄得比较明亮。</li>
+</ol>
+<h3 id="进阶模式"><a href="#进阶模式" class="headerlink" title="进阶模式"></a>进阶模式</h3><ol>
+<li>程序曝光（P档）<br>程序曝光模式，即半自动曝光模式。在P模式下，数码单反相机的曝光由相机自动控制，但允许摄影者对白平衡、ISO感光度、曝光补偿数值、测光模式等拍摄参数进行调整，是一种简单快速，但又有一定的创造性拍摄的模式。<br>P模式在默认不进行调整的状态时类似于全自动模式，初级摄影者可以使用这种模式直接拍摄照片，大多数情况下能够拍得令人满意的作品。因为P模式下的曝光由相机根据现场光线情况自动曝光完成，所以不存在曝光不足或过度的情况，即使是现场环境光线不足，闪光灯也不会弹起，这是与全自动模式的不同。<br>这和手机上的相机拍照是一样的方法。</li>
+<li>全自动模式（AUTO/A+档）<br>数码单反相机的全自动模式类似于之前人们使用的傻瓜相机拍摄，用户只要选好拍摄对象，稳定住相机，然后按下快门，即可拍摄到清晰的照片。与最终照片拍摄效果有关的光圈大小、曝光时间（快门）、白平衡设置、ISO感光度、照片风格、对焦点的位置选择等参数都由相机程序自动控制，相机程序会根据拍摄场景中的环境条件进行运算，然后得出最佳的拍摄参数，继而得到最佳的拍摄效果。<br>使用全自动模式在室内或夜晚光线较暗的条件下拍摄时，相机一般不会根据光圈的条件而设定很长的曝光时间，而是启动闪光灯补光以获得较快的快门速度。这时全自动模式的缺陷就会体现出来，因为强行闪光拍摄会使得夜晚近处的景物曝光正常，而远处的景物却因无法获得充足的曝光量而漆黑一片，但这种情况的好处是不会因为快门速度过慢而使拍摄的照片模糊。</li>
+<li>光圈优先（AV档）<br>将相机模式设置为光圈优先，快门速度和感光度交给相机来自行设定，几乎可以满足绝大多数的拍摄场合。需要考虑的就是景深。</li>
+<li>快门优先模式（TV档）<br>快门优先模式则是只要调整快门速度，然后相机会根据你的快门速度设定一个光圈值，这个和光圈优先模式正好相反。使用快门优先来设定快门速度，能够控制画面中被摄物体的运动、静止状态，比如你想拍摄出瀑布流动的效果，这种情况下就需要首先调整到合适的快门速度。</li>
+<li>手动模式（M档）<br>手动档模式下，光圈、快门、感光度等等全部需要自己手动设置，从而实现对画面全部掌握。</li>
+</ol>
+<hr>
+<h2 id="（五）摄影用光"><a href="#（五）摄影用光" class="headerlink" title="（五）摄影用光"></a>（五）摄影用光</h2><h3 id="1-直射光与扩散光"><a href="#1-直射光与扩散光" class="headerlink" title="1. 直射光与扩散光"></a>1. 直射光与扩散光</h3><p>补光并不一定使用闪光灯或外拍灯等直射光源，可以使用亮度较高的平面体反射光线，利用反射光线对被摄体补光，这种补光效果要比主光源的效果弱，从而形成一定的光比，画面看起来更加真实，并且效果更加柔和。</p>
+<p>一般使用的反射体是反光板或反光伞。</p>
+<h3 id="2-光的强度、反差与光比"><a href="#2-光的强度、反差与光比" class="headerlink" title="2. 光的强度、反差与光比"></a>2. 光的强度、反差与光比</h3><p>光的反差也称为对比，但不是光线本身的反差，而是对于光线所照射的对象来说。<br>光比是摄影中的重要参数之一，指被摄景物受光面亮度与阴影面亮度的比值。</p>
+<h3 id="3-光的方向与效果"><a href="#3-光的方向与效果" class="headerlink" title="3. 光的方向与效果"></a>3. 光的方向与效果</h3><ul>
+<li>斜射光效果是在画面中表现出主体亮部和阴影部位，亮部和暗部位于同一画面，能够很容易表现出画面的影调层次。</li>
+<li>后斜射光也会在画面中营造出被摄体的亮部和暗部两个位置，但与前斜射光相比，后斜射光更善于勾画被摄主体的轮廓线，这对于表现主体的形态非常有帮助。<br>后斜射光的这种特点，决定了其比较适合于拍摄风光、花卉、微距等题材的作品。</li>
+<li>使用侧光拍摄人像类题材时，会在面部中线两侧形成明显的反差，即出现阴阳脸的情况，所以一般很少使用侧光拍摄人物。<br>要避免这种情况发生，就只能通过使用闪光灯对被摄主体的正面进行补光，或利用反光板等道具补光</li>
+<li>顶光和脚光拍摄人物往往能营造出恐怖、诡异的视觉效果</li>
+</ul>
+<h3 id="4-测光与曝光原理"><a href="#4-测光与曝光原理" class="headerlink" title="4. 测光与曝光原理"></a>4. 测光与曝光原理</h3><p>反射率为18%的亮度介于黑色与白色之间，通常为中性灰色（Middle Gray）。难怪校准白平衡的时候，都要拿18度灰卡进行校准。</p>
+<p>入射式测光是指将测光表放在被摄主体附近，使其与被摄体接收到几乎完全一样的光线照射，这样可以准确地测出被摄体的曝光数值</p>
+<p>反射式测光是测量被摄体反射出来的光线，使用时将测光表的测光部位对准主体即可。</p>
+<h3 id="5-人像摄影的用光"><a href="#5-人像摄影的用光" class="headerlink" title="5. 人像摄影的用光"></a>5. 人像摄影的用光</h3><ul>
+<li><p>顺光人像<br>顺光拍摄人像时，光线从正面照射到人物脸上，面部五官光线照射均匀，缺乏明暗变化效果，影调层次较少，因此使用这种方向的光线拍摄人像时，通常不会对人物正面的角度进行拍摄，否则会使拍摄出来的人物面部平坦，缺乏变化，毫无美感可言。这种光线方向一般用于拍摄证件照。</p>
+</li>
+<li><p>斜射光人像<br>前斜射光是非常理想的人像摄影光源，能够照亮人物面部大部分区域，并且会因为五官的凹凸而形成丰富的明暗影调层次，既能孕育情感，又能表现出足够的立体感，还可以勾勒人物面部的轮廓线条。</p>
+</li>
+<li><p>侧光人像<br>标准意义上的侧光也不适合拍摄人像照片，因为光线会在人物面部的中线鼻梁位置形成受光面高亮而背光面为阴影的较大反差，会丑化人物形象。</p>
+</li>
+<li><p>逆光人像<br>逆光人像是一种高反差光影效果的运用，在逆光下拍摄人像时，一般分为两种情况，拍摄剪影是最为简单的一种，对背景中的高亮光源处测光，这样人物正面会因为曝光不足而完全暗掉，画面中的人物只表现出形体轮廓线条，具有非常强的感召力。另外一种逆光人像是使用闪光灯或反光板对人物的正面进行补光，使其曝光正常</p>
+</li>
+</ul>
+<hr>
+<h2 id="（六）色彩的艺术"><a href="#（六）色彩的艺术" class="headerlink" title="（六）色彩的艺术"></a>（六）色彩的艺术</h2><h3 id="1-色彩的感觉"><a href="#1-色彩的感觉" class="headerlink" title="1. 色彩的感觉"></a>1. 色彩的感觉</h3><p>颜色并不是实体的存在，而是人类对于物体受到光线照射后所产生效果的一种视觉体验。自然界中，常见的颜色有红、橙、黄、绿、青、蓝、紫几种，人们对于这些色彩的感觉是由于物体对于光线的反射产生的。</p>
+<ul>
+<li>红色系代表爱意、热烈、热情、力量、浪漫、警告、危险等情感信息，是一种非常强烈的色彩表现，容易引起人们的注意。</li>
+<li>黄色系可传达出明快、简洁、活泼、温暖、健康与收获等情感，在中国古代，黄色还代表着尊贵与权势。黄色是非常靓丽的色调，在很多时候都能给人一种眼前一亮、豁然开朗的感觉。</li>
+<li>绿色系代表自然、和谐、安全、成长、青春与活力等情感。</li>
+<li>蓝色系代表专业、深邃、理智、宁静等情感。我们经常见到的计算机软件公司网页或LOGO会以蓝色调为主，可表达出专业与理智的感觉，而天空的深蓝又是深邃与宁静的代表，蓝色调的大海也会传达出深邃与宁静的感觉。在摄影中使用蓝色时，要注意白平衡的调整，否则拍摄天空时经常会有泛青的色偏效果。</li>
+<li>白色并不是某种光谱的颜色，而是各种不同颜色光谱的混合色。白色系能够表达人们多种不同的情感，如平等、平和、纯净、明亮、朴素、平淡等。</li>
+<li>黑色系传达出高贵、神秘、恐怖、死亡等情感。摄影中，与黑色搭配最为常见的颜色是白色，单纯的黑白搭配色可以减少画面中的杂色，以免影响欣赏者的视觉体验，能将人们的注意力吸引到作品的内涵方面，且画面视觉冲击力很强。</li>
+</ul>
+<h3 id="2-色彩的组合"><a href="#2-色彩的组合" class="headerlink" title="2. 色彩的组合"></a>2. 色彩的组合</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200429001458.png"  alt><br>红、橙、黄、绿、青、蓝、紫七色抽象为色彩的轮盘，非常直观。色轮上半部分的色彩为暖色系。</p>
+<p>色彩的互补是指从色轮上来看处于正对位置的两种颜色，两者相差180°左右，即通过圆心的直径两端的颜色。例如，绿色的互补色是粉红，蓝色的互补色是红色等。在摄影时采用互补色彩组合，会给欣赏者以非常强烈的情感，视觉冲击力很强，色彩区别明显、清晰。</p>
+<p>相邻色的特点是颜色相差不大，区分不明显，摄影时取相邻色搭配，会给欣赏者以和谐、平稳的感觉。<br>因为相邻色看起来颜色非常相近，如红色与橙色，搭配在一起经常让人无法分辨，这样获得的摄影作品往往会缺乏层次，看起来乏味。因此使用相邻色搭配时，还应注意主体与环境的搭配问题，可以通过环境来映衬主体，从而使得整个画面富有层次。</p>
+<h3 id="3-影响色彩的因素"><a href="#3-影响色彩的因素" class="headerlink" title="3. 影响色彩的因素"></a>3. 影响色彩的因素</h3><p>太阳的七色光谱中，红色最先到达地表，紫色最后达到，这会在摄影中产生一个现象，如果拍摄时的曝光时间很短，在1/8000s时，蓝、紫等色调的光谱还未来得及感光，或只有极少一部分感光，曝光就已经结束，这样最终拍摄的画面中主要是红、黄等色调感光，照片会有偏暖的感觉。<br>夜晚的自然光线下，已经极少甚至没有红、黄等光谱到达地面，只有微弱的蓝、紫等光谱照射地表，如果进行长时间曝光，蓝色等光谱进行感光，则拍摄的画面会整体泛蓝色。当然，这里有一个前提，即白平衡必须准确。</p>
+<h3 id="4-白平衡与色温"><a href="#4-白平衡与色温" class="headerlink" title="4. 白平衡与色温"></a>4. 白平衡与色温</h3><p>有的色彩比较纯正，有的色彩又显得非常杂。产生这种现象的原因是人在无形中会以白色作为参照标准，各种不同色彩的产生是来源于与白色相比较后的感觉。而作为标准的白色，是红、绿、蓝三原色混合叠加后产生的色彩。我们通常所说的白平衡调整，是指为了使照片所表现的色彩与人眼实际看到的色彩一致，而对相机进行的具体设定。</p>
+<h3 id="5-一天四时的光影流转"><a href="#5-一天四时的光影流转" class="headerlink" title="5. 一天四时的光影流转"></a>5. 一天四时的光影流转</h3><p>由于早晨地面和太阳之间的夹角很小，相对于摄影者来说，与太阳的距离较远，太阳光线必须通过很厚的大气层才能照射到摄影者所在的位置，因此波长很短的蓝、绿、黄色光线会被大气层阻挡，依次消失，这时只有波长很长的橘红色光线能够透过大气层照射到地面（光线由红、橙、黄、绿、青、蓝、紫七种光谱组成，波长由长到短排列），因此早晨的光线色彩呈现出红色或橙色。</p>
+<h3 id="6-相机的色彩设定"><a href="#6-相机的色彩设定" class="headerlink" title="6. 相机的色彩设定"></a>6. 相机的色彩设定</h3><p>当前大多数的数码单反相机设置菜单内都会有sRGB和Adobe RGB两种色彩空间供选择，且默认情况下设定为sRGB。如果没有特定的印刷目的，选择sRGB色彩空间即可，因为这样在后期处理时的兼容性可能更强。<br>与sRGB色彩空间相比，Adobe RGB色彩空间具有更为宽广的色域和良好的色彩层次表现，在摄影作品的色彩还原方面，Adobe RGB更为出色，另外，在印刷输出方面，Adobe RGB色彩空间更是远优于sRGB。</p>
+<hr>
+<h2 id="（七）构图"><a href="#（七）构图" class="headerlink" title="（七）构图"></a>（七）构图</h2><h3 id="1-点线面"><a href="#1-点线面" class="headerlink" title="1. 点线面"></a>1. 点线面</h3><p>大片绿色的画面中红色线条具有很强的表现力。</p>
+<h3 id="2-主体与宾体"><a href="#2-主体与宾体" class="headerlink" title="2. 主体与宾体"></a>2. 主体与宾体</h3><p>主体是摄影用以表达拍摄主题思想的最主要部分，是整个拍摄画面结构的中心，也是画面的趣味点所在，应占据突出位置。主体并不一定是孤立存在的，可以是一个对象，也可以是一组对象。例如，拍摄人像照片时，通常情况下要表现的人物就是主体，需要通过使用各种构图手段使其看起来更加突出。</p>
+<ul>
+<li>通过调整拍摄视角以及镜头焦距，将主体比例放大，使其充满整个画面，给欣赏者以较强的视觉冲击力；</li>
+<li>将主体置于画面中的某些构图点上，这些构图点的位置是欣赏者的视觉中心，这样欣赏者的注意力会更多地被主体吸引；</li>
+<li>比较复杂的手段是指虚化除主体之外的景物，并在取景时要取与主体色彩反差较大的其他景物，但要注意其他色彩不要过多，这样画面中就不会有其他明显的景物或色彩分散欣赏者的注意力，进而达到突出主体的效果；第四种手段是指调整画面中主体与其他景物的明暗对比度，使得主体较亮，其他景物较暗，这样也可以有效地突出主体。</li>
+</ul>
+<h3 id="3-前景、背景与留白"><a href="#3-前景、背景与留白" class="headerlink" title="3. 前景、背景与留白"></a>3. 前景、背景与留白</h3><p>摄影作品中的前景是指位于主体前面或离摄影者最近的景物。前景具有<strong>烘托主体和装饰拍摄画面</strong>的作用，可以增强画面的空间深度，还可以平衡构图和美化作品画面。在画面主体轮廓或色彩比较另类时，前景可以起到过渡的作用，使主体的出现不至过于突兀，这样画面的整体效果会更加协调；移动相机镜头使其跟随运动主体时，静止的前景还可以拉出运动模糊的效果，使摄影作品更具美感及视觉冲击力。与之前介绍的构图陪体一样，前景在画面中的视觉效果也不能强于主体，否则会削弱主体的地位，画面就会失去平衡。</p>
+<p>选择背景可以遵从以下几个原则：<strong>避免杂乱，力求简洁</strong>，可选用如蓝天、草地等单一成分的背景，如果背景中对象较多显得杂乱，可以通过将其虚化来简化背景；背景色彩不宜过多，背景色彩过多会造成喧闹的感觉，分散欣赏者的注意力；背景亮度不宜过高，但剪影等特殊效果例外。</p>
+<p>在摄影作品中<strong>合理地留白</strong>，可以有效避免因为画面元素过多或过于拥挤给欣赏者带来的视觉疲劳，可为欣赏者留下充足的思考空间，并能够使欣赏者的思绪扩展到更深、更远的层次，这更利于表现画面主题，增加作品的艺术感染力与深度。</p>
+<h3 id="4-摄影角度"><a href="#4-摄影角度" class="headerlink" title="4. 摄影角度"></a>4. 摄影角度</h3><ol>
+<li><p>平视：一种是正对画面主体进行拍摄，称为正平视取景，这种方式经常用于表现画面比较平稳的主题或拍摄人物的证件照片；另外一种平视效果是侧平视取景，是指镜头与主体正面朝向稍微偏离一定的角度，如拍摄人像的侧面照片等，侧平视取景在拍摄人像时可以勾画人像的面部与身材轮廓线，拍摄风光时则经常可以营造出延展、深邃的感觉。</p>
+</li>
+<li><p>仰视取景：指镜头向上仰起进行拍摄，获得的摄影作品中被摄对象看起来会更加高大、重要或有气势，如果靠近被摄主体拍摄，还能使照片中的构图元素富有极度近大远小的夸张透视效果。</p>
+</li>
+<li><p>仰视取景：相机向上仰起的角度也有两种选择，45°左右的仰角可以拍摄出主体高大、有气势的形象，例如仰拍人像时，可以拍摄出对象修长的腿部；如果将相机的仰角调整到90°左右，则会营造一种使人眩晕的画面效果，非常具有戏剧性和压迫性，冲击力十足。</p>
+</li>
+<li><p>俯视取景：指摄影时镜头要高于被摄对象，是一种居高临下的拍摄方式。采用轻度俯拍的方式可以比较容易地拍摄出景物的高度落差，搭配广角镜头与较大的物距，可以突出画面广阔的空间感。采用高位俯拍的拍摄方式会压缩画面主体的视觉比例，使其投射在广阔的背景上，造成夸张的大小对比效果。俯视取景搭配广角镜头可用于拍摄大场面的风光作品，特别是平面风光，如花田、草原等，如果采用平视的角度，可能无法表现环境远处的景观。</p>
+<p>拍摄人像题材时，如果使用俯拍的方式拍摄，会削弱主体人物的气势，使人物变小，并会使人物的形体发生变化，如扭曲等，可产生一种富有戏剧性的效果。</p>
+</li>
+</ol>
+<h3 id="5-透视的概念"><a href="#5-透视的概念" class="headerlink" title="5. 透视的概念"></a>5. 透视的概念</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200429000852.png"  alt><br>实际景物与人眼位置都是固定不变的。对于在投影平面上的投影，左侧的投影只是实际景物按比例的压缩，即符合透视规律；而右侧的投影中，实际景物之间的远近距离被压缩了，即不符合透视规律。</p>
+<p>透视规律的具体体现有近大远小的几何透视，还有远处模糊、近处清晰的影调透视。好的摄影作品往往这两种透视规律都非常明显，特别是大场景的风光作品中，线条透视优美，空间感强，而影调透视则使画面变得深远，意境盎然。</p>
+<h3 id="6-对比构图法"><a href="#6-对比构图法" class="headerlink" title="6. 对比构图法"></a>6. 对比构图法</h3><p>相机快门速度调节或相机自身移动来实现，包括动静结合法、追踪对焦法、曝光中途变焦法。</p>
+<p>在一些光线条件不理想的场景中拍摄，曝光时间会比较长，在曝光尚未完成时，用手转动变焦环，转动时要用力均匀，不能使镜头中轴线出现抖动，这样在曝光完成后的画面中会出现对焦点周围景物清晰，但周围景物呈现出放射状线条的效果，像爆炸一样，非常具有视觉冲击力。这种拍摄方式称为<strong>曝光中途变焦法</strong>。</p>
+<h3 id="7-几何构图"><a href="#7-几何构图" class="headerlink" title="7. 几何构图"></a>7. 几何构图</h3><ul>
+<li>水平线构图：拍摄风光作品时，地面与林木、地面与天空、水面与林木、水面与天空等景物组合的构图都可以使用水平线构图来实现；另外，建筑摄影构图中，建筑物的水平线一定要平，否则画面整体就会失去平衡。</li>
+</ul>
+<ul>
+<li>竖直线构图：能够给欣赏者以坚定、向上、永恒的心理感受。由于人的视觉习惯是自左向右延伸，因此打破常规的上下方向延展的竖直线构图能够表现出很强的视觉压迫和冲击力。如果能够将景物拉近拍摄，则效果更佳。</li>
+</ul>
+<ul>
+<li><p>对角线构图：指主体或重要景物沿画面对角线的方向排列，旨在表现出动感、不稳定性或生命力等感觉</p>
+</li>
+<li><p>S形构图强调的是线条的力量，这种构图方式可以给欣赏者以优美、活力、延伸感和空间感等视觉体验。一般欣赏者的视线会随着S形线条的延伸而移动，逐渐延展到画面远处，并随着画面透视特性的变化，使人产生一种空间广袤无垠的感觉。</p>
+<p>S形构图多见于广角镜头所拍摄的画面中，此时拍摄视角较大，空间比较开阔，并且景物透视性能良好。</p>
+</li>
+<li><p>正三角形构图的建筑主体，给人一种非常稳定、可靠的感觉</p>
+<p>如果景物以倒三角形构图的形式组合，则会让人感觉景物之间的关系非常不稳定、不牢固。</p>
+</li>
+<li><p>另外一种对称的形式是景物自身形态的对称，如大部分建筑物、正面人像的面部等。但要注意，拍摄景物自身形态的对称时，要将主体放在画面的中央。</p>
+</li>
+</ul>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>阅读</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>镜头</tag>
+        <tag>阅读</tag>
+        <tag>摄影</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BUG：sensor帧率不准</title>
     <url>/posts/2b78e151/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>编码帧率设置的是25帧，出来的却是26帧。如果设置30帧，出来的是31帧。</p>
@@ -1729,8 +1869,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>推荐</tag>
         <tag>软件</tag>
+        <tag>推荐</tag>
       </tags>
   </entry>
   <entry>
@@ -1852,8 +1992,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>网站</tag>
         <tag>推荐</tag>
+        <tag>网站</tag>
       </tags>
   </entry>
   <entry>
@@ -1875,60 +2015,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线程学习</title>
-    <url>/posts/c3eb2d02/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>深入解析锁和条件变量</p>
-</blockquote>
-<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
-<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
-<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
-<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
-<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
-<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
-<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
-<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
-<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
-<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
-<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
-<p>原子性的解锁并阻塞/等待条件变量。</p>
-<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
-<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
-<ul>
-<li>生产者和消费者都对条件变量的使用加了锁</li>
-<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
-<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
-<p>pthread_mutex_lock(&mutex);         //加锁</p>
-<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
-<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_cond_signal(&flag);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
-<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
-<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
-<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
-<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -2007,6 +2093,60 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    void</span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>如果把signal放在unlock之前，消费者线程会被唤醒，获取mutex发现获取不到，就又去sleep了。浪费了资源.但是在LinuxThreads或者NPTL里面，就不会有这个问题，因为在Linux 线程中，有两个队列，分别是cond_wait队列和mutex_lock队列， cond_signal只是让线程从cond_wait队列移到mutex_lock队列，而不用返回到用户空间，不会有性能的损耗。<br>所以在Linux中推荐使用这种模式。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线程学习</title>
+    <url>/posts/c3eb2d02/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>深入解析锁和条件变量</p>
+</blockquote>
+<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
+<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
+<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
+<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
+<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
+<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
+<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
+<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
+<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
+<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
+<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
+<p>原子性的解锁并阻塞/等待条件变量。</p>
+<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
+<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
+<ul>
+<li>生产者和消费者都对条件变量的使用加了锁</li>
+<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
+<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
+<p>pthread_mutex_lock(&mutex);         //加锁</p>
+<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
+<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_cond_signal(&flag);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
+<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
+<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
+<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
+<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
 </body></html>]]></content>
       <categories>
         <category>学习</category>
@@ -2159,102 +2299,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </tags>
   </entry>
   <entry>
-    <title>Python 网络编程</title>
-    <url>/posts/87d5a42a/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的<strong>IP地址</strong>和<strong>端口号</strong>，再指定<strong>协议类型</strong>即可。</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></tbody></table></figure>
-
-<p>创建<code>Socket</code>时，<code>AF_INET</code>指定使用IPv4协议，如果要用更先进的IPv6，就指定为<code>AF_INET6</code>。<code>SOCK_STREAM</code>指定使用面向流的TCP协议，这样，一个<code>Socket</code>对象就创建成功，但是还没有建立连接。</p>
-<p>客户端要主动发起TCP连接，必须知道服务器的IP地址和端口号。新浪网站的IP地址可以用域名<code>www.sina.com.cn</code>自动转换到IP地址，但是怎么知道新浪服务器的端口号呢？</p>
-<p>答案是作为服务器，提供什么样的服务，端口号就必须固定下来。由于我们想要访问网页，因此新浪提供网页服务的服务器必须把端口号固定在<code>80</code>端口，因为<code>80</code>端口是Web服务的标准端口。其他服务都有对应的标准端口号，例如SMTP服务是<code>25</code>端口，FTP服务是<code>21</code>端口，等等。端口号小于1024的是Internet标准服务的端口，端口号大于1024的，可以任意使用。</p>
-<p>建立TCP连接后，我们就可以向新浪服务器发送请求，要求返回首页的内容：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 发送数据:</span></span><br><span class="line">s.send(<span class="string">b'GET / HTTP/1.1\r\nHost: www.sina.com.cn\r\nConnection: close\r\n\r\n'</span>)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>TCP连接创建的是双向通道，双方都可以同时给对方发数据。但是谁先发谁后发，怎么协调，要根据具体的协议来决定。例如，HTTP协议规定客户端必须先发请求给服务器，服务器收到后才发数据给客户端。</p>
-<p>发送的文本格式必须符合HTTP标准，如果格式没问题，接下来就可以接收新浪服务器返回的数据了：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 接收数据:</span></span><br><span class="line">buffer = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 每次最多接收1k字节:</span></span><br><span class="line">    d = s.recv(<span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">if</span> d:</span><br><span class="line">        buffer.append(d)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">data = <span class="string">b''</span>.join(buffer)</span><br></pre></td></tr></tbody></table></figure>
-
-<p><strong>接收数据时，调用<code>recv(max)</code>方法，一次最多接收指定的字节数，因此，在一个while循环中反复接收，直到<code>recv()</code>返回空数据，表示接收完毕，退出循环。</strong></p>
-<p><strong>join函数指的是用指定字符连接生成一个新的字符串，由于这个字符是空，因此就是将list连接，生成新的字符串。</strong></p>
-<p>当我们接收完数据后，调用<code>close()</code>方法关闭Socket，这样，一次完整的网络通信就结束了：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 关闭连接:</span></span><br><span class="line">s.close()</span><br></pre></td></tr></tbody></table></figure>
-
-<p><strong>split()</strong> 函数通过指定分隔符对字符串进行切片，如果参数 num 有指定值，则分隔 num+1 个子字符串；也就是说第一句是将data分割成两块</p>
-<p>接收到的数据包括HTTP头和网页本身，我们只需要把HTTP头和网页分离一下，把HTTP头打印出来，网页内容保存到文件：——http头和网页分离是通过两个\r\n识别的</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">header, html = data.split(<span class="string">b'\r\n\r\n'</span>, <span class="number">1</span>)</span><br><span class="line">print(header.decode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="comment"># 把接收的数据写入文件:</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'sina.html'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(html)</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>和客户端编程相比，服务器编程就要复杂一些。</p>
-<p>服务器进程首先要绑定一个端口并监听来自其他客户端的连接。如果某个客户端连接过来了，服务器就与该客户端建立Socket连接，随后的通信就靠这个Socket连接了。</p>
-<p>所以，服务器会打开固定端口（比如80）监听，每来一个客户端连接，就创建该Socket连接。由于服务器会有大量来自客户端的连接，所以，服务器要能够区分一个Socket连接是和哪个客户端绑定的。一个Socket依赖4项：服务器地址、服务器端口、客户端地址、客户端端口来唯一确定一个Socket。</p>
-<p>但是服务器还需要同时响应多个客户端的请求，所以，每个连接都需要一个新的进程或者新的线程来处理，否则，服务器一次就只能服务一个客户端了。</p>
-<p>我们来编写一个简单的服务器程序，它接收客户端连接，把客户端发过来的字符串加上<code>Hello</code>再发回去。</p>
-<h1 id="网页介绍"><a href="#网页介绍" class="headerlink" title="网页介绍"></a>网页介绍</h1><p>安装好Chrome浏览器后，打开Chrome，在菜单中选择“视图”，“开发者”，“开发者工具”，就可以显示开发者工具：</p>
-<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399878215246e5c00e9142244698a91c5d558c5901a1000"  alt="chrome-dev-tools"></p>
-<p><code>Elements</code>显示网页的结构，<code>Network</code>显示浏览器和服务器的通信。我们点<code>Network</code>，确保第一个小红灯亮着，Chrome就会记录所有浏览器和服务器之间的通信：</p>
-<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399878404470cf9e8257a27a4807b856b7dfa23f93a0000"  alt="chrome-devtools-network"></p>
-<p>当我们在地址栏输入<code>www.sina.com.cn</code>时，浏览器将显示新浪的首页。在这个过程中，浏览器都干了哪些事情呢？通过<code>Network</code>的记录，我们就可以知道。在<code>Network</code>中，定位到第一条记录，点击，右侧将显示<code>Request Headers</code>，点击右侧的<code>view source</code>，我们就可以看到浏览器发给新浪服务器的请求：</p>
-<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399877287994279bc3d41b3040f985e3e8b838211465000"  alt="sina-http-request"></p>
-<p>最主要的头两行分析如下，第一行：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>GET</code>表示一个读取请求，将从服务器获得网页数据，<code>/</code>表示URL的路径，URL总是以<code>/</code>开头，<code>/</code>就表示首页，最后的<code>HTTP/1.1</code>指示采用的HTTP协议版本是1.1。目前HTTP协议的版本就是1.1，但是大部分服务器也支持1.0版本，主要区别在于1.1版本允许多个HTTP请求复用一个TCP连接，以加快传输速度。</p>
-<p>从第二行开始，每一行都类似于<code>Xxx: abcdefg</code>：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Host: www.sina.com.cn</span><br></pre></td></tr></tbody></table></figure>
-
-<p>表示请求的域名是<code>www.sina.com.cn</code>。如果一台服务器有多个网站，服务器就需要通过<code>Host</code>来区分浏览器请求的是哪个网站。</p>
-<p>继续往下找到<code>Response Headers</code>，点击<code>view source</code>，显示服务器返回的原始响应数据：</p>
-<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/0013998772979993bf20079a3d8452f9b44f9ec88f8a5c8000"  alt="sina-http-response"></p>
-<p>HTTP响应分为Header和Body两部分（Body是可选项），我们在<code>Network</code>中看到的Header最重要的几行如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">200 OK</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>200</code>表示一个成功的响应，后面的<code>OK</code>是说明。失败的响应有<code>404 Not Found</code>：网页不存在，<code>500 Internal Server Error</code>：服务器内部出错，等等。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Content-Type: text/html</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>Content-Type</code>指示响应的内容，这里是<code>text/html</code>表示HTML网页。请注意，浏览器就是依靠<code>Content-Type</code>来判断响应的内容是网页还是图片，是视频还是音乐。浏览器并不靠URL来判断响应的内容，所以，即使URL是<code>http://example.com/abc.jpg</code>，它也不一定就是图片。</p>
-<p>HTTP响应的Body就是HTML源码，我们在菜单栏选择“视图”，“开发者”，“查看网页源码”就可以在浏览器中直接查看HTML源码：</p>
-<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399877306431ffee0ff7d3fe48bb88da759bb977c1e0000"  alt="sina-http-source"></p>
-<p>当浏览器读取到新浪首页的HTML源码后，它会解析HTML，显示页面，然后，根据HTML里面的各种链接，再发送HTTP请求给新浪服务器，拿到相应的图片、视频、Flash、JavaScript脚本、CSS等各种资源，最终显示出一个完整的页面。所以我们在<code>Network</code>下面能看到很多额外的HTTP请求。</p>
-<h3 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h3><p>跟踪了新浪的首页，我们来总结一下HTTP请求的流程：</p>
-<p>步骤1：浏览器首先向服务器发送HTTP请求，请求包括：</p>
-<p>方法：GET还是POST，GET仅请求资源，POST会附带用户数据；</p>
-<p>路径：/full/url/path；</p>
-<p>域名：由Host头指定：Host: <a href="http://www.sina.com.cn" target="_blank" rel="noopener">www.sina.com.cn</a></p>
-<p>以及其他相关的Header；</p>
-<p>如果是POST，那么请求还包括一个Body，包含用户数据。</p>
-<p>步骤2：服务器向浏览器返回HTTP响应，响应包括：</p>
-<p>响应代码：200表示成功，3xx表示重定向，4xx表示客户端发送的请求有错误，5xx表示服务器端处理时发生了错误；</p>
-<p>响应类型：由Content-Type指定；</p>
-<p>以及其他相关的Header；</p>
-<p>通常服务器的HTTP响应会携带内容，也就是有一个Body，包含响应的内容，网页的HTML源码就在Body中。</p>
-<p>步骤3：如果浏览器还需要继续向服务器请求其他资源，比如图片，就再次发出HTTP请求，重复步骤1、2。</p>
-<p>Web采用的HTTP协议采用了非常简单的请求-响应模式，从而大大简化了开发。当我们编写一个页面时，我们只需要在HTTP请求中把HTML发送出去，不需要考虑如何附带图片、视频等，浏览器如果需要请求图片和视频，它会发送另一个HTTP请求，因此，一个HTTP请求只处理一个资源。</p>
-<p>HTTP协议同时具备极强的扩展性，虽然浏览器请求的是<code>http://www.sina.com.cn/</code>的首页，但是新浪在HTML中可以链入其他服务器的资源，比如<code> class="lazyload" data-src="http://i1.sinaimg.cn/home/2013/1008/U8455P30DT20131008135420.png" <img src="/"></code>，从而将请求压力分散到各个服务器上，并且，一个站点可以链接到其他站点，无数个站点互相链接起来，就形成了World Wide Web，简称WWW。</p>
-<h3 id="HTTP格式"><a href="#HTTP格式" class="headerlink" title="HTTP格式"></a>HTTP格式</h3><p>每个HTTP请求和响应都遵循相同的格式，一个HTTP包含Header和Body两部分，其中Body是可选的。</p>
-<p>HTTP协议是一种文本协议，所以，它的格式也非常简单。HTTP GET请求的格式：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">GET /path HTTP/1.1</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br></pre></td></tr></tbody></table></figure>
-
-<p>每个Header一行一个，换行符是<code>\r\n</code>。</p>
-<p>HTTP POST请求的格式：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">POST /path HTTP/1.1</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></tbody></table></figure>
-
-<p>当遇到连续两个<code>\r\n</code>时，Header部分结束，后面的数据全部是Body。</p>
-<p>HTTP响应的格式：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">200 OK</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></tbody></table></figure>
-
-<p>HTTP响应如果包含body，也是通过<code>\r\n\r\n</code>来分隔的。请再次注意，Body的数据类型由<code>Content-Type</code>头来确定，如果是网页，Body就是文本，如果是图片，Body就是图片的二进制数据。</p>
-<p>当存在<code>Content-Encoding</code>时，Body数据是被压缩的，最常见的压缩方式是gzip，所以，看到<code>Content-Encoding: gzip</code>时，需要将Body数据先解压缩，才能得到真正的数据。压缩的目的在于减少Body的大小，加快网络传输。</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>c 动态内存分配</title>
     <url>/posts/ca78d72f/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -2388,6 +2432,102 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>结构体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 网络编程</title>
+    <url>/posts/87d5a42a/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的<strong>IP地址</strong>和<strong>端口号</strong>，再指定<strong>协议类型</strong>即可。</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>创建<code>Socket</code>时，<code>AF_INET</code>指定使用IPv4协议，如果要用更先进的IPv6，就指定为<code>AF_INET6</code>。<code>SOCK_STREAM</code>指定使用面向流的TCP协议，这样，一个<code>Socket</code>对象就创建成功，但是还没有建立连接。</p>
+<p>客户端要主动发起TCP连接，必须知道服务器的IP地址和端口号。新浪网站的IP地址可以用域名<code>www.sina.com.cn</code>自动转换到IP地址，但是怎么知道新浪服务器的端口号呢？</p>
+<p>答案是作为服务器，提供什么样的服务，端口号就必须固定下来。由于我们想要访问网页，因此新浪提供网页服务的服务器必须把端口号固定在<code>80</code>端口，因为<code>80</code>端口是Web服务的标准端口。其他服务都有对应的标准端口号，例如SMTP服务是<code>25</code>端口，FTP服务是<code>21</code>端口，等等。端口号小于1024的是Internet标准服务的端口，端口号大于1024的，可以任意使用。</p>
+<p>建立TCP连接后，我们就可以向新浪服务器发送请求，要求返回首页的内容：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 发送数据:</span></span><br><span class="line">s.send(<span class="string">b'GET / HTTP/1.1\r\nHost: www.sina.com.cn\r\nConnection: close\r\n\r\n'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>TCP连接创建的是双向通道，双方都可以同时给对方发数据。但是谁先发谁后发，怎么协调，要根据具体的协议来决定。例如，HTTP协议规定客户端必须先发请求给服务器，服务器收到后才发数据给客户端。</p>
+<p>发送的文本格式必须符合HTTP标准，如果格式没问题，接下来就可以接收新浪服务器返回的数据了：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 接收数据:</span></span><br><span class="line">buffer = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="comment"># 每次最多接收1k字节:</span></span><br><span class="line">    d = s.recv(<span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">if</span> d:</span><br><span class="line">        buffer.append(d)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">data = <span class="string">b''</span>.join(buffer)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>接收数据时，调用<code>recv(max)</code>方法，一次最多接收指定的字节数，因此，在一个while循环中反复接收，直到<code>recv()</code>返回空数据，表示接收完毕，退出循环。</strong></p>
+<p><strong>join函数指的是用指定字符连接生成一个新的字符串，由于这个字符是空，因此就是将list连接，生成新的字符串。</strong></p>
+<p>当我们接收完数据后，调用<code>close()</code>方法关闭Socket，这样，一次完整的网络通信就结束了：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 关闭连接:</span></span><br><span class="line">s.close()</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>split()</strong> 函数通过指定分隔符对字符串进行切片，如果参数 num 有指定值，则分隔 num+1 个子字符串；也就是说第一句是将data分割成两块</p>
+<p>接收到的数据包括HTTP头和网页本身，我们只需要把HTTP头和网页分离一下，把HTTP头打印出来，网页内容保存到文件：——http头和网页分离是通过两个\r\n识别的</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">header, html = data.split(<span class="string">b'\r\n\r\n'</span>, <span class="number">1</span>)</span><br><span class="line">print(header.decode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="comment"># 把接收的数据写入文件:</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'sina.html'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(html)</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>和客户端编程相比，服务器编程就要复杂一些。</p>
+<p>服务器进程首先要绑定一个端口并监听来自其他客户端的连接。如果某个客户端连接过来了，服务器就与该客户端建立Socket连接，随后的通信就靠这个Socket连接了。</p>
+<p>所以，服务器会打开固定端口（比如80）监听，每来一个客户端连接，就创建该Socket连接。由于服务器会有大量来自客户端的连接，所以，服务器要能够区分一个Socket连接是和哪个客户端绑定的。一个Socket依赖4项：服务器地址、服务器端口、客户端地址、客户端端口来唯一确定一个Socket。</p>
+<p>但是服务器还需要同时响应多个客户端的请求，所以，每个连接都需要一个新的进程或者新的线程来处理，否则，服务器一次就只能服务一个客户端了。</p>
+<p>我们来编写一个简单的服务器程序，它接收客户端连接，把客户端发过来的字符串加上<code>Hello</code>再发回去。</p>
+<h1 id="网页介绍"><a href="#网页介绍" class="headerlink" title="网页介绍"></a>网页介绍</h1><p>安装好Chrome浏览器后，打开Chrome，在菜单中选择“视图”，“开发者”，“开发者工具”，就可以显示开发者工具：</p>
+<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399878215246e5c00e9142244698a91c5d558c5901a1000"  alt="chrome-dev-tools"></p>
+<p><code>Elements</code>显示网页的结构，<code>Network</code>显示浏览器和服务器的通信。我们点<code>Network</code>，确保第一个小红灯亮着，Chrome就会记录所有浏览器和服务器之间的通信：</p>
+<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399878404470cf9e8257a27a4807b856b7dfa23f93a0000"  alt="chrome-devtools-network"></p>
+<p>当我们在地址栏输入<code>www.sina.com.cn</code>时，浏览器将显示新浪的首页。在这个过程中，浏览器都干了哪些事情呢？通过<code>Network</code>的记录，我们就可以知道。在<code>Network</code>中，定位到第一条记录，点击，右侧将显示<code>Request Headers</code>，点击右侧的<code>view source</code>，我们就可以看到浏览器发给新浪服务器的请求：</p>
+<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399877287994279bc3d41b3040f985e3e8b838211465000"  alt="sina-http-request"></p>
+<p>最主要的头两行分析如下，第一行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>GET</code>表示一个读取请求，将从服务器获得网页数据，<code>/</code>表示URL的路径，URL总是以<code>/</code>开头，<code>/</code>就表示首页，最后的<code>HTTP/1.1</code>指示采用的HTTP协议版本是1.1。目前HTTP协议的版本就是1.1，但是大部分服务器也支持1.0版本，主要区别在于1.1版本允许多个HTTP请求复用一个TCP连接，以加快传输速度。</p>
+<p>从第二行开始，每一行都类似于<code>Xxx: abcdefg</code>：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Host: www.sina.com.cn</span><br></pre></td></tr></tbody></table></figure>
+
+<p>表示请求的域名是<code>www.sina.com.cn</code>。如果一台服务器有多个网站，服务器就需要通过<code>Host</code>来区分浏览器请求的是哪个网站。</p>
+<p>继续往下找到<code>Response Headers</code>，点击<code>view source</code>，显示服务器返回的原始响应数据：</p>
+<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/0013998772979993bf20079a3d8452f9b44f9ec88f8a5c8000"  alt="sina-http-response"></p>
+<p>HTTP响应分为Header和Body两部分（Body是可选项），我们在<code>Network</code>中看到的Header最重要的几行如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">200 OK</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>200</code>表示一个成功的响应，后面的<code>OK</code>是说明。失败的响应有<code>404 Not Found</code>：网页不存在，<code>500 Internal Server Error</code>：服务器内部出错，等等。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Content-Type: text/html</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>Content-Type</code>指示响应的内容，这里是<code>text/html</code>表示HTML网页。请注意，浏览器就是依靠<code>Content-Type</code>来判断响应的内容是网页还是图片，是视频还是音乐。浏览器并不靠URL来判断响应的内容，所以，即使URL是<code>http://example.com/abc.jpg</code>，它也不一定就是图片。</p>
+<p>HTTP响应的Body就是HTML源码，我们在菜单栏选择“视图”，“开发者”，“查看网页源码”就可以在浏览器中直接查看HTML源码：</p>
+<p><img src="/" class="lazyload" data-src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001399877306431ffee0ff7d3fe48bb88da759bb977c1e0000"  alt="sina-http-source"></p>
+<p>当浏览器读取到新浪首页的HTML源码后，它会解析HTML，显示页面，然后，根据HTML里面的各种链接，再发送HTTP请求给新浪服务器，拿到相应的图片、视频、Flash、JavaScript脚本、CSS等各种资源，最终显示出一个完整的页面。所以我们在<code>Network</code>下面能看到很多额外的HTTP请求。</p>
+<h3 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h3><p>跟踪了新浪的首页，我们来总结一下HTTP请求的流程：</p>
+<p>步骤1：浏览器首先向服务器发送HTTP请求，请求包括：</p>
+<p>方法：GET还是POST，GET仅请求资源，POST会附带用户数据；</p>
+<p>路径：/full/url/path；</p>
+<p>域名：由Host头指定：Host: <a href="http://www.sina.com.cn" target="_blank" rel="noopener">www.sina.com.cn</a></p>
+<p>以及其他相关的Header；</p>
+<p>如果是POST，那么请求还包括一个Body，包含用户数据。</p>
+<p>步骤2：服务器向浏览器返回HTTP响应，响应包括：</p>
+<p>响应代码：200表示成功，3xx表示重定向，4xx表示客户端发送的请求有错误，5xx表示服务器端处理时发生了错误；</p>
+<p>响应类型：由Content-Type指定；</p>
+<p>以及其他相关的Header；</p>
+<p>通常服务器的HTTP响应会携带内容，也就是有一个Body，包含响应的内容，网页的HTML源码就在Body中。</p>
+<p>步骤3：如果浏览器还需要继续向服务器请求其他资源，比如图片，就再次发出HTTP请求，重复步骤1、2。</p>
+<p>Web采用的HTTP协议采用了非常简单的请求-响应模式，从而大大简化了开发。当我们编写一个页面时，我们只需要在HTTP请求中把HTML发送出去，不需要考虑如何附带图片、视频等，浏览器如果需要请求图片和视频，它会发送另一个HTTP请求，因此，一个HTTP请求只处理一个资源。</p>
+<p>HTTP协议同时具备极强的扩展性，虽然浏览器请求的是<code>http://www.sina.com.cn/</code>的首页，但是新浪在HTML中可以链入其他服务器的资源，比如<code> class="lazyload" data-src="http://i1.sinaimg.cn/home/2013/1008/U8455P30DT20131008135420.png" <img src="/"></code>，从而将请求压力分散到各个服务器上，并且，一个站点可以链接到其他站点，无数个站点互相链接起来，就形成了World Wide Web，简称WWW。</p>
+<h3 id="HTTP格式"><a href="#HTTP格式" class="headerlink" title="HTTP格式"></a>HTTP格式</h3><p>每个HTTP请求和响应都遵循相同的格式，一个HTTP包含Header和Body两部分，其中Body是可选的。</p>
+<p>HTTP协议是一种文本协议，所以，它的格式也非常简单。HTTP GET请求的格式：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">GET /path HTTP/1.1</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br></pre></td></tr></tbody></table></figure>
+
+<p>每个Header一行一个，换行符是<code>\r\n</code>。</p>
+<p>HTTP POST请求的格式：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">POST /path HTTP/1.1</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当遇到连续两个<code>\r\n</code>时，Header部分结束，后面的数据全部是Body。</p>
+<p>HTTP响应的格式：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">200 OK</span><br><span class="line">Header1: Value1</span><br><span class="line">Header2: Value2</span><br><span class="line">Header3: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></tbody></table></figure>
+
+<p>HTTP响应如果包含body，也是通过<code>\r\n\r\n</code>来分隔的。请再次注意，Body的数据类型由<code>Content-Type</code>头来确定，如果是网页，Body就是文本，如果是图片，Body就是图片的二进制数据。</p>
+<p>当存在<code>Content-Encoding</code>时，Body数据是被压缩的，最常见的压缩方式是gzip，所以，看到<code>Content-Encoding: gzip</code>时，需要将Body数据先解压缩，才能得到真正的数据。压缩的目的在于减少Body的大小，加快网络传输。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -3682,6 +3822,51 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>线程进程总结</title>
+    <url>/posts/9fc0e279/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
+<a id="more"></a>
+
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
+<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
+<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
+<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
+<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
+<p>（1）线程状态。</p>
+<p>（2）当线程不运行时，被保存的现场资源。</p>
+<p>（3）一组执行堆栈。</p>
+<p>（4）存放每个线程的局部变量主存区。</p>
+<p>（5）访问同一个进程中的主存和其它资源。</p>
+<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
+<p><strong>2）独立调度和分派的基本单位。</strong></p>
+<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
+<p><strong>3）可并发执行。</strong></p>
+<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
+<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
+<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="/" class="lazyload" data-src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg"  alt="线程"></a>线程</p>
+<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
+<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
+<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
+<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
+<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
+<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
+<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
+<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 线程和进程</title>
     <url>/posts/ea480f1d/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -3833,51 +4018,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>线程进程总结</title>
-    <url>/posts/9fc0e279/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
-<a id="more"></a>
-
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
-<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
-<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
-<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
-<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
-<p>（1）线程状态。</p>
-<p>（2）当线程不运行时，被保存的现场资源。</p>
-<p>（3）一组执行堆栈。</p>
-<p>（4）存放每个线程的局部变量主存区。</p>
-<p>（5）访问同一个进程中的主存和其它资源。</p>
-<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
-<p><strong>2）独立调度和分派的基本单位。</strong></p>
-<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
-<p><strong>3）可并发执行。</strong></p>
-<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
-<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
-<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="/" class="lazyload" data-src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg"  alt="线程"></a>线程</p>
-<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
-<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
-<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
-<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
-<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
-<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
-<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
-<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
-<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>操作系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>void*指针疑问和总结</title>
     <url>/posts/d9680356/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>对void用法和注意事项进行总结，以及提出几个问题：</p>
@@ -3995,8 +4135,8 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>围围</tag>
-        <tag>诗歌</tag>
         <tag>情书</tag>
+        <tag>诗歌</tag>
       </tags>
   </entry>
   <entry>
@@ -4585,28 +4725,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>hexo 多终端同步</title>
-    <url>/posts/5f460a06/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
-<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
-<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
-<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python stats数据绘图</title>
     <url>/posts/b8795a15/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h1><h2 id="（一）绘图"><a href="#（一）绘图" class="headerlink" title="（一）绘图"></a>（一）绘图</h2><h3 id="导入模块"><a href="#导入模块" class="headerlink" title="导入模块"></a>导入模块</h3><figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#导入模块  </span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="comment">#创建新图</span></span><br><span class="line">fig = plt.figure()  <span class="comment"># an empty figure with no axes</span></span><br><span class="line">fig.suptitle(<span class="string">'No axes on this figure'</span>)  <span class="comment"># Add a title so we know which it is</span></span><br><span class="line"></span><br><span class="line">fig, ax_lst = plt.subplots(<span class="number">2</span>, <span class="number">2</span>)  <span class="comment"># a figure with a 2x2 grid of Axes</span></span><br></pre></td></tr></tbody></table></figure>
@@ -4692,6 +4810,28 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo 多终端同步</title>
+    <url>/posts/5f460a06/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
+<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
+<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
+<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>

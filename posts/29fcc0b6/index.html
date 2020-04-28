@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>阅读笔记——数码单反摄影从入门到精通 | 清新的日子</title><meta name="description" content="加深对镜头和sensor的理解<br>学习一些单反摄影的基本知识和构图技巧。"><meta name="keywords" content="镜头|成像|拍照|摄影|摄影技巧"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="阅读笔记——数码单反摄影从入门到精通"><meta name="twitter:description" content="加深对镜头和sensor的理解<br>学习一些单反摄影的基本知识和构图技巧。"><meta name="twitter:image" content="https://image.qinxing.xyz/20200429002128.png"><meta property="og:type" content="article"><meta property="og:title" content="阅读笔记——数码单反摄影从入门到精通"><meta property="og:url" content="https://qinxing.xyz/posts/29fcc0b6/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="加深对镜头和sensor的理解<br>学习一些单反摄影的基本知识和构图技巧。"><meta property="og:image" content="https://image.qinxing.xyz/20200429002128.png"><meta property="article:published_time" content="2020-04-21T09:06:03.000Z"><meta property="article:modified_time" content="2020-04-28T16:23:43.674Z"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = 'false'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://qinxing.xyz/posts/29fcc0b6/"><link rel="prev" title="相机成像原理之sensor篇" href="https://qinxing.xyz/posts/e6f0524a/"><link rel="next" title="BUG：sensor帧率不准" href="https://qinxing.xyz/posts/2b78e151/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: true
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">81</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">28</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）构造"><span class="toc-number">1.</span> <span class="toc-text">（一）构造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用附件"><span class="toc-number">1.2.</span> <span class="toc-text">常用附件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-UV滤镜"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. UV滤镜</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-偏光滤镜"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 偏光滤镜</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-渐变滤镜"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 渐变滤镜</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-遮光罩"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 遮光罩</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）镜头"><span class="toc-number">2.</span> <span class="toc-text">（二）镜头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-焦距"><span class="toc-number">2.1.</span> <span class="toc-text">1. 焦距</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-非球面镜片"><span class="toc-number">2.2.</span> <span class="toc-text">2. 非球面镜片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-低色散镜片"><span class="toc-number">2.3.</span> <span class="toc-text">3. 低色散镜片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-定焦镜头"><span class="toc-number">2.4.</span> <span class="toc-text">4. 定焦镜头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-微距镜头"><span class="toc-number">2.5.</span> <span class="toc-text">5. 微距镜头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-外接设备"><span class="toc-number">2.6.</span> <span class="toc-text">6. 外接设备</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）光圈"><span class="toc-number">3.</span> <span class="toc-text">（三）光圈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-标识与种类"><span class="toc-number">3.1.</span> <span class="toc-text">1. 标识与种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-光圈叶片"><span class="toc-number">3.2.</span> <span class="toc-text">2. 光圈叶片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-光圈大小"><span class="toc-number">3.3.</span> <span class="toc-text">3. 光圈大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-光圈大小的选择"><span class="toc-number">3.4.</span> <span class="toc-text">4. 光圈大小的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）拍照模式"><span class="toc-number">4.</span> <span class="toc-text">（四）拍照模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#情景模式"><span class="toc-number">4.1.</span> <span class="toc-text">情景模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进阶模式"><span class="toc-number">4.2.</span> <span class="toc-text">进阶模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（五）摄影用光"><span class="toc-number">5.</span> <span class="toc-text">（五）摄影用光</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-直射光与扩散光"><span class="toc-number">5.1.</span> <span class="toc-text">1. 直射光与扩散光</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-光的强度、反差与光比"><span class="toc-number">5.2.</span> <span class="toc-text">2. 光的强度、反差与光比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-光的方向与效果"><span class="toc-number">5.3.</span> <span class="toc-text">3. 光的方向与效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-测光与曝光原理"><span class="toc-number">5.4.</span> <span class="toc-text">4. 测光与曝光原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-人像摄影的用光"><span class="toc-number">5.5.</span> <span class="toc-text">5. 人像摄影的用光</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（六）色彩的艺术"><span class="toc-number">6.</span> <span class="toc-text">（六）色彩的艺术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-色彩的感觉"><span class="toc-number">6.1.</span> <span class="toc-text">1. 色彩的感觉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-色彩的组合"><span class="toc-number">6.2.</span> <span class="toc-text">2. 色彩的组合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-影响色彩的因素"><span class="toc-number">6.3.</span> <span class="toc-text">3. 影响色彩的因素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-白平衡与色温"><span class="toc-number">6.4.</span> <span class="toc-text">4. 白平衡与色温</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-一天四时的光影流转"><span class="toc-number">6.5.</span> <span class="toc-text">5. 一天四时的光影流转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-相机的色彩设定"><span class="toc-number">6.6.</span> <span class="toc-text">6. 相机的色彩设定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（七）构图"><span class="toc-number">7.</span> <span class="toc-text">（七）构图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-点线面"><span class="toc-number">7.1.</span> <span class="toc-text">1. 点线面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-主体与宾体"><span class="toc-number">7.2.</span> <span class="toc-text">2. 主体与宾体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-前景、背景与留白"><span class="toc-number">7.3.</span> <span class="toc-text">3. 前景、背景与留白</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-摄影角度"><span class="toc-number">7.4.</span> <span class="toc-text">4. 摄影角度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-透视的概念"><span class="toc-number">7.5.</span> <span class="toc-text">5. 透视的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-对比构图法"><span class="toc-number">7.6.</span> <span class="toc-text">6. 对比构图法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-几何构图"><span class="toc-number">7.7.</span> <span class="toc-text">7. 几何构图</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200429002128.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">阅读笔记——数码单反摄影从入门到精通</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date" title="发表于 2020-04-21 17:06:03"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-21</time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E9%98%85%E8%AF%BB/">阅读</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">8.7k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 25 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/posts/29fcc0b6/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/posts/29fcc0b6/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><html><head></head><body><blockquote>
+<p>本书有不少错误和纰漏，我在这里做了记录。同时学习一些单反摄影的基本知识和构图技巧。</p>
+</blockquote>
+<h2 id="（一）构造"><a href="#（一）构造" class="headerlink" title="（一）构造"></a>（一）构造</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>书中说的是小孔成像，我更认为应该是凸透镜成像原理，当物距远远大于焦距的时候，才可以近似成小孔成像。<br>详细分析请看<a href="https://qinxing.xyz/posts/b31d381e/">《相机成像原理之镜头篇》</a></p>
+<p>sensor尺寸为36mm×24mm，这种相机就称为全画幅相机</p>
+<h3 id="常用附件"><a href="#常用附件" class="headerlink" title="常用附件"></a>常用附件</h3><h4 id="1-UV滤镜"><a href="#1-UV滤镜" class="headerlink" title="1. UV滤镜"></a>1. UV滤镜</h4><p>UV（Ultra Violet Filter）滤镜有两个作用，其一是滤除光线中的紫外线；其二是保护镜头镜片不被擦刮、污损。在日光照射很强时，光线中的紫外线成分较多，如果不带滤镜拍摄，可能会使拍出来的照片偏蓝，</p>
+<h4 id="2-偏光滤镜"><a href="#2-偏光滤镜" class="headerlink" title="2. 偏光滤镜"></a>2. 偏光滤镜</h4><p>摄影者经常遇到照片效果色彩饱和度不足、拍摄对象反光严重等问题，而这又不是拍摄技术以及相机本身所引起的，此时可能需要通过偏光滤镜来进行调节。偏光镜基本上就是用偏光角度来过滤光线的一种滤镜。<br>偏振镜允许特定方向照射来的光线，同样也会滤除另外一些方向射来的光线，最终可以调整光线进入镜头后的拍摄效果。当两者夹角为0°，即光波上下震动方向与偏振夹角相同时，透过的光线最多；夹角为90°时，通过的光线非常少。</p>
+<h4 id="3-渐变滤镜"><a href="#3-渐变滤镜" class="headerlink" title="3. 渐变滤镜"></a>3. 渐变滤镜</h4><p>在拍摄部分场景的画面时，有时会遇到场景中各个部分明暗对比较强的情况。如果要获得曝光比较均匀的相片，则必须要将画面反射入镜头的光线调匀，此时可以通过渐变滤镜来调整。将滤镜的暗色部分遮挡住画面中光线较亮的场景，透光性较好的部分用于通过被摄场景中较暗的反射光，以保证绝大多数光线能够进入镜头。通过调整，可以使画面获得较均匀的曝光效果。</p>
+<h4 id="4-遮光罩"><a href="#4-遮光罩" class="headerlink" title="4. 遮光罩"></a>4. 遮光罩</h4><p>在逆光、侧光或使用闪光灯摄影时，遮光罩能防止非成像光进入镜头，避免产生雾霭；在顺光和侧光摄影时，可以避免周围的散射光进入镜头；在灯光摄影或夜间摄影时，可以避免周围的干扰光进入镜头；此外，还可以在一定程度上防止意外损伤镜头。<br>遮光罩广泛用于逆光摄影，一般可以避免眩光。但如果光源距离过近，仍有可能发生眩光现象。</p>
+<hr>
+<h2 id="（二）镜头"><a href="#（二）镜头" class="headerlink" title="（二）镜头"></a>（二）镜头</h2><h3 id="1-焦距"><a href="#1-焦距" class="headerlink" title="1. 焦距"></a>1. 焦距</h3><p>镜头焦距的长短决定着照片的成像、视角、景深大小和透视强弱。<br>标准镜头是50mm，需要记住视场角47度，五百万的像素大概可以拍摄九米处80x80像素的人脸。<br><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200428234613.png"  alt="17mm焦距到300mm焦距，镜头视角从104°缩小为8°的视角范围"></p>
+<h3 id="2-非球面镜片"><a href="#2-非球面镜片" class="headerlink" title="2. 非球面镜片"></a>2. 非球面镜片</h3><p>光线通过透镜时，透镜中间位置附近透过的光线会准确地汇聚在焦点位置，但是通过透镜边缘部位的光线则会汇聚在焦点与透镜之间的位置，这样光线汇聚的散乱性就会造成最终拍摄照片的模糊。这种汇聚焦点的偏差，称为“球面像差”。如果要修正通过透镜边缘光线的汇聚偏差问题，可以使用特殊种类的透镜来解决，这种特殊的镜片即为“非球面镜片”，是指镜片中间的弧度与镜片边缘的弧度不同，以此来修正光线折射的焦距，确保通过镜片任何位置的光线都能准确地聚集在焦点上，形成清晰的图像品质。</p>
+<h3 id="3-低色散镜片"><a href="#3-低色散镜片" class="headerlink" title="3. 低色散镜片"></a>3. 低色散镜片</h3><p>自然界中的光线都是复合型光线，是红、橙、黄、绿、青、蓝、紫等颜色的光线复合而成的，不同颜色的光线通过透镜后的焦点位置也不相同，这样就会造成聚集点的不一致，造成色散的问题。摄影学中，物体发出或反射的光线进入相机，在感光元件上成像时，如果发生色散，会对成像质量有严重影响，因此相机厂商多采用低色散镜片。通过低色散镜片，可以有效抑制光线通过透镜后色散严重的程度，提高画质。</p>
+<h3 id="4-定焦镜头"><a href="#4-定焦镜头" class="headerlink" title="4. 定焦镜头"></a>4. 定焦镜头</h3><p>定焦镜头的光学品质一般非常好，优于一般的变焦镜头，特别是焦距、拍摄条件相同时，可以看出两者拍摄效果的明显差别。定焦镜头对拍摄画面四周的变形抑制能力很强，比变焦镜头要好一些，特别是在大广角焦段，它可达到的最大光圈较大，如F1.2、F1.4等超大光圈一般只出现在定焦镜头上。<br>另外，定焦镜头还有重量较轻、便于携带的优点</p>
+<h3 id="5-微距镜头"><a href="#5-微距镜头" class="headerlink" title="5. 微距镜头"></a>5. 微距镜头</h3><p>由于物体越近，景深越小，为了达到比较大的景深效果需要很小的光圈，所以微距的光圈值都比较小<br>微距镜头特点如下：最小光圈值较小，通常可以缩至F38、F45等，因为拍摄距离很近时，比较容易造成对焦点前后景物虚化的效果，如果要将对焦点前后都拍摄清楚，就要使用非常小的光圈；对焦速度很慢，由于微距镜头从最近到最远的对焦过程比较长，因此对焦速度非常慢，即使使用超声波马达对焦，其对焦速度比一般镜头也要慢。</p>
+<h3 id="6-外接设备"><a href="#6-外接设备" class="headerlink" title="6. 外接设备"></a>6. 外接设备</h3><ul>
+<li>使用增倍镜后，画质会变差，包括色彩饱和度和锐度等都要有所下降；另外，使用增倍镜后，原本的最大光圈会缩小一级，如F2.8的最大光圈镜头在加装增倍镜后，最大光圈会变为F4.0。</li>
+<li>使用近摄环后，最终拍摄照片的画质并不会受到明显影响，因为近摄环就是一个金属环，没有安装光学镜片；但使用近摄环后，快门速度会变慢，因为近摄环会影响进入镜头的入光量。使用近摄环后，对焦方式与一般镜头不同，必须先转动变焦环进行初步对焦，才能转动对焦环进行对焦修正；如果是定焦镜头使用近摄环，则必须前后移动拍摄位置，否则无法完成对焦。近摄环的功能就是缩短镜头的对焦距离，达到提升镜头放大倍率的目的</li>
+</ul>
+<hr>
+<h2 id="（三）光圈"><a href="#（三）光圈" class="headerlink" title="（三）光圈"></a>（三）光圈</h2><h3 id="1-标识与种类"><a href="#1-标识与种类" class="headerlink" title="1. 标识与种类"></a>1. 标识与种类</h3><p>镜头上都会有光圈的标识，有的是1∶3.5-5.6，也有的标为1∶2.8等。1∶3.5-5.6的意思是镜头最大光圈为F3.5～F5.6，这表示假设焦距为20mm时镜头最大光圈为F3.5，当焦距变为50mm时，最大光圈可能变为F5.6，也就是说镜头的最大光圈不是恒定的，称为非恒定光圈；1∶2.8则表示无论焦距为20mm还是50mm，镜头的最大光圈都是F2.8。<br>简单地说，恒定光圈镜头无论是在广角端还是长焦端，最大光圈值都是恒定的；非恒定光圈镜头的最大光圈值随着焦距的变化而有所变动。</p>
+<h3 id="2-光圈叶片"><a href="#2-光圈叶片" class="headerlink" title="2. 光圈叶片"></a>2. 光圈叶片</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200428234744.png"  alt="每组光圈金属片两侧都会发出一条星芒，可以看到路灯有10条星芒，则可以判定拍摄所用镜头内的光圈金属片有5组"><br>有的星芒多，有的星芒少，这是由光圈金属片组数决定的。但要注意，奇数组金属片和偶数组金属片形成星芒的规律也不相同<br>由此得出一个规律：当光圈金属片组数为奇数时，星芒数为组数的2倍；当金属片组数为偶数时，星芒数与组数相等。例如10组金属片有10条星芒；11组金属片和22组金属片都有22条星芒。</p>
+<h3 id="3-光圈大小"><a href="#3-光圈大小" class="headerlink" title="3. 光圈大小"></a>3. 光圈大小</h3><p>光圈F值 = 镜头的焦距/镜头口径的直径。光圈值系列： F1， F1.4， F2， F2.8， F4， F5.6， F8， F11， F16</p>
+<p>原文内容：并且光圈每缩小一级，实际的光圈孔径会缩小一半，这样曝光量就会降低一半，即F后的数字越大，光圈越小，反之越大。<br><strong>质疑</strong>：文中关于光圈与通光量的叙述有问题，F后面跟的就是孔径，F1相比于F1.4，孔径大了1.414倍（根号2），面积应该是半径的平方，也就是原来的两倍，通光量就增大了一倍。</p>
+<p><strong>质疑：</strong>文中sensor越大，景深越小的这个结论我觉得是有问题的，景深三要素定了之后，景深就定了，和sensor大小是没有关系的。</p>
+<h3 id="4-光圈大小的选择"><a href="#4-光圈大小的选择" class="headerlink" title="4. 光圈大小的选择"></a>4. 光圈大小的选择</h3><p>当光圈开至很大时，外界进入镜头的光量很足，镜头内的透镜边缘部分也会允许光线通过，但透镜上下两个端点的弧度比中间的弧度要大，所以它们的会聚性能就有差别，这会在会聚的成像点周围有一些乱光干扰，使成像质量有一定的下降，造成最终拍摄的照片画质稍差的现象。<br>当光圈缩至最小时，孔径非常小，如果有光线透过，就会在孔后发生光线衍射的现象，这也会破坏入射光线的规律性，造成成像画质下降的现象。</p>
+<hr>
+<h2 id="（四）拍照模式"><a href="#（四）拍照模式" class="headerlink" title="（四）拍照模式"></a>（四）拍照模式</h2><h3 id="情景模式"><a href="#情景模式" class="headerlink" title="情景模式"></a>情景模式</h3><ol>
+<li>人像模式<br>拍摄人像类题材的照片时，一般的拍摄方法是采用极大的光圈，焦距设定在中长焦段，这样可以极大地虚化背景，并充分拉近人物，使人物主体在画面中非常突出。<br>使用人像拍摄模式拍摄的照片，可以使人物肤色还原较好，并且能够表现得白皙粉嫩。应该注意，人像模式下镜头光圈开得较大，这时画面中景深景浅的各个部位要求区别比较严格，因此在对焦点合焦时应该特别小心，避免失焦的情况发生，否则就会造成对焦点不够清晰的情况。<br>人像拍摄模式为程序控制曝光模式，因此在光线不足时，相机会自动弹起闪光灯进行补光。按住相机快门不放，可以将驱动模式由单拍改为连拍，方便摄影者从拍摄到的多张照片中挑选最满意的作品。</li>
+<li>风光拍摄模式<br>相比于全自动模式，风光拍摄模式的色彩比较鲜艳明快，绿色和蓝色较多，因为这样比较善于表现绿色植物和蓝色的天空。为达到这样的效果，风景拍摄模式下相机会自动设定光圈为F8.0～F11.0，光圈在这一范围内可保持相对高速的快门速度，避免照片因相机震荡而变得模糊不清</li>
+<li>微距模式<br>在微距模式下，相机会自动将光圈开大，照片风格默认为风光。对于摄影者来说，需要进行的操作就是尽量靠近被摄的主体，这样可以将微观对象拍摄得更大，并对要表现的具体部位对焦，使其清晰，而由于光圈较大，对焦点前后有虚化的效果。</li>
+<li>运动模式<br>主要用于拍摄运动主体的画面，在这种模式下，如果环境光线条件合适，相机会自动将快门速度设定在一个比较快的程度，以凝结运动主体瞬间的画面。但这里会涉及对焦的问题，如果对焦速度较慢，可能还没合焦但主体已经移动到取景框外。</li>
+<li>夜景人像<br>夜景人像模式则不同，开启这种模式后，相对于正常的人像模式，夜景人像模式的闪光灯闪光强度会有轻微的减弱，且最为重要的是相机会启动闪光灯慢速同步模式，拍摄时快门速度并没有明显加快，闪光灯作用主体仍然会曝光准确，但由于较慢的快门速度，会使画面中的背景可以得到充分的曝光时间而整体曝光充足，显得比较明亮。也就是说，使用夜景人像模式拍摄夜晚中的人像，主体与背景都能够拍摄得比较明亮。</li>
+</ol>
+<h3 id="进阶模式"><a href="#进阶模式" class="headerlink" title="进阶模式"></a>进阶模式</h3><ol>
+<li>程序曝光（P档）<br>程序曝光模式，即半自动曝光模式。在P模式下，数码单反相机的曝光由相机自动控制，但允许摄影者对白平衡、ISO感光度、曝光补偿数值、测光模式等拍摄参数进行调整，是一种简单快速，但又有一定的创造性拍摄的模式。<br>P模式在默认不进行调整的状态时类似于全自动模式，初级摄影者可以使用这种模式直接拍摄照片，大多数情况下能够拍得令人满意的作品。因为P模式下的曝光由相机根据现场光线情况自动曝光完成，所以不存在曝光不足或过度的情况，即使是现场环境光线不足，闪光灯也不会弹起，这是与全自动模式的不同。<br>这和手机上的相机拍照是一样的方法。</li>
+<li>全自动模式（AUTO/A+档）<br>数码单反相机的全自动模式类似于之前人们使用的傻瓜相机拍摄，用户只要选好拍摄对象，稳定住相机，然后按下快门，即可拍摄到清晰的照片。与最终照片拍摄效果有关的光圈大小、曝光时间（快门）、白平衡设置、ISO感光度、照片风格、对焦点的位置选择等参数都由相机程序自动控制，相机程序会根据拍摄场景中的环境条件进行运算，然后得出最佳的拍摄参数，继而得到最佳的拍摄效果。<br>使用全自动模式在室内或夜晚光线较暗的条件下拍摄时，相机一般不会根据光圈的条件而设定很长的曝光时间，而是启动闪光灯补光以获得较快的快门速度。这时全自动模式的缺陷就会体现出来，因为强行闪光拍摄会使得夜晚近处的景物曝光正常，而远处的景物却因无法获得充足的曝光量而漆黑一片，但这种情况的好处是不会因为快门速度过慢而使拍摄的照片模糊。</li>
+<li>光圈优先（AV档）<br>将相机模式设置为光圈优先，快门速度和感光度交给相机来自行设定，几乎可以满足绝大多数的拍摄场合。需要考虑的就是景深。</li>
+<li>快门优先模式（TV档）<br>快门优先模式则是只要调整快门速度，然后相机会根据你的快门速度设定一个光圈值，这个和光圈优先模式正好相反。使用快门优先来设定快门速度，能够控制画面中被摄物体的运动、静止状态，比如你想拍摄出瀑布流动的效果，这种情况下就需要首先调整到合适的快门速度。</li>
+<li>手动模式（M档）<br>手动档模式下，光圈、快门、感光度等等全部需要自己手动设置，从而实现对画面全部掌握。</li>
+</ol>
+<hr>
+<h2 id="（五）摄影用光"><a href="#（五）摄影用光" class="headerlink" title="（五）摄影用光"></a>（五）摄影用光</h2><h3 id="1-直射光与扩散光"><a href="#1-直射光与扩散光" class="headerlink" title="1. 直射光与扩散光"></a>1. 直射光与扩散光</h3><p>补光并不一定使用闪光灯或外拍灯等直射光源，可以使用亮度较高的平面体反射光线，利用反射光线对被摄体补光，这种补光效果要比主光源的效果弱，从而形成一定的光比，画面看起来更加真实，并且效果更加柔和。</p>
+<p>一般使用的反射体是反光板或反光伞。</p>
+<h3 id="2-光的强度、反差与光比"><a href="#2-光的强度、反差与光比" class="headerlink" title="2. 光的强度、反差与光比"></a>2. 光的强度、反差与光比</h3><p>光的反差也称为对比，但不是光线本身的反差，而是对于光线所照射的对象来说。<br>光比是摄影中的重要参数之一，指被摄景物受光面亮度与阴影面亮度的比值。</p>
+<h3 id="3-光的方向与效果"><a href="#3-光的方向与效果" class="headerlink" title="3. 光的方向与效果"></a>3. 光的方向与效果</h3><ul>
+<li>斜射光效果是在画面中表现出主体亮部和阴影部位，亮部和暗部位于同一画面，能够很容易表现出画面的影调层次。</li>
+<li>后斜射光也会在画面中营造出被摄体的亮部和暗部两个位置，但与前斜射光相比，后斜射光更善于勾画被摄主体的轮廓线，这对于表现主体的形态非常有帮助。<br>后斜射光的这种特点，决定了其比较适合于拍摄风光、花卉、微距等题材的作品。</li>
+<li>使用侧光拍摄人像类题材时，会在面部中线两侧形成明显的反差，即出现阴阳脸的情况，所以一般很少使用侧光拍摄人物。<br>要避免这种情况发生，就只能通过使用闪光灯对被摄主体的正面进行补光，或利用反光板等道具补光</li>
+<li>顶光和脚光拍摄人物往往能营造出恐怖、诡异的视觉效果</li>
+</ul>
+<h3 id="4-测光与曝光原理"><a href="#4-测光与曝光原理" class="headerlink" title="4. 测光与曝光原理"></a>4. 测光与曝光原理</h3><p>反射率为18%的亮度介于黑色与白色之间，通常为中性灰色（Middle Gray）。难怪校准白平衡的时候，都要拿18度灰卡进行校准。</p>
+<p>入射式测光是指将测光表放在被摄主体附近，使其与被摄体接收到几乎完全一样的光线照射，这样可以准确地测出被摄体的曝光数值</p>
+<p>反射式测光是测量被摄体反射出来的光线，使用时将测光表的测光部位对准主体即可。</p>
+<h3 id="5-人像摄影的用光"><a href="#5-人像摄影的用光" class="headerlink" title="5. 人像摄影的用光"></a>5. 人像摄影的用光</h3><ul>
+<li><p>顺光人像<br>顺光拍摄人像时，光线从正面照射到人物脸上，面部五官光线照射均匀，缺乏明暗变化效果，影调层次较少，因此使用这种方向的光线拍摄人像时，通常不会对人物正面的角度进行拍摄，否则会使拍摄出来的人物面部平坦，缺乏变化，毫无美感可言。这种光线方向一般用于拍摄证件照。</p>
+</li>
+<li><p>斜射光人像<br>前斜射光是非常理想的人像摄影光源，能够照亮人物面部大部分区域，并且会因为五官的凹凸而形成丰富的明暗影调层次，既能孕育情感，又能表现出足够的立体感，还可以勾勒人物面部的轮廓线条。</p>
+</li>
+<li><p>侧光人像<br>标准意义上的侧光也不适合拍摄人像照片，因为光线会在人物面部的中线鼻梁位置形成受光面高亮而背光面为阴影的较大反差，会丑化人物形象。</p>
+</li>
+<li><p>逆光人像<br>逆光人像是一种高反差光影效果的运用，在逆光下拍摄人像时，一般分为两种情况，拍摄剪影是最为简单的一种，对背景中的高亮光源处测光，这样人物正面会因为曝光不足而完全暗掉，画面中的人物只表现出形体轮廓线条，具有非常强的感召力。另外一种逆光人像是使用闪光灯或反光板对人物的正面进行补光，使其曝光正常</p>
+</li>
+</ul>
+<hr>
+<h2 id="（六）色彩的艺术"><a href="#（六）色彩的艺术" class="headerlink" title="（六）色彩的艺术"></a>（六）色彩的艺术</h2><h3 id="1-色彩的感觉"><a href="#1-色彩的感觉" class="headerlink" title="1. 色彩的感觉"></a>1. 色彩的感觉</h3><p>颜色并不是实体的存在，而是人类对于物体受到光线照射后所产生效果的一种视觉体验。自然界中，常见的颜色有红、橙、黄、绿、青、蓝、紫几种，人们对于这些色彩的感觉是由于物体对于光线的反射产生的。</p>
+<ul>
+<li>红色系代表爱意、热烈、热情、力量、浪漫、警告、危险等情感信息，是一种非常强烈的色彩表现，容易引起人们的注意。</li>
+<li>黄色系可传达出明快、简洁、活泼、温暖、健康与收获等情感，在中国古代，黄色还代表着尊贵与权势。黄色是非常靓丽的色调，在很多时候都能给人一种眼前一亮、豁然开朗的感觉。</li>
+<li>绿色系代表自然、和谐、安全、成长、青春与活力等情感。</li>
+<li>蓝色系代表专业、深邃、理智、宁静等情感。我们经常见到的计算机软件公司网页或LOGO会以蓝色调为主，可表达出专业与理智的感觉，而天空的深蓝又是深邃与宁静的代表，蓝色调的大海也会传达出深邃与宁静的感觉。在摄影中使用蓝色时，要注意白平衡的调整，否则拍摄天空时经常会有泛青的色偏效果。</li>
+<li>白色并不是某种光谱的颜色，而是各种不同颜色光谱的混合色。白色系能够表达人们多种不同的情感，如平等、平和、纯净、明亮、朴素、平淡等。</li>
+<li>黑色系传达出高贵、神秘、恐怖、死亡等情感。摄影中，与黑色搭配最为常见的颜色是白色，单纯的黑白搭配色可以减少画面中的杂色，以免影响欣赏者的视觉体验，能将人们的注意力吸引到作品的内涵方面，且画面视觉冲击力很强。</li>
+</ul>
+<h3 id="2-色彩的组合"><a href="#2-色彩的组合" class="headerlink" title="2. 色彩的组合"></a>2. 色彩的组合</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200429001458.png"  alt><br>红、橙、黄、绿、青、蓝、紫七色抽象为色彩的轮盘，非常直观。色轮上半部分的色彩为暖色系。</p>
+<p>色彩的互补是指从色轮上来看处于正对位置的两种颜色，两者相差180°左右，即通过圆心的直径两端的颜色。例如，绿色的互补色是粉红，蓝色的互补色是红色等。在摄影时采用互补色彩组合，会给欣赏者以非常强烈的情感，视觉冲击力很强，色彩区别明显、清晰。</p>
+<p>相邻色的特点是颜色相差不大，区分不明显，摄影时取相邻色搭配，会给欣赏者以和谐、平稳的感觉。<br>因为相邻色看起来颜色非常相近，如红色与橙色，搭配在一起经常让人无法分辨，这样获得的摄影作品往往会缺乏层次，看起来乏味。因此使用相邻色搭配时，还应注意主体与环境的搭配问题，可以通过环境来映衬主体，从而使得整个画面富有层次。</p>
+<h3 id="3-影响色彩的因素"><a href="#3-影响色彩的因素" class="headerlink" title="3. 影响色彩的因素"></a>3. 影响色彩的因素</h3><p>太阳的七色光谱中，红色最先到达地表，紫色最后达到，这会在摄影中产生一个现象，如果拍摄时的曝光时间很短，在1/8000s时，蓝、紫等色调的光谱还未来得及感光，或只有极少一部分感光，曝光就已经结束，这样最终拍摄的画面中主要是红、黄等色调感光，照片会有偏暖的感觉。<br>夜晚的自然光线下，已经极少甚至没有红、黄等光谱到达地面，只有微弱的蓝、紫等光谱照射地表，如果进行长时间曝光，蓝色等光谱进行感光，则拍摄的画面会整体泛蓝色。当然，这里有一个前提，即白平衡必须准确。</p>
+<h3 id="4-白平衡与色温"><a href="#4-白平衡与色温" class="headerlink" title="4. 白平衡与色温"></a>4. 白平衡与色温</h3><p>有的色彩比较纯正，有的色彩又显得非常杂。产生这种现象的原因是人在无形中会以白色作为参照标准，各种不同色彩的产生是来源于与白色相比较后的感觉。而作为标准的白色，是红、绿、蓝三原色混合叠加后产生的色彩。我们通常所说的白平衡调整，是指为了使照片所表现的色彩与人眼实际看到的色彩一致，而对相机进行的具体设定。</p>
+<h3 id="5-一天四时的光影流转"><a href="#5-一天四时的光影流转" class="headerlink" title="5. 一天四时的光影流转"></a>5. 一天四时的光影流转</h3><p>由于早晨地面和太阳之间的夹角很小，相对于摄影者来说，与太阳的距离较远，太阳光线必须通过很厚的大气层才能照射到摄影者所在的位置，因此波长很短的蓝、绿、黄色光线会被大气层阻挡，依次消失，这时只有波长很长的橘红色光线能够透过大气层照射到地面（光线由红、橙、黄、绿、青、蓝、紫七种光谱组成，波长由长到短排列），因此早晨的光线色彩呈现出红色或橙色。</p>
+<h3 id="6-相机的色彩设定"><a href="#6-相机的色彩设定" class="headerlink" title="6. 相机的色彩设定"></a>6. 相机的色彩设定</h3><p>当前大多数的数码单反相机设置菜单内都会有sRGB和Adobe RGB两种色彩空间供选择，且默认情况下设定为sRGB。如果没有特定的印刷目的，选择sRGB色彩空间即可，因为这样在后期处理时的兼容性可能更强。<br>与sRGB色彩空间相比，Adobe RGB色彩空间具有更为宽广的色域和良好的色彩层次表现，在摄影作品的色彩还原方面，Adobe RGB更为出色，另外，在印刷输出方面，Adobe RGB色彩空间更是远优于sRGB。</p>
+<hr>
+<h2 id="（七）构图"><a href="#（七）构图" class="headerlink" title="（七）构图"></a>（七）构图</h2><h3 id="1-点线面"><a href="#1-点线面" class="headerlink" title="1. 点线面"></a>1. 点线面</h3><p>大片绿色的画面中红色线条具有很强的表现力。</p>
+<h3 id="2-主体与宾体"><a href="#2-主体与宾体" class="headerlink" title="2. 主体与宾体"></a>2. 主体与宾体</h3><p>主体是摄影用以表达拍摄主题思想的最主要部分，是整个拍摄画面结构的中心，也是画面的趣味点所在，应占据突出位置。主体并不一定是孤立存在的，可以是一个对象，也可以是一组对象。例如，拍摄人像照片时，通常情况下要表现的人物就是主体，需要通过使用各种构图手段使其看起来更加突出。</p>
+<ul>
+<li>通过调整拍摄视角以及镜头焦距，将主体比例放大，使其充满整个画面，给欣赏者以较强的视觉冲击力；</li>
+<li>将主体置于画面中的某些构图点上，这些构图点的位置是欣赏者的视觉中心，这样欣赏者的注意力会更多地被主体吸引；</li>
+<li>比较复杂的手段是指虚化除主体之外的景物，并在取景时要取与主体色彩反差较大的其他景物，但要注意其他色彩不要过多，这样画面中就不会有其他明显的景物或色彩分散欣赏者的注意力，进而达到突出主体的效果；第四种手段是指调整画面中主体与其他景物的明暗对比度，使得主体较亮，其他景物较暗，这样也可以有效地突出主体。</li>
+</ul>
+<h3 id="3-前景、背景与留白"><a href="#3-前景、背景与留白" class="headerlink" title="3. 前景、背景与留白"></a>3. 前景、背景与留白</h3><p>摄影作品中的前景是指位于主体前面或离摄影者最近的景物。前景具有<strong>烘托主体和装饰拍摄画面</strong>的作用，可以增强画面的空间深度，还可以平衡构图和美化作品画面。在画面主体轮廓或色彩比较另类时，前景可以起到过渡的作用，使主体的出现不至过于突兀，这样画面的整体效果会更加协调；移动相机镜头使其跟随运动主体时，静止的前景还可以拉出运动模糊的效果，使摄影作品更具美感及视觉冲击力。与之前介绍的构图陪体一样，前景在画面中的视觉效果也不能强于主体，否则会削弱主体的地位，画面就会失去平衡。</p>
+<p>选择背景可以遵从以下几个原则：<strong>避免杂乱，力求简洁</strong>，可选用如蓝天、草地等单一成分的背景，如果背景中对象较多显得杂乱，可以通过将其虚化来简化背景；背景色彩不宜过多，背景色彩过多会造成喧闹的感觉，分散欣赏者的注意力；背景亮度不宜过高，但剪影等特殊效果例外。</p>
+<p>在摄影作品中<strong>合理地留白</strong>，可以有效避免因为画面元素过多或过于拥挤给欣赏者带来的视觉疲劳，可为欣赏者留下充足的思考空间，并能够使欣赏者的思绪扩展到更深、更远的层次，这更利于表现画面主题，增加作品的艺术感染力与深度。</p>
+<h3 id="4-摄影角度"><a href="#4-摄影角度" class="headerlink" title="4. 摄影角度"></a>4. 摄影角度</h3><ol>
+<li><p>平视：一种是正对画面主体进行拍摄，称为正平视取景，这种方式经常用于表现画面比较平稳的主题或拍摄人物的证件照片；另外一种平视效果是侧平视取景，是指镜头与主体正面朝向稍微偏离一定的角度，如拍摄人像的侧面照片等，侧平视取景在拍摄人像时可以勾画人像的面部与身材轮廓线，拍摄风光时则经常可以营造出延展、深邃的感觉。</p>
+</li>
+<li><p>仰视取景：指镜头向上仰起进行拍摄，获得的摄影作品中被摄对象看起来会更加高大、重要或有气势，如果靠近被摄主体拍摄，还能使照片中的构图元素富有极度近大远小的夸张透视效果。</p>
+</li>
+<li><p>仰视取景：相机向上仰起的角度也有两种选择，45°左右的仰角可以拍摄出主体高大、有气势的形象，例如仰拍人像时，可以拍摄出对象修长的腿部；如果将相机的仰角调整到90°左右，则会营造一种使人眩晕的画面效果，非常具有戏剧性和压迫性，冲击力十足。</p>
+</li>
+<li><p>俯视取景：指摄影时镜头要高于被摄对象，是一种居高临下的拍摄方式。采用轻度俯拍的方式可以比较容易地拍摄出景物的高度落差，搭配广角镜头与较大的物距，可以突出画面广阔的空间感。采用高位俯拍的拍摄方式会压缩画面主体的视觉比例，使其投射在广阔的背景上，造成夸张的大小对比效果。俯视取景搭配广角镜头可用于拍摄大场面的风光作品，特别是平面风光，如花田、草原等，如果采用平视的角度，可能无法表现环境远处的景观。</p>
+<p>拍摄人像题材时，如果使用俯拍的方式拍摄，会削弱主体人物的气势，使人物变小，并会使人物的形体发生变化，如扭曲等，可产生一种富有戏剧性的效果。</p>
+</li>
+</ol>
+<h3 id="5-透视的概念"><a href="#5-透视的概念" class="headerlink" title="5. 透视的概念"></a>5. 透视的概念</h3><p><img src="/" class="lazyload" data-src="https://image.qinxing.xyz/20200429000852.png"  alt><br>实际景物与人眼位置都是固定不变的。对于在投影平面上的投影，左侧的投影只是实际景物按比例的压缩，即符合透视规律；而右侧的投影中，实际景物之间的远近距离被压缩了，即不符合透视规律。</p>
+<p>透视规律的具体体现有近大远小的几何透视，还有远处模糊、近处清晰的影调透视。好的摄影作品往往这两种透视规律都非常明显，特别是大场景的风光作品中，线条透视优美，空间感强，而影调透视则使画面变得深远，意境盎然。</p>
+<h3 id="6-对比构图法"><a href="#6-对比构图法" class="headerlink" title="6. 对比构图法"></a>6. 对比构图法</h3><p>相机快门速度调节或相机自身移动来实现，包括动静结合法、追踪对焦法、曝光中途变焦法。</p>
+<p>在一些光线条件不理想的场景中拍摄，曝光时间会比较长，在曝光尚未完成时，用手转动变焦环，转动时要用力均匀，不能使镜头中轴线出现抖动，这样在曝光完成后的画面中会出现对焦点周围景物清晰，但周围景物呈现出放射状线条的效果，像爆炸一样，非常具有视觉冲击力。这种拍摄方式称为<strong>曝光中途变焦法</strong>。</p>
+<h3 id="7-几何构图"><a href="#7-几何构图" class="headerlink" title="7. 几何构图"></a>7. 几何构图</h3><ul>
+<li>水平线构图：拍摄风光作品时，地面与林木、地面与天空、水面与林木、水面与天空等景物组合的构图都可以使用水平线构图来实现；另外，建筑摄影构图中，建筑物的水平线一定要平，否则画面整体就会失去平衡。</li>
+</ul>
+<ul>
+<li>竖直线构图：能够给欣赏者以坚定、向上、永恒的心理感受。由于人的视觉习惯是自左向右延伸，因此打破常规的上下方向延展的竖直线构图能够表现出很强的视觉压迫和冲击力。如果能够将景物拉近拍摄，则效果更佳。</li>
+</ul>
+<ul>
+<li><p>对角线构图：指主体或重要景物沿画面对角线的方向排列，旨在表现出动感、不稳定性或生命力等感觉</p>
+</li>
+<li><p>S形构图强调的是线条的力量，这种构图方式可以给欣赏者以优美、活力、延伸感和空间感等视觉体验。一般欣赏者的视线会随着S形线条的延伸而移动，逐渐延展到画面远处，并随着画面透视特性的变化，使人产生一种空间广袤无垠的感觉。</p>
+<p>S形构图多见于广角镜头所拍摄的画面中，此时拍摄视角较大，空间比较开阔，并且景物透视性能良好。</p>
+</li>
+<li><p>正三角形构图的建筑主体，给人一种非常稳定、可靠的感觉</p>
+<p>如果景物以倒三角形构图的形式组合，则会让人感觉景物之间的关系非常不稳定、不牢固。</p>
+</li>
+<li><p>另外一种对称的形式是景物自身形态的对称，如大部分建筑物、正面人像的面部等。但要注意，拍摄景物自身形态的对称时，要将主体放在画面的中央。</p>
+</li>
+</ul>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qinxing.xyz/posts/29fcc0b6/">https://qinxing.xyz/posts/29fcc0b6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8E%9F%E5%88%9B/">原创</a><a class="post-meta__tags" href="/tags/%E9%95%9C%E5%A4%B4/">镜头</a><a class="post-meta__tags" href="/tags/%E9%98%85%E8%AF%BB/">阅读</a><a class="post-meta__tags" href="/tags/%E6%91%84%E5%BD%B1/">摄影</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200318095107.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/posts/e6f0524a/"><img class="prev_cover lazyload" data-src="https://image.qinxing.xyz/20200318095107.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">相机成像原理之sensor篇</div></div></a></div><div class="next-post pull_right"><a href="/posts/2b78e151/"><img class="next_cover lazyload" data-src="https://image.qinxing.xyz/20200414112824.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">BUG：sensor帧率不准</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/posts/575fbd93/" title="手机摄像头的分析与思考"><img class="relatedPosts_cover lazyload"data-src="https://image.qinxing.xyz/20200405191904.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-03</div><div class="relatedPosts_title">手机摄像头的分析与思考</div></div></a></div><div class="relatedPosts_item"><a href="/posts/b7ea425d/" title="镜头畸变的那些事"><img class="relatedPosts_cover lazyload"data-src="https://cdn.yiban.io/pixabay/4a029547b9ea9722874375c2f9839b510809ea510e80fbf2397fbd82e1962ad7.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-02-29</div><div class="relatedPosts_title">镜头畸变的那些事</div></div></a></div><div class="relatedPosts_item"><a href="/posts/b31d381e/" title="相机成像原理之镜头篇"><img class="relatedPosts_cover lazyload"data-src="https://image.qinxing.xyz/20200318094701.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-12-17</div><div class="relatedPosts_title">相机成像原理之镜头篇</div></div></a></div><div class="relatedPosts_item"><a href="/posts/e6f0524a/" title="相机成像原理之sensor篇"><img class="relatedPosts_cover lazyload"data-src="https://image.qinxing.xyz/20200318095107.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-22</div><div class="relatedPosts_title">相机成像原理之sensor篇</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  notify: false,
+  verify: false,
+  placeholder: '快来留言吧~',
+  avatar: 'wavatar',
+  meta: guest_info,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: ""
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/search/local-search.js"></script></body></html>
