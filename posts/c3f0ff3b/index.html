@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SENSOR HDR技术的发展与思考 | 清新的日子</title><meta name="description" content="整理一下近年来sensor端HDR技术的发展，记录自己的部分思考"><meta name="keywords" content="高通camera,效果调试,sensor,HDR"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="dns-prefetch" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SENSOR HDR技术的发展与思考"><meta name="twitter:description" content="整理一下近年来sensor端HDR技术的发展，记录自己的部分思考"><meta name="twitter:image" content="https://image.qinxing.xyz/20200430174345.png"><meta property="og:type" content="article"><meta property="og:title" content="SENSOR HDR技术的发展与思考"><meta property="og:url" content="https://qinxing.xyz/posts/c3f0ff3b/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="整理一下近年来sensor端HDR技术的发展，记录自己的部分思考"><meta property="og:image" content="https://image.qinxing.xyz/20200430174345.png"><meta property="article:published_time" content="2020-04-28T16:00:00.000Z"><meta property="article:modified_time" content="2020-05-05T02:41:16.274Z"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = 'false'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://qinxing.xyz/posts/c3f0ff3b/"><link rel="next" title="相机成像原理之sensor篇" href="https://qinxing.xyz/posts/e6f0524a/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">85</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">27</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）原始的时域多帧HDR技术"><span class="toc-number">1.</span> <span class="toc-text">（一）原始的时域多帧HDR技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局限"><span class="toc-number">1.2.</span> <span class="toc-text">局限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）Temporal-HDR"><span class="toc-number">2.</span> <span class="toc-text">（二）Temporal HDR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-DOL"><span class="toc-number">2.1.</span> <span class="toc-text">1. DOL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOL长短曝光时间比与动态范围扩展"><span class="toc-number">2.1.1.</span> <span class="toc-text">DOL长短曝光时间比与动态范围扩展</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IHDR"><span class="toc-number">2.2.</span> <span class="toc-text">2. IHDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Zig-zag-HDR"><span class="toc-number">2.3.</span> <span class="toc-text">3. Zig-zag HDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Temporal-HDR的局限"><span class="toc-number">2.4.</span> <span class="toc-text">Temporal HDR的局限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-伪像（HDR-Transition-Artefacts）"><span class="toc-number">2.4.1.</span> <span class="toc-text">1. 伪像（HDR Transition Artefacts）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-水波纹（banding）"><span class="toc-number">2.4.2.</span> <span class="toc-text">2. 水波纹（banding）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-PWM光源图像的闪烁与丢失"><span class="toc-number">2.4.3.</span> <span class="toc-text">3. PWM光源图像的闪烁与丢失</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）Spatial-HDR"><span class="toc-number">3.</span> <span class="toc-text">（三）Spatial HDR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大小pixel的分离结构"><span class="toc-number">3.1.</span> <span class="toc-text">大小pixel的分离结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#大小分离pixel的电路设计"><span class="toc-number">3.2.</span> <span class="toc-text">大小分离pixel的电路设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#大小像素HDR与时域HDR在motion-artefact上的比较"><span class="toc-number">3.3.</span> <span class="toc-text">大小像素HDR与时域HDR在motion artefact上的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#大小像素与Dual-conversion-gain的结合"><span class="toc-number">3.4.</span> <span class="toc-text">大小像素与Dual conversion gain的结合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两种场景的切换"><span class="toc-number">3.5.</span> <span class="toc-text">两种场景的切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#疑问"><span class="toc-number">3.6.</span> <span class="toc-text">疑问</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200430174345.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">SENSOR HDR技术的发展与思考</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-29 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-29</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-05 10:41:16"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-05</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F/">图像</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">3.3k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 10 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/posts/c3f0ff3b/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/posts/c3f0ff3b/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><blockquote>
+<p>整理自<a href="https://zhuanlan.zhihu.com/p/135280041" target="_blank" rel="noopener">知乎</a>和<a href="https://www.sohu.com/a/252440543_237916" target="_blank" rel="noopener">网页</a></p>
+</blockquote>
+<p>高动态范围图像（High-Dynamic Range，简称HDR），相比普通的图像，可以提供更多的动态范围和图像细节，根据不同的曝光时间的LDR（Low-Dynamic Range，低动态范围图像），并利用每个曝光时间相对应最佳细节的LDR图像来合成最终HDR图像。它能够更好的反映出真实环境中的视觉效果。</p>
+<p>这篇文章主要讲视频的HDR技术，拍照的HDR大部分是算法处理的结果，这里不做讨论。</p>
+<h2 id="（一）原始的时域多帧HDR技术"><a href="#（一）原始的时域多帧HDR技术" class="headerlink" title="（一）原始的时域多帧HDR技术"></a>（一）原始的时域多帧HDR技术</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>相机在时间上连续输出由欠曝到过曝的图像，然后做图像融合，得到HDR图像。</p>
+<p><img src="https://image.qinxing.xyz/20200430103833.png" alt></p>
+<p>融合后HDR图像</p>
+<p><img src="https://image.qinxing.xyz/20200430114216.jpg" alt="img"></p>
+<p>比较典型的一种融合方法是根据luminance，contrast，motion等条件，对第K帧图像的像素[i，j]给出权重。Wij,k 是第K帧，位置i，j像素的权重，Xk((i,j)是原始像素值，Xf（i，j）是融合后的像素值。公式如下</p>
+<p><img src="https://image.qinxing.xyz/20200430104853.png" alt></p>
+<p>对彩色图像，权重的计算会考虑色彩的饱和度等因素。</p>
+<h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h3><p>由于传统时域多帧是基于连续曝光的整帧图像（Frame Based）进行融合，所以图像之间的间隔时间就是一帧图像的周期，由此会产生很多artefacts：</p>
+<p><img src="https://image.qinxing.xyz/20200430114246.jpg" alt="场景内物体增减"><br><img src="https://image.qinxing.xyz/20200430115705.png" alt="近距离物体快速移动形成拖影"><br><img src="https://image.qinxing.xyz/20200430115732.png" alt="Color artefact"></p>
+<p>Frame based的多曝光HDR技术常用于still image 的capture，也有视频HDR 采用这种技术，比如sensor以60fps的帧率交替输出长短曝光，融合后输出30fps的HDR图像。</p>
+<p><img src="https://image.qinxing.xyz/20200430114752.jpg" alt="长短帧交替输出"></p>
+<p><img src="https://image.qinxing.xyz/20200430185250.jpg" alt="Frame based Video HDR sensor"></p>
+<p>早期的HDR video有采用这种技术，自从DOL技术出现后，这种Frame based Video HDR技术就逐渐退出历史舞台了。</p>
+<h2 id="（二）Temporal-HDR"><a href="#（二）Temporal-HDR" class="headerlink" title="（二）Temporal HDR"></a>（二）Temporal HDR</h2><p>Temporal HDR是利用不同曝光时间实现的HDR。有下面几种方案：</p>
+<h3 id="1-DOL"><a href="#1-DOL" class="headerlink" title="1. DOL"></a>1. DOL</h3><p>DOL HDR 也叫做line interleaving HDR 技术。以两曝光DOL为例，sensor每行会以长短曝光两次先后输出，从readout角度来看，就是长曝光帧与短曝光帧 line interleaving 依次输出，如下图，第一行L输出，第一行S输出，第二行L输出，第二行S输出，以此类推。</p>
+<p><img src="https://image.qinxing.xyz/20200430120228.jpg" alt="DOL曝光时序"></p>
+<p>frame based HDR，长短曝光帧的间隔是一个帧周期，也就是必须一整帧（长）曝光结束，再开始一整帧（短）曝光，如下图</p>
+<p><img src="https://image.qinxing.xyz/20200430185300.jpg" alt="frame based HDR"></p>
+<p>对于DOL HDR而言，由于line interleaving（行的交织），存在两帧的overlap，等于一帧输出没结束，下一帧就来了，长短曝光帧的间隔大大缩小了。</p>
+<p>从下图可见，长曝光帧与短曝光帧overlap了一部分，所以这种技术叫digital overlap。其实就是减少了短帧的消影时间（sweep time）。</p>
+<p><img src="https://image.qinxing.xyz/20200430185302.jpg" alt="digital overlap"></p>
+<p>Staggered-HDR可以归为这一类</p>
+<p><img src="https://image.qinxing.xyz/20200430185223.jpeg" alt="Staggered-HDR的原理"></p>
+<p>在一次完整曝光的过程中，sensor分别在短、中等和长曝光时读出一次数据，数据进行芯片外处理以得到HDR图像。</p>
+<h4 id="DOL长短曝光时间比与动态范围扩展"><a href="#DOL长短曝光时间比与动态范围扩展" class="headerlink" title="DOL长短曝光时间比与动态范围扩展"></a>DOL长短曝光时间比与动态范围扩展</h4><p>以两曝光DOL 为例</p>
+<p>Exposure ratio = Long exposure time/ short exposure time</p>
+<p>假设Exposure ratio = 16，假设在亮度没有饱和的条件下，相当于曝光最大值增大了16倍：2^4。也就是动态范围扩大了4个bit。</p>
+<p>以此类推，每增加一个曝光帧，如果exposure ratio =16，动态范围就可以扩大4bit。</p>
+<p>按照一般HDR sensor 单曝光为12bit来算的话，2次曝光可以让sensor的输出动态范围扩大到16bit，4曝光就可以让sensor输出的动态范围扩大到24bit（12+4+4+4)。</p>
+<p><img src="https://image.qinxing.xyz/20200430181942.jpg" alt="多帧曝光扩展动态范围"></p>
+<p>exposure ratio 也不是越大越好，exposure ratio会受到三方面的制约，图像质量，sensor设计以及isp line delay buffer。</p>
+<p>从图像质量上来说，短曝光时间越短，图像噪声越高，长曝光越长，motion的影响越大。Exposure Ratio越大，在图像融合后的SNR drop也越大。</p>
+<p>从sensor设计上来说，长短曝光之比受到读出电路的限制，sony的DOL第二代采用虚拟通道技术一定程度改善了这个限制。</p>
+<p>从ISP的角度来说line delay buffer 也限制了最大曝光时间。在短曝光行出来之前，第一个长曝光行应该还在delay buffer里，这样才能两者对齐好给后面的frame stitch操作。而长短曝光比越大，需要的line delay buffer就越大。</p>
+<p><img src="https://image.qinxing.xyz/20200430120615.webp" alt="DOL buffer"></p>
+<p>对于sensor做hdr融合case而言，line delay buffer size就是固定的，所以ISP倾向于在isp这端做HDR融合，这样可以更灵活的设计。（Maver注：对于车载而言，带宽是个主要关注点，所以大部分用户不会选择在ISP侧做HDR融合）</p>
+<h3 id="2-IHDR"><a href="#2-IHDR" class="headerlink" title="2. IHDR"></a>2. IHDR</h3><p>BME(Binned multiplexed exposure)，也叫iHDR。</p>
+<p><img src="https://image.qinxing.xyz/20200430183835.png" alt="IHDR"></p>
+<p>如右边图案所示，在传感器上间隔两行分别使用长短曝光设置，最终合成一帧行数减半的图像。</p>
+<p>该技术的帧缓存很短，图像融合较快，可以实现实时预览HDR。</p>
+<p>但它的缺点也很明显， binned（二合一）的读出方式让图像分辨率减少了一半，该技术主要适用于对分辨率要求不高的预览或录像HDR。</p>
+<h3 id="3-Zig-zag-HDR"><a href="#3-Zig-zag-HDR" class="headerlink" title="3. Zig-zag HDR"></a>3. Zig-zag HDR</h3><p>千辛万苦研究提升的分辨率怎么能说降就降呢？不甘心啊~</p>
+<p>芯片厂商又研发了新的方案，称作SME(Spatially multiplexed exposure) ，或叫做Zig-zag （Z字形）HDR。</p>
+<p><img src="https://image.qinxing.xyz/20200430185316.png" alt="Zig-zag HDR"></p>
+<p>图如其名，长短曝光分别呈现“Z”字型，每一行像素既有长曝光也有短曝光。据称只要算法足够优秀，该方案就能够输出接近全像素的HDR照片，并且可以用作实时预览。</p>
+<p>在4合1模式下，2x2像素区域内分别设置长(L)、中等(M)、短(S)三级曝光，将 4个像素合并为一个输出，称之为3-Exposure HDR。</p>
+<p><img src="https://image.qinxing.xyz/20200430191135.jpeg" alt="zig-zag HDR输出"></p>
+<p>采用三曝光实现实时HDR预览，拍照时采用传统帧序列HDR方法，抓取三张不同曝光的图像进行平台端算法处理。</p>
+<p>由于人眼对亮度的感知是呈对数的，用tone curve可以压缩亮区图像数据的同时，保留暗区的细节（类似一个预处理的gamma）。</p>
+<h3 id="Temporal-HDR的局限"><a href="#Temporal-HDR的局限" class="headerlink" title="Temporal HDR的局限"></a>Temporal HDR的局限</h3><p>Sony在推出DOL的时候，宣传DOL是‘准同时’输出长短曝光。既然是‘准同时’，那就还不是同时，所以也会有一些典型时域多帧HDR的图像质量问题，同时DOL也有一些特有的IQ问题。</p>
+<h4 id="1-伪像（HDR-Transition-Artefacts）"><a href="#1-伪像（HDR-Transition-Artefacts）" class="headerlink" title="1. 伪像（HDR Transition Artefacts）"></a>1. 伪像（HDR Transition Artefacts）</h4><p>可以从下左图看到composition noise造成的edge，这种edge有时候会误导机器视觉。</p>
+<p><img src="https://image.qinxing.xyz/20200430120703.jpg" alt="HDR Transition Artefacts"></p>
+<p>从DOL hdr的noise profile可以看出来，如下图，在HDR拼接处，可以看到SNR的显著变化，叫做snr drop，当SNR drop大的时候，就会出现明显的edge，如上图所示。</p>
+<p><img src="https://image.qinxing.xyz/20200430120725.jpg" alt="DOL HDR noise profile"></p>
+<p>曝光比越小，SNR drop就越小, 可以想见，如果曝光比为1，也就没有snr drop了。反之，曝光比越大，动态范围越大，snr drop也越大，如下图所示。</p>
+<p><img src="https://image.qinxing.xyz/20200430180310.jpg" alt="曝光比为32时的noise profile"></p>
+<h4 id="2-水波纹（banding）"><a href="#2-水波纹（banding）" class="headerlink" title="2. 水波纹（banding）"></a>2. 水波纹（banding）</h4><p>由于短帧曝光时间短，每次曝光交流电的亮度都不同，会类似水波纹的现象banding。</p>
+<p><img src="https://image.qinxing.xyz/20200430180420.jpg" alt="flicker"></p>
+<p>为了避免水波纹，就得让最小曝光时间是半周期的整数倍，这样sensor的每行像素曝光时的亮度就是一样的。如果交流电是50Hz，曝光时间需要是10ms的整数倍。</p>
+<p><img src="https://image.qinxing.xyz/20200430180523.jpg" alt="antibanding"></p>
+<p>这样就不会出现水波纹现象了。但是由于最小曝光时间变大了，动态范围就损失了。所以有时候为了保证不损失动态范围，就得容忍水波纹。这就得看应用场景了。</p>
+<h4 id="3-PWM光源图像的闪烁与丢失"><a href="#3-PWM光源图像的闪烁与丢失" class="headerlink" title="3. PWM光源图像的闪烁与丢失"></a>3. PWM光源图像的闪烁与丢失</h4><p>类似的问题发生在PWM供电的Led光源上，尤其是交通信号灯以及汽车信号灯，如下图所示</p>
+<p><img src="https://image.qinxing.xyz/20200430182027.jpg" alt="抓拍红绿灯不亮的原因"></p>
+<p>我们看到的红绿灯不是一直亮着的，一个电源周期里面，只有比较小的一段时间是亮的。</p>
+<p>sensor的长曝光帧能捕捉到到红绿灯亮的时候，但是短曝光帧就没捕捉到，这样也会造成闪烁（flickering）甚至信号灯图像的丢失。</p>
+<p><strong>注意：</strong>不是仅仅宽动态才会引起这个问题，当曝光时间短的时候都会有这个问题。比如说电警设备，抓拍快门一般都在几百上千分之一，很容易出现一直黑着的情况。因此需要做一个电源同步的操作，确保在曝光的时候，红绿灯是亮的。</p>
+<h2 id="（三）Spatial-HDR"><a href="#（三）Spatial-HDR" class="headerlink" title="（三）Spatial HDR"></a>（三）Spatial HDR</h2><p>sensor除了在时域上用多帧进行HDR（Temporal HDR），还有另外一个方向是空间上的HDR（Spatial HDR）。</p>
+<p>我目前只看到了split/sub pixel技术。</p>
+<p>车载领域也广泛使用Temporal domain HDR技术，但是随着车载相机在ADAS与自动驾驶领域的迅速发展，对图像质量有着特别的需求，导致Temporal domain HDR技术不能满足需要。车载比较典型的两个IQ需求是不能有motion artefact 和 LED flickering。</p>
+<p><img src="https://image.qinxing.xyz/20200430182918.jpg" alt="motion artefact"></p>
+<p><img src="https://image.qinxing.xyz/20200430185330.jpg" alt="LED flickering"></p>
+<p>Temporal （时间的）HDR 在原理上就存在这些缺陷，所以要解决这个问题就需要使用其他的HDR体制：Spatial（空间） HDR技术是现在车载领域的主流解决方案。</p>
+<p>比较典型的是Sony sensor（imx390/490）采用的Subpixel技术与OV sensor（ovx1a)采用的split pixel技术，他们都属于SpatialHDR技术范畴，其基本原理是一致的。</p>
+<h3 id="大小pixel的分离结构"><a href="#大小pixel的分离结构" class="headerlink" title="大小pixel的分离结构"></a>大小pixel的分离结构</h3><p>与普通CFA的不同，大小pixel技术的sensor在相邻位置有一大一小两个pixel，他们空间上非常接近，可以认为对空间采样相同。</p>
+<p><img src="https://image.qinxing.xyz/20200430185337.jpg" alt="split/sub piexl结构"></p>
+<p>由于pixel的大小不同，物理上的sensitivity不同，FWC也不同，会产生与时域HDR一样的不同曝光效果，形成了对不同动态范围的覆盖。如下图可以看到LPD（Large Pixel Diode）与SPD（Small Pixel Diode）是如何扩展动态范围的。</p>
+<p><img src="https://image.qinxing.xyz/20200430185409.jpg" alt></p>
+<h3 id="大小分离pixel的电路设计"><a href="#大小分离pixel的电路设计" class="headerlink" title="大小分离pixel的电路设计"></a>大小分离pixel的电路设计</h3><p>典型的大小分离pixel的电路如下图所示</p>
+<p><img src="https://image.qinxing.xyz/20200430185428.jpg" alt="split/sub pixel电路设计"></p>
+<p>SPD和LPD分别用黄色的二极管标出。CGC（conversion gain control）与TG（transfer gate）控制了photo diode 向FD充电，当TGs使能时，FD接收SPD来的电荷，RS会使能让FD的电荷转存出来。然后当TGL使能时，FD接收LPD来的电荷，RS会再一次使能让FD的电荷转存出来。RST负责在每一次转存后把FD电容清空。这样的电路结构就实现了LPD和SPD的分别读出。这个部分的电路时钟非常快，所以可以认为大小像素是同时曝光的。后面的读出电路也会把大小像素同时读出，由下图可见，T_lpd与T_spd是同时的。</p>
+<p><img src="https://image.qinxing.xyz/20200430185449.jpg" alt="split/sub pixel读取时序"></p>
+<h3 id="大小像素HDR与时域HDR在motion-artefact上的比较"><a href="#大小像素HDR与时域HDR在motion-artefact上的比较" class="headerlink" title="大小像素HDR与时域HDR在motion artefact上的比较"></a>大小像素HDR与时域HDR在motion artefact上的比较</h3><p>由下图可以看出基于大小像素的HDR与时域HDR在拍摄运动物体上的motion artefact比较。</p>
+<p>左图是基于大小像素的图像，完全没有motion artefact，右图是时域HDR，可以看到明显的motion artefact。</p>
+<p><img src="https://image.qinxing.xyz/20200430185501.jpg" alt="motion artefact"></p>
+<p>对于这种更挑战的场景，舞厅的旋转光球，左图是大小像素HDR，右图是时域HDR，可以看到时域HDR的图像把小的运动光点都混到了一起。</p>
+<p><img src="https://image.qinxing.xyz/20200430185548.jpg" alt="motion artefact"></p>
+<h3 id="大小像素与Dual-conversion-gain的结合"><a href="#大小像素与Dual-conversion-gain的结合" class="headerlink" title="大小像素与Dual conversion gain的结合"></a>大小像素与Dual conversion gain的结合</h3><p>单独靠大小像素只能形成两个曝光的图像，再结合之前介绍过的DCG技术，在大小pixel分别配合HCG，LCG，就可以形成4曝光。</p>
+<p>假设单曝光输出12bit，曝光比是16，那总共的动态范围可以达到24bit输出。</p>
+<p><strong>注意</strong>：在相同增益下，HCG比LCG模式图像要亮，相当于自带一个增益。</p>
+<p><img src="https://image.qinxing.xyz/20200430185553.jpg" alt="Dual conversion gain"></p>
+<h3 id="两种场景的切换"><a href="#两种场景的切换" class="headerlink" title="两种场景的切换"></a>两种场景的切换</h3><p>如下图，横轴是场景的光亮度，纵轴是SNR，红色曲线是LPD像素的SNR曲线，蓝色曲线是LPD像素的SNR曲线。</p>
+<p><img src="https://image.qinxing.xyz/20200430191108.jpg" alt="SNR"></p>
+<p>SPD的饱和点更高，而LPD的低光SNR更高。这两条曲线说明了大小像素这种设计可以很灵活的适配场景的变化，当场景非常亮的情况，就用大小像素融合输出，这样可以扩大动态范围。</p>
+<p>当场景非常暗的情况，就完全切换到LPD像素，因为它的SNR更高。</p>
+<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><p><strong>疑问</strong>1：是否和zHDR一样会损失分辨率？</p>
+<p><strong>疑问2</strong>：如果用sub pixel 的技术，能不能解决红绿灯闪烁甚至消失的问题？是不是电警设备不需要加电源同步（这边一般是FPGA做的），用宽动态就可以解决红绿灯不亮的问题。这样会不会更加节省成本？</p>
+<p><strong>回答</strong>：不行，电警设备抓拍车要求快门时间很小，只要是曝光时间小，就还是会抓不到，一定要做电源同步。</p>
+<p>用sub pixel技术的话，他们是一起曝光的，只是感光度不一样，感光率比较低的可以完美的抓拍到红绿灯而不过曝。但是必须要求曝光时间大于红绿灯的一个周期，这样曝光时间明显就会比较长，相比于电警动则几千分之一的快门，拍快速运动的物体有点问题。</p>
+<p><strong>疑问3</strong>：电警的FPGA模块到底有哪些作用？控制爆闪灯下的抓拍和电源同步？</p>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qinxing.xyz/posts/c3f0ff3b/">https://qinxing.xyz/posts/c3f0ff3b/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E9%80%9Acamera/">高通camera</a><a class="post-meta__tags" href="/tags/%E6%95%88%E6%9E%9C%E8%B0%83%E8%AF%95/">效果调试</a><a class="post-meta__tags" href="/tags/sensor/">sensor</a><a class="post-meta__tags" href="/tags/HDR/">HDR</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200430174345.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/posts/e6f0524a/"><img class="next_cover" src="https://image.qinxing.xyz/20200318095107.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">相机成像原理之sensor篇</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/posts/a825c630/" title="sdm660 ISP效果调试总结"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200308125017.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-01-09</div><div class="relatedPosts_title">sdm660 ISP效果调试总结</div></div></a></div><div class="relatedPosts_item"><a href="/posts/4dfacae0/" title="BUG：红外回调不生效"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200316001926.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-12</div><div class="relatedPosts_title">BUG：红外回调不生效</div></div></a></div><div class="relatedPosts_item"><a href="/posts/b610df15/" title="BUG：畸变校正算法不生效"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200316094622.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-11</div><div class="relatedPosts_title">BUG：畸变校正算法不生效</div></div></a></div><div class="relatedPosts_item"><a href="/posts/3e245786/" title="BUG：两路摄像头偶尔不能同时切换日夜模式"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200316104118.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-02-29</div><div class="relatedPosts_title">BUG：两路摄像头偶尔不能同时切换日夜模式</div></div></a></div><div class="relatedPosts_item"><a href="/posts/3db0f223/" title="BUG：高温导致帧率异常"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200315221559.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-08-06</div><div class="relatedPosts_title">BUG：高温导致帧率异常</div></div></a></div><div class="relatedPosts_item"><a href="/posts/42980f77/" title="高通预览流实现60帧"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200316001407.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-07-25</div><div class="relatedPosts_title">高通预览流实现60帧</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  notify: false,
+  verify: false,
+  placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+  avatar: 'wavatar',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: true,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script></body></html>

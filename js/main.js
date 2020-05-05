@@ -363,6 +363,21 @@ $(function () {
   }
 
   /**
+ * PhotoFigcaption
+ */
+  function addPhotoFigcaption () {
+    var images = $('#article-container img')
+    images.each(function (i, o) {
+      var $this = $(o)
+      if ($this.attr('alt')) {
+        var t = $('<div class="img-alt is-center">' + $this.attr('alt') + '</div>')
+        $this.after(t)
+      }
+    })
+  }
+  if (GLOBAL_CONFIG.isPhotoFigcaption) addPhotoFigcaption()
+
+  /**
    * justified-gallery 圖庫排版
    */
   var $justifiedGallery = $('.justified-gallery')
@@ -428,6 +443,13 @@ $(function () {
         background: photoBg
       })
     })
+  }
+
+  /**
+   * lazyload
+   */
+  if (GLOBAL_CONFIG.islazyload) {
+    window.lozad('img').observe()
   }
 
   /**
@@ -517,6 +539,8 @@ $(function () {
       }, 100)
     }
 
+    // anchor
+    var isanchor = GLOBAL_CONFIG.isanchor
     var updateAnchor = function (anchor) {
       if (window.history.replaceState && anchor !== window.location.hash) {
         window.history.replaceState(undefined, undefined, anchor)
@@ -550,7 +574,7 @@ $(function () {
 
       var currentActive = $('.toc-link.active')
       if (currentId && currentActive.attr('href') !== currentId) {
-        updateAnchor(currentId)
+        if (isanchor) updateAnchor(currentId)
 
         $('.toc-link').removeClass('active')
 
@@ -696,11 +720,7 @@ $(function () {
 
   $darkModeButtom.click(function () {
     switchReadMode()
-    try {
-      utterancesTheme()
-    } catch (e) {
-      return false
-    }
+    if (typeof utterancesTheme === 'function') utterancesTheme()
   })
 
   /**
@@ -758,19 +778,4 @@ $(function () {
       }
     })
   }
-
-  /**
-   * PhotoFigcaption
-   */
-  function addPhotoFigcaption () {
-    var images = $('#article-container img')
-    images.each(function (i, o) {
-      var $this = $(o)
-      if ($this.attr('alt')) {
-        var t = $('<div class="img-alt is-center">' + $this.attr('alt') + '</div>')
-        $this.after(t)
-      }
-    })
-  }
-  if (GLOBAL_CONFIG.isPhotoFigcaption) addPhotoFigcaption()
 })
