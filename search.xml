@@ -47,7 +47,7 @@
 <h3 id="2-IHDR"><a href="#2-IHDR" class="headerlink" title="2. IHDR"></a>2. IHDR</h3><p>BME(Binned multiplexed exposure)，也叫iHDR。</p>
 <p><img src="https://image.qinxing.xyz/20200430183835.png" alt="IHDR"></p>
 <p>如右边图案所示，在传感器上间隔两行分别使用长短曝光设置，最终合成一帧行数减半的图像。</p>
-<p>该技术的帧缓存很短，图像融合较快，可以实现实时预览HDR。</p>
+<p>DOL技术如果想要出每秒25帧的HDR视频，sensor就需要每秒出50帧，对ISP和CPU的性能要求比较高。而该技术的一帧图像就包含了长短帧曝光，降低帧率的要求。输出速率降低了，对sensor的帧缓存要求也降低了。</p>
 <p>但它的缺点也很明显， binned（二合一）的读出方式让图像分辨率减少了一半，该技术主要适用于对分辨率要求不高的预览或录像HDR。</p>
 <h3 id="3-Zig-zag-HDR"><a href="#3-Zig-zag-HDR" class="headerlink" title="3. Zig-zag HDR"></a>3. Zig-zag HDR</h3><p>千辛万苦研究提升的分辨率怎么能说降就降呢？不甘心啊~</p>
 <p>芯片厂商又研发了新的方案，称作SME(Spatially multiplexed exposure) ，或叫做Zig-zag （Z字形）HDR。</p>
@@ -73,7 +73,7 @@
 <p><img src="https://image.qinxing.xyz/20200430182027.jpg" alt="抓拍红绿灯不亮的原因"></p>
 <p>我们看到的红绿灯不是一直亮着的，一个电源周期里面，只有比较小的一段时间是亮的。</p>
 <p>sensor的长曝光帧能捕捉到到红绿灯亮的时候，但是短曝光帧就没捕捉到，这样也会造成闪烁（flickering）甚至信号灯图像的丢失。</p>
-<p><strong>注意：</strong>不是仅仅宽动态才会引起这个问题，当曝光时间短的时候都会有这个问题。比如说电警设备，抓拍快门一般都在几百上千分之一，很容易出现一直黑着的情况。因此需要做一个电源同步的操作，确保在曝光的时候，红绿灯是亮的。</p>
+<p><strong>注意：</strong>不是仅仅宽动态才会引起这个问题，当曝光时间短的时候都会有这个问题。比如说电警设备，抓拍快门一般都在几百上千分之一，很容易出现一直黑着的情况。因此需要做一个电源同步的操作。由于红绿灯闪烁的频率和当地的供电频率一致，通过硬件的方法，可以知道红绿灯亮着的时间。从而确保每次曝光的时候，红绿灯都是亮着的。</p>
 <h2 id="（三）Spatial-HDR"><a href="#（三）Spatial-HDR" class="headerlink" title="（三）Spatial HDR"></a>（三）Spatial HDR</h2><p>sensor除了在时域上用多帧进行HDR（Temporal HDR），还有另外一个方向是空间上的HDR（Spatial HDR）。</p>
 <p>我目前只看到了split/sub pixel技术。</p>
 <p>车载领域也广泛使用Temporal domain HDR技术，但是随着车载相机在ADAS与自动驾驶领域的迅速发展，对图像质量有着特别的需求，导致Temporal domain HDR技术不能满足需要。车载比较典型的两个IQ需求是不能有motion artefact 和 LED flickering。</p>
@@ -102,11 +102,12 @@
 <p><img src="https://image.qinxing.xyz/20200430191108.jpg" alt="SNR"></p>
 <p>SPD的饱和点更高，而LPD的低光SNR更高。这两条曲线说明了大小像素这种设计可以很灵活的适配场景的变化，当场景非常亮的情况，就用大小像素融合输出，这样可以扩大动态范围。</p>
 <p>当场景非常暗的情况，就完全切换到LPD像素，因为它的SNR更高。</p>
-<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><p><strong>疑问</strong>1：是否和zHDR一样会损失分辨率？</p>
+<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><p><strong>疑问1</strong>：是否会对清晰度有影响？大的像素和小像素的位置不一样，接收到的画面也就可能不一样，融合起来是否会对清晰度造成影响？</p>
 <p><strong>疑问2</strong>：如果用sub pixel 的技术，能不能解决红绿灯闪烁甚至消失的问题？是不是电警设备不需要加电源同步（这边一般是FPGA做的），用宽动态就可以解决红绿灯不亮的问题。这样会不会更加节省成本？</p>
 <p><strong>回答</strong>：不行，电警设备抓拍车要求快门时间很小，只要是曝光时间小，就还是会抓不到，一定要做电源同步。</p>
 <p>用sub pixel技术的话，他们是一起曝光的，只是感光度不一样，感光率比较低的可以完美的抓拍到红绿灯而不过曝。但是必须要求曝光时间大于红绿灯的一个周期，这样曝光时间明显就会比较长，相比于电警动则几千分之一的快门，拍快速运动的物体有点问题。</p>
-<p><strong>疑问3</strong>：电警的FPGA模块到底有哪些作用？控制爆闪灯下的抓拍和电源同步？</p>
+<p><strong>疑问3</strong>：电警的FPGA模块到底有哪些作用？</p>
+<p><strong>回答</strong>：1. 控制爆闪灯下的抓拍：由于爆闪灯亮的时间很短，只有几ms，需要确保在sensor的曝光时间内闪烁 2. 电源同步：由于红绿灯闪烁的频率和当地的供电频率一致，通过硬件的方法，可以知道红绿灯亮着的时间。从而确保每次曝光的时候，红绿灯都是亮着的</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -443,8 +444,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>帧率</tag>
         <tag>bug</tag>
+        <tag>帧率</tag>
       </tags>
   </entry>
   <entry>
@@ -647,8 +648,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -707,8 +708,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
         <tag>版本信息</tag>
       </tags>
   </entry>
@@ -971,8 +972,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -1297,27 +1298,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一维卡尔曼滤波</title>
-    <url>/posts/124f9d98/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
-<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
-<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
-<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
-<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AI超微光简介</title>
     <url>/posts/a809ba60/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="任何一个函数都可以被一个两层的神经网络近似-–李宏毅"><a href="#任何一个函数都可以被一个两层的神经网络近似-–李宏毅" class="headerlink" title="任何一个函数都可以被一个两层的神经网络近似 –李宏毅"></a>任何一个函数都可以被一个两层的神经网络近似 –李宏毅</h2><p>这是神经网络的基础，可以去逼近真实的函数，不过也终究不会超过真实的函数<br><a href="http://neuralnetworksanddeeplearning.com/chap4.html" target="_blank" rel="noopener">http://neuralnetworksanddeeplearning.com/chap4.html</a></p>
@@ -1336,6 +1316,27 @@
 <p>带来的问题，L1损失基于全图的平均，导致图像模糊，细节丢失。这个损失函数也就决定了这个模型训练出来的就类似一个低通滤波器</p>
 <p><strong>疑问</strong>：为什么不可以直接用统计值去训练，而不是直接用像素一一对应  </p>
 <p>回答：如果只需要统计值，那可以说是非监督训练，一般来说，非监督训练99.9%不如监督训练，能用监督训练，就尽量用监督训练 </p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一维卡尔曼滤波</title>
+    <url>/posts/124f9d98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
+<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
+<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
+<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
+<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -1526,8 +1527,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>fd泄露</tag>
+        <tag>hal</tag>
       </tags>
   </entry>
   <entry>
@@ -1634,8 +1635,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -1776,8 +1777,8 @@
         <category>编程</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>帧率</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -1939,8 +1940,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>编程</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>帧率</tag>
+        <tag>高通camera</tag>
       </tags>
   </entry>
   <entry>
@@ -2045,8 +2046,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>推荐</tag>
         <tag>软件</tag>
+        <tag>推荐</tag>
       </tags>
   </entry>
   <entry>
@@ -2168,8 +2169,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>网站</tag>
         <tag>推荐</tag>
+        <tag>网站</tag>
       </tags>
   </entry>
   <entry>
@@ -2191,60 +2192,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线程学习</title>
-    <url>/posts/c3eb2d02/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>深入解析锁和条件变量</p>
-</blockquote>
-<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
-<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
-<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
-<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
-<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
-<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
-<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
-<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
-<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
-<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
-<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
-<p>原子性的解锁并阻塞/等待条件变量。</p>
-<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
-<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
-<ul>
-<li>生产者和消费者都对条件变量的使用加了锁</li>
-<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
-<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
-<p>pthread_mutex_lock(&mutex);         //加锁</p>
-<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
-<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_cond_signal(&flag);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
-<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
-<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
-<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
-<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -2323,6 +2270,60 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    void</span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>如果把signal放在unlock之前，消费者线程会被唤醒，获取mutex发现获取不到，就又去sleep了。浪费了资源.但是在LinuxThreads或者NPTL里面，就不会有这个问题，因为在Linux 线程中，有两个队列，分别是cond_wait队列和mutex_lock队列， cond_signal只是让线程从cond_wait队列移到mutex_lock队列，而不用返回到用户空间，不会有性能的损耗。<br>所以在Linux中推荐使用这种模式。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线程学习</title>
+    <url>/posts/c3eb2d02/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>深入解析锁和条件变量</p>
+</blockquote>
+<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
+<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
+<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
+<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
+<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
+<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
+<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
+<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
+<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
+<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
+<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
+<p>原子性的解锁并阻塞/等待条件变量。</p>
+<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
+<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
+<ul>
+<li>生产者和消费者都对条件变量的使用加了锁</li>
+<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
+<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
+<p>pthread_mutex_lock(&mutex);         //加锁</p>
+<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
+<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_cond_signal(&flag);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
+<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
+<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
+<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
+<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
 </body></html>]]></content>
       <categories>
         <category>学习</category>
@@ -2475,6 +2476,63 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </tags>
   </entry>
   <entry>
+    <title>c 动态内存分配</title>
+    <url>/posts/ca78d72f/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>为什么要使用动态内存分配？函数的局部变量会进行回收，相比于函数的局部变量，有什么好处呢？</p>
+</blockquote>
+<blockquote>
+<p>《c和指针》阅读笔记</p>
+</blockquote>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>动态内存分配就是在程序运行的时候去再去申请所需要的内存空间。</p>
+<h2 id="malloc-和free"><a href="#malloc-和free" class="headerlink" title="malloc 和free"></a>malloc 和free</h2><p>malloc所分配的是一块连续的内存。并没有进行初始化，要么手动初始化，要么用calloc进行初始化。</p>
+<p>注意：如果内存池是空的，或者他的可用内存无法满足你的需要，会返回一个NULL指针，因此对每个从malloc返回的指针进行检查，确保它并非NULL非常重要。</p>
+<p>malloc又是如何知道你说请求的内存是整数，浮点还是数组呢？它并不知情，它只是返回了一个void *指针。标准表示一个void *类型的指针可以转换为其他任何类型的指针，但是有些编译器，可能要求你在转换时强制类型转换。</p>
+<h2 id="calloc和realloc"><a href="#calloc和realloc" class="headerlink" title="calloc和realloc"></a>calloc和realloc</h2><p>malloc和calloc的主要区别是后者在返回指向内存的指针之前将它初始化为0。另一个小区别是，它们请求内存数量的方式不同，calloc的参数包括所需元素的数量和每个元素的字节数，根据这个值去计算出总共需要分配多少内存。</p>
+<p>realloc用于修改一个原先已经分配的内存块的大小。使用这个函数，你可以是一块内存扩大或者缩小。扩大的话，不会对原先的内容有所改变，缩小的话，剩余部分的内容也依然保留。</p>
+<p>如果原先的内存块无法改变大小，会将另外分配一个正确大小的内存，并把原先的内存内容复制到新的块上。<strong>因此，使用realloc之后，就不能再使用指向就内存的指针，而是应该改用realloc返回的指针。</strong></p>
+<p>如果realloc的第一个参数是NULL，那么和malloc一样。</p>
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p>对NULL指针进行解引用操作</p>
+<p>对分配的内存进行操作是越过边界</p>
+<p>释放并非动态分配的内存</p>
+<p>试图释放一块动态分配的内存的一部分</p>
+<p>一块动态内存被释放后被继续使用</p>
+<h1 id="实例测试"><a href="#实例测试" class="headerlink" title="实例测试"></a>实例测试</h1><h2 id="不易发生错误的内存分配器实现"><a href="#不易发生错误的内存分配器实现" class="headerlink" title="不易发生错误的内存分配器实现"></a>不易发生错误的内存分配器实现</h2><p>动态内存分配最常见的错误是忘记检查所请求的内存是否成功分配。下面是一种技巧，可以很可靠的进行这个错误检查。不经过直接调用malloc函数，通过自定义的alloc函数调用malloc，并对malloc进行检查。</p>
+<p>这个#define malloc指令，是用于防止由于其他代码块直接调用malloc的行为。增加这个指令后，直接调用malloc将会因为语法错误而无法编译。在alloc.v中必须加入#undef，这样它才能调用malloc而不至于出错。</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.h</span></span><br><span class="line"><span class="comment">**定义一个不易发生错误的内存分配器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="comment">//不要直接调用malloc!</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> malloc  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MALLOC(num, type) (type *)alloc((num) * sizeof(type))</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.c</span></span><br><span class="line"><span class="comment">**不易发生错误的内存分配器的实现</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"alloc.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> malloc</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>{</span><br><span class="line">    <span class="keyword">void</span> *new_mem;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ** 请求所需的内存</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    new_mem = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">if</span>(new_mem == <span class="literal">NULL</span>){</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"out of memory\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> new_mem;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**a_client.c</span></span><br><span class="line"><span class="comment">**一个使用很少引起错误的内存分配器的程序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>{</span><br><span class="line">    <span class="keyword">int</span> *new_memory;</span><br><span class="line">    mew_memory = MALLOC(<span class="number">25</span>,<span class="keyword">int</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当动态内存分配的程序失败时，我们很容易将问题责任推给malloc和free函数，其实往往都是出现在了自己的程序中，而且常常是由于访问了分配内存以外的区域而引起的。</p>
+<p>当使用free的时候，可能会出现不同的错误，传递给free的指针必须死一个从malloc，calloc，realloc返回的指针。让free函数释放一块不是动态分配的内存可能导致程序立刻终止或者晚些时候终止。</p>
+<p><strong>试图释放一块动态内存的一部分也可能会引起类似问题</strong>。比如说在程序中对指针进行了修改，如自增自减之后，再去free，就可能会出现问题。</p>
+<p><strong>必须小心不要访问已经被free函数释放了的内存</strong>。（很容易出现）假设你对一个指向动态分配的内存的指针进行了赋值，而且这个指针的几个拷贝散布于程序各处。<strong>你无法保证当你使用其中一个指针的时候它所指向的内存是不是已经被另一个指针释放。</strong>另一方面，你必须确保程序中所有使用这块内存的地方在这块内存被释放之前停止对它的使用。</p>
+<h2 id="内存分配实例"><a href="#内存分配实例" class="headerlink" title="内存分配实例"></a>内存分配实例</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//invendor.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __INVENDOR_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __INVENDOR_H__</span></span><br><span class="line"><span class="comment">//定义一个存货记录的声明</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> cost;</span><br><span class="line">	<span class="keyword">int</span> supplier;</span><br><span class="line">}Partinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	short quan;</span><br><span class="line">}SUBASSYPART;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> n_parts;</span><br><span class="line">	SUBASSYPART *part;</span><br><span class="line">}Subassyinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	<span class="keyword">int</span> quan;</span><br><span class="line">	<span class="keyword">enum</span> {PART, SUBASSY}type;</span><br><span class="line">	<span class="keyword">union</span> {</span><br><span class="line">		Partinfo *part;</span><br><span class="line">		Subassyinfo *subassy;</span><br><span class="line">	}info;</span><br><span class="line">}Invrec;</span><br><span class="line"></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !__DATA_TYPE_H__</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**invrecord.c</span></span><br><span class="line"><span class="comment">**用于创建SUBASSEMBLY存货纪录的函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建存货信息</span></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span> </span>{</span><br><span class="line">	Invrec *new_rec;</span><br><span class="line">	<span class="comment">//尝试为Invrec部分分配内存</span></span><br><span class="line">	new_rec = MALLOC(<span class="number">1</span>, Invrec);</span><br><span class="line">	new_rec->info.subassy = MALLOC(<span class="number">1</span>, Subassyinfo);</span><br><span class="line">	new_rec->info.subassy->part = MALLOC(n_parts, SUBASSYPART);</span><br><span class="line">	new_rec->type = SUBASSY;</span><br><span class="line">	new_rec->info.subassy->n_parts = n_parts;</span><br><span class="line">	<span class="keyword">return</span> new_rec;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除存货信息</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span> </span>{</span><br><span class="line">	<span class="keyword">switch</span> (record->type) {</span><br><span class="line">	<span class="keyword">case</span> SUBASSY:</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy->part);</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> PART:</span><br><span class="line">		<span class="built_in">free</span>(record->info.part);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"record type is error"</span>);</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">free</span>(record);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	Invrec *a;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	**注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算</span></span><br><span class="line"><span class="comment">	**free的时候就会出问题，另外如果运算了，其他地方进行引用，也容易</span></span><br><span class="line"><span class="comment">	**出现找错内存块的问题。</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	a = create_subassy_record(<span class="number">3</span>);</span><br><span class="line">	<span class="comment">//将参与运算的指针保护起来。</span></span><br><span class="line">	SUBASSYPART *new_part = a->info.subassy->part;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno,<span class="string">"hello world"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"this is my"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="comment">//注意此处如果拷贝的数据超过数组长度，内存溢出</span></span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"first function"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>, new_part->partno);</span><br><span class="line">	discard_inventory_record(a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ok"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>出现过的问题：</p>
+<ul>
+<li>注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算，free的时候就会出问题，可能<strong>只释放了内存的一部分</strong>。另外如果运算了，其他地方进行引用，也容易内存块<strong>位置偏移</strong>的问题。</li>
+<li>用strcpy的时候需要注意不能超出规定的内存范围，注意不能越界访问</li>
+</ul>
+<p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a></p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+        <tag>内存</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>c 结构和联合</title>
     <url>/posts/4f008442/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>结构体和联合体的简单介绍</p>
@@ -2551,63 +2609,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>结构体</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c 动态内存分配</title>
-    <url>/posts/ca78d72f/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>为什么要使用动态内存分配？函数的局部变量会进行回收，相比于函数的局部变量，有什么好处呢？</p>
-</blockquote>
-<blockquote>
-<p>《c和指针》阅读笔记</p>
-</blockquote>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>动态内存分配就是在程序运行的时候去再去申请所需要的内存空间。</p>
-<h2 id="malloc-和free"><a href="#malloc-和free" class="headerlink" title="malloc 和free"></a>malloc 和free</h2><p>malloc所分配的是一块连续的内存。并没有进行初始化，要么手动初始化，要么用calloc进行初始化。</p>
-<p>注意：如果内存池是空的，或者他的可用内存无法满足你的需要，会返回一个NULL指针，因此对每个从malloc返回的指针进行检查，确保它并非NULL非常重要。</p>
-<p>malloc又是如何知道你说请求的内存是整数，浮点还是数组呢？它并不知情，它只是返回了一个void *指针。标准表示一个void *类型的指针可以转换为其他任何类型的指针，但是有些编译器，可能要求你在转换时强制类型转换。</p>
-<h2 id="calloc和realloc"><a href="#calloc和realloc" class="headerlink" title="calloc和realloc"></a>calloc和realloc</h2><p>malloc和calloc的主要区别是后者在返回指向内存的指针之前将它初始化为0。另一个小区别是，它们请求内存数量的方式不同，calloc的参数包括所需元素的数量和每个元素的字节数，根据这个值去计算出总共需要分配多少内存。</p>
-<p>realloc用于修改一个原先已经分配的内存块的大小。使用这个函数，你可以是一块内存扩大或者缩小。扩大的话，不会对原先的内容有所改变，缩小的话，剩余部分的内容也依然保留。</p>
-<p>如果原先的内存块无法改变大小，会将另外分配一个正确大小的内存，并把原先的内存内容复制到新的块上。<strong>因此，使用realloc之后，就不能再使用指向就内存的指针，而是应该改用realloc返回的指针。</strong></p>
-<p>如果realloc的第一个参数是NULL，那么和malloc一样。</p>
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p>对NULL指针进行解引用操作</p>
-<p>对分配的内存进行操作是越过边界</p>
-<p>释放并非动态分配的内存</p>
-<p>试图释放一块动态分配的内存的一部分</p>
-<p>一块动态内存被释放后被继续使用</p>
-<h1 id="实例测试"><a href="#实例测试" class="headerlink" title="实例测试"></a>实例测试</h1><h2 id="不易发生错误的内存分配器实现"><a href="#不易发生错误的内存分配器实现" class="headerlink" title="不易发生错误的内存分配器实现"></a>不易发生错误的内存分配器实现</h2><p>动态内存分配最常见的错误是忘记检查所请求的内存是否成功分配。下面是一种技巧，可以很可靠的进行这个错误检查。不经过直接调用malloc函数，通过自定义的alloc函数调用malloc，并对malloc进行检查。</p>
-<p>这个#define malloc指令，是用于防止由于其他代码块直接调用malloc的行为。增加这个指令后，直接调用malloc将会因为语法错误而无法编译。在alloc.v中必须加入#undef，这样它才能调用malloc而不至于出错。</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.h</span></span><br><span class="line"><span class="comment">**定义一个不易发生错误的内存分配器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="comment">//不要直接调用malloc!</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> malloc  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MALLOC(num, type) (type *)alloc((num) * sizeof(type))</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**alloc.c</span></span><br><span class="line"><span class="comment">**不易发生错误的内存分配器的实现</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"alloc.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> malloc</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">alloc</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>{</span><br><span class="line">    <span class="keyword">void</span> *new_mem;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ** 请求所需的内存</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    new_mem = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">if</span>(new_mem == <span class="literal">NULL</span>){</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"out of memory\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> new_mem;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**a_client.c</span></span><br><span class="line"><span class="comment">**一个使用很少引起错误的内存分配器的程序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>{</span><br><span class="line">    <span class="keyword">int</span> *new_memory;</span><br><span class="line">    mew_memory = MALLOC(<span class="number">25</span>,<span class="keyword">int</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>当动态内存分配的程序失败时，我们很容易将问题责任推给malloc和free函数，其实往往都是出现在了自己的程序中，而且常常是由于访问了分配内存以外的区域而引起的。</p>
-<p>当使用free的时候，可能会出现不同的错误，传递给free的指针必须死一个从malloc，calloc，realloc返回的指针。让free函数释放一块不是动态分配的内存可能导致程序立刻终止或者晚些时候终止。</p>
-<p><strong>试图释放一块动态内存的一部分也可能会引起类似问题</strong>。比如说在程序中对指针进行了修改，如自增自减之后，再去free，就可能会出现问题。</p>
-<p><strong>必须小心不要访问已经被free函数释放了的内存</strong>。（很容易出现）假设你对一个指向动态分配的内存的指针进行了赋值，而且这个指针的几个拷贝散布于程序各处。<strong>你无法保证当你使用其中一个指针的时候它所指向的内存是不是已经被另一个指针释放。</strong>另一方面，你必须确保程序中所有使用这块内存的地方在这块内存被释放之前停止对它的使用。</p>
-<h2 id="内存分配实例"><a href="#内存分配实例" class="headerlink" title="内存分配实例"></a>内存分配实例</h2><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//invendor.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __INVENDOR_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __INVENDOR_H__</span></span><br><span class="line"><span class="comment">//定义一个存货记录的声明</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> cost;</span><br><span class="line">	<span class="keyword">int</span> supplier;</span><br><span class="line">}Partinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	short quan;</span><br><span class="line">}SUBASSYPART;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">int</span> n_parts;</span><br><span class="line">	SUBASSYPART *part;</span><br><span class="line">}Subassyinfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">	<span class="keyword">char</span> partno[<span class="number">20</span>];</span><br><span class="line">	<span class="keyword">int</span> quan;</span><br><span class="line">	<span class="keyword">enum</span> {PART, SUBASSY}type;</span><br><span class="line">	<span class="keyword">union</span> {</span><br><span class="line">		Partinfo *part;</span><br><span class="line">		Subassyinfo *subassy;</span><br><span class="line">	}info;</span><br><span class="line">}Invrec;</span><br><span class="line"></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !__DATA_TYPE_H__</span></span></span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**invrecord.c</span></span><br><span class="line"><span class="comment">**用于创建SUBASSEMBLY存货纪录的函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建存货信息</span></span><br><span class="line"><span class="function">Invrec *<span class="title">create_subassy_record</span><span class="params">(<span class="keyword">int</span> n_parts)</span> </span>{</span><br><span class="line">	Invrec *new_rec;</span><br><span class="line">	<span class="comment">//尝试为Invrec部分分配内存</span></span><br><span class="line">	new_rec = MALLOC(<span class="number">1</span>, Invrec);</span><br><span class="line">	new_rec->info.subassy = MALLOC(<span class="number">1</span>, Subassyinfo);</span><br><span class="line">	new_rec->info.subassy->part = MALLOC(n_parts, SUBASSYPART);</span><br><span class="line">	new_rec->type = SUBASSY;</span><br><span class="line">	new_rec->info.subassy->n_parts = n_parts;</span><br><span class="line">	<span class="keyword">return</span> new_rec;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除存货信息</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">discard_inventory_record</span><span class="params">(Invrec *record)</span> </span>{</span><br><span class="line">	<span class="keyword">switch</span> (record->type) {</span><br><span class="line">	<span class="keyword">case</span> SUBASSY:</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy->part);</span><br><span class="line">		<span class="built_in">free</span>(record->info.subassy);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> PART:</span><br><span class="line">		<span class="built_in">free</span>(record->info.part);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"record type is error"</span>);</span><br><span class="line">	}</span><br><span class="line">	<span class="built_in">free</span>(record);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"invendor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	Invrec *a;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	**注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算</span></span><br><span class="line"><span class="comment">	**free的时候就会出问题，另外如果运算了，其他地方进行引用，也容易</span></span><br><span class="line"><span class="comment">	**出现找错内存块的问题。</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	a = create_subassy_record(<span class="number">3</span>);</span><br><span class="line">	<span class="comment">//将参与运算的指针保护起来。</span></span><br><span class="line">	SUBASSYPART *new_part = a->info.subassy->part;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno,<span class="string">"hello world"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"this is my"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	new_part++;</span><br><span class="line">	<span class="comment">//注意此处如果拷贝的数据超过数组长度，内存溢出</span></span><br><span class="line">	<span class="built_in">strcpy</span>(new_part->partno, <span class="string">"first function"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%p\r\n"</span>, new_part);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>, new_part->partno);</span><br><span class="line">	discard_inventory_record(a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ok"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>出现过的问题：</p>
-<ul>
-<li>注意了，由于动态分配的内存需要释放，如果将这个指针进行了运算，free的时候就会出问题，可能<strong>只释放了内存的一部分</strong>。另外如果运算了，其他地方进行引用，也容易内存块<strong>位置偏移</strong>的问题。</li>
-<li>用strcpy的时候需要注意不能超出规定的内存范围，注意不能越界访问</li>
-</ul>
-<p><code>代码位置</code>：<a href="https://github.com/xiaoqinxing/myrepo_c" target="_blank" rel="noopener">https://github.com/xiaoqinxing/myrepo_c</a></p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>指针</tag>
-        <tag>内存</tag>
       </tags>
   </entry>
   <entry>
@@ -3282,29 +3283,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </tags>
   </entry>
   <entry>
-    <title>高通WNR滤波理解</title>
-    <url>/posts/7bdc3237/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p><strong>详细原理：</strong></p>
-<p><img src="https://image.qinxing.xyz/1552274631266.png" alt></p>
-<p>先将原图和经过双边滤波之后的图相减，得到下图的噪声和细节分布图，是第一个+号的输出。edge softness来调节这个滤波器的强度。</p>
-<p><img src="https://image.qinxing.xyz/1552274655450.png" alt></p>
-<p>这个噪声和细节分布图和阈值λ进行比较，profile*scale就是阈值λ，1-w就是斜率。横坐标是每个像素点的差值，而Y轴是将要去除的噪声大小。第二个+号的过程是将原图和第二个图的Y（输出）进行相减，也就是用原图减去噪声得到滤波后的图。</p>
-<p>当w=0，就是斜率等于1，X=Y，也就是说小于λ将会完全用双边滤波得到的图片。</p>
-<p>如果说平坦区域的降噪不符合要求，应该加大edge softness，也就是第一个滤波器的强度，加大阈值是没有用的。</p>
-<p><strong>调试顺序：</strong></p>
-<p>由于WNR是先进行双边滤波(edge softness)，再利用scale和weight进行边缘和噪声的选择，那我们可以先将weight调到0，scale很大，去确定前面的edge，因为一旦动了edge，之后的都会改变，我们先将图片调节到可以接受的噪声的规模，在将scale调小，放出更多的边缘，最后增大weight，获取更多的细节。</p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>图像效果调试</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>WNR</tag>
-        <tag>滤波</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>BUG：AE打印延迟</title>
     <url>/posts/7bbb0585/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a><strong>现象</strong></h2><p>在HWI的ProcessAEinfo函数中进行打印，发现AE有延迟</p>
@@ -3334,8 +3312,31 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>persist_set</tag>
         <tag>hal</tag>
+        <tag>persist_set</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高通WNR滤波理解</title>
+    <url>/posts/7bdc3237/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p><strong>详细原理：</strong></p>
+<p><img src="https://image.qinxing.xyz/1552274631266.png" alt></p>
+<p>先将原图和经过双边滤波之后的图相减，得到下图的噪声和细节分布图，是第一个+号的输出。edge softness来调节这个滤波器的强度。</p>
+<p><img src="https://image.qinxing.xyz/1552274655450.png" alt></p>
+<p>这个噪声和细节分布图和阈值λ进行比较，profile*scale就是阈值λ，1-w就是斜率。横坐标是每个像素点的差值，而Y轴是将要去除的噪声大小。第二个+号的过程是将原图和第二个图的Y（输出）进行相减，也就是用原图减去噪声得到滤波后的图。</p>
+<p>当w=0，就是斜率等于1，X=Y，也就是说小于λ将会完全用双边滤波得到的图片。</p>
+<p>如果说平坦区域的降噪不符合要求，应该加大edge softness，也就是第一个滤波器的强度，加大阈值是没有用的。</p>
+<p><strong>调试顺序：</strong></p>
+<p>由于WNR是先进行双边滤波(edge softness)，再利用scale和weight进行边缘和噪声的选择，那我们可以先将weight调到0，scale很大，去确定前面的edge，因为一旦动了edge，之后的都会改变，我们先将图片调节到可以接受的噪声的规模，在将scale调小，放出更多的边缘，最后增大weight，获取更多的细节。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>图像效果调试</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>WNR</tag>
+        <tag>滤波</tag>
       </tags>
   </entry>
   <entry>
@@ -3997,51 +3998,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>线程进程总结</title>
-    <url>/posts/9fc0e279/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
-<a id="more"></a>
-
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
-<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
-<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
-<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
-<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
-<p>（1）线程状态。</p>
-<p>（2）当线程不运行时，被保存的现场资源。</p>
-<p>（3）一组执行堆栈。</p>
-<p>（4）存放每个线程的局部变量主存区。</p>
-<p>（5）访问同一个进程中的主存和其它资源。</p>
-<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
-<p><strong>2）独立调度和分派的基本单位。</strong></p>
-<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
-<p><strong>3）可并发执行。</strong></p>
-<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
-<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
-<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
-<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
-<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
-<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
-<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
-<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
-<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
-<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
-<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
-<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>操作系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 线程和进程</title>
     <url>/posts/ea480f1d/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -4190,6 +4146,51 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <tag>线程</tag>
         <tag>进程</tag>
         <tag>分布式进程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线程进程总结</title>
+    <url>/posts/9fc0e279/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
+<a id="more"></a>
+
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
+<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
+<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
+<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
+<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
+<p>（1）线程状态。</p>
+<p>（2）当线程不运行时，被保存的现场资源。</p>
+<p>（3）一组执行堆栈。</p>
+<p>（4）存放每个线程的局部变量主存区。</p>
+<p>（5）访问同一个进程中的主存和其它资源。</p>
+<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
+<p><strong>2）独立调度和分派的基本单位。</strong></p>
+<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
+<p><strong>3）可并发执行。</strong></p>
+<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
+<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
+<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
+<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
+<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
+<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
+<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
+<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
+<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
+<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
+<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -4661,8 +4662,8 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>高通camera</tag>
         <tag>BUG</tag>
+        <tag>高通camera</tag>
         <tag>闪烁</tag>
       </tags>
   </entry>
@@ -4836,6 +4837,28 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>hexo 多终端同步</title>
+    <url>/posts/5f460a06/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
+<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
+<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
+<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git常用命令</title>
     <url>/posts/423abe9e/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
@@ -4897,28 +4920,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo 多终端同步</title>
-    <url>/posts/5f460a06/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
-<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
-<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
-<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -5093,9 +5094,9 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <category>BUG</category>
       </categories>
       <tags>
+        <tag>bug</tag>
         <tag>高通camera</tag>
         <tag>闪烁</tag>
-        <tag>bug</tag>
       </tags>
   </entry>
   <entry>
