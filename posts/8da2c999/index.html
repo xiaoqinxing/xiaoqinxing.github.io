@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3D降噪算法实现 | 清新的日子</title><meta name="description" content="3D降噪的原理是什么？如何区分前景和背景？每个参数有什么意义？"><meta name="keywords" content="算法,降噪"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="dns-prefetch" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="3D降噪算法实现"><meta name="twitter:description" content="3D降噪的原理是什么？如何区分前景和背景？每个参数有什么意义？"><meta name="twitter:image" content="https://image.qinxing.xyz/20200520233103.png"><meta property="og:type" content="article"><meta property="og:title" content="3D降噪算法实现"><meta property="og:url" content="https://www.qinxing.xyz/posts/8da2c999/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="3D降噪的原理是什么？如何区分前景和背景？每个参数有什么意义？"><meta property="og:image" content="https://image.qinxing.xyz/20200520233103.png"><meta property="article:published_time" content="2020-05-15T16:00:00.000Z"><meta property="article:modified_time" content="2020-05-20T15:31:37.309Z"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = 'false'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://www.qinxing.xyz/posts/8da2c999/"><link rel="next" title="CHI模块指南" href="https://www.qinxing.xyz/posts/8b80089f/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">99</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">90</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">28</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ViBe算法"><span class="toc-number">1.</span> <span class="toc-text">ViBe算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程图"><span class="toc-number">2.</span> <span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详细步骤"><span class="toc-number">3.</span> <span class="toc-text">详细步骤</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200520233103.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">3D降噪算法实现</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-05-16 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-05-16</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-20 23:31:37"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-20</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.3k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 3 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/posts/8da2c999/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/posts/8da2c999/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><p>2D降噪是对单个图像进行空域降噪，3D降噪是对时域中的多张图像进行降噪，利用了历史信息。这里介绍一种比较好实现的3D降噪算法——ViBe算法。</p>
+<h2 id="ViBe算法"><a href="#ViBe算法" class="headerlink" title="ViBe算法"></a>ViBe算法</h2><p>ViBe是一种像素级视频背景建模或前景检测的算法，效果优于所熟知的几种算法，对硬件内存占用也少。ViBe是一种像素级的背景建模、前景检测算法，该算法主要不同之处是背景模型的更新策略，随机选择需要替换的像素的样本，随机选择邻域像素进行更新。在无法确定像素变化的模型时，随机的更新策略，在一定程度上可以模拟像素变化的不确定性。</p>
+<p>该算法实质是找出运动的前景和静止的背景，对前景和背景采用不同的降噪参数，背景的降噪强，前景的降噪弱。</p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="https://image.qinxing.xyz/image-20200516232509117.png" alt="流程图"></p>
+<p>ViBe算法处理的是灰度图像，图像以一个与图像尺寸（M×N）大小相同的矩阵来表示，主要的计算发生在一个数量为<strong>NumSample</strong>（一般为20）个的背景样本（20个与图像尺寸大小相同的矩阵）与当前帧之间，背景样本会随着帧的变化而不断地更新。</p>
+<h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><ol>
+<li><p><strong>初始化：</strong>将20个背景样本的值全设为0（20个M×N的元素全为0的矩阵）；</p>
+</li>
+<li><p><strong>根据第一帧得到初始样本：</strong>对于某个样本，当前坐标（x，y）处的值将随机取第一帧同样位置（x，y）处附近的8个值中的一个，构成初始背景样本，见下图。因为每次都是随机选取的，所以20个样本矩阵是不相同的。</p>
+</li>
+</ol>
+<p><img src="https://image.qinxing.xyz/clip_image001.png" alt="初始样本选取"></p>
+<ol start="3">
+<li><p><strong>比较（第二帧）当前像素与样本：</strong>从第二帧开始后面的每一帧都会与样本做像素差的计算，以此来判断当前帧各个像素点是前景还是背景，并且在这个过程中不断更新样本。</p>
+<p>假设当前处理的像素位于（x，y），像素差为当前帧在这个位置的像素值（p）与某个样本在这个位置的值（q）的差，p-q。若这个值小于阈值（程序中是最后一排参数<strong>ArrayMatchThresh</strong>，根据增益不同取值不同，取值0代表0，取值1代表255），则计数加1，20个样本会从第一个一直计算到最后一个，倘若中途小于阈值的次数超过了<strong>MatchNum</strong>，则会停止计算，将（x，y）处的像素作为当作背景，若20个样本计算结束小于阈值的次数都没有超过<strong>MatchNum，</strong>则将（x，y）处的像素作为当作前景。在这里<strong>ArrayMatchThresh</strong>越大，<strong>MatchNum</strong>越小，越容易将当前像素判成背景，在这种情况下缓慢移动的物体会很难检测出，因此可以适当降低<strong>ArrayMatchThresh</strong>，增大<strong>MatchNum</strong>。</p>
+</li>
+<li><p><strong>更新样本当前像素所在坐标的值：</strong>当（x，y）处的像素被作为背景像素点时，将以1/<strong>UpdateFactor</strong>的概率更新20个样本中的一个样本，更新的方式是随机选择20个样本中的一个，将该样本在（x，y）处的值更换为当前帧在（x，y）处的值。<strong>UpdateFactor</strong>越大，更新样本的可能性越小，经过多次测验发现适当减小<strong>UpdateFactor</strong>的值，可以减小拖影现象，因为这样可以保证样本随着视频不断更新，更好地区分前景和背景。</p>
+</li>
+<li><p><strong>更新样本当前像素所在坐标邻近坐标的值：</strong>除了上面更新（x，y）处的值以外，算法还会随机选择（x，y）处周围的8个点中的一个，将它的值更换为当前帧在（x，y）处的像素值，更新的概率也是1/<strong>UpdateFactor</strong>，也是更新20个样本中的一个。</p>
+</li>
+<li><p><strong>以当前像素更新样本：</strong>当（x，y）处的像素被视为前景像素点的时候，会判断经过多个帧的处理之后是否很长时间里都把该点的像素视为前景点，如果很多个帧（也就是很长时间）该点都被当作前景点，那么可能是判断出错，会以1/<strong>UpdateFactor</strong>的概率将20个样本中的一个在（x，y）处的值更换为当前帧在（x，y）处的值。</p>
+</li>
+<li><p>区分了前景与背景，接下来将进行3D降噪处理，每一帧的处理都会参考前一帧的降噪结果，前景和背景会分离开分别进行降噪处理，它们参考前一帧的强度分别是<strong>ForegroundAlphaThresh</strong>和<strong>BackgroundAlphaThresh</strong>这两个参数，也是根据增益的不同而划分成6个参数，为了减少拖影现象，这两个参数可以是党的降低，但降低之后会影响降噪的效果。</p>
+</li>
+</ol>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/8da2c999/">https://www.qinxing.xyz/posts/8da2c999/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E9%99%8D%E5%99%AA/">降噪</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200520233103.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/posts/8b80089f/"><img class="next_cover" src="https://image.qinxing.xyz/20200513145157.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CHI模块指南</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/posts/42798c5a/" title="相机成像模型"><img class="relatedPosts_cover" src="https://pic1.zhimg.com/v2-5912d68cfb8f6b511bc23a12ef14c709_1200x500.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-08</div><div class="relatedPosts_title">相机成像模型</div></div></a></div><div class="relatedPosts_item"><a href="/posts/a809ba60/" title="AI超微光简介"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200318221310.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-11-27</div><div class="relatedPosts_title">AI超微光简介</div></div></a></div><div class="relatedPosts_item"><a href="/posts/124f9d98/" title="一维卡尔曼滤波"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200330135439.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-11-27</div><div class="relatedPosts_title">一维卡尔曼滤波</div></div></a></div><div class="relatedPosts_item"><a href="/posts/ab156def/" title="深度学习简介"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200318221438.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-11-26</div><div class="relatedPosts_title">深度学习简介</div></div></a></div><div class="relatedPosts_item"><a href="/posts/be8526f2/" title="视频防抖预研（三）—— 数据的读取与校准"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200512215437.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-11-01</div><div class="relatedPosts_title">视频防抖预研（三）—— 数据的读取与校准</div></div></a></div><div class="relatedPosts_item"><a href="/posts/37b90cd9/" title="视频防抖预研（二）—— 数据采集"><img class="relatedPosts_cover" src="https://image.qinxing.xyz/20200406201903.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2019-10-25</div><div class="relatedPosts_title">视频防抖预研（二）—— 数据采集</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  notify: false,
+  verify: false,
+  placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+  avatar: 'wavatar',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: true,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script></body></html>

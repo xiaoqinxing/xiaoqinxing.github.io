@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>变焦设备的AF初步学习 | 清新的日子</title><meta name="description" content="对AF的原理和算法有个基本的认识了解镜头PI点和对焦曲线介绍tracking算法及爬坡算法"><meta name="keywords" content="AF"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="dns-prefetch" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="变焦设备的AF初步学习"><meta name="twitter:description" content="对AF的原理和算法有个基本的认识了解镜头PI点和对焦曲线介绍tracking算法及爬坡算法"><meta name="twitter:image" content="https://image.qinxing.xyz/20200507153019.png"><meta property="og:type" content="article"><meta property="og:title" content="变焦设备的AF初步学习"><meta property="og:url" content="https://www.qinxing.xyz/posts/720ad51b/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="对AF的原理和算法有个基本的认识了解镜头PI点和对焦曲线介绍tracking算法及爬坡算法"><meta property="og:image" content="https://image.qinxing.xyz/20200507153019.png"><meta property="article:published_time" content="2020-05-06T16:00:00.000Z"><meta property="article:modified_time" content="2020-05-11T13:49:44.964Z"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = 'false'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://www.qinxing.xyz/posts/720ad51b/"><link rel="prev" title="chromatix调试问题汇总" href="https://www.qinxing.xyz/posts/19376693/"><link rel="next" title="SENSOR HDR技术的发展与思考" href="https://www.qinxing.xyz/posts/c3f0ff3b/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">99</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">90</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">28</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）硬件原理"><span class="toc-number">1.</span> <span class="toc-text">（一）硬件原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#镜头曲线的概念"><span class="toc-number">1.1.</span> <span class="toc-text">镜头曲线的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#镜头PI点"><span class="toc-number">1.2.</span> <span class="toc-text">镜头PI点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#概念"><span class="toc-number">1.2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PI坐标点搜索过程"><span class="toc-number">1.2.2.</span> <span class="toc-text">PI坐标点搜索过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#偏差校正"><span class="toc-number">1.2.3.</span> <span class="toc-text">偏差校正</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）Tracking算法"><span class="toc-number">2.</span> <span class="toc-text">（二）Tracking算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#曲线插值"><span class="toc-number">2.1.</span> <span class="toc-text">曲线插值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Focus位置估计"><span class="toc-number">2.2.</span> <span class="toc-text">Focus位置估计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#物距估计"><span class="toc-number">2.3.</span> <span class="toc-text">物距估计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）爬坡算法"><span class="toc-number">3.</span> <span class="toc-text">（三）爬坡算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#滤波器的应用"><span class="toc-number">3.1.</span> <span class="toc-text">滤波器的应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）我的疑问"><span class="toc-number">4.</span> <span class="toc-text">（四）我的疑问</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://image.qinxing.xyz/20200507153019.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">变焦设备的AF初步学习</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-05-07 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-05-07</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-11 21:49:44"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-11</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F/">图像</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">4.8k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 14 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/posts/720ad51b/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/posts/720ad51b/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><blockquote>
+<p>原作陈瑶，部分内容来源于<a href="https://zhuanlan.zhihu.com/p/38544418" target="_blank" rel="noopener">网络</a>，我在此基础上进行了理解和整理。</p>
+</blockquote>
+<p>经过学习，我把AF分为两个部分，第一部分是在变焦的过程中保持图像清晰，用的是tracking算法。简单的来说，是通过镜头曲线去预估变焦后，镜头应该对焦到什么位置。</p>
+<p>第二部分是聚焦清晰，用的是爬坡算法。通过滤波器计算出图像的清晰度，移动镜片，找到最清晰的位置，也可以利用镜头曲线去缩小爬坡的范围。</p>
+<p>所以镜头曲线是什么？先来介绍一下硬件相关的原理。</p>
+<h2 id="（一）硬件原理"><a href="#（一）硬件原理" class="headerlink" title="（一）硬件原理"></a>（一）硬件原理</h2><p>目前在监控镜头中遇到的控制zoom和focus的电机都是步进电机，其优点是技术成熟，控制简单，缺点也较明显，存在机械磨损，一颗镜头的正常拉伸周期在30万-50万次，以枪球联动为例，日夜频繁拉伸，理论寿命也就在3个月左右。</p>
+<p>在镜头手册中对步进电机的说明一般包含以下几个参数：</p>
+<ol>
+<li><p>线圈阻抗；</p>
+</li>
+<li><p>驱动电压；</p>
+</li>
+<li><p>激励方法：1-2相驱动，2-2相驱动；</p>
+</li>
+<li><p>螺杆螺距，螺距即螺纹上相邻两牙对应点之间的轴向距离，目前遇到的大部分镜头都是0.4mm；</p>
+</li>
+</ol>
+<p>我们主要关心的是第3条和第4条，目前算法中电机都采用的是2-2相驱动，根据电机步进角和细分步数及螺杆螺距最终将镜头的移动距离换算成电机步数，后面会结合具体的镜头介绍如何计算。</p>
+<p>AF算法中，使用到了镜头自身的一些固有参数，下面以联合光电T5390-HQ1为例作介绍。</p>
+<h3 id="镜头曲线的概念"><a href="#镜头曲线的概念" class="headerlink" title="镜头曲线的概念"></a>镜头曲线的概念</h3><p><img src="https://image.qinxing.xyz/20200507153434.gif" alt="图1 镜头pi点位置图"></p>
+<p>图1中，黑色的曲线就是镜头的对焦曲线，横坐标表示zoom电机位置，纵坐标表示focus电机的位置。该曲线表示，在某一物距（物体到透镜光心的距离）下，当zoom处于横坐标中的某一位置时，如果focus正好位于曲线上，那么该物距下就能通过镜头在sensor上获得清晰的成像。</p>
+<p>不同的物距对应着不同的对焦曲线，在zoom位置相同时，物距越远focus值越小（位置越低低）；不同曲线间的间隔在不同的zoom位置是不同的，在wide端（靠近坐标原点方向），不同物距下的对焦曲线间隔较近，在tele端（远离坐标原点方向），不同物距下的曲线间隔相对较大，如图2所示，</p>
+<p><img src="https://image.qinxing.xyz/20200507111319.gif" alt="图2.不同物距下的对焦曲线"></p>
+<p>厂商在给出的镜头手册中包含多组不同物距下的镜头对焦曲线，在AF算法中最多选10条曲线就可以很好的满足算法需求，选择曲线的要求一般是两条曲线之间的物距间隔不宜过大，过大的曲线间隔会对tracking时位置估计的准确性带来困难（两曲线间物距相差太大，对物距像距的线性近似偏差较大）。</p>
+<p><strong>注意</strong>，不同厂商给出的对焦曲线使用的坐标原点会有所差异，在整理focus坐标时要一致性的将坐标原点转换成图1中表示的坐标，便于AF算法统一识别处理。</p>
+<h3 id="镜头PI点"><a href="#镜头PI点" class="headerlink" title="镜头PI点"></a>镜头PI点</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>AF算法中zoom和focus电机都有自己的坐标系统，pi点就是一个相对于坐标原点的固有位置，如图1所示。</p>
+<p>图中红色小圆圈标注的点是目前AF算法中标定的坐标原点，横坐标表示zoom电机位置，纵坐标表示focus电机的位置，虚线交叉的位置是PI点所在位置。</p>
+<p>AF算法中步进电机细分后最小步长为0.005mm/步（表示电机走一微步，螺杆将结构向前推动0.005mm），根据图1中的尺寸标定，可以算出zoom PI点的位置为19.9mm(26.14-6.24) ,换算成电机步数为19.9/0.005 = 3980步，同理可计算出focus电机的PI点电机步数为6.2mm/(0.005mm/步) = 1240步。</p>
+<h4 id="PI坐标点搜索过程"><a href="#PI坐标点搜索过程" class="headerlink" title="PI坐标点搜索过程"></a>PI坐标点搜索过程</h4><p>PI点坐标的搜索是在AF算法正常运行之前完成的（AF依赖于zoom和focus坐标），搜索过程依赖于镜头内部的光耦电平信号，光耦电平可用来确定电机运动方向和PI点位置。</p>
+<p>如图1所示，ZPI表示zoom在当前位置处的PI电平，FPI表示focus在当前位置时的PI电平，两个电平值可通过GPIO来读取。对这款镜头来说，zoom靠近wide端时ZPI是低电平，靠近tele端时ZPI是高电平；focus在靠近near（小物距）端时FPI是高电平，在靠近far(大物距)端时FPI是低电平。光耦电平跳变的地方就是PI点的位置。</p>
+<p>镜头内部的光耦在机芯正常工作时的关闭的，避免光耦漏光影响成像效果。PI程序搜索开始前首先打开光耦，根据当前光耦电平决定下一步电机的运动方向，目前的搜索程序在搜索过程中多次反复越过光耦点，搜索思想如下：</p>
+<ol>
+<li><p>搜索开始时大步向光耦电平跳变位置移动电机；</p>
+</li>
+<li><p>累加大步搜索时电机运动的总步数，如果总步数超过了最大运动步数，认为光耦电平无跳变，错误退出；</p>
+</li>
+<li><p>大步搜索过程中，光耦电平跳变后，改变电机运动方向和运动步长（步长减半），继续搜索光耦电平跳变点；</p>
+</li>
+<li><p>电平跳变后再次改变电机运动方向和电机运动步长（减小），更精确的搜索电平跳变位置，重复34操作，直到通过步长为1时搜索到电平跳变点退出；</p>
+</li>
+<li><p>此时的电机位置即PI点的坐标。</p>
+</li>
+</ol>
+<h4 id="偏差校正"><a href="#偏差校正" class="headerlink" title="偏差校正"></a>偏差校正</h4><p>监控一体机镜头是一个精密的机械器件，镜头内部的镜片移动距离以0.005mm为单位计，由于机械加工的精度问题，光耦的安装位置，镜头后焦的距离，sensor板sensor高度等和设计时的理论值存在偏差，在镜头的生产过程中要对偏差进行校正。</p>
+<p>镜头的校正的结果分成两个部分，第一部分是光耦位置的偏差校正，可解决光耦安装带来的偏差问题；第二部分是理论镜头曲线和实际镜头曲线的校正，这一部分主要是校正光学设计和实际生产的偏差，校正后的曲线和实际相符，<strong>有利于拉伸镜头时更好的实现全程清晰效果</strong>；</p>
+<p>下面介绍目前采用的机芯校正方法：</p>
+<p>PI校正其实就是校正PI点理论坐标和实际坐标的偏差，分为水平和垂直两个方向，如图7所示，黑色曲线表示理论曲线，虚线交叉处的黑色点表示理论PI位置，红色的点表示实际PI点位置。</p>
+<p><img src="https://image.qinxing.xyz/20200507112004.gif" alt="图7 镜头PI校正原理"></p>
+<p>理论PI点和实际PI点的偏移△x和△y分别对应着zoom PI偏差和focus PI偏差，图中只表示了偏差的情况之一，实际情况，偏差可以在黑色圆点的任意方向。</p>
+<p>校正时用到的工具是一个模拟无穷远物距的灯箱，实际上是一个平行光管，简化结构如图8。</p>
+<p><img src="https://image.qinxing.xyz/20200507112034.jpg" alt="图8 灯箱简化结构图"></p>
+<p>光源为图像模板提供照明，毛玻璃使照明均匀，分划板位于透镜的焦点上，模板图像通过透镜成像于无穷远处。因此在物镜右侧可观测到位于无穷远的像。</p>
+<p>校正时采用的是镜头的无穷远物距曲线，分为以下几个步骤：</p>
+<p>1、将镜头移动到PI点（图7中红色原点处），记当前zoom和focus坐标为理论PI点坐标，此时坐标和理论坐标存在偏差；</p>
+<p>2、在zoom最大步长范围内选择若干个位置点（记为锚点，如图7黑色曲线上的黑色小圆点所示），选点时要在wide端和tele端留有一定的余量，避免在错误的坐标系下过分靠近边界时和机械结构相撞。将zoom移动到对应的每个锚点坐标上，在自动聚焦模式下聚焦清楚后记录下对应的focus位置，这一过程中虽然坐标系统存在偏差，但和没有偏差的坐标系统相比，同样的zoom物理位置聚焦清晰时的focus物理位置是一样的，即和没有偏差的系统相比，同样物理位置聚焦清楚后的差异主要表现在坐标值的差异上；</p>
+<p>考虑一简单情况，只有zoom PI点存在偏差，focus正常，如图9所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507112712.gif" alt="图9 focus系统无偏差情况"></p>
+<p>  在偏差系统中如果zoom=2000，聚焦清楚时focus为1000，在无差系统中zoom为2000时聚焦清楚时focus为1100，focus的这一差异就是因为zoom坐标系统偏差引起。那么可以通过focus值的偏差来校正出zoom的偏差，理论上在镜头曲线单调区间内聚焦清楚时的focus位置对应着唯一的zoom，通过计算可以得出在无差系统中focus为1000时的zoom位置，这一位置和偏差系统中的位置差即zoom PI偏差。同理只考虑focus PI偏差的情况，zoom位置相同时聚焦清楚的focus偏差就是focus PI偏差。</p>
+<p>3、在无差系统的锚点坐标（非物理位置）左右以单步长递增多次循环计算理论focus位置，在理论focus位置上加上一定范围内的偏差值（pi偏差肯定在一个适当范围内），计算每次偏差系统锚点处的focus和无差系统计算出的focus位置差的平方（最小二乘），统计出最小值，此时代入无差系统计算的zoom偏移和focus偏移即zoom PI和focus PI偏差。</p>
+<p>4、记录描点时的focus和PI补偿后的理论focus偏差，该偏差即镜头曲线的校正偏差。</p>
+<h2 id="（二）Tracking算法"><a href="#（二）Tracking算法" class="headerlink" title="（二）Tracking算法"></a>（二）Tracking算法</h2><p>Tracking是zoom tracking是简写，指的是在变倍过程中根据清晰度变化情况自动调整focus位置使得图像保持清晰的过程。</p>
+<p>如图2所示，镜头厂商会给出大约10个不同物距下的镜头曲线，范围从很近的物距一直到无穷远物距。在tracking过程中物距是一个连续变化的过程，算法会根据当前的zoom位置和物距估算出下一个zoom位置处的focus值，下文将解释这一过程。</p>
+<h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p><img src="https://image.qinxing.xyz/20200507113717.gif" alt="图10 focus位置估计方法"></p>
+<p>如图10所示，图中黑色的点表示镜头曲线表中的某一条曲线采样位置（镜头曲线在程序中没有完整的导入，完全导入镜头数据会较大，影响生成的库的大小），需要求出中间垂直线和镜头曲线交叉处的focus值，由于镜头曲线在较小的一段范围内近似直线，如图中的红色连线所示，根据三角形等比公式有如下等式：</p>
+<p>△f1/△f2 =△z1/△z2</p>
+<p>其中△f2、△z1、△z2均可从曲线表中查询后计算获得，因此可算出△f1值，从而近似计算得到交叉点的focus位置（前一个圆点处的focus位置+△f1）。</p>
+<h3 id="Focus位置估计"><a href="#Focus位置估计" class="headerlink" title="Focus位置估计"></a>Focus位置估计</h3><p>根据高斯成像公式</p>
+<p>1/f = 1/u + 1/v</p>
+<p>其中f表示焦距，u表示物距，v表示像距。聚焦时zoom在一固定位置，焦距恒定，那么上面公式可改写为：</p>
+<p>C = 1/u + 1/v</p>
+<p>简单变换后为：</p>
+<p>v = 1/c * (1 + 1/(cu - 1))</p>
+<p>函数形状如图11所示：</p>
+<p><img src="https://image.qinxing.xyz/20200507113910.gif" alt="图11 焦距恒定时物距和相距的对应关系"></p>
+<p>从图中可以看出，物距u和像距v之间是一一对应的关系。Focus位置估计时的已知和未知量如图12所示：</p>
+<p><img src="https://image.qinxing.xyz/20200507113945.gif" alt="图12 待估计的focus位置"></p>
+<p>图12中，黑色的小圆点表示已知的focus位置，红色的小圆点表示待估计的focus位置，三个小圆点的物距信息为已知，求红色小圆点处的focus位置。映射到图11中的效果如图13所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507114948.gif" alt="图13 "></p>
+<p>其中△u1、△u2、△x1、△x2、△v2为已知信息，△v1为待求信息，在黑色点物距差较近时，黑色点的连线近似直线，有如下等式成立：</p>
+<p>△u1/△u2 = △x1/△x2 = △v1/△v2</p>
+<p>因此可以计算出△v1 = △u1 * △v2/△u2,从而计算出红色点处的镜头focus值。</p>
+<p>总结起来分为以下几步：</p>
+<ol>
+<li><p>根据物距大小计算出比当前物距略小和略大的两条镜头曲线；</p>
+</li>
+<li><p>根据要估计的zoom位置在采样过后的曲线表中找出该点的前一个点和后一个点，在第一步中找到的两条曲线上通过插值计算出zoom位置处的两个focus值，即图10中中间垂直线和两条曲线的交叉点处的focus值；</p>
+</li>
+<li><p>使用第2步中计算出的focus值和图13的比例关系，计算出目标物距处的focus值。</p>
+</li>
+</ol>
+<h3 id="物距估计"><a href="#物距估计" class="headerlink" title="物距估计"></a>物距估计</h3><p>物距估计即根据当前的zoom和focus位置及已知的镜头曲线表计算出当前focus位置的物距大小。</p>
+<p>计算过程分为以下几步：</p>
+<ol>
+<li><p>根据镜头曲线表和zoom位置插值计算出镜头曲线上zoom位置对应的focus值；</p>
+</li>
+<li><p>比较实际focus值和插值处的focus值，得出当前focus位于哪两条镜头曲线之间；</p>
+</li>
+<li><p>根据镜头曲线标号得出第二步中两条镜头曲线的物距信息；</p>
+</li>
+<li><p>问题转换为根据已知的两点的focus值和对应的物距信息及一处focus值，求该focus值处的物距信息；</p>
+</li>
+<li><p>这样求解过程和图13类似，通过等比计算可直接算出。</p>
+</li>
+</ol>
+<h2 id="（三）爬坡算法"><a href="#（三）爬坡算法" class="headerlink" title="（三）爬坡算法"></a>（三）爬坡算法</h2><p>目前的AF算法中搜索峰值的过程采用的是盲人爬坡算法，该方法要求清晰度评价函数具有严格的单峰性。搜索过程中只能通过爬坡和下坡来判断出山峰的方向而不能看到山峰的全貌，只有当越过山峰时才能找到山峰。</p>
+<p>为了提高聚焦是速度，在af算法中将山坡划分为3个不同的区域，分别对应着平坦区域（flat），斜坡区域（slope），陡坡区域（steep）,不同区域对应着不同的爬坡步长，在平坦区域采用大步走的方式，随着坡度越来越来，步长越来越小，以达到快速精确搜索山峰的目的。爬坡过程如图14所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507115836.gif" alt="图14 理想山峰的爬坡过程"></p>
+<p>可以采用状态机的方法，实现各种状态的跳转。</p>
+<h3 id="滤波器的应用"><a href="#滤波器的应用" class="headerlink" title="滤波器的应用"></a>滤波器的应用</h3><p>如何评价清晰度？这里就要用到滤波器了。图像越清晰，说明图像的高频分量越多，用一款滤波器保留图像的高频分量，来对比到底哪张图片更加清晰。</p>
+<p>基于硬件设计的成本考虑，早期的自动对焦系统都是用一些固定系数高频提取算子比如sobel，laplace等作为评价函数。</p>
+<p>当图像高频成分丰富的时候，例如合焦附近的时候，高通滤波器能够提取足够的锐度信息。但是当图像离焦的时候，高通滤波器就不行了，带通滤波器和带阻滤波器比高通滤波器能更好的提取图像的锐度信息。</p>
+<p>举例来说，下图画出两组滤波器对不同对比度图像的响应曲线。横轴是lens 位置，纵轴是focus value。</p>
+<p>可以看出下方sobel 算子对于低对比度图像的响应非常平坦，对于高对比度离焦的情况也不好。</p>
+<p><img src="https://image.qinxing.xyz/20200507144257.jpg" alt></p>
+<p>从信号处理的理论上来讲，这些算子都可以认为是FIR滤波器</p>
+<p><img src="https://image.qinxing.xyz/20200507144304.jpg" alt="FIR滤波器原理"></p>
+<p>一个4 tap FIR滤波器其输出可表示为：</p>
+<p><img src="https://image.qinxing.xyz/20200507144328.jpg" alt></p>
+<p>比如 difference算子就可以用一个2 阶FIR 滤波器表示：</p>
+<p>h(0) = +1,</p>
+<p>h(1) = -1;</p>
+<p>这些算子相当于系数固定的FIR滤波器，很多早期对焦系统的评价函数就是这些固定的算子。</p>
+<p>因为镜头以及成像系统的光学特性差别很大，这种固定系数高频算子的ISP设计不能满足自动对焦系统的需要。比如在低对比度的情形下，图像缺少高频成份，如果滤波器就不能够提取到足够的图像边缘的高频成份，这样对焦算法就无法找到峰值从而实现对焦了。所以后来的自动对焦系统评价函数逐渐采用可以设定系数的FIR或者IIR滤波器。从原理上说，实现同样性能的滤波器，IIR滤波器比FIR滤波器的阶数要低，为了节省行存，硬件上采用IIR滤波器较为合适。</p>
+<p><img src="https://image.qinxing.xyz/20200507150203.jpg" alt="二阶IIR滤波器"></p>
+<p>上图是一个二阶IIR滤波器，与FIR滤波器相比，IIR滤波器会把输出反馈到输入。</p>
+<p>传递函数数学表达式是：</p>
+<p><img src="https://image.qinxing.xyz/20200507150235.jpg" alt></p>
+<p>再回到具体的自动对焦系统中来说，一般会采用下面的设计：</p>
+<p><img src="https://image.qinxing.xyz/20200507150249.jpg" alt></p>
+<h2 id="（四）我的疑问"><a href="#（四）我的疑问" class="headerlink" title="（四）我的疑问"></a>（四）我的疑问</h2><ol>
+<li><p>如果有两个物体，一个前一个后，总会聚焦在前景上怎么办？</p>
+<p>可以设置ROI，设置感兴趣的区域，将这个区域对焦清楚位置</p>
+</li>
+<li><p>PI点是什么？它有什么作用？</p>
+<p><strong>回答</strong>：刚上电的时候，zoom和focus的电机不知道自己停在什么位置。这个PI点，就是确定一个起始位置，或者说是坐标轴的中心。接下来的移动都按照这个为准</p>
+</li>
+<li><p>对焦曲线为什么在焦距比较长的地方会分岔？</p>
+<p><strong>猜测</strong>：当焦距比较短的时候，景深比较大，像也比较近，只要对焦清楚了，基本都能看清。而焦距比较长的时候，景深比较小，不同物距的像离得比较远，想要看到不同距离的物体，就需要移动sensor的位置了。所以焦距比较长的时候，会有多根线。</p>
+</li>
+<li><p>理论上焦距越长，像应该越远，但是这个对焦曲线却不是一直增大的，而是先增大后减小，这是为什么呢？</p>
+<p><strong>猜测</strong>：可能是变焦镜头在变焦的过程中，镜片组在移动，等效出来的理想凸透镜也在移动。虽然焦距变长了，但是镜片位置前移了，像与镜头的位置反而缩短了</p>
+</li>
+<li><p>镜头内部的光耦在机芯正常工作时的关闭的，避免光耦漏光影响成像效果。光耦会漏光么？我印象中的光耦是塑料封装的，应该不存在漏光的问题呀。</p>
+</li>
+<li><p>海思平台的滤波器貌似由横向Horizontal IIR和纵向Vertical FIR两种一维滤波器组成，为何不用二维的FIR或者IIR滤波器？</p>
+</li>
+</ol>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/720ad51b/">https://www.qinxing.xyz/posts/720ad51b/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AF/">AF</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200520233103.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/posts/19376693/"><img class="prev_cover" src="https://image.qinxing.xyz/20200508095727.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">chromatix调试问题汇总</div></div></a></div><div class="next-post pull_right"><a href="/posts/c3f0ff3b/"><img class="next_cover" src="https://image.qinxing.xyz/20200430174345.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SENSOR HDR技术的发展与思考</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+  appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+  notify: false,
+  verify: false,
+  placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+  avatar: 'wavatar',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-cn',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: true,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script></body></html>

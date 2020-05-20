@@ -1,6 +1,515 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>3D降噪算法实现</title>
+    <url>/posts/8da2c999/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>2D降噪是对单个图像进行空域降噪，3D降噪是对时域中的多张图像进行降噪，利用了历史信息。这里介绍一种比较好实现的3D降噪算法——ViBe算法。</p>
+<h2 id="ViBe算法"><a href="#ViBe算法" class="headerlink" title="ViBe算法"></a>ViBe算法</h2><p>ViBe是一种像素级视频背景建模或前景检测的算法，效果优于所熟知的几种算法，对硬件内存占用也少。ViBe是一种像素级的背景建模、前景检测算法，该算法主要不同之处是背景模型的更新策略，随机选择需要替换的像素的样本，随机选择邻域像素进行更新。在无法确定像素变化的模型时，随机的更新策略，在一定程度上可以模拟像素变化的不确定性。</p>
+<p>该算法实质是找出运动的前景和静止的背景，对前景和背景采用不同的降噪参数，背景的降噪强，前景的降噪弱。</p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="https://image.qinxing.xyz/image-20200516232509117.png" alt="流程图"></p>
+<p>ViBe算法处理的是灰度图像，图像以一个与图像尺寸（M×N）大小相同的矩阵来表示，主要的计算发生在一个数量为<strong>NumSample</strong>（一般为20）个的背景样本（20个与图像尺寸大小相同的矩阵）与当前帧之间，背景样本会随着帧的变化而不断地更新。</p>
+<h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><ol>
+<li><p><strong>初始化：</strong>将20个背景样本的值全设为0（20个M×N的元素全为0的矩阵）；</p>
+</li>
+<li><p><strong>根据第一帧得到初始样本：</strong>对于某个样本，当前坐标（x，y）处的值将随机取第一帧同样位置（x，y）处附近的8个值中的一个，构成初始背景样本，见下图。因为每次都是随机选取的，所以20个样本矩阵是不相同的。</p>
+</li>
+</ol>
+<p><img src="https://image.qinxing.xyz/clip_image001.png" alt="初始样本选取"></p>
+<ol start="3">
+<li><p><strong>比较（第二帧）当前像素与样本：</strong>从第二帧开始后面的每一帧都会与样本做像素差的计算，以此来判断当前帧各个像素点是前景还是背景，并且在这个过程中不断更新样本。</p>
+<p>假设当前处理的像素位于（x，y），像素差为当前帧在这个位置的像素值（p）与某个样本在这个位置的值（q）的差，p-q。若这个值小于阈值（程序中是最后一排参数<strong>ArrayMatchThresh</strong>，根据增益不同取值不同，取值0代表0，取值1代表255），则计数加1，20个样本会从第一个一直计算到最后一个，倘若中途小于阈值的次数超过了<strong>MatchNum</strong>，则会停止计算，将（x，y）处的像素作为当作背景，若20个样本计算结束小于阈值的次数都没有超过<strong>MatchNum，</strong>则将（x，y）处的像素作为当作前景。在这里<strong>ArrayMatchThresh</strong>越大，<strong>MatchNum</strong>越小，越容易将当前像素判成背景，在这种情况下缓慢移动的物体会很难检测出，因此可以适当降低<strong>ArrayMatchThresh</strong>，增大<strong>MatchNum</strong>。</p>
+</li>
+<li><p><strong>更新样本当前像素所在坐标的值：</strong>当（x，y）处的像素被作为背景像素点时，将以1/<strong>UpdateFactor</strong>的概率更新20个样本中的一个样本，更新的方式是随机选择20个样本中的一个，将该样本在（x，y）处的值更换为当前帧在（x，y）处的值。<strong>UpdateFactor</strong>越大，更新样本的可能性越小，经过多次测验发现适当减小<strong>UpdateFactor</strong>的值，可以减小拖影现象，因为这样可以保证样本随着视频不断更新，更好地区分前景和背景。</p>
+</li>
+<li><p><strong>更新样本当前像素所在坐标邻近坐标的值：</strong>除了上面更新（x，y）处的值以外，算法还会随机选择（x，y）处周围的8个点中的一个，将它的值更换为当前帧在（x，y）处的像素值，更新的概率也是1/<strong>UpdateFactor</strong>，也是更新20个样本中的一个。</p>
+</li>
+<li><p><strong>以当前像素更新样本：</strong>当（x，y）处的像素被视为前景像素点的时候，会判断经过多个帧的处理之后是否很长时间里都把该点的像素视为前景点，如果很多个帧（也就是很长时间）该点都被当作前景点，那么可能是判断出错，会以1/<strong>UpdateFactor</strong>的概率将20个样本中的一个在（x，y）处的值更换为当前帧在（x，y）处的值。</p>
+</li>
+<li><p>区分了前景与背景，接下来将进行3D降噪处理，每一帧的处理都会参考前一帧的降噪结果，前景和背景会分离开分别进行降噪处理，它们参考前一帧的强度分别是<strong>ForegroundAlphaThresh</strong>和<strong>BackgroundAlphaThresh</strong>这两个参数，也是根据增益的不同而划分成6个参数，为了减少拖影现象，这两个参数可以是党的降低，但降低之后会影响降噪的效果。</p>
+</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>降噪</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CHI模块指南</title>
+    <url>/posts/8b80089f/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="（一）简介"><a href="#（一）简介" class="headerlink" title="（一）简介"></a>（一）简介</h2><h3 id="为什么要用CHI模块？"><a href="#为什么要用CHI模块？" class="headerlink" title="为什么要用CHI模块？"></a>为什么要用CHI模块？</h3><p>android开发了相机硬件接口，使OEM可以为用户生产高质量的相机解决方案，camera2 API和HAL3接口的结合提供了足够的灵活性，可以支持大多数的使用案例。</p>
+<p>但是当java层负责控制执行流程是，在其他引擎（GPU,CPU,DSP)上的延迟或潜在的低效率处理可能是不可接受的，OEM可以通过绕过HAL3接口并直接修改摄像头驱动程序来更有效的实现自定义的功能。</p>
+<p>CHI API是建立在HAL3接口的基础上，HAL3是谷歌围绕camera pipeline精确的每个请求设计的，为了给用户提供一个完整的图像处理控制，但是这个请求是有限的。而CHI旨在提供更加精细的控制，以及可以访问ISP中的处理引擎。这个接口可以让照相和通用的图像处理APP提供低延时的软硬件处理。</p>
+<h3 id="什么时候要用到CHI模块？"><a href="#什么时候要用到CHI模块？" class="headerlink" title="什么时候要用到CHI模块？"></a>什么时候要用到CHI模块？</h3><p>当camera2/HAL3 接口有如下限制的时候：</p>
+<ol>
+<li>没有接口可以访问ISP里面各个固定功能的引擎，ISP不是固定一块的，是由各个硬件和软件模块组成的，我利用CHI可以调用ISP里面的单独的一个模块</li>
+<li>没有接口可以精确地请求一个处理流程，利用CHI可以控制图像处理的每个节点，从而控制图像的每个处理流程</li>
+<li>用例的定义比较松散，预期的处理可能和想像中不同</li>
+<li>管道深度是基于预期的用例调试的，为了实现一个复杂的处理流程，对于大多数的HAL3相机驱动来说，特别的请求数量太多了。</li>
+<li>需要最少的处理和最小的延迟</li>
+</ol>
+<h3 id="CHI模块是什么？"><a href="#CHI模块是什么？" class="headerlink" title="CHI模块是什么？"></a>CHI模块是什么？</h3><p>CHI 是为了分离Camera2/HAL3接口，并提供一个完整灵活的图像处理驱动。它可以作为独立的实体进行访问。它能够使用来自sensor或者内存的图像数据（这个惊呆了，不仅仅可以处理来自camera数据，也可以处理来自应用的数据）。</p>
+<p>为了让高通的spectra能够和现有的camera2/HAL3接口保持向后兼容，将HAL3驱动转换成了恰当的CHI调用。也就是说HAL3的所有实现，都是通过调用CHI接口实现的。（这一点是和老平台的mm-camera是一样的吧）</p>
+<p>CHI提供了一个overrides的接口，允许OEM修改高通默认的camera用例实现（HAL3的实现），不仅仅可以正常的使用Camera2/HAL3的应用程序，同时还可以同时获得CHI提供的灵活性。这些代替的操作(overrides)可以让OEM在任何可获得的引擎上实现各种各样的图像处理，具有低延时，不需要在多个引擎之间协调同步的特点。</p>
+<h3 id="CHI的五个关键自定义组件"><a href="#CHI的五个关键自定义组件" class="headerlink" title="CHI的五个关键自定义组件"></a>CHI的五个关键自定义组件</h3><ol>
+<li><strong>CHI override</strong>：可以对HAL3接口进行补充，为任何一个兼容HAL3的APP提供精细的图像处理流程，精确的引擎选择，以及多帧图像的控制。</li>
+<li><strong>CHI pipeline</strong> ：可以自定义ISP pipeline来处理图像，pipeline由固定功能的ISP功能块（FF-ISP)和拓展的节点（node)组成，这部分可以由xml文件进行配置。当然了直接调用CHI也可以以编程的方式生成pipeline（不过谁会这么傻呢）。</li>
+<li><strong>CHI node extensions</strong>：它是图像的处理节点，可以进行扩展，提供了方便的hooks来简化CPU，GPU(openCL, openGL ES或Vulkan)或者DSP(OpenDSP,，Qualcomm® Computer Vision SDK, 或自定义编程)</li>
+<li><strong>CHI stats overrides</strong>：允许重写高通默认的统计算法（包括3A），而无需更改驱动程序。外部统计算法可以存储私有的数据，自定义的节点也可以访问这些数据。</li>
+<li><strong>CHI sensor XML</strong>：通过xml配置不同的硬件，包括图像传感器，马达，EEPROM，闪光灯等组件。</li>
+</ol>
+<h3 id="重要术语"><a href="#重要术语" class="headerlink" title="重要术语"></a>重要术语</h3><ol>
+<li><p><strong>Use case</strong>：用例，是camera pipeline的特定配置，为某个特定的场景使用。比如说2K的预览的同时可以20MP的抓拍，这就是一个use case。同一个用例可以有多条camera pipeline。在底层硬件的限制类指定任何可能的用例，上层不需要修改驱动程序就可以适应各种场景。</p>
+</li>
+<li><p><strong>topology</strong>：拓扑图，由一系列处理节点和一组链接组成。</p>
+</li>
+<li><p><strong>Engine</strong>：引擎，可用于处理数据的硬件。 如Spectra ISP，Snapdragon CPU，Adreno和DSP。</p>
+</li>
+<li><p><strong>Node</strong>：节点，是camera pipeline的逻辑功能块，运行在单个引擎上。节点连起来就是拓扑图。</p>
+</li>
+<li><p><strong>Pipeline</strong>：管道， 包含了一个拓扑图。驱动程序利用pipeline来了解说用到的引擎，以及输出处理的流程。</p>
+</li>
+<li><p><strong>session</strong>：会话，具有1-n个管道。会话管理所有的硬件资源，以及连接到它的所有管道中的未决请求。支持多个并行，每个会话在多个请求中都保持自己的状态，不受其他会话的影响。停用会话，才释放分配给它的所有资源。</p>
+</li>
+<li><p><strong>request</strong>：请求，触发管道处理数据的动作。 这可以是处理从图像传感器提取的数据帧或处理来自内存的数据的请求。 驱动程序必须为每个请求返回结果。HAL3和CHI请求是分开管理的。（这两个请求是不一样的）</p>
+</li>
+<li><p><strong>sub-request</strong>: 子请求，将单个HAL3请求分解为多个CHI请求的操作。子请求的结构不会在驱动程序(CHI)外部反馈，而是将它们合并成一个结果，该结果与原始请求像对应。子请求用于启用 Camera2功能，如HDR，请求多个不同曝光时间的图像，最终产生单个图像。再比如多帧图像后处理，将多个图像合并以创建单个图像输出。子请求是用例管理的一部分，可以在CHI override模块使用。</p>
+</li>
+<li><p><strong>Stream</strong>：流，具有相同大小和格式的缓冲区序列，用于处理图像数据。可以将多个不同类型的流指定为camera pipeline的输入和输出。这组流是定义Camera2 / HAL3用例的关键组件。</p>
+</li>
+<li><p><strong>Per-session settings</strong>：单个会话设置，在会话生存期内影响处理管道的设置。会话开始后就无法更改这些设置。例如，允许图像防抖。</p>
+</li>
+<li><p><strong>Per-request settings</strong>：单个请求的设置。例如，手动曝光值。</p>
+</li>
+<li><p><strong>Statistics</strong>： 包括3A在内的算法。这些领域特定的算法被视为CHI API的专用部分。</p>
+</li>
+<li><p><strong>Live or realtime stream</strong>：配置来自图像传感器的数据处理，不能够修改之前请求的数据。当处理速率跟不上sensor的输出速率，应该放到离线流中。</p>
+</li>
+<li><p><strong>Offline stream</strong>：处理不从图像传感器接受的数据。</p>
+</li>
+</ol>
+<h2 id="（二）CHI-拓扑图的XML配置"><a href="#（二）CHI-拓扑图的XML配置" class="headerlink" title="（二）CHI 拓扑图的XML配置"></a>（二）CHI 拓扑图的XML配置</h2><p>硬件和软件的图像处理节点（node）产生所需的输出，这些节点之间的连接确定数据将如何流过相机子系统。 这组节点和连接称为拓扑。</p>
+<p>用例由一组要处理的目标和一组会话设置定义，这些设置进一步定义了应如何处理数据。 每个用例都由拓扑图表示，拓扑图是传递到HAL3 API的信息与如何处理数据的具体定义之间的联系。</p>
+<p>所有用例及其对应拓扑的列表都编码在XML文件中。 一个用例是在<strong>configure_streams</strong>的时候被选择的，基于XML的两个部分：< Targets >和< SystemwideSettings >。</p>
+<p>提供了一个XSD模式，该模式定义了XML的结构（这句话没太懂）。 提供了一些工具来将XML文件打包为二进制文件，以供CHI驱动程序使用。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>节点是拓扑图中的硬件或软件处理组件。 节点的定义包括了高通默认的节点和自定义的节点。一个节点有一组输入和输出，被称作输入和输出端口。</p>
+<p>输出到HAL3 图像buffer的输出端口，被称作sinkbuffer 输出端口。还有一些节点的输出端口不输出到任何图像缓冲区，用于指示节点正在使用中。这些叫SinkNoBuffer。</p>
+<p>通过将一个节点的输入端口连接到另一个节点的输出端口来形成拓扑图中的DAG，或者在存在反馈环路的情况下，一个节点的输出端口可以连接到其自己的输入端口。输入端口和输出端口之间的连接称为链接（link），链接还包含有关节点之间使用的必要缓冲区的信息。</p>
+<p><img src="https://image.qinxing.xyz/20200513192028.png" alt="节点，端口，链接的关系"></p>
+<h3 id="XML的组成"><a href="#XML的组成" class="headerlink" title="XML的组成"></a>XML的组成</h3><ol>
+<li><p>UsecaseDef是根标记，在此标记中定义了各个用例Usecase。</p>
+</li>
+<li><p>Usecase是用例标记，它包括了匹配用例的关键，以及拓补图。里面有UsecaseName、Targets、streamconfigmode、systemwidesetting、pipeline</p>
+</li>
+<li><p>Targets是流的列表，包括用例执行的格式和大小范围，此处列出的流与传递到HAL3 configure_streams API的流相对应.</p>
+<p>Target是单个流或目标的描述，会将本节的各个标记值（target和systemwideSettings）与传递到configure_streams中的流配置进行比较，以找到匹配的Usecase。</p>
+<ol>
+<li>range，缓冲区的分辨率和configure_streams（）中缓冲区的传入分辨率必须在此范围内，以便Usecase被选择为输入流配置的匹配用例</li>
+<li>systemwideSettings，单个会话的设置组，定义此用例的key，这些设置对应安卓的property。</li>
+<li>TargetDirection: 流的方向，可以是输入或输出，也可以是双向</li>
+<li>Formats：流的数据格式</li>
+</ol>
+</li>
+<li><p>pipeline是这个用例的pipeline，有一组节点和链接组成。pipelineName是这个pipeline的名字。</p>
+<ol>
+<li><p>nodesList是节点的列表。node是单个节点，告诉驱动程序如何处理一个请求。</p>
+<ol>
+<li><p>NodeProperty，可选的，允许安卓的几个property属性。</p>
+</li>
+<li><p>NodeName，节点名字</p>
+</li>
+<li><p>NodeId，驱动程序通过解释nodeId以了解节点类型，自定义的节点，Id都是255，这个值与NodeProperty一起通知驱动程序，确切的自定义节点类型。</p>
+</li>
+<li><p>NodeInstance，节点实例</p>
+</li>
+<li><p>NodeInstanceId ，用于表示节点的唯一实例ID，这些id用于将节点的端口彼此连接起来</p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">Node</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">NodeProperty</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodePropertyName</span>></span>CustomNodeLibrary<span class="tag"></<span class="name">NodePropertyName</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodePropertyId</span>></span>1<span class="tag"></<span class="name">NodePropertyId</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodePropertyDataType</span>></span>STRING<span class="tag"></<span class="name">NodePropertyDataType</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodePropertyValue</span>></span>com.oem.node.libname<span class="tag"></<span class="name">NodePropertyValue</span>></span>  </span><br><span class="line">    <span class="tag"></<span class="name">NodeProperty</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">NodeName</span>></span>CustomNode<span class="tag"></<span class="name">NodeName</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">NodeId</span>></span>255<span class="tag"></<span class="name">NodeId</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">NodeInstance</span>></span>CustomNodeInstanceName0<span class="tag"></<span class="name">NodeInstance</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">NodeInstanceId</span>></span>0<span class="tag"></<span class="name">NodeInstanceId</span>></span> </span><br><span class="line"><span class="tag"></<span class="name">Node</span>></span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ol>
+</li>
+<li><p>portlinkages，节点间的链接列表。link，是节点间的单个链接，可以一对多</p>
+<ol>
+<li>srcPort是节点的输出端口，主要通过端口以及节点的名字和id来确定。</li>
+<li>dstPort是节点的输入端口</li>
+<li>bufferProperties描述了缓冲区的属性，主要有格式（BufferFormat），大小，初始分配的缓冲区数量（BufferImmediateAllocCount），最大缓冲区深度（BufferQueueDepth），从堆中分配分配缓冲区（bufferHeap），用于允许分配在摄像机ISP外部可见以及缓冲区的使用信息（BufferFlags）</li>
+<li>linkProperties就只有BatchMode，是否需要批处理，通常只有在HFR模式才需要这样做，以允许ISP在单个硬件提交中处理多个帧。它只适用于无法脱机操作的链接。</li>
+</ol>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">Link</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">SrcPort</span>></span> </span><br><span class="line">     <span class="tag"><<span class="name">PortName</span>></span>IFEOutputPortFull<span class="tag"></<span class="name">PortName</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">PortId</span>></span>0<span class="tag"></<span class="name">PortId</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeName</span>></span>IFE<span class="tag"></<span class="name">NodeName</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeId</span>></span>65536<span class="tag"></<span class="name">NodeId</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeInstance</span>></span>IFEInstanceName0<span class="tag"></<span class="name">NodeInstance</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeInstanceId</span>></span>0<span class="tag"></<span class="name">NodeInstanceId</span>></span> </span><br><span class="line">    <span class="tag"></<span class="name">SrcPort</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">DstPort</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">PortName</span>></span>IPEInputPortFull<span class="tag"></<span class="name">PortName</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">PortId</span>></span>0<span class="tag"></<span class="name">PortId</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeName</span>></span>IPE<span class="tag"></<span class="name">NodeName</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeId</span>></span>65538<span class="tag"></<span class="name">NodeId</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeInstance</span>></span>IPEInstanceName0<span class="tag"></<span class="name">NodeInstance</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">NodeInstanceId</span>></span>0<span class="tag"></<span class="name">NodeInstanceId</span>></span> </span><br><span class="line">    <span class="tag"></<span class="name">DstPort</span>></span> </span><br><span class="line">    <span class="tag"><<span class="name">BufferProperties</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">BufferFormat</span>></span>ChiFormatYUV420NV12<span class="tag"></<span class="name">BufferFormat</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">BufferImmediateAllocCount</span>></span>8<span class="tag"></<span class="name">BufferImmediateAllocCount</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">BufferQueueDepth</span>></span>8<span class="tag"></<span class="name">BufferQueueDepth</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">BufferHeap</span>></span>Ion<span class="tag"></<span class="name">BufferHeap</span>></span> </span><br><span class="line">        <span class="tag"><<span class="name">BufferFlags</span>></span>BufferMemFlagHw<span class="tag"></<span class="name">BufferFlags</span>></span> </span><br><span class="line">    <span class="tag"></<span class="name">BufferProperties</span>></span> </span><br><span class="line"><span class="tag"></<span class="name">Link</span>></span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="（三）CHI-架构模型"><a href="#（三）CHI-架构模型" class="headerlink" title="（三）CHI 架构模型"></a>（三）CHI 架构模型</h2><h3 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h3><p><img src="https://image.qinxing.xyz/20200515101014.png" alt="CHI框架"></p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://image.qinxing.xyz/20200514190636.png" alt="初始化"></p>
+<p>JAVA层通过open的函数获得了CHI的所有操作函数，这是通过chi_hal_override_entry()方法获取的。</p>
+<p>接着用configure_stream配置流，CHI框架在其中的操作是初始化了会话session，找到配置对应的pipeline，并返回了一个pipeline的句柄。（框架为自定义会话和后处理预留了接口，返回NULL是用高通默认的pipeline）</p>
+<p><img src="https://image.qinxing.xyz/20200514190631.png" alt="请求与返回流程"></p>
+<p>用process_capture_request去请求图像数据（包括抓拍，录像和预览），这个请求会提交到pipeline中，接着pipeline中的各个节点都会得到请求的通知，进行对应的执行。当然这一步也可以重写请求，比如说为多帧特性创建额外的请求。</p>
+<p>每个管道都会异步执行，来自任何管道的结果，包括实时流和离线流，都会通知CHI层。如果CHI为JAVA层的请求生成了多个子请求，那么需要等到所有结果都触发之后再调用chi_override_process_pipeline_result，把结果转发到HAL，最终转发给camera框架中的process_capture_result。 高通框架支持重写结果通知部分。</p>
+<p><img src="https://image.qinxing.xyz/20200515094211.png" alt="close 流程"></p>
+<p>当HAL收到camera框架的close调用时，它调用chi_teardown_override_session，然后必须清理所有的自定义管道和会话。</p>
+<h3 id="元数据metadata"><a href="#元数据metadata" class="headerlink" title="元数据metadata"></a>元数据metadata</h3><p>CHI中的沟通渠道分为以下几个：</p>
+<ul>
+<li><p>传给APP的数据</p>
+</li>
+<li><p>传给后处理pipeline的数据</p>
+</li>
+<li><p>使用发布和订阅机制的节点通信（这是很有名的一种设计模式）</p>
+<ul>
+<li>原生节点之间用android tags/chiVendorTags</li>
+<li>原生节点和自定义节点，以及自定义节点之间用android tags/chiVendorTags/ExtCompVendorTags </li>
+</ul>
+</li>
+</ul>
+<p>元数据标签可以是预定义的Android标签，也可以是定制的厂商标签。元数据标签使内部和外部的组件可以相互通信，也可以与面向应用程序的摄像头API通信。在CHI中，Android元数据标签是预定义的，只接收不可变的值。厂商标记不能静态地与固定的绝对值关联。根据目标上扩展组件的数量和类型，CHI使用厂商标记的动态索引(base  + offset)使组件能够相互通信。</p>
+<p>元数据标记ID是一个32位的值，它被限制在一个特定的部分中。每个部分的起始偏移量为0x1_0000。标记空间的范围从0x0000_0000到0x8000_0000是为Android元数据标记保留的。供应商部分应该在0x8000_0000之后开始。</p>
+<p>在初始化时，当CHI扫描目标系统中的可用组件时，它为每个发布自定义厂商标记的组件分配一个厂商部分的开始位置。组件需要枚举标记为Base + Offset,  Base由CHI分配</p>
+<p><img src="https://image.qinxing.xyz/20200515110540.png" alt="metadata 存储位置"></p>
+<p>节点可以通过设置初始化时枚举过的标记来发布元数据。CHI会根据特定标记的依赖关系，通知所有其他提交的节点。这个机制对于Android标签、ChiVendorTags或其他ExtCompVendorTags都是一样的。</p>
+<p><img src="https://image.qinxing.xyz/20200515110543.png" alt="节点间通信流程图"></p>
+<h2 id="（四）代码细节"><a href="#（四）代码细节" class="headerlink" title="（四）代码细节"></a>（四）代码细节</h2><h3 id="1-加载外部二进制库"><a href="#1-加载外部二进制库" class="headerlink" title="1. 加载外部二进制库"></a>1. 加载外部二进制库</h3><p>每个节点都必须在一起单独的动态库里面，按照com.< cendor >, < category >, < algorithm > .so的方式命名。</p>
+<p>< vendor >：公司名</p>
+<p>< category >：模块的类型，可以是node或者stats</p>
+<p>< algorithm > ： 算法独特的名字，如果说节点，名字必须和xml指定的名称匹配。如果是stats，只能是af, aec, awb, asd, afd里面的一个。</p>
+<p>所有的动态库都放在 <code>/sys/data/camx/components/</code></p>
+<p>相机服务的初始化，发生在设备启动的时候，加载HAL3模块的CHI实现。在CHI HAL3的启动过程中，驱动城市查询并加载位于这个路径下的所有动态库。</p>
+<h3 id="2-CHI-接口"><a href="#2-CHI-接口" class="headerlink" title="2. CHI 接口"></a>2. CHI 接口</h3><p>CHI向HAL3接口添加了一些关键元素，以支持更细粒度的控制，以下函数用于访问CHI驱动程序，他们对Camera2/HAL3没有任何依赖。</p>
+<p>ChiEntry()是CHI驱动程序的主要入口点，所有CHI功能都需要。</p>
+<p>其中使用了ChiContextOps 结构体指向所有的CHI函数。客户端需要使用有效的CHIIHandle句柄来调用这些函数，这个结构体永远不会缩小，现有字段也不会在结构更改时重新排序或者重新使用。所有字段默认值是0，0代表了这个特性不可用。</p>
+<p>CHI 接口的函数中比较重要的是pOpenContext。通过这个函数打开CHI的上下文，并将句柄返回给CHI。这个函数必须在任何其他CHI函数之前调用。</p>
+<p>这个函数是用来创建chicontext的唯一实例，chicontext是会话中所有状态都保留的地方，预计每个进程中将会有一个Chicontext，当然，一个进程中有多个chicontext也是支持的。在chicontext之间没有交互信息的机制，会话和pipeline只能被创建它的chicontext使用。</p>
+<h3 id="3-HAL3到CHI-重写接口（override）"><a href="#3-HAL3到CHI-重写接口（override）" class="headerlink" title="3. HAL3到CHI 重写接口（override）"></a>3. HAL3到CHI 重写接口（override）</h3><p>如果CHI功能用于HAL3相机应用程序，这些功能必须在OEM重写代码中实现。这些函数必须被编译到一个名为com.< vendor > .chi.override.so的文件中。</p>
+<p>chi_hal_override_entry()</p>
+<p>由驱动程序调用来初始化HAL重写模块的入口点。为了让驱动程序初始化override接口，com.< vendor > .chi.override.so必须导出这个函数。该函数在相机服务器初始化期间调用，初始化发生在设备引导期间。</p>
+<h3 id="4-CHI-节点接口"><a href="#4-CHI-节点接口" class="headerlink" title="4. CHI 节点接口"></a>4. CHI 节点接口</h3><p>ChiNodeEntry() ：由CHI驱动程序调用来初始化自定义节点的入口点。</p>
+<p>ChiNodeCallbacks结构体：</p>
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th>结构的大小，这个值框架会自己计算的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>majorVersion/minorVersion</td>
+<td>版本号</td>
+</tr>
+<tr>
+<td>pGetCapabilities</td>
+<td>必填，能力集，mask列表在chinode.h中查找</td>
+</tr>
+<tr>
+<td>pQueryVendorTag</td>
+<td>如果节点需要到处vendor标记才填充它</td>
+</tr>
+<tr>
+<td>pCreate</td>
+<td>必填，当拓扑图创建时创建节点实例</td>
+</tr>
+<tr>
+<td>pDestory</td>
+<td>必填，当拓扑图销毁是销毁节点实例</td>
+</tr>
+<tr>
+<td>pQueryBufferInfo</td>
+<td>必填，CHI调用这个函数从节点查询特定输出格式的输入缓冲区格式(分辨率和类型)</td>
+</tr>
+<tr>
+<td>pSetBufferInfo</td>
+<td>必填，CHI设置缓冲区格式</td>
+</tr>
+<tr>
+<td>pProcessRequest</td>
+<td>必填，执行请求处理。</td>
+</tr>
+<tr>
+<td>pChiNodeSetNodeInterface</td>
+<td>必填，设置节点中的预定义CHI接口</td>
+</tr>
+<tr>
+<td>pPipelineCreated</td>
+<td>可选，CHI通知节点创建了一个特定的pipeline</td>
+</tr>
+<tr>
+<td>pPostPipelineCreate</td>
+<td>后管道创建的通知</td>
+</tr>
+<tr>
+<td>pPrepareStreamOn/pOnStreamOn/pOnStreamOff</td>
+<td>事件通知</td>
+</tr>
+<tr>
+<td>pQueryMetadataPublishList</td>
+<td>必须调用此函数来查询节点发布的元数据列表。</td>
+</tr>
+<tr>
+<td>pFlushRequest</td>
+<td>释放为请求分配的节点资源。</td>
+</tr>
+<tr>
+<td>pGetFlushResponse</td>
+<td>获取刷新调用的最坏情况响应时间</td>
+</tr>
+<tr>
+<td>pFillHwdata</td>
+<td>填充每个请求的硬件数据</td>
+</tr>
+</tbody></table>
+<h3 id="5-CHI-stats-重写"><a href="#5-CHI-stats-重写" class="headerlink" title="5. CHI stats 重写"></a>5. CHI stats 重写</h3><p>有AE, AWB, AF, HAF(混合自动对焦)，PDAF，Auto Flicker Detection（水波纹检测），Auto Scene Detection（场景识别），Tracker （对象触摸跟踪）算法的接口，可以自己实现（高通的算法还是很复杂和高级的，正常人不会修改）</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+        <tag>高通</tag>
+        <tag>camx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>chromatix调试问题汇总</title>
+    <url>/posts/19376693/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="问题1：sensor-info"><a href="#问题1：sensor-info" class="headerlink" title="问题1：sensor info"></a>问题1：sensor info</h2><h3 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h3><p>Sensor info.txt如何制作，不同sensor不一样，具体从哪个文件中找到相应的配置</p>
+<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><p><strong>Sensor info.txt模板如下：</strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">30.000000f, /* Max FPS */</span><br><span class="line">1, /* min line ct */</span><br><span class="line">2196, /* maximum line count in max fps */</span><br><span class="line">2196, /* maximum line count */</span><br><span class="line">1, /* minimum gain */</span><br><span class="line">251, /* max gain fix fps */</span><br><span class="line">251, /* max gain after linear afr */</span><br><span class="line">3072, /* raw image width */</span><br><span class="line">2048, /* raw image height */</span><br><span class="line">RGGB, /* bayer pattern */</span><br><span class="line">10, //bits per pixel</span><br><span class="line">1, //packed or not, packed=1, unpacked=0</span><br><span class="line">0, /* crop top after camif */</span><br><span class="line">0, /* crop bottom after camif */</span><br><span class="line">0, /* crop left after camif */</span><br><span class="line">0, /* crop right after camif */</span><br><span class="line">240, //black level in 12-bit value based on spec</span><br><span class="line">240, //black level under low light</span><br><span class="line">240, //black level under bright light</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>来源：</strong><br>可以从sensor_lib.h中获取到</p>
+<ol>
+<li><strong>FPS</strong>：sensor最大输出帧率，对应out_info 的max_fps</li>
+<li><strong>Min/max line</strong>: 从sensor手册中获取到</li>
+<li><strong>Min/max gain</strong>: 最大增益由自己定，一般不会太大，不会超过256</li>
+<li><strong>Raw image width/height</strong>：raw尺寸，对应out_info里面的x_output/y_output</li>
+<li><strong>Bayer pattern</strong>: RAW 滤光片排列格式，对应sensor_output的filter_arrangement，一般是RGGB</li>
+<li><strong>Bit per pixel</strong>：sensor一般支持10bit和12bit，看寄存器配成多少bit，对应sensor_output的raw_output</li>
+<li><strong>Packed or not</strong>：RAW的两种格式</li>
+<li><strong>Crop</strong>：上下左右的裁剪，对应crop_params</li>
+<li><strong>Black level</strong>: 来自手册或者自己的测量，注意10bit要转成12bit，比如raw测出来的黑电平是60，转成12bit，就是多加两位，乘以四，最后就是240</li>
+</ol>
+<p><strong>建议：</strong></p>
+<ol>
+<li>建议先抓一张raw图，把raw图导入chromatix工具，多测试几种格式，确定了RAW图的格式再把sensor info.txt定下来</li>
+<li>像黑电平，曝光行等在chromatix工具调试的过程中可以修改，并不是说写了多少就是多少。</li>
+</ol>
+<h2 id="问题2：调试文件目录"><a href="#问题2：调试文件目录" class="headerlink" title="问题2：调试文件目录"></a>问题2：调试文件目录</h2><h3 id="详细-1"><a href="#详细-1" class="headerlink" title="详细"></a>详细</h3><p><img src="https://image.qinxing.xyz/20200508093600.png" alt><br>这几个调试文件夹分别对应isp pipe中的哪些功能。<br>比如说我想改ae是不是只需要改3A文件夹下的相关变量内容。</p>
+<h3 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h3><ol>
+<li><strong>3A</strong> 对应的是3A模块:AE,AWB,AF</li>
+<li><strong>Common</strong> 对应的是RAW域最前端的基础处理模块：黑电平（线性化），rolloff。</li>
+<li><strong>CPP</strong> 对应的是ISP中的CPP模块，主要是yuv域的降噪WNR和锐化ASF。</li>
+<li><strong>Isp</strong> 对应的是VFE模块，包括PDAF,ABF,绿平衡，坏点校正，去马赛克，gamma，color conversion,宽动态调节（LTM（注意有两个版本，都是有效的）/GTM/ADRC），肤色去噪，CAC,色度抑制，肤色增强,统计数据配置，video HDR(只支持隔行扫描HDR sensor)，人脸检测等模块。<br>最常用到的就是ABF，gamma，color conversion，宽动态调节。</li>
+<li><strong>Postproc</strong> 对应的是RNR降噪参数，CAC等不常用的参数，一般不会调，用默认的。</li>
+</ol>
+<p>chromatix工具最终是生成头文件的，我们当然可以跳过工具，直接去修改头文件。两者是一样的效果。</p>
+<h2 id="问题3：抓RAW图"><a href="#问题3：抓RAW图" class="headerlink" title="问题3：抓RAW图"></a>问题3：抓RAW图</h2><h3 id="详细-2"><a href="#详细-2" class="headerlink" title="详细"></a>详细</h3><p>手机/ipc设备拍摄raw图的方法。</p>
+<h3 id="回答-1"><a href="#回答-1" class="headerlink" title="回答"></a>回答</h3><h4 id="手机抓raw图的方法（传统）"><a href="#手机抓raw图的方法（传统）" class="headerlink" title="手机抓raw图的方法（传统）"></a>手机抓raw图的方法（传统）</h4><ol>
+<li>安装骁龙相机</li>
+<li>连续点击五次设置里面的红眼消除，进入高级设置</li>
+<li>关闭零秒快拍（ZSL）选项，关闭pdaf功能</li>
+<li>选择图片格式 RAW</li>
+<li>按下拍照就是抓取RAW图了，图片保存在/sdcard/DCIM/Camera或者/data/misc/camera路径下</li>
+</ol>
+<h4 id="Ipc抓取raw图的方法："><a href="#Ipc抓取raw图的方法：" class="headerlink" title="Ipc抓取raw图的方法："></a>Ipc抓取raw图的方法：</h4><ol>
+<li>连接usb线</li>
+<li>安装total control</li>
+<li>安装骁龙相机</li>
+<li>用手机抓raw图的方法抓取</li>
+</ol>
+<h4 id="Adb抓取raw图（仅适用于660以上平台）"><a href="#Adb抓取raw图（仅适用于660以上平台）" class="headerlink" title="Adb抓取raw图（仅适用于660以上平台）"></a>Adb抓取raw图（仅适用于660以上平台）</h4><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">adb shell chmod 777 /data/misc/camera</span><br><span class="line">adb shell setprop persist.camera.raw_yuv 1</span><br><span class="line">adb shell setprop persist.camera.preview_raw 1</span><br><span class="line">adb shell setprop persist.camera.dumpimg 0</span><br><span class="line">adb shell setprop persist.camera.dumpimg 131088</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>Tips</strong></p>
+<ol>
+<li>可以在QCamera2HWICallbacks.cpp的dumpFrameToFile函数查看具体实现过程。可能会出现抓拍到不止1张raw图的情况。</li>
+<li>用骁龙相机抓出来的raw图是MIPI格式，而这里格式要改成packed，图片的名称中带有图片的大小。</li>
+<li>第一次抓取raw图，设置好要重启camera或者重启应用程序。由于persist.camera.raw_yuv只有在给channel添加通道的时候才会读取，因此设置之后需要重启camera，可以重启设备或者重启应用程序。</li>
+<li>图片路径在<code>/data/misc/camera</code></li>
+</ol>
+<h2 id="问题4：头文件对应关系"><a href="#问题4：头文件对应关系" class="headerlink" title="问题4：头文件对应关系"></a>问题4：头文件对应关系</h2><h3 id="详细-3"><a href="#详细-3" class="headerlink" title="详细"></a>详细</h3><p>不同的sensor有不同的chromatix头文件，同一个sensor在不同数据流（预览，抓拍，录像）下也有不同的头文件，如何确定到底哪个生效呢？</p>
+<h3 id="回答-2"><a href="#回答-2" class="headerlink" title="回答"></a>回答</h3><p>拿660平台举例，在<code>/vendor/qcom/proprietary/mm-camera/media-controller/modules/sensors/configs</code>路径下的xml里进行了配置。</p>
+<p>这个位置有很多的xml配置文件，先找到这个设备的xml，比如说sdm660_camera.xml</p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">CameraModuleConfig</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">CameraId</span>></span>0<span class="tag"></<span class="name">CameraId</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">SensorName</span>></span>imx290<span class="tag"></<span class="name">SensorName</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ChromatixName</span>></span>imx290_chromatix<span class="tag"></<span class="name">ChromatixName</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ModesSupported</span>></span>1<span class="tag"></<span class="name">ModesSupported</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">Position</span>></span>BACK<span class="tag"></<span class="name">Position</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">MountAngle</span>></span>90<span class="tag"></<span class="name">MountAngle</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">CSIInfo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CSIDCore</span>></span>2<span class="tag"></<span class="name">CSIDCore</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">LaneMask</span>></span>0x1F<span class="tag"></<span class="name">LaneMask</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">LaneAssign</span>></span>0x4320<span class="tag"></<span class="name">LaneAssign</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ComboMode</span>></span>0<span class="tag"></<span class="name">ComboMode</span>></span></span><br><span class="line">  <span class="tag"></<span class="name">CSIInfo</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">LensInfo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">FocalLength</span>></span>2.8<span class="tag"></<span class="name">FocalLength</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">FNumber</span>></span>2.8<span class="tag"></<span class="name">FNumber</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">TotalFocusDistance</span>></span>1.97<span class="tag"></<span class="name">TotalFocusDistance</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">HorizontalViewAngle</span>></span>54.8<span class="tag"></<span class="name">HorizontalViewAngle</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">VerticalViewAngle</span>></span>42.5<span class="tag"></<span class="name">VerticalViewAngle</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">MinFocusDistance</span>></span>0.1<span class="tag"></<span class="name">MinFocusDistance</span>></span></span><br><span class="line">  <span class="tag"></<span class="name">LensInfo</span>></span></span><br><span class="line"><span class="tag"></<span class="name">CameraModuleConfig</span>></span></span><br></pre></td></tr></tbody></table></figure>
+<p>这个文件配置了cameraid，sensor的名称（一般通过sensor名称来选择到底用哪套配置），位置等等信息。<br>里面有个ChromatixName的配置，这里是imx290_chromatix。<br>那么我们就继续在当前目录下找imx290_chromatix.xml这个文件</p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag"><<span class="name">ResolutionChromatixInfo</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ChromatixName</span> <span class="attr">sensor_resolution_index</span>=<span class="string">"0"</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPPreview</span>></span>imx290_preview<span class="tag"></<span class="name">ISPPreview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPSnapshot</span>></span>imx290_preview<span class="tag"></<span class="name">ISPSnapshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPVideo</span>></span>imx290_preview<span class="tag"></<span class="name">ISPVideo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPPreview</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPPreview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPSnapshot</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPSnapshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPVideo</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPVideo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPLiveshot</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPLiveshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">A3Preview</span>></span>imx290_default_preview_3a<span class="tag"></<span class="name">A3Preview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">A3Video</span>></span>imx290_default_preview_3a<span class="tag"></<span class="name">A3Video</span>></span></span><br><span class="line">  <span class="tag"></<span class="name">ChromatixName</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">ChromatixName</span> <span class="attr">sensor_resolution_index</span>=<span class="string">"1"</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPPreview</span>></span>imx290_preview<span class="tag"></<span class="name">ISPPreview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPSnapshot</span>></span>imx290_preview<span class="tag"></<span class="name">ISPSnapshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">ISPVideo</span>></span>imx290_preview<span class="tag"></<span class="name">ISPVideo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPPreview</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPPreview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPSnapshot</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPSnapshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPVideo</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPVideo</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">CPPLiveshot</span>></span>imx290_cpp_preview<span class="tag"></<span class="name">CPPLiveshot</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">A3Preview</span>></span>imx290_default_preview_3a<span class="tag"></<span class="name">A3Preview</span>></span></span><br><span class="line">    <span class="tag"><<span class="name">A3Video</span>></span>imx290_default_preview_3a<span class="tag"></<span class="name">A3Video</span>></span></span><br><span class="line">  <span class="tag"></<span class="name">ChromatixName</span>></span></span><br><span class="line"><span class="tag"></<span class="name">ResolutionChromatixInfo</span>></span></span><br></pre></td></tr></tbody></table></figure>
+<p>这个文件配置了两套分辨率（帧率），这个分辨率分组是根据sensor_lib.h配置的。<br>当选择第一组分辨率时，可以看到在preview，snapshot，video数据流都可以指定对应的chromatix头文件。<br><strong>注意</strong>，这里的imx290_preview并非直接是头文件的名称，而是动态库的名称。<br>到对应的chromatix头文件夹下可以找到对应目录下的Android.mk</p>
+<figure class="highlight makefile"><table><tbody><tr><td class="code"><pre><span class="line">LOCAL_SRC_FILES:= chromatix_imx290_preview.c</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE           := libchromatix_imx290_preview</span><br></pre></td></tr></tbody></table></figure>
+<p>libchromatix_imx290_preview就是这个路径下的头文件生成的动态库。去掉前面的libchromatix_，正好就是需要的动态库名称。</p>
+<p>如果是老平台，一般在代码中找LOAD_CHROMATIX函数，可以直接看到加载的是哪个动态库，再反过来找对应的头文件。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>图像</category>
+      </categories>
+      <tags>
+        <tag>tunning</tag>
+        <tag>chromatix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>变焦设备的AF初步学习</title>
+    <url>/posts/720ad51b/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>原作陈瑶，部分内容来源于<a href="https://zhuanlan.zhihu.com/p/38544418" target="_blank" rel="noopener">网络</a>，我在此基础上进行了理解和整理。</p>
+</blockquote>
+<p>经过学习，我把AF分为两个部分，第一部分是在变焦的过程中保持图像清晰，用的是tracking算法。简单的来说，是通过镜头曲线去预估变焦后，镜头应该对焦到什么位置。</p>
+<p>第二部分是聚焦清晰，用的是爬坡算法。通过滤波器计算出图像的清晰度，移动镜片，找到最清晰的位置，也可以利用镜头曲线去缩小爬坡的范围。</p>
+<p>所以镜头曲线是什么？先来介绍一下硬件相关的原理。</p>
+<h2 id="（一）硬件原理"><a href="#（一）硬件原理" class="headerlink" title="（一）硬件原理"></a>（一）硬件原理</h2><p>目前在监控镜头中遇到的控制zoom和focus的电机都是步进电机，其优点是技术成熟，控制简单，缺点也较明显，存在机械磨损，一颗镜头的正常拉伸周期在30万-50万次，以枪球联动为例，日夜频繁拉伸，理论寿命也就在3个月左右。</p>
+<p>在镜头手册中对步进电机的说明一般包含以下几个参数：</p>
+<ol>
+<li><p>线圈阻抗；</p>
+</li>
+<li><p>驱动电压；</p>
+</li>
+<li><p>激励方法：1-2相驱动，2-2相驱动；</p>
+</li>
+<li><p>螺杆螺距，螺距即螺纹上相邻两牙对应点之间的轴向距离，目前遇到的大部分镜头都是0.4mm；</p>
+</li>
+</ol>
+<p>我们主要关心的是第3条和第4条，目前算法中电机都采用的是2-2相驱动，根据电机步进角和细分步数及螺杆螺距最终将镜头的移动距离换算成电机步数，后面会结合具体的镜头介绍如何计算。</p>
+<p>AF算法中，使用到了镜头自身的一些固有参数，下面以联合光电T5390-HQ1为例作介绍。</p>
+<h3 id="镜头曲线的概念"><a href="#镜头曲线的概念" class="headerlink" title="镜头曲线的概念"></a>镜头曲线的概念</h3><p><img src="https://image.qinxing.xyz/20200507153434.gif" alt="图1 镜头pi点位置图"></p>
+<p>图1中，黑色的曲线就是镜头的对焦曲线，横坐标表示zoom电机位置，纵坐标表示focus电机的位置。该曲线表示，在某一物距（物体到透镜光心的距离）下，当zoom处于横坐标中的某一位置时，如果focus正好位于曲线上，那么该物距下就能通过镜头在sensor上获得清晰的成像。</p>
+<p>不同的物距对应着不同的对焦曲线，在zoom位置相同时，物距越远focus值越小（位置越低低）；不同曲线间的间隔在不同的zoom位置是不同的，在wide端（靠近坐标原点方向），不同物距下的对焦曲线间隔较近，在tele端（远离坐标原点方向），不同物距下的曲线间隔相对较大，如图2所示，</p>
+<p><img src="https://image.qinxing.xyz/20200507111319.gif" alt="图2.不同物距下的对焦曲线"></p>
+<p>厂商在给出的镜头手册中包含多组不同物距下的镜头对焦曲线，在AF算法中最多选10条曲线就可以很好的满足算法需求，选择曲线的要求一般是两条曲线之间的物距间隔不宜过大，过大的曲线间隔会对tracking时位置估计的准确性带来困难（两曲线间物距相差太大，对物距像距的线性近似偏差较大）。</p>
+<p><strong>注意</strong>，不同厂商给出的对焦曲线使用的坐标原点会有所差异，在整理focus坐标时要一致性的将坐标原点转换成图1中表示的坐标，便于AF算法统一识别处理。</p>
+<h3 id="镜头PI点"><a href="#镜头PI点" class="headerlink" title="镜头PI点"></a>镜头PI点</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>AF算法中zoom和focus电机都有自己的坐标系统，pi点就是一个相对于坐标原点的固有位置，如图1所示。</p>
+<p>图中红色小圆圈标注的点是目前AF算法中标定的坐标原点，横坐标表示zoom电机位置，纵坐标表示focus电机的位置，虚线交叉的位置是PI点所在位置。</p>
+<p>AF算法中步进电机细分后最小步长为0.005mm/步（表示电机走一微步，螺杆将结构向前推动0.005mm），根据图1中的尺寸标定，可以算出zoom PI点的位置为19.9mm(26.14-6.24) ,换算成电机步数为19.9/0.005 = 3980步，同理可计算出focus电机的PI点电机步数为6.2mm/(0.005mm/步) = 1240步。</p>
+<h4 id="PI坐标点搜索过程"><a href="#PI坐标点搜索过程" class="headerlink" title="PI坐标点搜索过程"></a>PI坐标点搜索过程</h4><p>PI点坐标的搜索是在AF算法正常运行之前完成的（AF依赖于zoom和focus坐标），搜索过程依赖于镜头内部的光耦电平信号，光耦电平可用来确定电机运动方向和PI点位置。</p>
+<p>如图1所示，ZPI表示zoom在当前位置处的PI电平，FPI表示focus在当前位置时的PI电平，两个电平值可通过GPIO来读取。对这款镜头来说，zoom靠近wide端时ZPI是低电平，靠近tele端时ZPI是高电平；focus在靠近near（小物距）端时FPI是高电平，在靠近far(大物距)端时FPI是低电平。光耦电平跳变的地方就是PI点的位置。</p>
+<p>镜头内部的光耦在机芯正常工作时的关闭的，避免光耦漏光影响成像效果。PI程序搜索开始前首先打开光耦，根据当前光耦电平决定下一步电机的运动方向，目前的搜索程序在搜索过程中多次反复越过光耦点，搜索思想如下：</p>
+<ol>
+<li><p>搜索开始时大步向光耦电平跳变位置移动电机；</p>
+</li>
+<li><p>累加大步搜索时电机运动的总步数，如果总步数超过了最大运动步数，认为光耦电平无跳变，错误退出；</p>
+</li>
+<li><p>大步搜索过程中，光耦电平跳变后，改变电机运动方向和运动步长（步长减半），继续搜索光耦电平跳变点；</p>
+</li>
+<li><p>电平跳变后再次改变电机运动方向和电机运动步长（减小），更精确的搜索电平跳变位置，重复34操作，直到通过步长为1时搜索到电平跳变点退出；</p>
+</li>
+<li><p>此时的电机位置即PI点的坐标。</p>
+</li>
+</ol>
+<h4 id="偏差校正"><a href="#偏差校正" class="headerlink" title="偏差校正"></a>偏差校正</h4><p>监控一体机镜头是一个精密的机械器件，镜头内部的镜片移动距离以0.005mm为单位计，由于机械加工的精度问题，光耦的安装位置，镜头后焦的距离，sensor板sensor高度等和设计时的理论值存在偏差，在镜头的生产过程中要对偏差进行校正。</p>
+<p>镜头的校正的结果分成两个部分，第一部分是光耦位置的偏差校正，可解决光耦安装带来的偏差问题；第二部分是理论镜头曲线和实际镜头曲线的校正，这一部分主要是校正光学设计和实际生产的偏差，校正后的曲线和实际相符，<strong>有利于拉伸镜头时更好的实现全程清晰效果</strong>；</p>
+<p>下面介绍目前采用的机芯校正方法：</p>
+<p>PI校正其实就是校正PI点理论坐标和实际坐标的偏差，分为水平和垂直两个方向，如图7所示，黑色曲线表示理论曲线，虚线交叉处的黑色点表示理论PI位置，红色的点表示实际PI点位置。</p>
+<p><img src="https://image.qinxing.xyz/20200507112004.gif" alt="图7 镜头PI校正原理"></p>
+<p>理论PI点和实际PI点的偏移△x和△y分别对应着zoom PI偏差和focus PI偏差，图中只表示了偏差的情况之一，实际情况，偏差可以在黑色圆点的任意方向。</p>
+<p>校正时用到的工具是一个模拟无穷远物距的灯箱，实际上是一个平行光管，简化结构如图8。</p>
+<p><img src="https://image.qinxing.xyz/20200507112034.jpg" alt="图8 灯箱简化结构图"></p>
+<p>光源为图像模板提供照明，毛玻璃使照明均匀，分划板位于透镜的焦点上，模板图像通过透镜成像于无穷远处。因此在物镜右侧可观测到位于无穷远的像。</p>
+<p>校正时采用的是镜头的无穷远物距曲线，分为以下几个步骤：</p>
+<p>1、将镜头移动到PI点（图7中红色原点处），记当前zoom和focus坐标为理论PI点坐标，此时坐标和理论坐标存在偏差；</p>
+<p>2、在zoom最大步长范围内选择若干个位置点（记为锚点，如图7黑色曲线上的黑色小圆点所示），选点时要在wide端和tele端留有一定的余量，避免在错误的坐标系下过分靠近边界时和机械结构相撞。将zoom移动到对应的每个锚点坐标上，在自动聚焦模式下聚焦清楚后记录下对应的focus位置，这一过程中虽然坐标系统存在偏差，但和没有偏差的坐标系统相比，同样的zoom物理位置聚焦清晰时的focus物理位置是一样的，即和没有偏差的系统相比，同样物理位置聚焦清楚后的差异主要表现在坐标值的差异上；</p>
+<p>考虑一简单情况，只有zoom PI点存在偏差，focus正常，如图9所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507112712.gif" alt="图9 focus系统无偏差情况"></p>
+<p>  在偏差系统中如果zoom=2000，聚焦清楚时focus为1000，在无差系统中zoom为2000时聚焦清楚时focus为1100，focus的这一差异就是因为zoom坐标系统偏差引起。那么可以通过focus值的偏差来校正出zoom的偏差，理论上在镜头曲线单调区间内聚焦清楚时的focus位置对应着唯一的zoom，通过计算可以得出在无差系统中focus为1000时的zoom位置，这一位置和偏差系统中的位置差即zoom PI偏差。同理只考虑focus PI偏差的情况，zoom位置相同时聚焦清楚的focus偏差就是focus PI偏差。</p>
+<p>3、在无差系统的锚点坐标（非物理位置）左右以单步长递增多次循环计算理论focus位置，在理论focus位置上加上一定范围内的偏差值（pi偏差肯定在一个适当范围内），计算每次偏差系统锚点处的focus和无差系统计算出的focus位置差的平方（最小二乘），统计出最小值，此时代入无差系统计算的zoom偏移和focus偏移即zoom PI和focus PI偏差。</p>
+<p>4、记录描点时的focus和PI补偿后的理论focus偏差，该偏差即镜头曲线的校正偏差。</p>
+<h2 id="（二）Tracking算法"><a href="#（二）Tracking算法" class="headerlink" title="（二）Tracking算法"></a>（二）Tracking算法</h2><p>Tracking是zoom tracking是简写，指的是在变倍过程中根据清晰度变化情况自动调整focus位置使得图像保持清晰的过程。</p>
+<p>如图2所示，镜头厂商会给出大约10个不同物距下的镜头曲线，范围从很近的物距一直到无穷远物距。在tracking过程中物距是一个连续变化的过程，算法会根据当前的zoom位置和物距估算出下一个zoom位置处的focus值，下文将解释这一过程。</p>
+<h3 id="曲线插值"><a href="#曲线插值" class="headerlink" title="曲线插值"></a>曲线插值</h3><p><img src="https://image.qinxing.xyz/20200507113717.gif" alt="图10 focus位置估计方法"></p>
+<p>如图10所示，图中黑色的点表示镜头曲线表中的某一条曲线采样位置（镜头曲线在程序中没有完整的导入，完全导入镜头数据会较大，影响生成的库的大小），需要求出中间垂直线和镜头曲线交叉处的focus值，由于镜头曲线在较小的一段范围内近似直线，如图中的红色连线所示，根据三角形等比公式有如下等式：</p>
+<p>△f1/△f2 =△z1/△z2</p>
+<p>其中△f2、△z1、△z2均可从曲线表中查询后计算获得，因此可算出△f1值，从而近似计算得到交叉点的focus位置（前一个圆点处的focus位置+△f1）。</p>
+<h3 id="Focus位置估计"><a href="#Focus位置估计" class="headerlink" title="Focus位置估计"></a>Focus位置估计</h3><p>根据高斯成像公式</p>
+<p>1/f = 1/u + 1/v</p>
+<p>其中f表示焦距，u表示物距，v表示像距。聚焦时zoom在一固定位置，焦距恒定，那么上面公式可改写为：</p>
+<p>C = 1/u + 1/v</p>
+<p>简单变换后为：</p>
+<p>v = 1/c * (1 + 1/(cu - 1))</p>
+<p>函数形状如图11所示：</p>
+<p><img src="https://image.qinxing.xyz/20200507113910.gif" alt="图11 焦距恒定时物距和相距的对应关系"></p>
+<p>从图中可以看出，物距u和像距v之间是一一对应的关系。Focus位置估计时的已知和未知量如图12所示：</p>
+<p><img src="https://image.qinxing.xyz/20200507113945.gif" alt="图12 待估计的focus位置"></p>
+<p>图12中，黑色的小圆点表示已知的focus位置，红色的小圆点表示待估计的focus位置，三个小圆点的物距信息为已知，求红色小圆点处的focus位置。映射到图11中的效果如图13所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507114948.gif" alt="图13 "></p>
+<p>其中△u1、△u2、△x1、△x2、△v2为已知信息，△v1为待求信息，在黑色点物距差较近时，黑色点的连线近似直线，有如下等式成立：</p>
+<p>△u1/△u2 = △x1/△x2 = △v1/△v2</p>
+<p>因此可以计算出△v1 = △u1 * △v2/△u2,从而计算出红色点处的镜头focus值。</p>
+<p>总结起来分为以下几步：</p>
+<ol>
+<li><p>根据物距大小计算出比当前物距略小和略大的两条镜头曲线；</p>
+</li>
+<li><p>根据要估计的zoom位置在采样过后的曲线表中找出该点的前一个点和后一个点，在第一步中找到的两条曲线上通过插值计算出zoom位置处的两个focus值，即图10中中间垂直线和两条曲线的交叉点处的focus值；</p>
+</li>
+<li><p>使用第2步中计算出的focus值和图13的比例关系，计算出目标物距处的focus值。</p>
+</li>
+</ol>
+<h3 id="物距估计"><a href="#物距估计" class="headerlink" title="物距估计"></a>物距估计</h3><p>物距估计即根据当前的zoom和focus位置及已知的镜头曲线表计算出当前focus位置的物距大小。</p>
+<p>计算过程分为以下几步：</p>
+<ol>
+<li><p>根据镜头曲线表和zoom位置插值计算出镜头曲线上zoom位置对应的focus值；</p>
+</li>
+<li><p>比较实际focus值和插值处的focus值，得出当前focus位于哪两条镜头曲线之间；</p>
+</li>
+<li><p>根据镜头曲线标号得出第二步中两条镜头曲线的物距信息；</p>
+</li>
+<li><p>问题转换为根据已知的两点的focus值和对应的物距信息及一处focus值，求该focus值处的物距信息；</p>
+</li>
+<li><p>这样求解过程和图13类似，通过等比计算可直接算出。</p>
+</li>
+</ol>
+<h2 id="（三）爬坡算法"><a href="#（三）爬坡算法" class="headerlink" title="（三）爬坡算法"></a>（三）爬坡算法</h2><p>目前的AF算法中搜索峰值的过程采用的是盲人爬坡算法，该方法要求清晰度评价函数具有严格的单峰性。搜索过程中只能通过爬坡和下坡来判断出山峰的方向而不能看到山峰的全貌，只有当越过山峰时才能找到山峰。</p>
+<p>为了提高聚焦是速度，在af算法中将山坡划分为3个不同的区域，分别对应着平坦区域（flat），斜坡区域（slope），陡坡区域（steep）,不同区域对应着不同的爬坡步长，在平坦区域采用大步走的方式，随着坡度越来越来，步长越来越小，以达到快速精确搜索山峰的目的。爬坡过程如图14所示。</p>
+<p><img src="https://image.qinxing.xyz/20200507115836.gif" alt="图14 理想山峰的爬坡过程"></p>
+<p>可以采用状态机的方法，实现各种状态的跳转。</p>
+<h3 id="滤波器的应用"><a href="#滤波器的应用" class="headerlink" title="滤波器的应用"></a>滤波器的应用</h3><p>如何评价清晰度？这里就要用到滤波器了。图像越清晰，说明图像的高频分量越多，用一款滤波器保留图像的高频分量，来对比到底哪张图片更加清晰。</p>
+<p>基于硬件设计的成本考虑，早期的自动对焦系统都是用一些固定系数高频提取算子比如sobel，laplace等作为评价函数。</p>
+<p>当图像高频成分丰富的时候，例如合焦附近的时候，高通滤波器能够提取足够的锐度信息。但是当图像离焦的时候，高通滤波器就不行了，带通滤波器和带阻滤波器比高通滤波器能更好的提取图像的锐度信息。</p>
+<p>举例来说，下图画出两组滤波器对不同对比度图像的响应曲线。横轴是lens 位置，纵轴是focus value。</p>
+<p>可以看出下方sobel 算子对于低对比度图像的响应非常平坦，对于高对比度离焦的情况也不好。</p>
+<p><img src="https://image.qinxing.xyz/20200507144257.jpg" alt></p>
+<p>从信号处理的理论上来讲，这些算子都可以认为是FIR滤波器</p>
+<p><img src="https://image.qinxing.xyz/20200507144304.jpg" alt="FIR滤波器原理"></p>
+<p>一个4 tap FIR滤波器其输出可表示为：</p>
+<p><img src="https://image.qinxing.xyz/20200507144328.jpg" alt></p>
+<p>比如 difference算子就可以用一个2 阶FIR 滤波器表示：</p>
+<p>h(0) = +1,</p>
+<p>h(1) = -1;</p>
+<p>这些算子相当于系数固定的FIR滤波器，很多早期对焦系统的评价函数就是这些固定的算子。</p>
+<p>因为镜头以及成像系统的光学特性差别很大，这种固定系数高频算子的ISP设计不能满足自动对焦系统的需要。比如在低对比度的情形下，图像缺少高频成份，如果滤波器就不能够提取到足够的图像边缘的高频成份，这样对焦算法就无法找到峰值从而实现对焦了。所以后来的自动对焦系统评价函数逐渐采用可以设定系数的FIR或者IIR滤波器。从原理上说，实现同样性能的滤波器，IIR滤波器比FIR滤波器的阶数要低，为了节省行存，硬件上采用IIR滤波器较为合适。</p>
+<p><img src="https://image.qinxing.xyz/20200507150203.jpg" alt="二阶IIR滤波器"></p>
+<p>上图是一个二阶IIR滤波器，与FIR滤波器相比，IIR滤波器会把输出反馈到输入。</p>
+<p>传递函数数学表达式是：</p>
+<p><img src="https://image.qinxing.xyz/20200507150235.jpg" alt></p>
+<p>再回到具体的自动对焦系统中来说，一般会采用下面的设计：</p>
+<p><img src="https://image.qinxing.xyz/20200507150249.jpg" alt></p>
+<h2 id="（四）我的疑问"><a href="#（四）我的疑问" class="headerlink" title="（四）我的疑问"></a>（四）我的疑问</h2><ol>
+<li><p>如果有两个物体，一个前一个后，总会聚焦在前景上怎么办？</p>
+<p>可以设置ROI，设置感兴趣的区域，将这个区域对焦清楚位置</p>
+</li>
+<li><p>PI点是什么？它有什么作用？</p>
+<p><strong>回答</strong>：刚上电的时候，zoom和focus的电机不知道自己停在什么位置。这个PI点，就是确定一个起始位置，或者说是坐标轴的中心。接下来的移动都按照这个为准</p>
+</li>
+<li><p>对焦曲线为什么在焦距比较长的地方会分岔？</p>
+<p><strong>猜测</strong>：当焦距比较短的时候，景深比较大，像也比较近，只要对焦清楚了，基本都能看清。而焦距比较长的时候，景深比较小，不同物距的像离得比较远，想要看到不同距离的物体，就需要移动sensor的位置了。所以焦距比较长的时候，会有多根线。</p>
+</li>
+<li><p>理论上焦距越长，像应该越远，但是这个对焦曲线却不是一直增大的，而是先增大后减小，这是为什么呢？</p>
+<p><strong>猜测</strong>：可能是变焦镜头在变焦的过程中，镜片组在移动，等效出来的理想凸透镜也在移动。虽然焦距变长了，但是镜片位置前移了，像与镜头的位置反而缩短了</p>
+</li>
+<li><p>镜头内部的光耦在机芯正常工作时的关闭的，避免光耦漏光影响成像效果。光耦会漏光么？我印象中的光耦是塑料封装的，应该不存在漏光的问题呀。</p>
+</li>
+<li><p>海思平台的滤波器貌似由横向Horizontal IIR和纵向Vertical FIR两种一维滤波器组成，为何不用二维的FIR或者IIR滤波器？</p>
+</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>图像</category>
+      </categories>
+      <tags>
+        <tag>AF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SENSOR HDR技术的发展与思考</title>
     <url>/posts/c3f0ff3b/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -44,7 +553,7 @@
 <p>从ISP的角度来说line delay buffer 也限制了最大曝光时间。在短曝光行出来之前，第一个长曝光行应该还在delay buffer里，这样才能两者对齐好给后面的frame stitch操作。而长短曝光比越大，需要的line delay buffer就越大。</p>
 <p><img src="https://image.qinxing.xyz/20200430120615.webp" alt="DOL buffer"></p>
 <p>对于sensor做hdr融合case而言，line delay buffer size就是固定的，所以ISP倾向于在isp这端做HDR融合，这样可以更灵活的设计。（Maver注：对于车载而言，带宽是个主要关注点，所以大部分用户不会选择在ISP侧做HDR融合）</p>
-<h3 id="2-IHDR"><a href="#2-IHDR" class="headerlink" title="2. IHDR"></a>2. IHDR</h3><p>BME(Binned multiplexed exposure)，也叫iHDR。</p>
+<h3 id="2-IHDR"><a href="#2-IHDR" class="headerlink" title="2. IHDR"></a>2. IHDR</h3><p>BME(Binned multiplexed exposure)，也叫iHDR（interlaced HDR sensors）。</p>
 <p><img src="https://image.qinxing.xyz/20200430183835.png" alt="IHDR"></p>
 <p>如右边图案所示，在传感器上间隔两行分别使用长短曝光设置，最终合成一帧行数减半的图像。</p>
 <p>DOL技术如果想要出每秒25帧的HDR视频，sensor就需要每秒出50帧，对ISP和CPU的性能要求比较高。而该技术的一帧图像就包含了长短帧曝光，降低帧率的要求。输出速率降低了，对sensor的帧缓存要求也降低了。</p>
@@ -213,7 +722,7 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
 <p>本书有不少错误和纰漏，我在这里做了记录。同时学习一些单反摄影的基本知识和构图技巧。</p>
 </blockquote>
-<h2 id="（一）构造"><a href="#（一）构造" class="headerlink" title="（一）构造"></a>（一）构造</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>书中说的是小孔成像，我更认为应该是凸透镜成像原理，当物距远远大于焦距的时候，才可以近似成小孔成像。<br>详细分析请看<a href="https://qinxing.xyz/posts/b31d381e/">《相机成像原理之镜头篇》</a></p>
+<h2 id="（一）构造"><a href="#（一）构造" class="headerlink" title="（一）构造"></a>（一）构造</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>书中说的是小孔成像，我更认为应该是凸透镜成像原理，当物距远远大于焦距的时候，才可以近似成小孔成像。<br>详细分析请看<a href="https://qinxing.xyz/posts/b31d381e/" target="_blank" rel="noopener">《相机成像原理之镜头篇》</a></p>
 <p>sensor尺寸为36mm×24mm，这种相机就称为全画幅相机</p>
 <h3 id="常用附件"><a href="#常用附件" class="headerlink" title="常用附件"></a>常用附件</h3><h4 id="1-UV滤镜"><a href="#1-UV滤镜" class="headerlink" title="1. UV滤镜"></a>1. UV滤镜</h4><p>UV（Ultra Violet Filter）滤镜有两个作用，其一是滤除光线中的紫外线；其二是保护镜头镜片不被擦刮、污损。在日光照射很强时，光线中的紫外线成分较多，如果不带滤镜拍摄，可能会使拍出来的照片偏蓝，</p>
 <h4 id="2-偏光滤镜"><a href="#2-偏光滤镜" class="headerlink" title="2. 偏光滤镜"></a>2. 偏光滤镜</h4><p>摄影者经常遇到照片效果色彩饱和度不足、拍摄对象反光严重等问题，而这又不是拍摄技术以及相机本身所引起的，此时可能需要通过偏光滤镜来进行调节。偏光镜基本上就是用偏光角度来过滤光线的一种滤镜。<br>偏振镜允许特定方向照射来的光线，同样也会滤除另外一些方向射来的光线，最终可以调整光线进入镜头后的拍摄效果。当两者夹角为0°，即光波上下震动方向与偏振夹角相同时，透过的光线最多；夹角为90°时，通过的光线非常少。</p>
@@ -451,7 +960,7 @@
   <entry>
     <title>手机摄像头的分析与思考</title>
     <url>/posts/575fbd93/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="手机摄像头的分析与思考"><a href="#手机摄像头的分析与思考" class="headerlink" title="手机摄像头的分析与思考"></a>手机摄像头的分析与思考</h1><blockquote>
 <p>本文是对2019年的这份报告进行了整理，以及加入自己的思考与体会</p>
 </blockquote>
 
@@ -828,33 +1337,33 @@
   <entry>
     <title>镜头畸变的那些事</title>
     <url>/posts/b7ea425d/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="镜头畸变的那些事"><a href="#镜头畸变的那些事" class="headerlink" title="镜头畸变的那些事"></a>镜头畸变的那些事</h1><h2 id="畸变"><a href="#畸变" class="headerlink" title="畸变"></a>畸变</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于理想光学系统，在一对共轭的物像平面上，像的放大率是一个常数。但是对于实际的光学系统，当视场较大或很大时，像的放大率就要随视场而异，这样就会使像相对于物体失去相似性。这种使像变形的成像缺陷称为畸变。</p>
-<p><img src="/posts/b7ea425d/879a9c2b8b0f4b2da7a09ee7cf1326a6_th-1583470457857.png" alt></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="（一）畸变"><a href="#（一）畸变" class="headerlink" title="（一）畸变"></a>（一）畸变</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于理想光学系统，在一对共轭的物像平面上，像的放大率是一个常数。但是对于实际的光学系统，当视场较大或很大时，像的放大率就要随视场而异，这样就会使像相对于物体失去相似性。这种使像变形的成像缺陷称为畸变。</p>
+<p><img src="https://image.qinxing.xyz/20200508170641.png" alt></p>
 <p>畸变定义为实际像高与理想像高差，而在实际应用中经常将其与理想像高之比的百分数来表示畸变，称为相对畸变，即：</p>
-<p><img src="/posts/b7ea425d/14695038608OcoPVdc_s.jpg" alt></p>
+<p><img src="https://image.qinxing.xyz/20200508170656.jpg" alt></p>
 <h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>通常来说镜头的畸变分为径向畸变和切向畸变两类。图像径向畸变是图像像素点以畸变中心为中心点,沿着径向产生的位置偏差,从而导致图像中所成的像发生形变。径向畸变分为桶形畸变和枕形畸变。</p>
 <ul>
 <li><p>桶形畸变（Barrel Distortion），又称桶形失真，是由镜头中透镜物理性能以及镜片组结构引起的成像画面呈桶形膨胀状的失真现象。我们在使用广角镜头或使用变焦镜头的广角端时，最容易察觉桶形失真现象。</p>
 <p>下面是桶形畸变的真实场景，本该是垂直的房屋，却发生了变形。</p>
-<p><img src="https://cdn.pixabay.com/photo/2015/08/11/12/47/bad-camberg-884454__480.jpg" alt="桶形畸变真实场景"></p>
+<p><img src="https://image.qinxing.xyz/20200508170801.jpg" alt="桶形畸变真实场景"></p>
 </li>
 <li><p>枕形畸变（Pincushion Distortion），又称枕形失真，它是由镜头引起的画面向中间“收缩”的现象。我们在使用长焦镜头或使用变焦镜头的长焦端时，最容易察觉枕形失真现象。</p>
 </li>
 </ul>
 <p>下图是镜头畸变的对比示意图，第一幅图像是无畸变，第二幅图像是桶形畸变，第三幅图像是枕形畸变。</p>
-<p><img src="/posts/b7ea425d/20170711145255252.gif" alt="镜头畸变的对比示意图"></p>
+<p><img src="https://image.qinxing.xyz/20200508170812.gif" alt="镜头畸变的对比示意图"></p>
 <p>切向畸变是由于透镜本身与相机传感器平面（成像平面）或图像平面不平行而产生的，这种情况多是由于透镜被粘贴到镜头模组上的安装偏差导致。我们一般只考虑径向畸变。</p>
 <p>下图是切向畸变的示意图。</p>
-<p><img src="/posts/b7ea425d/calibration_tangentialdistortion.png" alt="切向畸变"></p>
+<p><img src="https://image.qinxing.xyz/20200508170817.png" alt="切向畸变"></p>
 <h3 id="产生的原因"><a href="#产生的原因" class="headerlink" title="产生的原因"></a>产生的原因</h3><p>来源于<a href="https://blog.csdn.net/u014652390/article/details/50324347" target="_blank" rel="noopener">博客</a></p>
 <p>畸变的常见原因是因为在镜头系统中引入光圈，光圈的位置决定了失真的类别与程度。如下图：</p>
-<p><img src="/posts/b7ea425d/20170711145319620.png" alt="畸变原因示意图"> </p>
+<p><img src="https://image.qinxing.xyz/20200508170824.png" alt="畸变原因示意图"> </p>
 <p>对于恒定的物体尺寸<em>y</em>，图像尺寸  <em>h</em>有所不同  。</p>
 <p>像点的位置由主光线（实线）确定，主光线是穿过光圈中心的光线。当光圈位于透镜上时，也就是中间那幅图像，主光线穿过光学中心，并以与入射角相同的角度离开透镜。这样的系统不会使图像失真，因此没有畸变。</p>
 <p>当光圈在透镜前面或后面时，主光线会被折射。当光圈在镜头前面，像的高度减小了，也就是像缩小了，就造成了桶形失真。复杂的镜头，例如后焦距广角镜头，往往就会出现桶形失真，因为前组镜头会充当后组的光圈。</p>
 <p>当光圈在镜头后面，像的高度增加了，也就是放大了，就是枕形失真。远焦镜头的后组为负，会导致枕形失真。</p>
 <p>下面这幅图片是对应的三维图，更加清晰的看出光圈与镜头的关系。</p>
-<p><img src="/posts/b7ea425d/bd3d1fbdc57c4ae0be86ef5f7fd2bb6e_th.jpg" alt="畸变原因三维示意图"></p>
+<p><img src="https://image.qinxing.xyz/20200508170829.jpg" alt="畸变原因三维示意图"></p>
 <p>这里可以引申一个问题，投影仪同样也是利用凸透镜，但是畸变就很小，而相机的畸变就相对比较大。因为它可以采用比较接近对称和比较紧凑的结构，镜头就很少有畸变。</p>
 <p>简单的说，镜头畸变是由远离光圈的镜片的球面像差造成的。</p>
 <p>如果镜头结构关于光圈基本对称，光圈前后的畸变互相抵消，不会有畸变。<br>如果镜头镜片都在光圈很近距离内，也不会有多少畸变。<br>如果远离光圈的镜片校正了球面像差，比如采用非球面镜，也不会产生畸变。<br>如果光圈放在物方焦平面和像方焦平面上，使主光线平行于光轴，也不会产生畸变（<a href="https://baike.baidu.com/item/%E8%BF%9C%E5%BF%83%E9%95%9C%E5%A4%B4/667556?fr=aladdin" target="_blank" rel="noopener">远心镜头</a>）。</p>
@@ -874,33 +1383,33 @@
 <p>优点是不会损失清晰度。不会裁剪图像，也就不会损失视场角，不需要软件处理，降低功耗。缺点是需要定制，比较昂贵。</p>
 </li>
 </ol>
-<h2 id="畸变计算方法"><a href="#畸变计算方法" class="headerlink" title="畸变计算方法"></a>畸变计算方法</h2><p>这里遇到一个有趣的事情</p>
+<h2 id="（二）畸变计算方法"><a href="#（二）畸变计算方法" class="headerlink" title="（二）畸变计算方法"></a>（二）畸变计算方法</h2><p>这里遇到一个有趣的事情</p>
 <p>为什么公安一所测出的畸变值远大于镜头手册的畸变值？答案是计算方法不同。</p>
 <h3 id="光学畸变和tv畸变"><a href="#光学畸变和tv畸变" class="headerlink" title="光学畸变和tv畸变"></a>光学畸变和tv畸变</h3><p>先来了解一下光学畸变(也称几何畸变）和tv畸变，他们的计算方法如下图所示。实线是实际成的像，虚线是理想中的像。</p>
-<p><img src="/posts/b7ea425d/1583426059467.png" alt="光学畸变和TV畸变示意图"></p>
+<p><img src="https://image.qinxing.xyz/20200520142318.png" alt="光学畸变和TV畸变示意图"></p>
 <p>光学畸变和tv畸变是有换算关系的，以1080P16：9的CMOS为例，tv畸变是光学畸变的0.38倍。</p>
 <p>tv畸变有两种计算方法，SMIA TV 畸变和ISO TV畸变：</p>
-<p><img src="/posts/b7ea425d/1583683566607.png" alt="tv畸变计算方法"></p>
+<p><img src="https://image.qinxing.xyz/20200520142325.png" alt="tv畸变计算方法"></p>
 <p>SMIA TV Distortion = ( A-B )/B ; A = ( A1+A2 )/2</p>
 <p>ISO TV Distortion = ( A-B )/(2 * B) ; A = ( A1+A2 )/2</p>
 <p>所以，SMIA TV畸变=2*ISO TV畸变，上图的tv畸变指是ISO TV畸变。从公式可以看出，TV畸变是基于图像的高度和参考中心线的高度差异，如果需要计算图像水平方向的畸变，可以导入图像之前，先把图像旋转90°再分析。</p>
 <h3 id="公安一所的畸变计算方法"><a href="#公安一所的畸变计算方法" class="headerlink" title="公安一所的畸变计算方法"></a>公安一所的畸变计算方法</h3><p>拍两条横向直线，让他们与图像的上下边相切。两条直线与图像左侧相交，得到两个坐标，计算出纵向像素差A1，同样的方法可以得到右侧的纵向像素差A2。这两条直线的最大距离，也就是中间的纵向像素差是c，畸变值就是(（A1+A2）/2 - B)/B</p>
 <p>举例：</p>
-<p><img src="/posts/b7ea425d/%E4%B8%80%E6%89%80%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B.jpg" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520142447.jpg" alt></p>
 <p>用画图工具打开后，可以看到每个点的像素位置，先算出左侧的像素差（881-181=700），右侧的像素差（912-207=705），中间的像素差为1067，就可以计算出畸变值为（（700+705）/2 - 1067）/1067 = -0.3416）</p>
 <h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>同一款镜头，手册上的光学畸变只有21%，理论上的SMIA tv畸变只有16%，但是用一所的方法计算出来却有37%，这是为什么呢？</p>
-<p><img src="/posts/b7ea425d/1583682669887.png" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520142443.png" alt></p>
 <p>如上图所示，红线的方法与tv畸变不同的是，它将上边线延长到了图像左右边框，计算出来的Δh明显比tv畸变大得多。一所测试的时候需要找到两条线与上下边框相切，而不是像tv畸变那种处于中间的一条线，因此一所方法得到的畸变值比红线的方法还要大，这样就能解释为什么一所的方法类似tv畸变，却又比tv畸变大得多。因此我们选择镜头的时候，需要先计算一下是否能够真的符合一所的标准。</p>
-<h2 id="畸变矫正算法"><a href="#畸变矫正算法" class="headerlink" title="畸变矫正算法"></a>畸变矫正算法</h2><h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h3><p><img src="/posts/b7ea425d/1583681970945.png" alt="径向失真和切向失真对畸变的影响"></p>
+<h2 id="（三）畸变矫正算法"><a href="#（三）畸变矫正算法" class="headerlink" title="（三）畸变矫正算法"></a>（三）畸变矫正算法</h2><h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h3><p><img src="https://image.qinxing.xyz/20200520142509.png" alt="径向失真和切向失真对畸变的影响"></p>
 <p>径向畸变的形成原因包括枕形畸变和桶形畸变等，可以用如下表达式来描述：</p>
-<p><img src="/posts/b7ea425d/1583681903257.png" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520142345.png" alt></p>
 <p>公式里（x0，y0）是畸变点在成像仪上的原始位置，（x，y）是校正后新的位置。</p>
 <p>注意这个公式，（x0，y0）是畸变的原图上像素点的位置；（x，y）是校正后输出图像上像素点的位置。</p>
 <p>实现过程是，对输出图的点做遍历——以1080p的图像为例，从点（0,0）到点（1919,1079），一行一行的遍历——依次找到输出点（x, y）对应的原图点（x0, y0）的像素值，再将（x0, y0）的值赋给（x, y）。如果计算出来的对应的原图的点（x0, y0）不是整数，则用二次线性插值计算此点，然后赋值给（x, y）。</p>
 <p>切向畸变又分为薄透镜畸变和离心畸变等，薄透镜畸变则是因为透镜存在一定的细微倾斜造成的；离心畸变的形成原因是镜头是由多个透镜组合而成的，而各个透镜的光轴不在同一条中心线上。切向畸变可以用如下数学表达式来描述：</p>
-<p><img src="/posts/b7ea425d/%E5%88%87%E5%90%91%E7%95%B8%E5%8F%98.png" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520142348.png" alt></p>
 <p>在引入镜头的畸变后，成像点从理想图像坐标系到真实图像坐标系的变换关系可以表示为：</p>
-<p><img src="/posts/b7ea425d/1583499951669.png" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520142351.png" alt></p>
 <p>在目前的摄像机标定研究中,对镜头畸变考虑较多的是镜头径向畸变,而忽略了镜头的切向和薄棱镜等其它非线性畸变因素。</p>
 <p>实际计算过程中，如果考虑太多高阶的畸变参数，会导致标定求解的不稳定。</p>
 <h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><h4 id="1-图像采集"><a href="#1-图像采集" class="headerlink" title="1. 图像采集"></a>1. 图像采集</h4><p>首先在opencv官网下载<a href="https://docs.opencv.org/2.4/_downloads/pattern.png" target="_blank" rel="noopener">棋盘格图像</a>进行打印。</p>
@@ -928,7 +1437,7 @@
 <figure class="highlight c++"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function">def <span class="title">test_calibration</span><span class="params">()</span>:</span></span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">	# 畸变校正</span><br><span class="line">    #根据内参和畸变系数，建立了一个查找表，map1 map2设置为全局变量，所以这个函数只需要运行一次就好，不需要重复计算查找表。</span><br><span class="line">    newCameraMatrix = cv2.getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, <span class="number">1</span>, imageSize, <span class="number">0</span>)</span><br><span class="line">    map1, map2 = cv2.initUndistortRectifyMap(cameraMatrix, distCoeffs, None, newCameraMatrix[<span class="number">0</span>], imageSize, cv2.CV_16SC2);</span><br><span class="line"></span><br><span class="line">    # 此函数根据map1 map2查找表进行畸变矫正，同一个镜头下的视频中map1 map2可以重复使用</span><br><span class="line">    frameCalibration = cv2.remap(frame, map1, map2, cv2.INTER_LINEAR);</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> map1,map2</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="5-校正效果"><a href="#5-校正效果" class="headerlink" title="5. 校正效果"></a>5. 校正效果</h4><p>下图是没有经过裁剪的畸变校正效果</p>
-<p><img src="/posts/b7ea425d/1583821547894.png" alt="没有经过裁剪的畸变校正效果"></p>
+<p><img src="https://image.qinxing.xyz/20200520142359.png" alt="没有经过裁剪的畸变校正效果"></p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -979,16 +1488,16 @@
   <entry>
     <title>利用又拍云cdn加速github pages</title>
     <url>/posts/54ce21be/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><p>作者github上的博客是xiaoqinxing.github.io，如何cdn加速，并用域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 进行访问呢？</p>
-<p>由于国外的cdn流量较贵，因此国外就用github的源站，拥有无限的空间和不错的速度。国内由于网速较慢，需要用cdn进行加速，然后将<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 与cdn的加速域名绑定即可。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><p>作者github上的博客是xiaoqinxing.github.io，如何cdn加速，并用域名<a href="http://www.qinxing.xyz">www.qinxing.xyz</a> 进行访问呢？</p>
+<p>由于国外的cdn流量较贵，因此国外就用github的源站，拥有无限的空间和不错的速度。国内由于网速较慢，需要用cdn进行加速，然后将<a href="http://www.qinxing.xyz">www.qinxing.xyz</a> 与cdn的加速域名绑定即可。</p>
 <p><img src="/posts/54ce21be/1583892494033.png" alt></p>
 <p>至于为什么不用云存储呢，因为我希望上传一次代码，网站可以直接更新，相比云存储还需要把生成的代码传到云端，少了一步。同时也省了一笔费用。</p>
 <h2 id="cdn加速"><a href="#cdn加速" class="headerlink" title="cdn加速"></a>cdn加速</h2><p>作者使用的是又拍云，由于加入又拍云联盟每个月可以有15G免费的HTTPS流量。这是活动的<a href="https://www.upyun.com/league" target="_blank" rel="noopener">网址</a>。</p>
 <p>接下来进入正题。</p>
 <p>首先，国内云服务商的域名都是需要备案的，我的域名是在阿里云备案的，一两天就通过了，十分的简单。</p>
 <p>第二步，在又拍云创建一个cdn服务，源站就设置成xiaoqinxing.github.io，回源协议用https（github强制https)，源站证书校验关闭。使用又拍云的朋友注意了，回源管理中的<strong>回源Host一定要再填一遍源站域名</strong>，被坑了好久，这里还是xiaoqinxing.github.io。</p>
-<p>第三步，绑定域名，首先将域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 绑定在这个cdn上，又拍云会生成一个CNAME名称（我理解中这个是cdn服务器的域名，CNAME就是让一个域名跳转到另外一个域名上）。其次在github.io的设置中设置自定义域名<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> </p>
-<p>第四步，域名解析，这个域名解析是在你的域名服务商那里完成的，比如说就拿阿里云来说，创建两条<a href="http://www.qinxing.xyz" target="_blank" rel="noopener">www.qinxing.xyz</a> 的域名解析记录，记录类型都是CNAME，第一条记录的解析线路是默认，记录值是又拍云cdn的CNAME名称。第二条的解析线路是境外，记录值是源站域名xiaoqinxing.github.io。</p>
+<p>第三步，绑定域名，首先将域名<a href="http://www.qinxing.xyz">www.qinxing.xyz</a> 绑定在这个cdn上，又拍云会生成一个CNAME名称（我理解中这个是cdn服务器的域名，CNAME就是让一个域名跳转到另外一个域名上）。其次在github.io的设置中设置自定义域名<a href="http://www.qinxing.xyz">www.qinxing.xyz</a> </p>
+<p>第四步，域名解析，这个域名解析是在你的域名服务商那里完成的，比如说就拿阿里云来说，创建两条<a href="http://www.qinxing.xyz">www.qinxing.xyz</a> 的域名解析记录，记录类型都是CNAME，第一条记录的解析线路是默认，记录值是又拍云cdn的CNAME名称。第二条的解析线路是境外，记录值是源站域名xiaoqinxing.github.io。</p>
 <p>第五步，申请证书，开启https服务的时候需要申请SSL证书，这个可以在又拍云里面申请免费的SSL证书。申请好了之后再https配置中，勾选https访问和强制HTTPS访问。</p>
 <p><img src="/posts/54ce21be/1583892988361.png" alt></p>
 <p>第六步，刷新缓存查看是否生效，由于cdn相当于把源站的内容在国内缓存了好多份，想要实时生效，需要刷新cdn缓存。另外浏览器也会把原来的网站缓存一份，浏览器里面直接刷新不出来不代表真的没有生效。拿chrome浏览器举例，刷新的时候要<code>ctrl + F5</code>，才能刷新缓存。</p>
@@ -1390,6 +1899,33 @@
       </tags>
   </entry>
   <entry>
+    <title>视频防抖预研（三）—— 数据的读取与校准</title>
+    <url>/posts/be8526f2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>算法仿真的方法主要有两种，python和MATLAB<br>由于需要对设备进行移植，opencv更加方便。同时MATLAB是收费软件，公司没有买licence。最终选择Python+OpenCV</p>
+<p>新手不建议安装anaconda，经常会出现模块导入问题，我还出现过matplotlib模块缺失的问题，所以建议直接在系统中安装python程序。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我把它分为三个部分<br>第一个部分，数据的读取与校准<br>第二个部分，数据的处理<br>第三个部分，视频的处理</p>
+<h3 id="数据的读取和校准"><a href="#数据的读取和校准" class="headerlink" title="数据的读取和校准"></a>数据的读取和校准</h3><p>定义一个陀螺仪数据读取与校准的类，将有关陀螺仪数据的读取和校准方法包含进来，有利于梳理代码结构。</p>
+<h4 id="数据的读取"><a href="#数据的读取" class="headerlink" title="数据的读取"></a>数据的读取</h4><p>定义一个陀螺仪数据读取与校准的类，这个类初始化的输入就是文件的路径</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GyroscopeDataFile</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment"># the file path to read</span></span><br><span class="line">    <span class="comment"># a dictionary of angular velocities</span></span><br><span class="line">    <span class="comment"># This dictionary will store mappings between the timestamp</span></span><br><span class="line">    <span class="comment"># and the angular velocity at that instant.</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filepath)</span>:</span></span><br><span class="line">        self.filepath = filepath</span><br><span class="line">        self.omega = {}</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_getfile_object</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> open(self.filepath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># read the file and populate the Omega dictionary.</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> self._getfile_object() <span class="keyword">as</span> fp:</span><br><span class="line">            <span class="comment"># We validate that the first line of the csv file matches our</span></span><br><span class="line">            <span class="comment"># expectation. If not, the csv file was probably not compatible</span></span><br><span class="line">            <span class="comment"># and will error out over the next few lines.</span></span><br><span class="line">            firstline = fp.readline().strip()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> firstline == <span class="string">"gyro"</span>:</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"The first line isn't valid"</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># The strip function removed any additional whitespace</span></span><br><span class="line">            <span class="comment"># (tabs, spaces, newline characters, among others)</span></span><br><span class="line">            <span class="comment"># that might be stored in the file.</span></span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> fp.readlines():</span><br><span class="line">                line = line.strip()</span><br><span class="line">                parts = line.split(<span class="string">","</span>)</span><br><span class="line">                <span class="comment"># convert strings into numetric type</span></span><br><span class="line">                timestamp = int(parts[<span class="number">3</span>])</span><br><span class="line">                ox = float(parts[<span class="number">0</span>])</span><br><span class="line">                oy = float(parts[<span class="number">1</span>])</span><br><span class="line">                oz = float(parts[<span class="number">2</span>])</span><br><span class="line">                <span class="string">'''</span></span><br><span class="line"><span class="string">                if timestamp < 100000000:</span></span><br><span class="line"><span class="string">                    timestamp = timestamp * 10</span></span><br><span class="line"><span class="string">                if timestamp < 100000000:</span></span><br><span class="line"><span class="string">                    timestamp = timestamp * 10</span></span><br><span class="line"><span class="string">                '''</span></span><br><span class="line">                print(<span class="string">"%s: %s, %s, %s"</span> % (timestamp, ox, oy, oz))</span><br><span class="line">                self.omega[timestamp] = (ox, oy, oz)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># return a sorted list of timestamps from small to large num</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_timestamps</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> sorted(self.omega.keys())</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="数据的序列化"><a href="#数据的序列化" class="headerlink" title="数据的序列化"></a>数据的序列化</h4><p>有些中间生成的数据，调试的时候需要经常使用。如果每次都重新运行程序生成的话，会浪费很多的时间。<br>这里利用pickle模块进行数据的序列化<br>python文件的打开尽量用with的方法，防止忘记关闭文件，保证安全</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_gyro_data</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(self.gyrofilename):</span><br><span class="line">        print(<span class="string">"start creating "</span>+self.gyrofilename)</span><br><span class="line">        <span class="keyword">with</span> open(self.gyrofilename, <span class="string">"wb"</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            pickle.dump(self.omega, fp)</span><br><span class="line">            <span class="keyword">return</span> self.omega</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">with</span> open(self.gyrofilename, <span class="string">"rb"</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            <span class="keyword">return</span> pickle.load(fp)</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="镜头参数校准"><a href="#镜头参数校准" class="headerlink" title="镜头参数校准"></a>镜头参数校准</h4><figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LenParametersFromMatlab</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    get opencv camera parameters from matlab parameters</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,</span></span></span><br><span class="line"><span class="function"><span class="params">        radialDistortion,</span></span></span><br><span class="line"><span class="function"><span class="params">        tangentialDistortion,</span></span></span><br><span class="line"><span class="function"><span class="params">        intrinsicMatrix,</span></span></span><br><span class="line"><span class="function"><span class="params">        focalLength,</span></span></span><br><span class="line"><span class="function"><span class="params">        principalPoint</span></span></span><br><span class="line"><span class="function"><span class="params">    )</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        radialDistortion:     1 x 2 matrix</span></span><br><span class="line"><span class="string">        tangentialDistortion: 1 x 2 matrix</span></span><br><span class="line"><span class="string">        intrinsicMatrix:      3 x 3 matrix</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.kc1 = radialDistortion[<span class="number">0</span>]</span><br><span class="line">        self.kc2 = radialDistortion[<span class="number">1</span>]</span><br><span class="line">        self.kc3 = tangentialDistortion[<span class="number">0</span>]</span><br><span class="line">        self.kc4 = tangentialDistortion[<span class="number">1</span>]</span><br><span class="line">        self.fc1 = intrinsicMatrix[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        self.fc2 = intrinsicMatrix[<span class="number">1</span>][<span class="number">1</span>]</span><br><span class="line">        self.cc1 = intrinsicMatrix[<span class="number">2</span>][<span class="number">0</span>]</span><br><span class="line">        self.cc2 = intrinsicMatrix[<span class="number">2</span>][<span class="number">1</span>]</span><br><span class="line">        self.focalLength = focalLength</span><br><span class="line">        self.principalPoint = principalPoint</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getCameraMatrix</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> np.array([</span><br><span class="line">            [self.fc1, <span class="number">0</span>, self.cc1],</span><br><span class="line">            [<span class="number">0</span>, self.fc2, self.cc2],</span><br><span class="line">            [<span class="number">0</span>,         <span class="number">0</span>,       <span class="number">1</span>]</span><br><span class="line">        ])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getdistCoeffs</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> np.array([self.kc1, self.kc2, self.kc3, self.kc4])</span><br></pre></td></tr></tbody></table></figure>
+
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>camera原理</tag>
+        <tag>防抖</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>视频防抖预研（二）—— 数据采集</title>
     <url>/posts/37b90cd9/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -1527,8 +2063,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>fd泄露</tag>
         <tag>hal</tag>
+        <tag>fd泄露</tag>
       </tags>
   </entry>
   <entry>
@@ -1761,7 +2297,7 @@
 <li><p>首先我们需要工作在普通的预览模式，sensor配置文件中out_info的mode需要是SENSOR_DEFAULT_MODE，而非是SENSOR_HFR_MODE</p>
 </li>
 <li><p>相比于配置30帧，注意一下60帧需要的寄存器配置更多，主要是<code>global timing</code>。我们需要根据sensor手册修改60帧对应的寄存器列表<code>RES_1080P60_REG_ARRAY</code>，如下图：</p>
-<p><img src="/posts/42980f77/1584288030980.png" alt></p>
+<p><img src="https://image.qinxing.xyz/20200520141455.png" alt></p>
 </li>
 <li><p>preview默认限制在最高30帧，我们修改到60帧</p>
 </li>
@@ -1777,8 +2313,8 @@
         <category>编程</category>
       </categories>
       <tags>
-        <tag>帧率</tag>
         <tag>高通camera</tag>
+        <tag>帧率</tag>
       </tags>
   </entry>
   <entry>
@@ -1940,8 +2476,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>编程</category>
       </categories>
       <tags>
-        <tag>帧率</tag>
         <tag>高通camera</tag>
+        <tag>帧率</tag>
       </tags>
   </entry>
   <entry>
@@ -3312,8 +3848,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>persist_set</tag>
+        <tag>hal</tag>
       </tags>
   </entry>
   <entry>
@@ -3998,6 +4534,51 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>线程进程总结</title>
+    <url>/posts/9fc0e279/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
+<a id="more"></a>
+
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
+<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
+<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
+<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
+<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
+<p>（1）线程状态。</p>
+<p>（2）当线程不运行时，被保存的现场资源。</p>
+<p>（3）一组执行堆栈。</p>
+<p>（4）存放每个线程的局部变量主存区。</p>
+<p>（5）访问同一个进程中的主存和其它资源。</p>
+<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
+<p><strong>2）独立调度和分派的基本单位。</strong></p>
+<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
+<p><strong>3）可并发执行。</strong></p>
+<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
+<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
+<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
+<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
+<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
+<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
+<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
+<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
+<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
+<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
+<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 线程和进程</title>
     <url>/posts/ea480f1d/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
@@ -4146,51 +4727,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <tag>线程</tag>
         <tag>进程</tag>
         <tag>分布式进程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线程进程总结</title>
-    <url>/posts/9fc0e279/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
-<a id="more"></a>
-
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
-<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
-<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
-<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
-<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
-<p>（1）线程状态。</p>
-<p>（2）当线程不运行时，被保存的现场资源。</p>
-<p>（3）一组执行堆栈。</p>
-<p>（4）存放每个线程的局部变量主存区。</p>
-<p>（5）访问同一个进程中的主存和其它资源。</p>
-<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
-<p><strong>2）独立调度和分派的基本单位。</strong></p>
-<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
-<p><strong>3）可并发执行。</strong></p>
-<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
-<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
-<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
-<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
-<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
-<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
-<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
-<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
-<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
-<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
-<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
-<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -4822,9 +5358,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
 <p>悲伤是今天的旋律<br>一不留神<br>便沉浸其中<br>却时不时蹦出欢快的笑声<br>暂时的打断<br>我沉闷的演奏<br>让我呼吸急促<br>忘却一切的烦恼</p>
 <p>想打电话<br>听你的呢喃细语<br>听你的开怀大笑<br>想你的莞尔一笑<br>想你的痴情相望<br>我是傻瓜么<br>这才多久呀<br>接下来的一个月<br>怕是该以泪洗面了<br>两情若是长久时<br>又岂在朝朝暮暮<br>这何尝不是<br>安慰自己呢  </p>
 <p>站起身<br>伸伸懒腰<br>深呼一口气<br>迷上了你<br>那是我的荣幸<br>我可不能迷失自我<br>我还要记录下<br>这爱的点点滴滴呢</p>
-<div class="justified-gallery"><p><img src="/posts/9069499e/5.jpg" alt></p><p><img src="/posts/9069499e/1.jpg" alt></p><p><img src="/posts/9069499e/2.jpg" alt></p><p><img src="/posts/9069499e/3.jpg" alt></p><p><img src="/posts/9069499e/4.jpg" alt></p>
-          </div>
-
 </body></html>]]></content>
       <categories>
         <category>生活</category>
