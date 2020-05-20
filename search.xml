@@ -2063,8 +2063,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>fd泄露</tag>
+        <tag>hal</tag>
       </tags>
   </entry>
   <entry>
@@ -3848,8 +3848,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>persist_set</tag>
         <tag>hal</tag>
+        <tag>persist_set</tag>
       </tags>
   </entry>
   <entry>
@@ -5370,28 +5370,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>hexo 多终端同步</title>
-    <url>/posts/5f460a06/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
-<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
-<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
-<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git常用命令</title>
     <url>/posts/423abe9e/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
@@ -5453,6 +5431,28 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo 多终端同步</title>
+    <url>/posts/5f460a06/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
+<h1 id="push本地文件"><a href="#push本地文件" class="headerlink" title="push本地文件"></a>push本地文件</h1><p>在其中一个终端操作，push本地文件夹Hexo中的必要文件到yourname.github.io的hexo分支上（这里分支名称我使用的develop）</p>
+<p>在利用Github+Hexo搭建自己的博客时，新建了一个Hexo的文件夹，并进行相关的配置，这部分主要是将这些配置的文件托管到Github项目的分支上，其中只托管部分用于多终端的同步的文件，如完成的效果图所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git init  //初始化本地仓库</span><br><span class="line">git add source //将必要的文件依次添加，有些文件夹如npm install产生的node_modules由于路径过长不好处理，所以这里没有用`git add .`命令了，而是依次添加必要文件，如下图所示</span><br><span class="line">git commit -m "Blog Source Hexo"</span><br><span class="line">git branch hexo  //新建hexo分支</span><br><span class="line">git checkout hexo  //切换到hexo分支上</span><br><span class="line">git remote add origin git@github.com:yourname/yourname.github.io.git  //将本地与Github项目对接</span><br><span class="line">git push origin hexo  //push到Github项目的hexo分支上</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样你的github项目中就会多出一个Hexo分支，这个就是用于多终端同步关键的部分。</p>
+<h1 id="clone和push更新文件"><a href="#clone和push更新文件" class="headerlink" title="clone和push更新文件"></a>clone和push更新文件</h1><p>此时在另一终端更新博客，只需要将Github的hexo分支clone下来，进行初次的相关配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b hexo git@github.com:yourname/yourname.github.io.git  //将Github中hexo分支clone到本地</span><br><span class="line">cd  yourname.github.io  //切换到刚刚clone的文件夹内</span><br><span class="line">npm install    //注意，这里一定要切换到刚刚clone的文件夹内执行，安装必要的所需组件，不用再init</span><br><span class="line">hexo new post "new blog name"   //新建一个.md文件，并编辑完成自己的博客内容</span><br><span class="line">git add source  //经测试每次只要更新sorcerer中的文件到Github中即可，因为只是新建了一篇新博客</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo  //更新分支</span><br><span class="line">hexo d -g   //push更新完分支之后将自己写的博客对接到自己搭的博客网站上，同时同步了Github中的master</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="不同终端间配置"><a href="#不同终端间配置" class="headerlink" title="不同终端间配置"></a>不同终端间配置</h1><p>在不同的终端已经做完配置，就可以分享自己更新的博客<br>进入自己相应的文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git pull origin hexo  //先pull完成本地与远端的融合</span><br><span class="line">hexo new post " new blog name"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -5627,9 +5627,9 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>bug</tag>
         <tag>高通camera</tag>
         <tag>闪烁</tag>
+        <tag>bug</tag>
       </tags>
   </entry>
   <entry>
