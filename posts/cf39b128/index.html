@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>高速PCB设计注意点 | 清新的日子</title><meta name="keywords" content="高速PCB设计,差分线,等长线,阻抗匹配"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="高速PCB设计有哪些注意点？为什么需要差分线？为什么要蛇形走线？为什么要阻抗匹配？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高速PCB设计注意点">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/cf39b128/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="高速PCB设计有哪些注意点？为什么需要差分线？为什么要蛇形走线？为什么要阻抗匹配？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20201026221335.png">
+<meta property="article:published_time" content="2020-10-26T12:57:04.000Z">
+<meta property="article:modified_time" content="2020-10-26T14:18:29.343Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="高速PCB设计">
+<meta property="article:tag" content="差分线">
+<meta property="article:tag" content="等长线">
+<meta property="article:tag" content="阻抗匹配">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20201026221335.png"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/cf39b128/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-26 22:18:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）差分线"><span class="toc-number">1.</span> <span class="toc-text">（一）差分线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）等长线"><span class="toc-number">2.</span> <span class="toc-text">（二）等长线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）阻抗匹配"><span class="toc-number">3.</span> <span class="toc-text">（三）阻抗匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-、什么是阻抗"><span class="toc-number">3.1.</span> <span class="toc-text">一 、什么是阻抗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、PCB走线什么时候需要做阻抗匹配？"><span class="toc-number">3.2.</span> <span class="toc-text">二、PCB走线什么时候需要做阻抗匹配？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、阻抗匹配的作用"><span class="toc-number">3.3.</span> <span class="toc-text">三、阻抗匹配的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、阻抗匹配的方法"><span class="toc-number">3.4.</span> <span class="toc-text">四、阻抗匹配的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、阻抗匹配的应用"><span class="toc-number">3.5.</span> <span class="toc-text">五、阻抗匹配的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、实际试验"><span class="toc-number">3.6.</span> <span class="toc-text">六、实际试验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？"><span class="toc-number">3.7.</span> <span class="toc-text">七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20201026221335.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">高速PCB设计注意点</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-26T12:57:04.000Z" title="发表于 2020-10-26 20:57:04">2020-10-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-26T14:18:29.343Z" title="更新于 2020-10-26 22:18:29">2020-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%94%B5%E5%AD%90/">电子</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><h2 id="（一）差分线"><a href="#（一）差分线" class="headerlink" title="（一）差分线"></a>（一）差分线</h2><p>由于高频信号容易受到串扰，电线的输出不能完美的等于输出，总会耦合进去一些噪声。而现在高速PCB中，高低电平阈值越来越低，当噪声超过高电平的阈值，信号就会出错。因此再加一根线，组成差分线，两根距离很近，可以认为两个线上面的噪声是相同的，两者相减就可以得到除掉噪声的信号，同时还会对信号有一定的放大。这是高速PCB经常涉及到的。</p>
+<p><img src="https://image.qinxing.xyz/20201026200637.png" alt="单线的信号传输"></p>
+<p>如图，这是单线的信号传输，输入是个完美的方波，但是输出会耦合各种各样的噪声ΔV，当噪声超过0和1的阈值时，就会造成误判</p>
+<p><img src="https://image.qinxing.xyz/20201026201159.png" alt="差分线的信号传输"></p>
+<p>如图，这是差分线的信号传输，一个传输原始信号，另外一根线传递倒相的信号，接收到了也会受到干扰，由于距离比较近，可以认为这两个线上的噪声都是ΔV。接收后，将两个信号相减，就除去了噪声，完美的还原了原始信号</p>
+<h2 id="（二）等长线"><a href="#（二）等长线" class="headerlink" title="（二）等长线"></a>（二）等长线</h2><p>电信号在电线中的传递是有一定的时延的。对时序要求比较高的时候，就需要考虑到这个时延，所以会用到蛇形线。高速PCB很多时候会用差分线进行信号的传递，差分线就需要两个信号相位相同，如果相位不同，信号会出错。</p>
+<p><img src="https://image.qinxing.xyz/20201026202136.png" alt="等长差分线的波形图"></p>
+<p>这是等长线的波形图，上面两个波形是差分线上的两个信号，可以看到是反向的。经过相减之后，可以完美的还原波形。</p>
+<p><img src="https://image.qinxing.xyz/20201026202140.png" alt="非等长差分线的波形图"></p>
+<p>这是不等长的两根线的波形图，上面两个波形是差分线上的两个信号，经过长一些的线，信号会有一些延迟，导致两者相位对不上。相减之后的波形就出现了明显的失真。</p>
+<h2 id="（三）阻抗匹配"><a href="#（三）阻抗匹配" class="headerlink" title="（三）阻抗匹配"></a>（三）阻抗匹配</h2><p>阻抗匹配是指信号源或者传输线跟负载之间达到一种适合的搭配。阻抗匹配主要有两点作用，调整负载功率和抑制信号反射。在高速PCB设计中，阻抗的匹配与否关系到信号的质量优劣。</p>
+<h3 id="一-、什么是阻抗"><a href="#一-、什么是阻抗" class="headerlink" title="一 、什么是阻抗"></a>一 、什么是阻抗</h3><p>在电学中，常把对电路中电流所起的阻碍作用叫做阻抗。阻抗单位为欧姆，常用Z表示，是一个复数Z= R+i( ωL–1/（ωC）)。具体说来阻抗可分为两个部分，电阻（实部）和电抗（虚部）。其中电抗又包括容抗和感抗，由电容引起的电流阻碍称为容抗，由电感引起的电流阻碍称为感抗。</p>
+<p><img src="https://image.qinxing.xyz/20201026212850.jpg" alt="阻抗"></p>
+<h3 id="二、PCB走线什么时候需要做阻抗匹配？"><a href="#二、PCB走线什么时候需要做阻抗匹配？" class="headerlink" title="二、PCB走线什么时候需要做阻抗匹配？"></a>二、PCB走线什么时候需要做阻抗匹配？</h3><p>不主要看频率，而关键是看信号的边沿陡峭程度，即信号的上升/下降时间，一般认为如果信号的上升/下降时间（按10%～90%计）小于6倍导线延时，就是高速信号，必须注意阻抗匹配的问题。导线延时一般取值为150ps/inch。</p>
+<h3 id="三、阻抗匹配的作用"><a href="#三、阻抗匹配的作用" class="headerlink" title="三、阻抗匹配的作用"></a>三、阻抗匹配的作用</h3><p>● 调整负载功率</p>
+<p>假定激励源已定，那么负载的功率由两者的阻抗匹配度决定。对于一个理想化的纯电阻电路或者低频电路，由电感、电容引起的电抗值基本可以忽略，此时电路的阻抗来源主要为电阻。如图2所示，电路中电流I=U/(r+R)，负载功率P=I<em>I</em>R。由以上两个方程可得当R=r时P取得最大值，Pmax=U<em>U/(4</em>r)。</p>
+<p>如果我们需要输出电流大，则选择小的负载R;如果我们需要输出电压大，则选择大的负载R;如果我们需要输出功率最大，则选择跟信号源内阻匹配的电阻R。</p>
+<p><img src="https://image.qinxing.xyz/20201026203823.jpg" alt="负载功率调整"></p>
+<p>● 抑制信号反射</p>
+<p>当一束光从空气射向水中时会发生反射，这是因为光和水的光导特性不同。同样，当信号传输中如果传输线上发生特性阻抗突变也会发生反射。波长与频率成反比，低频信号的波长远远大于传输线的长度，因此一般不用考虑反射问题。高频领域，当信号的波长与传输线长出于相同量级时反射的信号易与原信号混叠，影响信号质量。通过阻抗匹配可有效减少、消除高频信号反射。</p>
+<p><img src="https://image.qinxing.xyz/20201026203141.jpg" alt="正常信号"></p>
+<p><img src="https://image.qinxing.xyz/20201026203157.jpg" alt="异常信号（反射引起超调）"></p>
+<h3 id="四、阻抗匹配的方法"><a href="#四、阻抗匹配的方法" class="headerlink" title="四、阻抗匹配的方法"></a>四、阻抗匹配的方法</h3><p>阻抗匹配的方法主要有两个，一是改变组抗力，二是调整传输线。</p>
+<p>改变阻抗力就是通过电容、电感与负载的串并联调整负载阻抗值，以达到源和负载阻抗匹配。</p>
+<p>调整传输线是加长源和负载间的距离，配合电容和电感把阻抗力调整为零。此时信号不会发生发射，能量都能被负载吸收。高速PCB布线中，一般把数字信号的走线阻抗设计为50欧姆。一般规定同轴电缆基带50欧姆，频带75欧姆，对绞线（差分）为85-100欧姆。</p>
+<h3 id="五、阻抗匹配的应用"><a href="#五、阻抗匹配的应用" class="headerlink" title="五、阻抗匹配的应用"></a>五、阻抗匹配的应用</h3><p>● 功放与音箱</p>
+<p>无论是定阻抗式还是定电压式输出的功放，只有喇叭的总功率和功放的总功率相等时才能得到最佳的工作状态。音箱系统若要完全达到匹配是非常困难的，它的音频成分总是在不停的变化，好在音箱系统对阻抗匹配度要求并不高。最常见到的喇叭阻抗的标示值是8欧姆，它表示当输入1KHz的正弦波信号，它呈现的阻抗值是八欧姆；或者是在喇叭的工作频率响应范围内，平均阻抗为8欧姆。</p>
+<p>● PCB走线</p>
+<p>高频领域中，信号频率对PCB走线的阻抗值影响非常大。一般来说当数字信号边沿时间小于1ns或者模拟信号频率超过300M时就要考虑阻抗问题。PCB走线阻抗主要来自寄生的电容、电阻、电感系数，主要因素有材料介电常数、线宽、线厚乃至焊盘的厚度等。PCB 阻抗的范围是 25 至120 欧姆，USB、 LVDS、 HDMI、 SATA等一般要做85-100欧姆阻抗控制。</p>
+<p><img src="https://image.qinxing.xyz/20201026220455.jpg" alt="走线匹配阻抗"></p>
+<p>● 天线设计</p>
+<p>研究天线阻抗的主要目的是为实现天线和馈线间的匹配。发射信号时应使发射天线与馈线的特性阻抗相等，以获得最好的信号增益。接收信号时天线与负载应做共轭匹配，接收机（负载）阻抗一般认为只有实数部分，因此需要用匹配网络来除去天线的电抗部分并使它们的电阻部分相等。图7为天线阻抗匹配时常用的π型网络，使用网络分析仪测量阻抗以确定 C1、C2、C3 的取值，完成阻抗匹配。</p>
+<p><img src="https://image.qinxing.xyz/20201026215622.jpg" alt="π型电路"></p>
+<p>● 终端匹配电阻</p>
+<p>在设计CAN总线、485总线时常需要在差分线两端加终端电阻（匹配电阻），以减少由特性阻抗突变造成的信号反射。如下图CAN总线网络，双绞线特性阻抗为120欧姆，若不加终端电阻两端直接悬空，空气的特性阻抗为无穷大。此时，极易出现图4所示的信号反射。</p>
+<p><img src="https://image.qinxing.xyz/20201026220441.jpg" alt="CAN总线网络"></p>
+<p>对于CAN总线来说，由于收发器对信号电平判断的采样点位置普遍靠后，因此信号反射一般不会影响通信错误率。反射会影响产品的EMI特性，最直接的表现就是眼图实验效果差，存在两个异常凸起。</p>
+<p><img src="https://image.qinxing.xyz/20201026220437.jpg" alt="CAN总线眼图"></p>
+<h3 id="六、实际试验"><a href="#六、实际试验" class="headerlink" title="六、实际试验"></a>六、实际试验</h3><p>原始信号：</p>
+<p><img src="https://image.qinxing.xyz/20201026220434.png" alt="原始信号"></p>
+<p>负载为空时的波形：</p>
+<p>反射波，会导致进入的信号有个余波，对信号产生干扰。</p>
+<p>可以通过两个脉冲的时间差去测线缆的长度（甚至是光纤的长度）</p>
+<p><img src="https://image.qinxing.xyz/20201026220431.png" alt="负载为空时的波形"></p>
+<p>下图是负载短接的波形图，原因暂时还不清楚</p>
+<p><img src="https://image.qinxing.xyz/20201026220331.png" alt="短接负载时的波形"></p>
+<p>下图是进行阻抗匹配后的波形图</p>
+<p><img src="https://image.qinxing.xyz/20201026220325.png" alt="进行阻抗匹配后的波形"></p>
+<h3 id="七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？"><a href="#七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？" class="headerlink" title="七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？"></a>七、疑问：是什么时候都需要阻抗匹配么？阻抗匹配会损失效率的吧？</h3><p>不同场合的“匹配”要求不一样</p>
+<p>如果要求电源使用效率高，此处的关键要求是耗电所做出的功，因此阻抗应该尽量小。</p>
+<p>如果要求发出功率高，此处的关键是负载获得功率要尽量大。</p>
+<p>如果是高频传输线，此处的关键目标是不能有或尽量减少反射，则线路阻抗(阻性)和终端阻抗相等(阻性)。</p>
+<p>如果是放大器，往往要求不影响源，此时特别要求低输入电流(输入阻抗尽量大)</p>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/cf39b128/">https://www.qinxing.xyz/posts/cf39b128/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%94%B5%E5%AD%90%E7%94%B5%E8%B7%AF/">电子电路</a><a class="post-meta__tags" href="/tags/%E9%AB%98%E9%80%9FPCB/">高速PCB</a><a class="post-meta__tags" href="/tags/%E9%98%BB%E6%8A%97%E5%8C%B9%E9%85%8D/">阻抗匹配</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20201026221335.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/e6f0524a/"><img class="next-cover" src="https://image.qinxing.xyz/20200318095107.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">相机成像原理之sensor篇</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/806ebe91/" title="天线科普"><img class="cover" src="https://image.qinxing.xyz/20200322212844.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-01-07</div><div class="title">天线科普</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

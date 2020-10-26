@@ -1,99 +1,282 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>分类: 算法 | 清新的日子</title><meta name="description" content="记录生活，记录成长"><meta name="keywords" content="博客|blog|qinxing|清新的日子|ISP|高通ISP|图像处理|记录"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="http://ta.qq.com"/><link rel="dns-prefetch" href="http://ta.qq.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="分类: 算法"><meta name="twitter:description" content="记录生活，记录成长"><meta name="twitter:image" content="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg"><meta property="og:type" content="website"><meta property="og:title" content="分类: 算法"><meta property="og:url" content="https://www.qinxing.xyz/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/page/2/"><meta property="og:site_name" content="清新的日子"><meta property="og:description" content="记录生活，记录成长"><meta property="og:image" content="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg"><meta property="article:published_time" content="2020-05-20T15:41:27.711Z"><meta property="article:modified_time" content="2020-05-20T15:41:27.711Z"><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#fff"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = 'false'
-var t = Cookies.get("theme")
-if (autoChangeMode == '1'){
-  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
-
-  if (t === undefined){
-    if (isLightMode) activateLightMode()
-    else if (isDarkMode) activateDarkMode()
-    else if (isNotSpecified || hasNoSupport){
-      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-      var now = new Date()
-      var hour = now.getHours()
-      var isNight = hour < 6 || hour >= 18
-      isNight ? activateDarkMode() : activateLightMode()
-  }
-  } else if (t == 'light') activateLightMode()
-  else activateDarkMode()
-
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
-
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://www.qinxing.xyz/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/page/2/"><script>var _hmt = _hmt || [];
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>分类: 算法 | 清新的日子</title><meta name="keywords" content="博客|blog|qinxing|清新的日子|ISP|高通ISP|图像处理|记录"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="记录生活，记录成长">
+<meta property="og:type" content="website">
+<meta property="og:title" content="清新的日子">
+<meta property="og:url" content="https://www.qinxing.xyz/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/page/2/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="记录生活，记录成长">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="博客|blog|qinxing|清新的日子|ISP|高通ISP|图像处理|记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/page/2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
-</script><script src="https://tajs.qq.com/stats?sId=66531382" charset="UTF-8"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
   root: '/',
+  hexoversion: '4.2.0',
   algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
   translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
   copy: {
     success: '复制成功',
     error: '复制错误',
     noSupport: '浏览器不支持'
   },
-  bookmark: {
-    message_prev: '按',
-    message_next: '键将本页加入书签'
+  relativeDate: {
+    homepage: false,
+    post: false
   },
-  runtime_unit: '天',
-  runtime: true,
-  copyright: {"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
   ClickShowText: undefined,
-  medium_zoom: false,
-  fancybox: true,
+  lightbox: 'fancybox',
   Snackbar: undefined,
-  baiduPush: true,
-  highlightCopy: true,
-  highlightLang: true,
-  highlightShrink: 'false',
-  isFontAwesomeV5: false,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
   isPhotoFigcaption: true,
   islazyload: false,
   isanchor: false
-  
-}</script><script>var GLOBAL_CONFIG_SITE = { 
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
   isPost: false,
   isHome: false,
-  isSidebar: false  
-  }</script><noscript><style>
-#page-header {
-  opacity: 1
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-10-26 22:21:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
 }
-.justified-gallery img{
-  opacity: 1
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
 }
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">99</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">90</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">28</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div class="not-index-bg" id="nav" style="background-image: url(https://cdn.yiban.io/pixabay/117149305e2b6a5db5310c25262691175e31c25ab2f760a1f1e82dc2bae836e1.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">清新的日子</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 收藏</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="page_site-info"><h1 id="site_title">算法</h1></div></div><main class="layout_page" id="content-inner"><div id="category"><div class="article-sort-title">分类 - 算法</div><div class="article-sort"><div class="article-sort-item year">2019</div><div class="article-sort-item"><div class="article-sort-img"><a class="article-sort-item__img" href="/posts/bd8fec7b/"><img src="https://image.qinxing.xyz/20200323002426.png" alt="强光抑制算法初步实现" onerror="this.onerror=null;this.src='/img/404.jpg'"></a></div><div class="article-sort-post"><a class="article-sort-item__post" href="/posts/bd8fec7b/"><i class="fa fa-clock-o" aria-hidden="true"></i><time class="article-sort-item__time" title="发表于 2019-02-22 17:07:03">2019-02-22</time><div class="article-sort-item__title">强光抑制算法初步实现</div></a></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/"><i class="fa fa-fw fa-chevron-left" aria-hidden="true"></i></a><a class="page-number" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">xiaoqinxing</div><div class="author-info__description">记录生活，记录成长</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives"><div class="headline">文章</div><div class="length_num">99</div></a></div><div class="card-info-data-item is-center">      <a href="/tags"><div class="headline">标签</div><div class="length_num">90</div></a></div><div class="card-info-data-item is-center">     <a href="/categories"><div class="headline">分类</div><div class="length_num">28</div></a></div></div><div class="card-info-bookmark is-center"><a class="bookmark button--primary button--animated" id="bookmark-it" href="javascript:;" title="加入书签" target="_self"><i class="fa fa-bookmark" aria-hidden="true"></i><span>加入书签</span></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xiaoqinxing" target="_blank" title=""><i class="fa fa-github" aria-hidden="true"></i></a><a class="social-icon" href="mailto:1415289814@qq.com" target="_blank" title=""><i class="fa fa-envelope" aria-hidden="true"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fa fa-bullhorn card-announcement-animation" aria-hidden="true"></i><span>公告</span></div><div class="announcement_content">感谢访问本站，喜欢请留言 ^_^</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fa fa-history" aria-hidden="true"></i><span>最新文章</span></div><div class="aside-recent-item"><div class="aside-recent-post"><a href="/posts/8da2c999/"><div class="aside-post-cover"><img class="aside-post-bg" src="https://image.qinxing.xyz/20200520233103.png" onerror="this.onerror=null;this.src='/img/404.jpg'" title="3D降噪算法实现" alt="3D降噪算法实现"/></div><div class="aside-post-title"><div class="aside-post_title" href="/posts/8da2c999/" title="3D降噪算法实现">3D降噪算法实现</div><time class="aside-post_meta post-meta__date" title="发表于 2020-05-16 00:00:00">2020-05-16</time></div></a></div><div class="aside-recent-post"><a href="/posts/8b80089f/"><div class="aside-post-cover"><img class="aside-post-bg" src="https://image.qinxing.xyz/20200513145157.png" onerror="this.onerror=null;this.src='/img/404.jpg'" title="CHI模块指南" alt="CHI模块指南"/></div><div class="aside-post-title"><div class="aside-post_title" href="/posts/8b80089f/" title="CHI模块指南">CHI模块指南</div><time class="aside-post_meta post-meta__date" title="发表于 2020-05-12 00:00:00">2020-05-12</time></div></a></div><div class="aside-recent-post"><a href="/posts/19376693/"><div class="aside-post-cover"><img class="aside-post-bg" src="https://image.qinxing.xyz/20200508095727.png" onerror="this.onerror=null;this.src='/img/404.jpg'" title="chromatix调试问题汇总" alt="chromatix调试问题汇总"/></div><div class="aside-post-title"><div class="aside-post_title" href="/posts/19376693/" title="chromatix调试问题汇总">chromatix调试问题汇总</div><time class="aside-post_meta post-meta__date" title="发表于 2020-05-08 20:57:04">2020-05-08</time></div></a></div><div class="aside-recent-post"><a href="/posts/720ad51b/"><div class="aside-post-cover"><img class="aside-post-bg" src="https://image.qinxing.xyz/20200507153019.png" onerror="this.onerror=null;this.src='/img/404.jpg'" title="变焦设备的AF初步学习" alt="变焦设备的AF初步学习"/></div><div class="aside-post-title"><div class="aside-post_title" href="/posts/720ad51b/" title="变焦设备的AF初步学习">变焦设备的AF初步学习</div><time class="aside-post_meta post-meta__date" title="发表于 2020-05-07 00:00:00">2020-05-07</time></div></a></div><div class="aside-recent-post"><a href="/posts/c3f0ff3b/"><div class="aside-post-cover"><img class="aside-post-bg" src="https://image.qinxing.xyz/20200430174345.png" onerror="this.onerror=null;this.src='/img/404.jpg'" title="SENSOR HDR技术的发展与思考" alt="SENSOR HDR技术的发展与思考"/></div><div class="aside-post-title"><div class="aside-post_title" href="/posts/c3f0ff3b/" title="SENSOR HDR技术的发展与思考">SENSOR HDR技术的发展与思考</div><time class="aside-post_meta post-meta__date" title="发表于 2020-04-29 00:00:00">2020-04-29</time></div></a></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fa fa-folder-open" aria-hidden="true"></i><span>分类</span></div><ul class="card-category-list">
-            <li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">学习</span><span class="card-category-list-count">31</span></a></li><ul class="card-category-list child"><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">8</span></a></li><ul class="card-category-list child"><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/git/"><span class="card-category-list-name">git</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/hexo/"><span class="card-category-list-name">hexo</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/vscode/"><span class="card-category-list-name">vscode</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%94%B5%E5%AD%90/"><span class="card-category-list-name">电子</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/"><span class="card-category-list-name">编程</span><span class="card-category-list-count">21</span></a></li><ul class="card-category-list child"><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/c-c/"><span class="card-category-list-name">c/c++</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/flutter/"><span class="card-category-list-name">flutter</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/python/"><span class="card-category-list-name">python</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/web/"><span class="card-category-list-name">web</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF/"><span class="card-category-list-name">前端</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E9%98%85%E8%AF%BB/"><span class="card-category-list-name">阅读</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/"><span class="card-category-list-name">工作</span><span class="card-category-list-count">51</span></a></li><ul class="card-category-list child"><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/BUG/"><span class="card-category-list-name">BUG</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F/"><span class="card-category-list-name">图像</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F%E6%95%88%E6%9E%9C%E8%B0%83%E8%AF%95/"><span class="card-category-list-name">图像效果调试</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">11</span></a></li><ul class="card-category-list child"><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/python/"><span class="card-category-list-name">python</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item"><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%BC%96%E7%A8%8B/"><span class="card-category-list-name">编程</span><span class="card-category-list-count">15</span></a></li></ul>
-            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories">
-                <span>查看更多</span><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>           
-            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fa fa-tags" aria-hidden="true"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/2412M/" style="font-size: 16px; color: #999">2412M</a> <a href="/tags/AF/" style="font-size: 16px; color: #999">AF</a> <a href="/tags/BUG/" style="font-size: 22px; color: #99a9bf">BUG</a> <a href="/tags/HDR/" style="font-size: 16px; color: #999">HDR</a> <a href="/tags/IR-CUT/" style="font-size: 16px; color: #999">IR-CUT</a> <a href="/tags/ISP/" style="font-size: 17.5px; color: #999da3">ISP</a> <a href="/tags/JavaScript/" style="font-size: 16px; color: #999">JavaScript</a> <a href="/tags/Makefile/" style="font-size: 17.5px; color: #999da3">Makefile</a> <a href="/tags/WNR/" style="font-size: 16px; color: #999">WNR</a> <a href="/tags/adb/" style="font-size: 16px; color: #999">adb</a> <a href="/tags/bug/" style="font-size: 19px; color: #99a1ac">bug</a> <a href="/tags/c/" style="font-size: 16px; color: #999">c#</a> <a href="/tags/c-c/" style="font-size: 17.5px; color: #999da3">c/c++</a> <a href="/tags/camera%E5%8E%9F%E7%90%86/" style="font-size: 20.5px; color: #99a5b6">camera原理</a> <a href="/tags/camx/" style="font-size: 16px; color: #999">camx</a> <a href="/tags/cdn/" style="font-size: 16px; color: #999">cdn</a> <a href="/tags/chromatix/" style="font-size: 16px; color: #999">chromatix</a> <a href="/tags/docker/" style="font-size: 16px; color: #999">docker</a> <a href="/tags/fd%E6%B3%84%E9%9C%B2/" style="font-size: 16px; color: #999">fd泄露</a> <a href="/tags/flutter/" style="font-size: 16px; color: #999">flutter</a> <a href="/tags/git/" style="font-size: 16px; color: #999">git</a> <a href="/tags/hal/" style="font-size: 17.5px; color: #999da3">hal</a> <a href="/tags/hexo/" style="font-size: 22px; color: #99a9bf">hexo</a> <a href="/tags/java/" style="font-size: 16px; color: #999">java</a> <a href="/tags/linux/" style="font-size: 17.5px; color: #999da3">linux</a> <a href="/tags/markdown/" style="font-size: 16px; color: #999">markdown</a> <a href="/tags/persist-set/" style="font-size: 16px; color: #999">persist_set</a> <a href="/tags/python/" style="font-size: 20.5px; color: #99a5b6">python</a> <a href="/tags/sensor/" style="font-size: 16px; color: #999">sensor</a> <a href="/tags/sensor%E6%A8%A1%E5%9D%97/" style="font-size: 17.5px; color: #999da3">sensor模块</a> <a href="/tags/tunning/" style="font-size: 16px; color: #999">tunning</a> <a href="/tags/v2ray/" style="font-size: 16px; color: #999">v2ray</a> <a href="/tags/version/" style="font-size: 16px; color: #999">version</a> <a href="/tags/vscode/" style="font-size: 16px; color: #999">vscode</a> <a href="/tags/web/" style="font-size: 16px; color: #999">web</a> <a href="/tags/yuv/" style="font-size: 16px; color: #999">yuv</a> <a href="/tags/%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/" style="font-size: 16px; color: #999">中文乱码</a> <a href="/tags/%E4%B9%98%E6%B3%95/" style="font-size: 16px; color: #999">乘法</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" style="font-size: 16px; color: #999">代码实现</a> <a href="/tags/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" style="font-size: 16px; color: #999">使用技巧</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fa fa-archive" aria-hidden="true"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/05/"><span class="card-archive-list-date">五月 2020</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/04/"><span class="card-archive-list-date">四月 2020</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/03/"><span class="card-archive-list-date">三月 2020</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/02/"><span class="card-archive-list-date">二月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/01/"><span class="card-archive-list-date">一月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives">
-              <span>查看更多</span><i class="fa fa-angle-right" aria-hidden="true"></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fa fa-line-chart" aria-hidden="true"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="webinfo-article-name">文章数目 :</div><div class="webinfo-article-count">99</div></div><div class="webinfo-item"><div class="webinfo-runtime-name">已运行时间 :</div><div class="webinfo-runtime-count" id="webinfo-runtime-count" start_date="12/24/2018 00:00:00">     </div></div><div class="webinfo-item"><div class="webinfo-site-wordcount-name">本站总字数 :</div><div class="webinfo-site-wordcount">122.8k</div></div><div class="webinfo-item">      <div class="webinfo-site-uv-name">本站访客数 :</div><div class="webinfo-site-uv-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="webinfo-site-name">本站总访问量 :</div><div class="webinfo-site-pv-count" id="busuanzi_value_site_pv"></div></div></div></div></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script></body></html>
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><header class="not-index-bg" id="page-header" style="background-image: url(https://cdn.yiban.io/pixabay/117149305e2b6a5db5310c25262691175e31c25ab2f760a1f1e82dc2bae836e1.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="page-site-info"><h1 id="site-title">算法</h1></div></header><main class="layout_page" id="content-inner"><div id="category"><div class="article-sort-title">分类 - 算法</div><div class="article-sort"><div class="article-sort-item year">2019</div><div class="article-sort-item"><a class="article-sort-item-img" href="/posts/bd8fec7b/" title="强光抑制算法初步实现"><img src="https://image.qinxing.xyz/20200323002426.png" alt="强光抑制算法初步实现" onerror="this.onerror=null;this.src='/img/404.jpg'"></a><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2019-02-22T09:07:03.000Z" title="发表于 2019-02-22 17:07:03">2019-02-22</time></div><a class="article-sort-item-title" href="/posts/bd8fec7b/" title="强光抑制算法初步实现">强光抑制算法初步实现</a></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">xiaoqinxing</div><div class="author-info__description">记录生活，记录成长</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">94</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div><a class="button--animated" id="card-info-btn" href="https://github.com/xiaoqinxing" target="_blank" rel="noopener"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xiaoqinxing" target="_blank" title=""><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1415289814@qq.com" target="_blank" title=""><i class="fas fa-envelope"></i></a></div></div></div><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">感谢访问本站，喜欢请留言 ^_^</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/cf39b128/" title="高速PCB设计注意点"><img src="https://image.qinxing.xyz/20201026221335.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高速PCB设计注意点"/></a><div class="content"><a class="title" href="/posts/cf39b128/" title="高速PCB设计注意点">高速PCB设计注意点</a><time datetime="2020-10-26T12:57:04.000Z" title="发表于 2020-10-26 20:57:04">2020-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e6f0524a/" title="相机成像原理之sensor篇"><img src="https://image.qinxing.xyz/20200318095107.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="相机成像原理之sensor篇"/></a><div class="content"><a class="title" href="/posts/e6f0524a/" title="相机成像原理之sensor篇">相机成像原理之sensor篇</a><time datetime="2020-10-25T16:12:34.717Z" title="发表于 2020-10-26 00:12:34">2020-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/445bb88c/" title="gamma之我见"><img src="https://image.qinxing.xyz/20201009230003.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gamma之我见"/></a><div class="content"><a class="title" href="/posts/445bb88c/" title="gamma之我见">gamma之我见</a><time datetime="2020-10-09T14:00:00.000Z" title="发表于 2020-10-09 22:00:00">2020-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/83169df8/" title="cmake 指南"><img src="https://image.qinxing.xyz/20201010104927.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="cmake 指南"/></a><div class="content"><a class="title" href="/posts/83169df8/" title="cmake 指南">cmake 指南</a><time datetime="2020-07-27T09:06:03.000Z" title="发表于 2020-07-27 17:06:03">2020-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7e4fe84/" title="高通老平台 camera 驱动指南"><img src="https://image.qinxing.xyz/20201010105406.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="高通老平台 camera 驱动指南"/></a><div class="content"><a class="title" href="/posts/7e4fe84/" title="高通老平台 camera 驱动指南">高通老平台 camera 驱动指南</a><time datetime="2020-07-02T08:15:01.000Z" title="发表于 2020-07-02 16:15:01">2020-07-02</time></div></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">学习</span><span class="card-category-list-count">34</span></a></li><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">8</span></a></li><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/git/"><span class="card-category-list-name">git</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/hexo/"><span class="card-category-list-name">hexo</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/vscode/"><span class="card-category-list-name">vscode</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%94%B5%E5%AD%90/"><span class="card-category-list-name">电子</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/"><span class="card-category-list-name">编程</span><span class="card-category-list-count">23</span></a></li><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/c-c/"><span class="card-category-list-name">c/c++</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/flutter/"><span class="card-category-list-name">flutter</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/python/"><span class="card-category-list-name">python</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/web/"><span class="card-category-list-name">web</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF/"><span class="card-category-list-name">前端</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E9%98%85%E8%AF%BB/"><span class="card-category-list-name">阅读</span><span class="card-category-list-count">1</span></a></li></ul><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/"><span class="card-category-list-name">工作</span><span class="card-category-list-count">55</span></a></li><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/BUG/"><span class="card-category-list-name">BUG</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F/"><span class="card-category-list-name">图像</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F%E6%95%88%E6%9E%9C%E8%B0%83%E8%AF%95/"><span class="card-category-list-name">图像效果调试</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%BC%96%E7%A8%8B/"><span class="card-category-list-name">编程</span><span class="card-category-list-count">18</span></a></li></ul><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/"><span class="card-category-list-name">生活</span><span class="card-category-list-count">3</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/07/"><span class="card-archive-list-date">七月 2020</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/06/"><span class="card-archive-list-date">六月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/05/"><span class="card-archive-list-date">五月 2020</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/04/"><span class="card-archive-list-date">四月 2020</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>查看更多</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">92</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">131.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-10-26T14:21:28.345Z"></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+    content = content.replace(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|webp)/g, '') // remove image link
+    content = content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, '') // remove url
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon 
+    let defaultIcon = ''
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    for (let i = 0; i < array.length; i++) {
+      result += '<div class=\'aside-list-item\'>'
+
+      if (false) {
+        result += `<a href='${array[i].url}' class="thumbnail"><img src='${getIcon(array[i].avatar, array[i].mail)}' alt='${array[i].nick}'></a>`
+      }
+
+      result += `<div class='content'>
+      <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+      <div class='name'><span>${array[i].nick}</span><time> / ${btf.diffDate(array[i].date, true)}</time></div>
+      </div></div>`
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getValineData = () => {
+      let serverURL = ''
+      if (true) {
+        serverURL = 'https://valine.qinxing.xyz'
+      } else {
+        serverURL = 'https://2pB7a7KQ.api.lncldglobal.com'
+      }
+
+    var settings = {
+      "url": `${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "X-LC-Id": '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+        "X-LC-Key": 'CGbafSzCCsV7hW2NbXXSEjRM',
+        "Content-Type": "application/json"
+      },
+    }
+
+    $.ajax(settings).done((response) => {
+      var valineArray = []
+      response.results.forEach((e)=>{
+        valineArray.push({
+          'avatar': e.QQAvatar,
+          'content': changeContent(e.comment),
+          'mail': e.mail,
+          'nick': e.nick,
+          'url': e.url,
+          'date': e.createdAt,
+        })
+      })
+      
+      saveToLocal.set('leancloud-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+      generateHtml(valineArray)
+
+    }).fail(()=>{
+      const $dom = document.querySelector('#card-newest-comments .aside-list')
+      $dom.innerHTML= "无法获取资料，请确认相关配置是否正确"
+    })
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('leancloud-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getValineData()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Camera HAL3 分析 | 清新的日子</title><meta name="keywords" content="高通camera,HAL"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="主要介绍了安卓camera框架，HAL3的简介，以及如何使用HAL3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Camera HAL3 分析">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/1e916c1d/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="主要介绍了安卓camera框架，HAL3的简介，以及如何使用HAL3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20200526164258.png">
+<meta property="article:published_time" content="2020-05-21T02:15:01.000Z">
+<meta property="article:modified_time" content="2020-10-25T16:12:34.914Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="高通camera">
+<meta property="article:tag" content="HAL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20200526164258.png"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/1e916c1d/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-26 00:12:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）相机系统架构"><span class="toc-number">1.</span> <span class="toc-text">（一）相机系统架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Application-Framework"><span class="toc-number">1.1.</span> <span class="toc-text">Application Framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI"><span class="toc-number">1.2.</span> <span class="toc-text">JNI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Native-framework"><span class="toc-number">1.3.</span> <span class="toc-text">Native framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binder-IPC-proxies"><span class="toc-number">1.4.</span> <span class="toc-text">Binder IPC proxies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Camera-Service"><span class="toc-number">1.5.</span> <span class="toc-text">Camera Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HAL"><span class="toc-number">1.6.</span> <span class="toc-text">HAL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kernel-Driver"><span class="toc-number">1.7.</span> <span class="toc-text">Kernel Driver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HAL1的camera-open的流程"><span class="toc-number">1.8.</span> <span class="toc-text">HAL1的camera open的流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）HAL层概述"><span class="toc-number">2.</span> <span class="toc-text">（二）HAL层概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不用HAL1的原因"><span class="toc-number">2.1.</span> <span class="toc-text">不用HAL1的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HAL3的改进"><span class="toc-number">2.2.</span> <span class="toc-text">HAL3的改进</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）HAL3的使用"><span class="toc-number">3.</span> <span class="toc-text">（三）HAL3的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加载HAL摄像头"><span class="toc-number">3.1.</span> <span class="toc-text">加载HAL摄像头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化摄像头"><span class="toc-number">3.2.</span> <span class="toc-text">初始化摄像头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置流"><span class="toc-number">3.3.</span> <span class="toc-text">配置流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启流"><span class="toc-number">3.4.</span> <span class="toc-text">开启流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）HAL层的实现"><span class="toc-number">4.</span> <span class="toc-text">（四）HAL层的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对外接口"><span class="toc-number">4.1.</span> <span class="toc-text">对外接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码位置"><span class="toc-number">4.2.</span> <span class="toc-text">代码位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAMX代码流程"><span class="toc-number">4.3.</span> <span class="toc-text">CAMX代码流程</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20200526164258.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Camera HAL3 分析</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-05-21T02:15:01.000Z" title="发表于 2020-05-21 10:15:01">2020-05-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-25T16:12:34.914Z" title="更新于 2020-10-26 00:12:34">2020-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%BC%96%E7%A8%8B/">编程</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><blockquote>
+<p>Android Camera硬件抽象层（HAL，Hardware Abstraction Layer）主要用于把底层硬件驱动和位于android.hardware中的framework APIs连接起来。Camera子系统(mm-camera)主要包含了camera pipeline components 的各种实现，而camera HAL提供了这些组件的使用接口。<br>起着承上启下的作用。<br>在camera HAL层实现中，芯片厂商一般将camera HAL层的实现分为两层：interface层和OEM层(这个应该就是我们说的mm-camera)。OEM层为下层，它用于屏蔽不同的camera硬件。不同的camera硬件必须支持OEM层提供的对外接口。Interface层为上层，它调用OEM层的对外接口来实现camera HAL所定义的接口。对于Interface层，它并不知道底层camera硬件到底是哪一个版本。同时，interface层完成了屏蔽camera HAL版本的作用。对于OEM层，它也不知道上层是哪一个camera HAL版本，及android版本。两层分离架构，可以很容易地实现不同芯片支持同一个android版本和同一款芯片支持不同android版本(前提条件是该款芯片能够支持这些android版本的各个需求)。</p>
+</blockquote>
+<h2 id="（一）相机系统架构"><a href="#（一）相机系统架构" class="headerlink" title="（一）相机系统架构"></a>（一）相机系统架构</h2><p><img src="https://image.qinxing.xyz/20200428172940.png" alt="Camera System Architecture"><br>主要包含如下几个重要组成部分：</p>
+<h3 id="Application-Framework"><a href="#Application-Framework" class="headerlink" title="Application Framework"></a>Application Framework</h3><p>Application framework层主要是应用代码（app’s code），这个代码主要利用android.hardware.Camera API与Camera硬件进行交互。这些代码调用相关的JNI类来访问与Camera进行交互的原生代码（native code）。API有1和2两个版本。</p>
+<h3 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h3><p>与android.hardware.Camera有关的JNI代码主要frameworks/base/core/jni/ android_hardware_Camera.cpp。这些代码调用下一层的原生代码以获得物理camera的访问权，然后返回用于在framework层创建android.hardware.Camera对象的数据。</p>
+<h3 id="Native-framework"><a href="#Native-framework" class="headerlink" title="Native framework"></a>Native framework</h3><p>Native framework的定义位于 frameworks/av/camera/Camera.cpp中，它提供了android.hardware.Camera类在本地的实现。这些类调用IPC binder来获得camera service。</p>
+<h3 id="Binder-IPC-proxies"><a href="#Binder-IPC-proxies" class="headerlink" title="Binder IPC proxies"></a>Binder IPC proxies</h3><p>IPC binder代理可以现实进程间通信。在frameworks/av/camera目录下有三个camera binder类的定义。ICameraService是cameraservice的接口，ICamera是被打开的camera设备的接口，ICameraClient是camera设备返回给application framework层的接口。</p>
+<h3 id="Camera-Service"><a href="#Camera-Service" class="headerlink" title="Camera Service"></a>Camera Service</h3><p>Camera service位于frameworks/av/services/camera/libcameraservice/CameraService.cpp，它是与HAL直接进行交互的真正代码。</p>
+<h3 id="HAL"><a href="#HAL" class="headerlink" title="HAL"></a>HAL</h3><p>硬件抽象层定义了一套标准接口，你必须实现这些接口，以保证你的APP能够与你的Camera硬件正确的协调工作，从而使保证你的Camera的所有功能能够正常进行工作。</p>
+<h3 id="Kernel-Driver"><a href="#Kernel-Driver" class="headerlink" title="Kernel Driver"></a>Kernel Driver</h3><p>Camera驱动向下与真实的camera硬件进行交互，向上与HAL实现进行交互。Camera硬件和驱动必须能够提供YV12和NV21格式的图像数据，以支持camera图像数据在显示屏上的预览和视频录制。<br>高通老平台（670以下）在HAL和kernel之间还有一个mm-camera，kernel负责操作硬件，提供图像数据，mm-camera负责对ISP pipeline的控制以及各个功能（如快门时间）的实现。</p>
+<h3 id="HAL1的camera-open的流程"><a href="#HAL1的camera-open的流程" class="headerlink" title="HAL1的camera open的流程"></a>HAL1的camera open的流程</h3><p><img src="https://image.qinxing.xyz/20200407150157.png" alt="camera open的流程"></p>
+<h2 id="（二）HAL层概述"><a href="#（二）HAL层概述" class="headerlink" title="（二）HAL层概述"></a>（二）HAL层概述</h2><p>Android硬件抽象层（Hardware Abstraction Layer，HAL）向上连接camera framework 层APIs，向下连接底层Camera驱动和硬件。最新版的Android引进了一种全新的camera stack底层实现方案。如果你有之前开发的适用于老版本Android的camera HAL module和驱动，那么注意了，因为新版本与老版本在camera pipeline的实现上面有非常大的改动。</p>
+<p>由于很多设备仍然依赖于老版本的camera HAL，因此，未来的Android发布版本依然会支持第一版的camera HAL。Android camera service也支持同时实现两种HAL，这种设计有一定的好处，比如你想使用HAL v1支持一个能力比较有限的前置camera，同时使用HAL v3支持一个具有强大功能的后置camera，此时这种设计就有了用武之地。HAL v2是v1向v3的一个过渡版本，将不在支持。</p>
+<p>系统中只会有一个camera HAL module（这个module拥有自己的版本号，当前是1、2或2.1），该module可以维护多个独立的camera device，每个device都会有自己的版本号。Camera module v2或更新版本的module会支持device v2及更新的版本，这个 camera module可以支持多个不同版本的camera device。这也就是我们为什么说Android支持两个HAL的实现。</p>
+<h3 id="不用HAL1的原因"><a href="#不用HAL1的原因" class="headerlink" title="不用HAL1的原因"></a>不用HAL1的原因</h3><p>第1版的camera subsystem被设计成由顶层控制黑箱结构。简单的说，老的camera子系统有3种操作模式：</p>
+<ul>
+<li>预览</li>
+<li>视频录制</li>
+<li>继续拍照</li>
+</ul>
+<p><img src="https://image.qinxing.xyz/20200428105702.png" alt="HAL相机组件"><br>每种模式都有所不同，也有一定的功能重叠。这使得很以后在功能扩展方面变得比较困难，比如说burst mode，它属于上面三种中的两种。</p>
+<h3 id="HAL3的改进"><a href="#HAL3的改进" class="headerlink" title="HAL3的改进"></a>HAL3的改进</h3><p>重新设计 Android Camera API 的目的在于大幅提高应用对于 Android 设备上的相机子系统的控制能力，同时重新组织 API，提高其效率和可维护性。借助额外的控制能力，您可以更轻松地在 Android 设备上构建高品质的相机应用，这些应用可在多种产品上稳定运行，同时仍会尽可能使用设备专用算法来最大限度地提升质量和性能。</p>
+<p>版本 3 相机子系统将多个运行模式整合为一个统一的视图，您可以使用这种视图实现之前的任何模式以及一些其他模式，例如连拍模式。这样一来，便可以提高用户对聚焦、曝光以及更多后期处理（例如降噪、对比度和锐化）效果的控制能力。此外，这种简化的视图还能够使应用开发者更轻松地使用相机的各种功能。</p>
+<p>API 将相机子系统塑造为一个管道，该管道可按照 1:1 的基准将传入的帧捕获请求转化为帧。这些请求包含有关帧的捕获和处理的所有配置信息，其中包括分辨率和像素格式；手动传感器、镜头和闪光灯控件；3A 操作模式；RAW 到 YUV 处理控件；统计信息生成等等。</p>
+<p>简单来说，应用框架从相机子系统请求帧，然后相机子系统将结果返回到输出流。此外，系统还会针对每组结果生成包含色彩空间和镜头遮蔽等信息的元数据。您可以将相机版本 3 看作相机版本 1 的单向流管道。它会将每个捕获请求转化为传感器捕获的一张图像，这张图像将被处理成：</p>
+<p>包含有关捕获的元数据的 Result 对象。<br>图像数据的 1 到 N 个缓冲区，每个缓冲区会进入自己的目标 Surface。<br>可能的输出 Surface 组经过预配置：</p>
+<p>每个 Surface 都是一个固定分辨率的图像缓冲区流的目标位置。<br>一次只能将少量 Surface 配置为输出（约 3 个）。<br>一个请求中包含所需的全部捕获设置，以及要针对该请求将图像缓冲区（从总配置组）推送到其中的输出 Surface 的列表。请求可以只发生一次（使用 capture()），也可以无限重复（使用 setRepeatingRequest()）。捕获的优先级高于重复请求的优先级。<br><img src="https://image.qinxing.xyz/20200428105614.png" alt="相机核心操作模型"><br><img src="https://image.qinxing.xyz/20200428150810.png" alt></p>
+<h2 id="（三）HAL3的使用"><a href="#（三）HAL3的使用" class="headerlink" title="（三）HAL3的使用"></a>（三）HAL3的使用</h2><p>google范例：<a href="https://github.com/android/camera-samples" target="_blank" rel="noopener">https://github.com/android/camera-samples</a> 这里面有API2的使用范例，通过调用API2来实现HDR预览。</p>
+<p>由于我们更偏向底层，需要了解如何对HAL层直接控制。高通有HAL3的使用范例，在<code>hardware/qcom/camera/QCamera2/HAL3/test</code>。如果想要看HAL1的使用范例，在对应的HAL目录下。</p>
+<p>从main函数看起，一开始创建了一个对象MainTestContext，用来菜单的控制和显示。</p>
+<p>然后创建了CameraHAL3Base类的实例，这个类是camera的操作函数，包括摄像头的打开，能力集的获取，预览录像拍照的初始化。</p>
+<h3 id="加载HAL摄像头"><a href="#加载HAL摄像头" class="headerlink" title="加载HAL摄像头"></a>加载HAL摄像头</h3><ol>
+<li>通过hal3appTestLoad解析动态库，获取HAL层的接口。操作函数都在<code>camera_module_t</code>结构体中。</li>
+<li><code>get_number_of_cameras</code>获取camera的数量。</li>
+<li><code>get_vendor_tag_ops</code>获取厂商标签（vendor tag），然后设置下去</li>
+<li>通过<code>set_callbacks</code>注册两个回调函数，<code>torch_mode_status_change</code>和<code>camera_device_status_change</code></li>
+<li>通过<code>get_camera_info</code>获取camera的静态信息</li>
+</ol>
+<h3 id="初始化摄像头"><a href="#初始化摄像头" class="headerlink" title="初始化摄像头"></a>初始化摄像头</h3><p>通过camera_module_t.common.methods-><code>open</code>打开摄像头，输入一个camera id，返回一个<code>camera3_device_t</code>（通过hw_device_t指针中转）。</p>
+<p>通过camera3_device_t.ops-><code>initialize</code>初始化camera的两个回调函数：<code>Notify</code>和<code>ProcessCaptureResult</code>。</p>
+<h3 id="配置流"><a href="#配置流" class="headerlink" title="配置流"></a>配置流</h3><p>这里分为预览，录像，普通抓拍，RAW拍照，红外模式等等，其实流程都是一样的，拿预览说事。</p>
+<ol>
+<li>初始化一个数据流<code>camera3_stream_t</code>，定义这个数据流的输入输出，图像大小与格式</li>
+<li>初始化数据流配置<code>camera3_stream_configuration</code>，放入所有需要的数据流</li>
+<li>通过camera3_device_t.ops-><code>configure_streams</code>配置数据流</li>
+<li>通过camera3_device_t.ops-><code>construct_default_request_settings</code>获取预览和拍照的默认配置（metadata的形式）</li>
+</ol>
+<h3 id="开启流"><a href="#开启流" class="headerlink" title="开启流"></a>开启流</h3><ol>
+<li>创建一个请求线程，专门负责发送请求<code>process_capture_request</code></li>
+<li>通过回调函数<code>ProcessCaptureResult</code>对图像数据进行处理，然后发送信号量，让请求线程发送下一帧的请求</li>
+<li>如果有参数发生改变，比如开启红外，只需要更新元数据metadata，继续发送请求即可。camera_metadata_t.<code>update</code>更新元数据，<code>release</code>发布元数据。</li>
+</ol>
+<h2 id="（四）HAL层的实现"><a href="#（四）HAL层的实现" class="headerlink" title="（四）HAL层的实现"></a>（四）HAL层的实现</h2><h3 id="对外接口"><a href="#对外接口" class="headerlink" title="对外接口"></a>对外接口</h3><p>HAL层位于camera驱动和上层Android framework层之间，它定义了一些标准接口，你必须正确地实现这些接口，以保证你的APP能够正确的操作你的camera硬件进行正常工作。HAL接口定义位于hardware/libhardware/include/hardware/camera.h 和hardware/libhardware/include/hardware/camera_common.h头文件中。如果是HAL3，接口是camera3.h。</p>
+<p>camera_common.h文件主要定义了两个结构体。camera_info是camera的硬件信息，如朝向,版本信息等等。camera_module是camera的操作方法，如获取camera信息，设置回调等等。</p>
+<p>Camera.h则包含了与android.hardware.Camera相关的代码。该头文件声明了camera_device结构体，camera_device结构体包含一个camera_device_ops结构体，camera_device_ops结构体包含了指向HAL接口实现函数的函数指针。可以查看frameworks/av/include/camera/CameraParameters.h 文件以了解更多不同类型的camera参数的相关文档。这些参数都通过HAL中的 int (*set_parameters)(struct camera_device *, const char *parms) 函数指针进行设置。</p>
+<p>camera3.h包含了camera3_device结构体，里面包含了hw_device和camera3_device_opts结构体。每个设备数据结构必须以hw_device_t开头，后跟模块特定的公共方法和属性。其中opts是camera的操作函数，初始化的时候注册了两个重要的函数，一个是处理数据流的捕获结果，这里面包含了metadate信息以及图像数据，另外一个是事件通知，主要通知camera的时间戳和错误信息。configure_streams是用来重置camera处理流程，设置一个新的输入输出流。process_capture_request是构建一个捕获请求。process_capture_result是处理完成的捕获。</p>
+<h3 id="代码位置"><a href="#代码位置" class="headerlink" title="代码位置"></a>代码位置</h3><ol>
+<li>老平台的HAL<br>位置在hardware/qcom/camera.QCamera2路径下，分为HAL和HAL3两个版本。具体的实现在vendor/qcom/proprietary/mm-camera路径下。</li>
+<li>新平台的HAL<br>位置在vendor/qcom/proprietary/camx/src/core/hal路径下，camxhal3.h就是对应了HAL3的接口。判断到底用哪个地方的代码，需要查看编译脚本。</li>
+</ol>
+<h3 id="CAMX代码流程"><a href="#CAMX代码流程" class="headerlink" title="CAMX代码流程"></a>CAMX代码流程</h3><p>camera service 调用camera.provider的HAL接口，在结构体camera3_device_ops中。这个接口映射到了vendor/qcom/proprietary/camx/src/core/hal/camxhal3entry.cpp中的camera3_device_ops。</p>
+<p>而这个camera3_device_ops调用的是g_jumpTableHAL3 的接口。g_jumpTableHAL3的定义在camxhal3.cpp中，通过调用HALDevice的操作函数实现。</p>
+<p>这个地方有个<strong>疑问</strong>，为什么要用复杂的dispatch类进行重定向，并原子性的加载操作函数。原子意味着不可分的，同一时刻只能有一个线程对它进行操作。</p>
+<p>接下来HALDevice里面的各个函数又会调用camxhal3module.cpp中GetCHIAppCallbacks()里面的函数实现，通过funcCHIHALOverrideEntry映射到chi_hal_override_entry，而这个函数接口又来自于chioverride.h，这里是CHI框架的对外接口，是HAL和chi交接的地方。</p>
+<p>代码流程如下图：</p>
+<div class="mermaid">sequenceDiagram
+	participant camera_service as camera service
+	participant camxhal3entry as camxhal3entry.cpp
+	participant camxhal3 as camxhal3.cpp
+	participant camxhal3module as camxhal3module.cpp
+	participant chioverride as chioverride.h
+	camera_service->>camxhal3entry: camera3_device_ops
+	note left of camxhal3entry: HAL3对外接口
+	camxhal3entry->>camxhal3: g_jumpTableHAL3
+	camxhal3->>camxhal3module: GetCHIAppCallbacks
+	camxhal3module->>chioverride: chi_hal_callback_ops_t
+	note left of chioverride: CHI对外接口</div>
+
+
+
+<p>这就到了chxextensioninterface.cpp</p>
+<p>InitializeOverrideSession函数在初始化的时候，通过CreateUsecaseObject创建了一个用例</p>
+<p>然后进入到对应用例的cpp中，比如说chxadvancedcamerausecase.cpp</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">	participant chioverride as chioverride.h</span><br><span class="line">	participant chiextensioninterface as extensioninterface</span><br><span class="line">	chioverride-->chiextensioninterface: chi_hal_callback_ops</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><img src="https://image.qinxing.xyz/20200529194323.png" alt="camx 代码流程图"></p>
+<p>metadata：</p>
+<p>通过ConstructDefaultRequestSettings获取默认配置</p>
+<p>这里会从HAL层和CHI获取两次metadata，然后将这两者的metadata进行融合</p>
+<p>未完待续。。。</p>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/1e916c1d/">https://www.qinxing.xyz/posts/1e916c1d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E9%80%9Acamera/">高通camera</a><a class="post-meta__tags" href="/tags/HAL/">HAL</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20200526164258.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/2d45f7e3/"><img class="prev-cover" src="https://cdn.yiban.io/pixabay/91783df5ff4ecdef551356e87f900e23fd5d72fe03ecbe5864862e11a79ef76c.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CHI metadata的设置与获取</div></div></a></div><div class="next-post pull-right"><a href="/posts/8da2c999/"><img class="next-cover" src="https://image.qinxing.xyz/20200520233103.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">3D降噪算法实现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/7e4fe84/" title="高通老平台 camera 驱动指南"><img class="cover" src="https://image.qinxing.xyz/20201010105406.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-02</div><div class="title">高通老平台 camera 驱动指南</div></div></a></div><div><a href="/posts/2d45f7e3/" title="CHI metadata的设置与获取"><img class="cover" src="https://cdn.yiban.io/pixabay/91783df5ff4ecdef551356e87f900e23fd5d72fe03ecbe5864862e11a79ef76c.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-05</div><div class="title">CHI metadata的设置与获取</div></div></a></div><div><a href="/posts/c3f0ff3b/" title="SENSOR HDR技术的发展与思考"><img class="cover" src="https://image.qinxing.xyz/20200430174345.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-04-29</div><div class="title">SENSOR HDR技术的发展与思考</div></div></a></div><div><a href="/posts/4dfacae0/" title="BUG：红外回调不生效"><img class="cover" src="https://image.qinxing.xyz/20200316001926.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-12</div><div class="title">BUG：红外回调不生效</div></div></a></div><div><a href="/posts/b610df15/" title="BUG：畸变校正算法不生效"><img class="cover" src="https://image.qinxing.xyz/20200316094622.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-11</div><div class="title">BUG：畸变校正算法不生效</div></div></a></div><div><a href="/posts/3e245786/" title="BUG：两路摄像头偶尔不能同时切换日夜模式"><img class="cover" src="https://image.qinxing.xyz/20200316104118.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-29</div><div class="title">BUG：两路摄像头偶尔不能同时切换日夜模式</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

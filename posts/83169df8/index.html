@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>cmake 指南 | 清新的日子</title><meta name="keywords" content="c/c++,编译,cmake"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="如何使用cmake跨平台编译？cmake的语法是什么样的？如何集成opencv和QT？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmake 指南">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/83169df8/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="如何使用cmake跨平台编译？cmake的语法是什么样的？如何集成opencv和QT？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20201010104927.jpg">
+<meta property="article:published_time" content="2020-07-27T09:06:03.000Z">
+<meta property="article:modified_time" content="2020-10-25T16:12:34.726Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="c&#x2F;c++">
+<meta property="article:tag" content="编译">
+<meta property="article:tag" content="cmake">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20201010104927.jpg"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/83169df8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-26 00:12:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">94</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基础语法"><span class="toc-number">1.</span> <span class="toc-text">1. 基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）-基础语法"><span class="toc-number">2.</span> <span class="toc-text">（一） 基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-指定cmake最低版本"><span class="toc-number">2.1.</span> <span class="toc-text">1. 指定cmake最低版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-设置项目名称"><span class="toc-number">2.2.</span> <span class="toc-text">2. 设置项目名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-创建可执行程序"><span class="toc-number">2.3.</span> <span class="toc-text">3.创建可执行程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-创建库文件工程（a-so-lib-dll"><span class="toc-number">2.4.</span> <span class="toc-text">4. 创建库文件工程（a&#x2F;so&#x2F;lib&#x2F;dll)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、set设置变量"><span class="toc-number">2.5.</span> <span class="toc-text">5、set设置变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、代码控制"><span class="toc-number">2.6.</span> <span class="toc-text">6、代码控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、添加编译选项"><span class="toc-number">2.7.</span> <span class="toc-text">7、添加编译选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、添加其他的CMakeLists-txt"><span class="toc-number">2.8.</span> <span class="toc-text">8、添加其他的CMakeLists.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、find-package"><span class="toc-number">2.9.</span> <span class="toc-text">9、find_package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10、条件、循环控制"><span class="toc-number">2.10.</span> <span class="toc-text">10、条件、循环控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11、Install指令"><span class="toc-number">2.11.</span> <span class="toc-text">11、Install指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）使用cmake流程"><span class="toc-number">3.</span> <span class="toc-text">（二）使用cmake流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-linux下使用"><span class="toc-number">3.1.</span> <span class="toc-text">1. linux下使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-windows下使用"><span class="toc-number">3.2.</span> <span class="toc-text">2. windows下使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）自动生成版本信息"><span class="toc-number">4.</span> <span class="toc-text">（三）自动生成版本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-获取git信息：commit号和分支信息"><span class="toc-number">5.</span> <span class="toc-text">1. 获取git信息：commit号和分支信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）opencv的集成"><span class="toc-number">6.</span> <span class="toc-text">（四）opencv的集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-linux下集成opencv"><span class="toc-number">6.1.</span> <span class="toc-text">1. linux下集成opencv:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-windows下集成opencv"><span class="toc-number">6.2.</span> <span class="toc-text">2. windows下集成opencv</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#问题1："><span class="toc-number">6.2.1.</span> <span class="toc-text">问题1：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题2："><span class="toc-number">6.2.2.</span> <span class="toc-text">问题2：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题3："><span class="toc-number">6.2.3.</span> <span class="toc-text">问题3：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题4："><span class="toc-number">6.2.4.</span> <span class="toc-text">问题4：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题5："><span class="toc-number">6.2.5.</span> <span class="toc-text">问题5：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cmake-模板"><span class="toc-number">6.3.</span> <span class="toc-text">cmake 模板</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（五）-QT的集成"><span class="toc-number">7.</span> <span class="toc-text">（五） QT的集成</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20201010104927.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">cmake 指南</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-07-27T09:06:03.000Z" title="发表于 2020-07-27 17:06:03">2020-07-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-25T16:12:34.726Z" title="更新于 2020-10-26 00:12:34">2020-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E7%A8%8B/">编程</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><h2 id="1-基础语法"><a href="#1-基础语法" class="headerlink" title="1. 基础语法"></a>1. 基础语法</h2><h2 id="（一）-基础语法"><a href="#（一）-基础语法" class="headerlink" title="（一） 基础语法"></a>（一） 基础语法</h2><h3 id="1-指定cmake最低版本"><a href="#1-指定cmake最低版本" class="headerlink" title="1. 指定cmake最低版本"></a>1. 指定cmake最低版本</h3><p><code>cmake_minimum_required (VERSION 2.6)</code></p>
+<h3 id="2-设置项目名称"><a href="#2-设置项目名称" class="headerlink" title="2. 设置项目名称"></a>2. 设置项目名称</h3><p><code>project (LearnCMake)</code></p>
+<h3 id="3-创建可执行程序"><a href="#3-创建可执行程序" class="headerlink" title="3.创建可执行程序"></a>3.创建可执行程序</h3><p> add_executable函数用于创建一个可执行程序工程。</p>
+<p>  add_executable(<name> [WIN32] [MACOSX_BUNDLE]</name></p>
+<p>​        [EXCLUDE_FROM_ALL]</p>
+<p>​        source1 [source2 …])</p>
+<p>  如下所示：</p>
+<p><code>add_executable(FirstExecutable hello_world.cpp)</code></p>
+<p>  也可以添加多个源文件到工程中，如下：</p>
+<p><code>add_executable(FirstExecutable main.cpp app_util.h app_util.cpp)</code></p>
+<h3 id="4-创建库文件工程（a-so-lib-dll"><a href="#4-创建库文件工程（a-so-lib-dll" class="headerlink" title="4. 创建库文件工程（a/so/lib/dll)"></a>4. 创建库文件工程（a/so/lib/dll)</h3><p>add_library函数用于创建一个库文件工程。</p>
+<p>  add_library(<name> [STATIC | SHARED | MODULE]</name></p>
+<p>​        [EXCLUDE_FROM_ALL]</p>
+<p>​        source1 [source2 …])</p>
+<p>  如下所示：</p>
+<p>  <code>add_library(SecondLibrary second_library.cpp)</code></p>
+<p>  和add_executable一样，也可以添加多个源文件。</p>
+<p><code>add_library(SecondLibrary test.cpp app_util.h app_util.cpp)</code></p>
+<p>  默认的是静态库，也可以显式的设置库是否为静态库、动态库或者是模块。另外BUILD_SHARED_LIBS也可控制编译成哪种库。</p>
+<p><code>add_library(SecondLibrary SHARED second_library.cpp)</code></p>
+<h3 id="5、set设置变量"><a href="#5、set设置变量" class="headerlink" title="5、set设置变量"></a>5、<strong>set设置变量</strong></h3><p>  前面的add_library和add_executable可以添加多个源文件，但是文件多了之后可能会一行占用很长，因此我们可以使用set函数来进行变量赋值，然后在调用add_library和add_executable生成项目。</p>
+<p>  如下所示，效果和前面的示例一样。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(SOURCES </span><br><span class="line">    <span class="variable">${PROJECT_SOURCE_DIR}</span>/src/datastruct_test.c</span><br><span class="line">    <span class="variable">${PROJECT_SOURCE_DIR}</span>/src/app.cpp</span><br><span class="line">)</span><br><span class="line"><span class="keyword">set</span>(HEADER</span><br><span class="line">    <span class="variable">${PROJECT_SOURCE_DIR}</span>/inc</span><br><span class="line">)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${HEADER}</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${SOURCES}</span>)</span><br><span class="line"><span class="keyword">add_library</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${SOURCES}</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>  使用set函数，还可以对变量值进行累加，如下AppUtilSrcs就代表3个文件了</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(AppUtilSrcs app_util.h app_util.cpp)</span><br><span class="line"><span class="keyword">set</span>(AppUtilSrcs <span class="variable">${AppUtilSrcs}</span> b.cpp)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>  除了文件名定义，set还用于变量定义</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_BUILD_TYPE <span class="string">"Debug"</span>)  </span><br><span class="line"><span class="keyword">SET</span>(CMAKE_CXX_FLAGS_DEBUG <span class="string">"$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb -lpthread"</span>)  </span><br><span class="line"><span class="keyword">SET</span>(CMAKE_CXX_FLAGS_RELEASE <span class="string">"$ENV{CXXFLAGS} -O3 -Wall -lpthread"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="6、代码控制"><a href="#6、代码控制" class="headerlink" title="6、代码控制"></a>6、<strong>代码控制</strong></h3><p>  如果一个项目太大，文件成千上万，那么一个一个文件的添加太过于麻烦了，因此cmake使用aux_source_directory函数来添加目录到工程中。</p>
+<p>  如下所示，将目录下所有文件赋值给第一个变量，然后将这个变量加到工程中。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># find all source file in src</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(<span class="variable">${PROJECT_SOURCE_DIR}</span>/src SOURCES)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"SRC FILES: "</span> <span class="variable">${SOURCES}</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${SOURCES}</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>除了添加文件目录外，我们经常还需要包含第三方库（头文件、库文件）等需求，添加头文件目录功能如下：</p>
+<ul>
+<li><p>include_directories函数用于添加头文件包含目录。</p>
+</li>
+<li><p>link_directories函数用于添加需要链接文件的库目录。</p>
+</li>
+<li><p>link_libraries函数用于添加需要连接的库文件。</p>
+</li>
+</ul>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${PROJECT_SOURCE_DIR}</span>/inc)</span><br><span class="line"><span class="keyword">link_directories</span>(<span class="string">"../thirdparty/googletest/googletest/lib"</span>) </span><br><span class="line"><span class="keyword">link_libraries</span>(<span class="string">"protobuf.so"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>链接目标文件和的库文件，使用target_link_libraries函数，这里的目标文件是指通过add_executable()和add_library()指令生成已经创建的目标文件。所以target_link_libraries是在add_executable之后，而link_libraries是在add_executable之前。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">target_include_directories</span>(<span class="variable">${PROJECT_NAME}</span> PRIVATE <span class="variable">${OpenCV_INCLUDE_DIRS}</span>)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${OpenCV_LIBS}</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>从编译文件列表中排除文件，可以使用cmake提供的list的REMOVE_ITEM功能来实现。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">aux_source_directory</span>(src lua_src)</span><br><span class="line"><span class="keyword">list</span>(REMOVE_ITEM lua_src <span class="string">"src/lua.c"</span>, <span class="string">"src/luac.c"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="7、添加编译选项"><a href="#7、添加编译选项" class="headerlink" title="7、添加编译选项"></a>7、<strong>添加编译选项</strong></h3><p>​    cmake使用add_compile_options函数来添加编译选项，用add_definitions函数来为源文件的编译添加由-D定义的标志，示例如下：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">add_compile_options</span>(-std=gnu99)</span><br><span class="line"><span class="keyword">add_definitions</span>(-O3 -g -W -Wall</span><br><span class="line">  -Wno-deprecated -Woverloaded-virtual -Wwrite-strings</span><br><span class="line">  -D__WUR= -D_REENTRANT -D_FILE_OFFSET_BITS=<span class="number">64</span> -DTIXML_USE_STL</span><br><span class="line"> )</span><br></pre></td></tr></tbody></table></figure>
+
+<p>也可以通过设置变量添加编译选项</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># specify the C++ standard</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># gdb debug</span></span><br><span class="line"><span class="keyword">SET</span>(CMAKE_BUILD_TYPE <span class="string">"Debug"</span>)  </span><br><span class="line"><span class="keyword">SET</span>(CMAKE_CXX_FLAGS_DEBUG <span class="string">"$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb -lpthread"</span>)  </span><br><span class="line"><span class="keyword">SET</span>(CMAKE_CXX_FLAGS_RELEASE <span class="string">"$ENV{CXXFLAGS} -O3 -Wall -lpthread"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意，<strong>这两个选项都是针对所有平台、编译器</strong>，因此需要慎重使用，最好使用if来进行流程处理。</p>
+<h3 id="8、添加其他的CMakeLists-txt"><a href="#8、添加其他的CMakeLists-txt" class="headerlink" title="8、添加其他的CMakeLists.txt"></a>8、<strong>添加其他的CMakeLists.txt</strong></h3><p>  一个CMakeLists.txt里面的target如果要链接其他CMakeLists.txt中的target，可以使用add_subdirectory函数，如下所示：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">add_subdirectory</span>(debug)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(common)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="9、find-package"><a href="#9、find-package" class="headerlink" title="9、find_package"></a>9、<strong>find_package</strong></h3><p>  find_package 为外部工程加载设置。</p>
+<p>  find_package(<package> [version] [EXACT] [QUIET]</package></p>
+<p>​       [[REQUIRED|COMPONENTS] [components…]]<br>​        [NO_POLICY_SCOPE])</p>
+<p>  QUIET选项将会禁掉包没有被发现时的警告信息。REQUIRED选项表示如果报没有找到的话，cmake的过程会终止，并输出警告信息。</p>
+<p>  find_package可以根据cmake内置的.cmake的脚本去找相应的库的模块，调用了find_package成功之后，会有相应的变量“生成”有效。</p>
+<p>  比如调用了find_package(Qt5Widgets)，返回之后就会有变量Qt5Widgets_FOUND，Qt5Widgets_INCLUDE_DIRS相应的变量生效。 然后就可以在CMakeLists.txt里面使用上述的变量了。  </p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">find_package</span>( OpenCV REQUIRED )</span><br><span class="line"><span class="keyword">if</span>(OpenCV_FOUND)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">"OpenCV library has found"</span>)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">"OpenCV_INCLUDE_DIR: "</span> <span class="variable">${OpenCV_INCLUDE_DIRS}</span>)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">"OpenCV_LIBRARY: "</span> <span class="variable">${OpenCV_LIBS}</span>)</span><br><span class="line">    <span class="keyword">target_include_directories</span>(<span class="variable">${PROJECT_NAME}</span> PRIVATE <span class="variable">${OpenCV_INCLUDE_DIRS}</span>)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${OpenCV_LIBS}</span>)</span><br><span class="line"><span class="keyword">else</span>(OpenCV_FOUND)</span><br><span class="line">    <span class="keyword">message</span>(FATAL_ERROR <span class="string">"OpenCV library not found"</span>)</span><br><span class="line"><span class="keyword">endif</span>(OpenCV_FOUND)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="10、条件、循环控制"><a href="#10、条件、循环控制" class="headerlink" title="10、条件、循环控制"></a>10、<strong>条件、循环控制</strong></h3><ul>
+<li><p>If else结构</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(condition)</span><br><span class="line">    <span class="keyword">elseif</span>(condition)</span><br><span class="line">    <span class="keyword">else</span>()</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>for循环</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(loop_var arg1 arg2 ...)</span><br><span class="line">	COMMAND1(ARGS ...)</span><br><span class="line">	COMMAND2(ARGS ...)</span><br><span class="line">	 ...</span><br><span class="line"><span class="keyword">endforeach</span>(loop_var)</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>while循环</p>
+  <figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(condition)</span><br><span class="line">    COMMAND1(ARGS ...)</span><br><span class="line">    COMMAND2(ARGS ...)</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">endwhile</span>(condition)</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ul>
+<h3 id="11、Install指令"><a href="#11、Install指令" class="headerlink" title="11、Install指令"></a>11、<strong>Install指令</strong></h3><p>Install指令用于定义安装规则，安装的内容可以包括目标二进制、动态库、静态库以及文件、目录、脚本等。</p>
+<p>参数中的TARGETS后面跟的就是我们通过ADD_EXECUTABLE或者ADD_LIBRARY定义的目标文件，可能是可执行二进制、动态库、静态库。</p>
+<p>目标类型也就相对应的有三种，ARCHIVE特指静态库，LIBRARY特指动态库，RUNTIME特指可执行目标二进制。</p>
+<p>  INSTALL(TARGETS targets…</p>
+<p>​      [[ARCHIVE|LIBRARY|RUNTIME]</p>
+<p>​         [DESTINATION </p><dir>]<p></p>
+<p>​         [PERMISSIONS permissions…]</p>
+<p>​          [CONFIGURATIONS</p>
+<p>​      [Debug|Release|…]]</p>
+<p>​          [COMPONENT <component>]</component></p>
+<p>​          [OPTIONAL]</p>
+<p>​         ] […])</p>
+<p>  示例如下：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"> <span class="keyword">INSTALL</span>(TARGETS myrun mylib mystaticlib</span><br><span class="line">    RUNTIME DESTINATION bin</span><br><span class="line">    LIBRARY DESTINATION lib</span><br><span class="line">    ARCHIVE DESTINATION libstatic</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>  可执行二进制myrun安装到${CMAKE_INSTALL_PREFIX}/bin目录</p>
+<p>  动态库libmylib安装到${CMAKE_INSTALL_PREFIX}/lib目录</p>
+<p>  静态库libmystaticlib安装到${CMAKE_INSTALL_PREFIX}/libstatic目录</p>
+<p>  特别注意的是你不需要关心TARGETS具体生成的路径，只需要写上TARGETS名称就可以了。</p>
+<h2 id="（二）使用cmake流程"><a href="#（二）使用cmake流程" class="headerlink" title="（二）使用cmake流程"></a>（二）使用cmake流程</h2><h3 id="1-linux下使用"><a href="#1-linux下使用" class="headerlink" title="1. linux下使用"></a>1. linux下使用</h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install cmake</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> code <span class="built_in">source</span> direction</span></span><br><span class="line">cd ~/code</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">rm -r *</span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=Debug ..</span><br><span class="line">cmake --build . #可以使用make -j16，支持并行编译</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="2-windows下使用"><a href="#2-windows下使用" class="headerlink" title="2. windows下使用"></a>2. windows下使用</h3><ol>
+<li>安装mingw</li>
+<li>安装mingw安装package中的mingw32-gcc-g++-bin（用来编译），mingw32-gdb-bin(用来调试)</li>
+<li>添加环境变量</li>
+<li>最后运行<ol>
+<li><strong>每次cmake之前删除build里的缓存</strong></li>
+<li><code>cd build</code></li>
+<li><code>cmake -G "Unix Makefiles" ../</code> <strong>(非常重要)</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="（三）自动生成版本信息"><a href="#（三）自动生成版本信息" class="headerlink" title="（三）自动生成版本信息"></a>（三）自动生成版本信息</h2><h2 id="1-获取git信息：commit号和分支信息"><a href="#1-获取git信息：commit号和分支信息" class="headerlink" title="1. 获取git信息：commit号和分支信息"></a>1. 获取git信息：commit号和分支信息</h2><p>通过git log -1 –pretty=format:%H获取commit号</p>
+<p>通过git symbolic-ref –short -q HEAD获取分支信息</p>
+<p>示例如下：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># get git version</span></span><br><span class="line"><span class="keyword">set</span>(COMMIT_HASH <span class="string">""</span>)</span><br><span class="line"><span class="keyword">set</span>(BRANCH_NAME <span class="string">""</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Git QUIET)</span><br><span class="line"><span class="keyword">if</span>(GIT_FOUND)</span><br><span class="line"><span class="keyword">execute_process</span>(</span><br><span class="line">    <span class="keyword">COMMAND</span> <span class="variable">${GIT_EXECUTABLE}</span> log -<span class="number">1</span> --pretty=format:%H</span><br><span class="line">    OUTPUT_VARIABLE COMMIT_HASH</span><br><span class="line">    OUTPUT_STRIP_TRAILING_WHITESPACE</span><br><span class="line">    ERROR_QUIET</span><br><span class="line">    WORKING_DIRECTORY <span class="variable">${CMAKE_CURRENT_SOURCE_DIR}</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">execute_process</span>(</span><br><span class="line">    <span class="keyword">COMMAND</span> <span class="variable">${GIT_EXECUTABLE}</span> symbolic-ref --short -q HEAD</span><br><span class="line">    OUTPUT_VARIABLE BRANCH_NAME</span><br><span class="line">    OUTPUT_STRIP_TRAILING_WHITESPACE</span><br><span class="line">    ERROR_QUIET</span><br><span class="line">    WORKING_DIRECTORY <span class="variable">${CMAKE_CURRENT_SOURCE_DIR}</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">string</span>(SUBSTRING <span class="variable">${COMMIT_HASH}</span> <span class="number">0</span> <span class="number">8</span> COMMIT_HASH)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"Git version is ${BRANCH_NAME}:${COMMIT_HASH}"</span>)</span><br><span class="line"><span class="keyword">add_definitions</span>(-DCOMMIT_HASH=\<span class="string">"${COMMIT_HASH}\")</span></span><br><span class="line"><span class="string">add_definitions(-DBRANCH_NAME=\"${BRANCH_NAME}\")</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="（四）opencv的集成"><a href="#（四）opencv的集成" class="headerlink" title="（四）opencv的集成"></a>（四）opencv的集成</h2><h3 id="1-linux下集成opencv"><a href="#1-linux下集成opencv" class="headerlink" title="1. linux下集成opencv:"></a>1. linux下集成opencv:</h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install libopencv-dev</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直接就可以编译了</p>
+<h3 id="2-windows下集成opencv"><a href="#2-windows下集成opencv" class="headerlink" title="2. windows下集成opencv"></a>2. windows下集成opencv</h3><p>去官网下载opencv windows安装包，运行就生成一个文件夹。里面有两个目录，build和source，build放的是预编译好的库，source里面放的是源码。</p>
+<p>把build\x64\vc15\lib加入到环境变量中，看下代码运行是否正确。</p>
+<h4 id="问题1："><a href="#问题1：" class="headerlink" title="问题1："></a>问题1：</h4><p>正常来说会报mutux找不到定义的错误。</p>
+<p>那是因为mingw多线程的库有问题，必须要特定64位版本的才能够安装</p>
+<p>下载安装：<a href="https://sourceforge.net/projects/mingwbuilds/files/host-windows/releases/4.8.1/64-bit/threads-posix/seh/x64-4.8.1-release-posix-seh-rev5.7z/download" target="_blank" rel="noopener">MinGW-x64-4.8.1-release-posix-seh-rev5</a></p>
+<p>并把mingw的bin文件加到环境变量中去，就可以运行了。</p>
+<h4 id="问题2："><a href="#问题2：" class="headerlink" title="问题2："></a>问题2：</h4><p>确认自己的cmake把opencv的库加进去的情况下，还是找不到imread等常用函数路径。那很可能是预编译没有编译出适合你电脑系统的库，需要自己编译opencv库</p>
+<p>在source文件夹下新建一个build目录。编译的时候用mingw32-make -j16多线程编译会比cmake –build .更快一点</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">cmake <span class="literal">-DCMAKE_BUILD_TYPE</span>=Release <span class="literal">-DCMAKE_EXPORT_COMPILE_COMMANDS</span>=ON .. <span class="literal">-G</span> <span class="string">"MinGW Makefiles"</span></span><br><span class="line">mingw32<span class="literal">-make</span> <span class="literal">-j16</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="问题3："><a href="#问题3：" class="headerlink" title="问题3："></a>问题3：</h4><p>windows下编译的时候会出现这个问题：</p>
+<p>gcc: error: long: No such file or directory</p>
+<p>解决方法：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cmake -DOPENCV_ENABLE_ALLOCATOR_STATS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. -G "MinGW Makefiles"</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="问题4："><a href="#问题4：" class="headerlink" title="问题4："></a>问题4：</h4><p>编译完成后，用cmake编译opencv的样例的时候发现，cmake打印出来的include路径不对。</p>
+<p>需要编译之后安装！</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cmake --install .</span><br></pre></td></tr></tbody></table></figure>
+
+<p>接着把生成的库绝对路径：sources\build\install\x64\mingw\lib加入环境变量，注意这个要看编译器，不同的编译器和系统产生的库路径不一样</p>
+<h4 id="问题5："><a href="#问题5：" class="headerlink" title="问题5："></a>问题5：</h4><p>在本地电脑上运行样例程序，提示缺少dll库</p>
+<p>需要把source/build/bin加入环境变量</p>
+<h3 id="cmake-模板"><a href="#cmake-模板" class="headerlink" title="cmake 模板"></a>cmake 模板</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># TODO: Set the project name</span><br><span class="line">project(opencv_sample)</span><br><span class="line">message("====================================================")</span><br><span class="line">message(STATUS "build app: " ${PROJECT_NAME})</span><br><span class="line"> </span><br><span class="line"># TODO: set source file (c/cpp)</span><br><span class="line">set(SOURCES </span><br><span class="line">    ${PROJECT_SOURCE_DIR}/src/opencv_sample.cpp</span><br><span class="line">)</span><br><span class="line">message(STATUS "SRC FILES: " ${SOURCES})</span><br><span class="line"></span><br><span class="line"># set output file path</span><br><span class="line">set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})</span><br><span class="line">message(STATUS "BUILD EXE: " ${EXECUTABLE_OUTPUT_PATH} "/" ${PROJECT_NAME})</span><br><span class="line"></span><br><span class="line"># Add an executable</span><br><span class="line">add_executable(${PROJECT_NAME} ${SOURCES})</span><br><span class="line"></span><br><span class="line"># find opencv package</span><br><span class="line">find_package( OpenCV REQUIRED )</span><br><span class="line">if(OpenCV_FOUND)</span><br><span class="line">    message(STATUS "OpenCV library has found")</span><br><span class="line">    message(STATUS "OpenCV_INCLUDE_DIR: " ${OpenCV_INCLUDE_DIRS})</span><br><span class="line">    message(STATUS "OpenCV_LIBRARY: " ${OpenCV_LIBS})</span><br><span class="line">    target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})</span><br><span class="line">    target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})</span><br><span class="line">else(OpenCV_FOUND)</span><br><span class="line">    message(FATAL_ERROR "OpenCV library not found")</span><br><span class="line">endif(OpenCV_FOUND)</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="（五）-QT的集成"><a href="#（五）-QT的集成" class="headerlink" title="（五） QT的集成"></a>（五） QT的集成</h2><p>类似opencv，但是不需要自己编译了</p>
+<p>在官网下载安装包：<a href="https://download.qt.io/official_releases/" target="_blank" rel="noopener">https://download.qt.io/official_releases/</a></p>
+<p>选择QT版本，不需要全部勾选，比如我是mingw64编译器，那就选择mingw64版本的</p>
+<p>然后把安装路径的Qt\5.15.0\mingw81_64\lib\cmake和C:\Qt\5.15.0\mingw81_64\bin加入环境变量，QT的安装就算完成了</p>
+<p>cmake模版：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(ImageTools LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_INCLUDE_CURRENT_DIR <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOUIC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOMOC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTORCC <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># find all source file in src</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(<span class="variable">${PROJECT_SOURCE_DIR}</span> SOURCES)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"SRC FILES: "</span> <span class="variable">${SOURCES}</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">${PROJECT_NAME}</span> <span class="variable">${PROJECT_SOURCE_DIR}</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找当前文件夹中所有的ui文件</span></span><br><span class="line"><span class="keyword">set</span>(UI_FILES</span><br><span class="line">    mainwindow.ui</span><br><span class="line">    imageeditor.ui</span><br><span class="line">    staticsview.ui</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加资源文件</span></span><br><span class="line"><span class="keyword">set</span>( QRCS resource.qrc )</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Qt5 COMPONENTS Widgets Core Gui REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(ANDROID)</span><br><span class="line">  <span class="keyword">add_library</span>( <span class="variable">${PROJECT_NAME}</span> <span class="variable">${SOURCES}</span> <span class="variable">${UI_FILES}</span> <span class="variable">${QRCS}</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">  <span class="keyword">add_executable</span>( <span class="variable">${PROJECT_NAME}</span> <span class="variable">${SOURCES}</span> <span class="variable">${UI_FILES}</span> <span class="variable">${QRCS}</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(ImageTools PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui)</span><br></pre></td></tr></tbody></table></figure>
+</dir></body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/83169df8/">https://www.qinxing.xyz/posts/83169df8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/c-c/">c/c++</a><a class="post-meta__tags" href="/tags/%E7%BC%96%E8%AF%91/">编译</a><a class="post-meta__tags" href="/tags/cmake/">cmake</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20201010104927.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/445bb88c/"><img class="prev-cover" src="https://image.qinxing.xyz/20201009230003.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">gamma之我见</div></div></a></div><div class="next-post pull-right"><a href="/posts/7e4fe84/"><img class="next-cover" src="https://image.qinxing.xyz/20201010105406.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">高通老平台 camera 驱动指南</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/64e59afd/" title="c++ 强制类型转换"><img class="cover" src="https://image.qinxing.xyz/20200609195436.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-05-29</div><div class="title">c++ 强制类型转换</div></div></a></div><div><a href="/posts/356a46c3/" title="BUG：两路摄像头自动日夜切换问题"><img class="cover" src="https://image.qinxing.xyz/20200316233007.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-03-22</div><div class="title">BUG：两路摄像头自动日夜切换问题</div></div></a></div><div><a href="/posts/21c9d9a6/" title="makefile基础和编译模板"><img class="cover" src="https://image.qinxing.xyz/20200317000739.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-03-13</div><div class="title">makefile基础和编译模板</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
