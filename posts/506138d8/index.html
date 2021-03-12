@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ISP算法之坏点矫正 | 清新的日子</title><meta name="keywords" content="坏点矫正,ISP算法,坏点检测"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="ISP中的坏点有哪些？是因为什么原因而起？ 如何进行坏点矫正？坏点矫正的评价指标与缺陷是什么？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ISP算法之坏点矫正">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/506138d8/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="ISP中的坏点有哪些？是因为什么原因而起？ 如何进行坏点矫正？坏点矫正的评价指标与缺陷是什么？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20210310233055.png">
+<meta property="article:published_time" content="2021-03-01T12:57:04.000Z">
+<meta property="article:modified_time" content="2021-03-12T15:55:56.753Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="坏点矫正">
+<meta property="article:tag" content="ISP算法">
+<meta property="article:tag" content="坏点检测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20210310233055.png"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/506138d8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-12 23:55:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">98</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">102</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）原因"><span class="toc-number">1.</span> <span class="toc-text">（一）原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）分类"><span class="toc-number">2.</span> <span class="toc-text">（二）分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）对图像的影响"><span class="toc-number">3.</span> <span class="toc-text">（三）对图像的影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）坏点消除算法评价指标"><span class="toc-number">4.</span> <span class="toc-text">（四）坏点消除算法评价指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（五）坏点矫正的流程"><span class="toc-number">5.</span> <span class="toc-text">（五）坏点矫正的流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态坏点消除"><span class="toc-number">5.1.</span> <span class="toc-text">静态坏点消除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态坏点检测"><span class="toc-number">5.2.</span> <span class="toc-text">动态坏点检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态坏点的修正"><span class="toc-number">5.3.</span> <span class="toc-text">动态坏点的修正</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（六）可能出现的问题"><span class="toc-number">6.</span> <span class="toc-text">（六）可能出现的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（七）特殊的坏点——PDAF"><span class="toc-number">7.</span> <span class="toc-text">（七）特殊的坏点——PDAF</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20210310233055.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">ISP算法之坏点矫正</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-01T12:57:04.000Z" title="发表于 2021-03-01 20:57:04">2021-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-12T15:55:56.753Z" title="更新于 2021-03-12 23:55:56">2021-03-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">855</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><h2 id="（一）原因"><a href="#（一）原因" class="headerlink" title="（一）原因"></a>（一）原因</h2><ol>
+<li>工艺 ： <ol>
+<li>在sensor 的制作过程中有灰尘等引起。</li>
+<li>组装过程中的缺陷：比如模组组装，电路焊接过程中的损伤</li>
+</ol>
+</li>
+<li>noise ：<ol>
+<li>sensor gain 增大</li>
+<li>老化：电子产品的寿命影响有限，导致会随着使用时间增加而引起坏点。温度湿度光照等使用环境都会造成器件老化</li>
+</ol>
+</li>
+</ol>
+<h2 id="（二）分类"><a href="#（二）分类" class="headerlink" title="（二）分类"></a>（二）分类</h2><ol>
+<li>根据是否变化分类<br> 静态坏点、动态坏点<ul>
+<li>静态坏点：不会随着时间、增益等改变，从sensor制造时因为工艺等产生的坏点。</li>
+<li>动态坏点：因为增益、温度等引起的坏点，会随着时间变化而改变。</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li>根据坏点的亮度分类<br> hotpixel、deadpixel、weakpixel、blinky pixel、stuck to neighbour pixel、phase detection pixel<ul>
+<li>hotpixel ： 比周围点亮很多的坏点 。</li>
+<li>deadpixel：无论什么入射光下，该点的值接近0</li>
+<li>stuck pixel：无论什么入射光下，该点的值接近255</li>
+<li>blinky pixel: 随机值</li>
+<li>stuck to neighbor pixel: 该点的值受相邻的像素通道像素值的影响</li>
+<li>phase detection piexl: 相位像素，PDAF sensor专有的</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li>根据单通道相邻坏点的数量分类<br> 单坏点、双坏点、多坏点<br> 如3x3区域内有两个坏点，就叫双坏点。注意坏点数量指的单通道上的相邻坏点数量</li>
+</ol>
+<h2 id="（三）对图像的影响"><a href="#（三）对图像的影响" class="headerlink" title="（三）对图像的影响"></a>（三）对图像的影响</h2><ol>
+<li>如果图像中存在坏点，后续进行插值和滤波处理的时候，会影响到周围的像素值。</li>
+<li>会造成图像的边缘出现伪彩色的情况，不仅影响清晰度，还影响边缘的色彩</li>
+<li>会造成图像部分像素闪烁的现象</li>
+</ol>
+<h2 id="（四）坏点消除算法评价指标"><a href="#（四）坏点消除算法评价指标" class="headerlink" title="（四）坏点消除算法评价指标"></a>（四）坏点消除算法评价指标</h2><ol>
+<li><p>不能损失原有图像细节 </p>
+</li>
+<li><p>能够去除所有坏点 </p>
+</li>
+<li><p>不能引起artifact </p>
+<p><img src="https://image.qinxing.xyz/20210311225841.png" alt></p>
+</li>
+</ol>
+<h2 id="（五）坏点矫正的流程"><a href="#（五）坏点矫正的流程" class="headerlink" title="（五）坏点矫正的流程"></a>（五）坏点矫正的流程</h2><p><img src="https://image.qinxing.xyz/20210311224823.png" alt="坏点矫正的流程"></p>
+<h3 id="静态坏点消除"><a href="#静态坏点消除" class="headerlink" title="静态坏点消除"></a>静态坏点消除</h3><p>一般在sensor 或者模组产线上进行标定，并将坏点位置写在OTP(One Time Programmable)里面 </p>
+<p><img src="https://image.qinxing.xyz/20210311225938.png" alt></p>
+<h3 id="动态坏点检测"><a href="#动态坏点检测" class="headerlink" title="动态坏点检测"></a>动态坏点检测</h3><p>一种典型的坏点检测方法<br>Gh 是3x3 9个像素内的次大点；Gl 是3x3像素内的次小点（第二小点）<br>avg = ((G1+…+G9) - (G5+Gh+Gl))./6<br>dif = Gh - Gl;</p>
+<p>在3x3的区域内，如果像素值大于(平均值avg+diff)或者像素值小于(平均值avg-diff)，那么就称作坏点。</p>
+<h3 id="动态坏点的修正"><a href="#动态坏点的修正" class="headerlink" title="动态坏点的修正"></a>动态坏点的修正</h3><p><img src="https://image.qinxing.xyz/20210311230024.png" alt></p>
+<ol>
+<li>最简单的是中值滤波 </li>
+<li>根据边缘情况，选择进行均值滤波 </li>
+</ol>
+<p>边缘可以用G1-G9,G2-G8,G3-G7,G4-G6找一个梯度最小的。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">if 水平方向:</span><br><span class="line">    G5_out=(G4+G6)/2;</span><br><span class="line">elseif 垂直方向:</span><br><span class="line">    G5_out=(G2+G8)/2;</span><br><span class="line">elseif 左斜方向:</span><br><span class="line">    G5_out=(G1+G9)/2;</span><br><span class="line">elseif 右斜方向:</span><br><span class="line">    G5_out=(G3+G7)/2;</span><br><span class="line">else:</span><br><span class="line">    G5_out=(G1+...+G4+G6+...+G8)/8;</span><br><span class="line">end</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="（六）可能出现的问题"><a href="#（六）可能出现的问题" class="headerlink" title="（六）可能出现的问题"></a>（六）可能出现的问题</h2><ol>
+<li>noise 的影响<br> 高噪声的情况话，可能会把噪声当成坏点，所以坏点矫正调试时根据ISO进行调试 </li>
+<li>高亮的孤立点：<br> 例如LED 点阵灯、交通灯等。可能会把它当成坏点 </li>
+<li>分辨率卡等<br> 比较密集的条纹不能模糊</li>
+</ol>
+<h2 id="（七）特殊的坏点——PDAF"><a href="#（七）特殊的坏点——PDAF" class="headerlink" title="（七）特殊的坏点——PDAF"></a>（七）特殊的坏点——PDAF</h2><p>有一种特别的静态坏点：相位像素。部分像素遮左半边，部分像素遮挡右半边，用来快速聚焦。由于遮挡会造成亮度由差异，在图像上表现为坏点。相位像素的分布很规律，位置总是静态不变的，和sensor的型号有关。</p>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/506138d8/">https://www.qinxing.xyz/posts/506138d8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/ISP/">ISP</a><a class="post-meta__tags" href="/tags/%E5%8E%BB%E9%A9%AC%E8%B5%9B%E5%85%8B/">去马赛克</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20210310233055.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/d206a04c/"><img class="prev-cover" src="https://image.qinxing.xyz/20210310233055.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ISP算法之demosaic</div></div></a></div><div class="next-post pull-right"><a href="/posts/39e2a684/"><img class="next-cover" src="https://image.qinxing.xyz/20210311221959.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数字水印</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/d206a04c/" title="ISP算法之demosaic"><img class="cover" src="https://image.qinxing.xyz/20210310233055.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-01</div><div class="title">ISP算法之demosaic</div></div></a></div><div><a href="/posts/e72969e7/" title="ISP算法之色差矫正CAC总结"><img class="cover" src="https://image.qinxing.xyz/20210310235932.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">ISP算法之色差矫正CAC总结</div></div></a></div><div><a href="/posts/39e2a684/" title="数字水印"><img class="cover" src="https://image.qinxing.xyz/20210311221959.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-20</div><div class="title">数字水印</div></div></a></div><div><a href="/posts/8da2c999/" title="3D降噪算法实现"><img class="cover" src="https://image.qinxing.xyz/20200520233103.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-16</div><div class="title">3D降噪算法实现</div></div></a></div><div><a href="/posts/42798c5a/" title="相机成像模型"><img class="cover" src="https://pic1.zhimg.com/v2-5912d68cfb8f6b511bc23a12ef14c709_1200x500.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-08</div><div class="title">相机成像模型</div></div></a></div><div><a href="/posts/124f9d98/" title="一维卡尔曼滤波"><img class="cover" src="https://image.qinxing.xyz/20200330135439.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-27</div><div class="title">一维卡尔曼滤波</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
