@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>海思颜色调优总结 | 清新的日子</title><meta name="keywords" content="海思颜色调优总结"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="整理海思平台有关颜色的调试方法整理颜色调试的常见问题与注意点整理24色卡标准色以及色准标准">
+<meta property="og:type" content="article">
+<meta property="og:title" content="海思颜色调优总结">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/f695d596/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="整理海思平台有关颜色的调试方法整理颜色调试的常见问题与注意点整理24色卡标准色以及色准标准">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20210313224153.png">
+<meta property="article:published_time" content="2021-01-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-13T15:29:29.399Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="海思颜色调优总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20210313224153.png"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/f695d596/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-13 23:29:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">103</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">113</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一）综述"><span class="toc-number">1.</span> <span class="toc-text">(一）综述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基础调色方案"><span class="toc-number">1.1.</span> <span class="toc-text">1. 基础调色方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-高级调色方案"><span class="toc-number">1.2.</span> <span class="toc-text">2. 高级调色方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）CCM"><span class="toc-number">2.</span> <span class="toc-text">（二）CCM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-原理"><span class="toc-number">2.1.</span> <span class="toc-text">1. 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-标定步骤"><span class="toc-number">2.2.</span> <span class="toc-text">2. 标定步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-手动修改CCM"><span class="toc-number">2.3.</span> <span class="toc-text">3. 手动修改CCM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）CA"><span class="toc-number">3.</span> <span class="toc-text">（三）CA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-原理-1"><span class="toc-number">3.1.</span> <span class="toc-text">1. 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-调试方法"><span class="toc-number">3.2.</span> <span class="toc-text">2. 调试方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）CLUT"><span class="toc-number">4.</span> <span class="toc-text">（四）CLUT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-原理-2"><span class="toc-number">4.1.</span> <span class="toc-text">1. 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使用方法"><span class="toc-number">4.2.</span> <span class="toc-text">2. 使用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（五）WDR模式下的调试"><span class="toc-number">5.</span> <span class="toc-text">（五）WDR模式下的调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（六）调试注意点"><span class="toc-number">6.</span> <span class="toc-text">（六）调试注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（七）问题定位"><span class="toc-number">7.</span> <span class="toc-text">（七）问题定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-局部偏色问题"><span class="toc-number">7.1.</span> <span class="toc-text">1. 局部偏色问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3A分析工具看白色区域是否合理（AWB）"><span class="toc-number">7.2.</span> <span class="toc-text">2. 3A分析工具看白色区域是否合理（AWB）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（八）附录"><span class="toc-number">8.</span> <span class="toc-text">（八）附录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#24色卡每个色块的RGB值以及名称"><span class="toc-number">8.1.</span> <span class="toc-text">24色卡每个色块的RGB值以及名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监控上的颜色标准"><span class="toc-number">8.2.</span> <span class="toc-text">监控上的颜色标准</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20210313224153.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">海思颜色调优总结</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-19T16:00:00.000Z" title="发表于 2021-01-20 00:00:00">2021-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-13T15:29:29.399Z" title="更新于 2021-03-13 23:29:29">2021-03-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E5%9B%BE%E5%83%8F/">图像</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><h2 id="一）综述"><a href="#一）综述" class="headerlink" title="(一）综述"></a>(一）综述</h2><h3 id="1-基础调色方案"><a href="#1-基础调色方案" class="headerlink" title="1. 基础调色方案"></a>1. 基础调色方案</h3><p>系统的颜色主要由AWB+CCM+GAMMA控制，颜色风格为整个色域内一致的风格，指的是由CCM的3x3矩阵将sensor的native色彩空间（设备相关的色彩）转换到sRGB 标准定义的色彩空间（设备无关的色彩）。特点是Sensor的响应被线性扩展到目标空间，即各种颜色获得同样的线性扩展。颜色的呈现随着sensor的光谱响应特性的不同而变化。<br>所有颜色的饱和度会随着CCM 变大和变小，不同的色调之间可能发生一些冲突，即优先调节某些色调会导致相邻的色调无法调整到位。由于3x3 矩阵的原因，暗处，中间亮度，高亮区域的颜色的调节是一致的，如果需要对三个亮度区域做不同的颜色调整，那么就不能满足需求。<br>如蓝色在高亮区域，饱和度比较低，在暗处饱和度比较高。而黄色在高亮区域饱和度比较高，在暗处饱和度比较低。</p>
+<h3 id="2-高级调色方案"><a href="#2-高级调色方案" class="headerlink" title="2. 高级调色方案"></a>2. 高级调色方案</h3><p>系统的颜色主要由AWB+CCM+CLUT+GAMMA+CA 控制，颜色风格可以按需调节。<br>使用高级调色方案可以调试出不同的颜色风格，比如对于饱和度高的颜色处理方法的不同可以产生不同的效果。<br>由于CCM矩阵3x3的局限性，可能会存在sensor上面的RGB，乘以CCM矩阵后，颜色饱和的情况。这种情况下，sensor能够感知到的色域就没有体现出来，少掉了一部分。<br>下面有两种映射的风格，根据不同的sensor去选择。<br>色域边缘的颜色向色域内映射的风格，指的是在CCM达到的颜色的基础上，将饱和度高的区域的颜色向色域内映射。特点是饱和度高的颜色的饱和度会降低，避免RGB 中有值发生小于0或者大于1 的现象。能将更多的高饱和颜色的变化保留下来，达到色域扩展的效果。适用于光谱响应比较好的sensor。这种调试目标会让饱和度中低的颜色在CCM 的作用下得到很好的表现，优先保留饱和度中低的颜色层次。<br>色域边缘的颜色向色域外映射的风格，指的是在CCM达到的颜色的基础上，将饱和度高的区域的颜色向色域外映射。特点是饱和度高的颜色的饱和度会增加，会更容易发生RGB 中有值小于0 或者大于1的现象。可以让颜色更鲜艳，突出画面中的主体。适用于光谱响应比较差的sensor，饱和度由CLUT补足，可以避免CCM的系数过大。这种调试目标会让饱和度中低的颜色在CCM的作用下不过于鲜艳，优先保留饱和度高的颜色层次。</p>
+<h2 id="（二）CCM"><a href="#（二）CCM" class="headerlink" title="（二）CCM"></a>（二）CCM</h2><h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CCM 标定的原理是，使用sensor抓拍到的24 色卡场景下前18 个色块的实际颜色信息和其期望值，计算3x3的CCM 矩阵。输入颜色经CCM 矩阵处理得到的颜色与其期望值差距越小，则CCM矩阵就越理想。</p>
+<h3 id="2-标定步骤"><a href="#2-标定步骤" class="headerlink" title="2. 标定步骤"></a>2. 标定步骤</h3><ol>
+<li>拍摄24色卡，调整AE 目标亮度，最亮灰阶(Block 19)的G 分量亮度在饱和值的0.8 倍左右（以12bitRAW数据为例，G分量数值在0xC00-0xD80 之间）。</li>
+<li>框定24色卡的每个色块</li>
+<li>设置当前生效的gamma，设置色块权重（如果针对肤色，可以把肤色的权重选大一点，然后就是红绿蓝的权重也要大一点），差异标准选CIE76 Delta E*ab，如果亮度达不到就autoGain，如果gamma是自定义的，就需要选择BT2020</li>
+<li>点击calibrate进行标定，在result页面可以手动调整色调和饱和度</li>
+</ol>
+<h3 id="3-手动修改CCM"><a href="#3-手动修改CCM" class="headerlink" title="3. 手动修改CCM"></a>3. 手动修改CCM</h3><p><img src="https://image.qinxing.xyz/20210313223407.png" alt></p>
+<p>为了保证白平衡不受破坏，参数必须满足条件：<br><code>ai0 + ai1 + ai2 = 1</code><br>R’中主要应该还是R分量的部分居多，因此必须满足条件：<br><code>aii ≥ 1</code><br>在满足以上条件的情况下，就可以微调颜色校正矩阵而不致产生破坏性影响。</p>
+<p>如果对比发现的红色块的B 分量偏大，导致红色块偏水红色，那么根据公式B’ = a20R+ a21G + a22B，且a20，a21，a22 的正负性分别为负，负，正，当前水红色的R，G，B值的大小顺序为R>B>G，且已知目标标准是(175,54,60)，而且a20 + a21 + a22 = 256，因此可以通过三种方式来实现B’减小的目的：</p>
+<ul>
+<li>增大a20 的绝对值，同时等量减小a21 的绝对值；</li>
+<li>增大a21 的绝对值，同时等量增大a22 的绝对值；</li>
+<li>增大a20 的绝对值，同时等量增大a22 的绝对值。</li>
+</ul>
+<p>通过这种方式，减小最终红色块的B’分量的值，从而将水红色的红色块校正回来。</p>
+<h2 id="（三）CA"><a href="#（三）CA" class="headerlink" title="（三）CA"></a>（三）CA</h2><h3 id="1-原理-1"><a href="#1-原理-1" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CSC模块把RGB转到YUV色彩空间后，CA颜色调整模块支持在YUV 空间进行色域调整的操作。<br>在 CA模式下，通过下面的公式可以将一个像素点（Y，U，V）映射到另一个像素点（Y’,U’,V’）。<br><code>Y’=Y;U’=aU;V’=aV;</code><br>其中a 是转换系数，采用这组公式可以在一定程度上保持亮度和色调的恒定，对像素点的饱和度做一个调整。转换系数a 和像素点亮度Y 联系，就可以根据亮度的变化来调整饱和度，达到局部调整饱和度的目的，亮处的颜色更鲜艳，暗处的色噪不明显。</p>
+<h3 id="2-调试方法"><a href="#2-调试方法" class="headerlink" title="2. 调试方法"></a>2. 调试方法</h3><p>通过au32YRatioLut调节亮区和暗区的饱和度，暗区的饱和度可以小一点，减少色噪，亮区的饱和度大一点<br>通过as32ISORatio根据增益调节饱和度</p>
+<h2 id="（四）CLUT"><a href="#（四）CLUT" class="headerlink" title="（四）CLUT"></a>（四）CLUT</h2><h3 id="1-原理-2"><a href="#1-原理-2" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CLUT 是一个改变线性RGB 值的模块，这个模块把用户的颜色调节需求，转化为源和目标RGB对的数据映射关系。<br>CLUT 是利用线性RGB 空间27x27x27分格的3D LUT 实现复杂的颜色调整操作，比如亮度，饱和度，色调的调整。可以对阴影，中间亮度，高亮区域分别调整。<br>可以参考此论文 《Strengths and limitations of a uniform 3D-LUT approach for digital camera characterization》</p>
+<h3 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2. 使用方法"></a>2. 使用方法</h3><ol>
+<li>使用源设备和目标设备同时拍摄色卡，获得色卡上面的颜色对</li>
+<li>使用源设备和目标设备同时拍摄同一场景，可以从场景中选择对应的物体表面，可以获得任意颜色对，指导CLUT表的生成。这种方法可以专门优化肤色</li>
+<li>在没有目标设备的情况下，用源设备拍摄场景后，可以选择想调节的颜色表面，然后通过调整HSL参数来获得目标RGB值，指导CLUT表的生成。hue范围+-20，sat范围0.4-1.6 倍，light范围0.6-1.4 倍。</li>
+</ol>
+<h2 id="（五）WDR模式下的调试"><a href="#（五）WDR模式下的调试" class="headerlink" title="（五）WDR模式下的调试"></a>（五）WDR模式下的调试</h2><p>对于WDR模式，因为CCM容易受到DRC 的影响，容易造成颜色难以矫正。所以对于WDR 模式来说，调整颜色需注意以下三点：</p>
+<ul>
+<li>在标准光源下（一般是三组光源，分别是D50，TL84，A 光源）拍标准24色卡，曝光比手动最大，同时也要调整亮度值，避免长帧过曝，采集长帧的RAW数据进行CCM的标定。标定过程中可以适当的降低饱和度，不能选择开启autoGain 功能。</li>
+<li>适当减少DRC曲线对图像亮度的大幅度提升，这样DRC对颜色的改变会较弱。此时，图像的亮度会有所降低达不到想要的亮度，这时，可以用gamma对亮度进行适当的提升。这样联调DRC和gamma模块，可以让整体的颜色调节更准确一些。</li>
+<li>对于WDR模式，因为大多场景是混合光源场景，容易出现亮处颜色偏色，人脸颜色偏红等问题，除了可以降低饱和度值以外，还可以使用CA 模块对这些区域适当的降低饱和度。</li>
+</ul>
+<h2 id="（六）调试注意点"><a href="#（六）调试注意点" class="headerlink" title="（六）调试注意点"></a>（六）调试注意点</h2><ol>
+<li>在修改红色块的B分量时，由于其他颜色的RGB大小顺序可能和红色块的冲突会导致其他色块的最终结果受到影响，所以要注意兼顾其他颜色，尤其是绿色块，肤色块，防止由于修改CCM矩阵带来的其他典型色块的偏色问题。</li>
+<li>对于深肤色和浅肤色这种三个颜色分量的值都差不多的色块，不是特别好单独调节。建议还是将红、绿、蓝这三个单色块的颜色校准确，其他颜色才会准确，因为其他颜色都是这三种颜色的混合色。</li>
+<li>由于参与CCM 标定的样本的影响，CCM的标定结果可能接近最佳而不是最佳。对CCM 标定的结果进行手动调节，可以参考下面的几种做法<ul>
+<li>CCM 主对角线以外元素均为负值会较好。如果a02为正数，会导致饱和度高的红色偏紫，如果a20 为正数，会导致饱和度高的蓝色偏紫。如果遇到这类偏紫的问题时，可以考虑手动将a02 或a20 从接近0 的正数改为比较小的负数。</li>
+<li>a10 为负值时，a10绝对值越大，CCM后红色的G通道值越小，红色的饱和度越高；a12 为负值时，a12 绝对值越大，CCM后蓝色的G 通道值越小，蓝色的饱和度越高。如果遇到红色或蓝色的饱和度过高的问题时，可以考虑减小a10 或a12的绝对值。</li>
+</ul>
+</li>
+<li>蓝色红色的误差最好分布在亮度维度上，因为如果红色和蓝色的误差分布在饱和度上，容易过饱和而超出色域。黄色的误差不用在意，因为在色卡中黄色属于这个画面亮度最高的色块，如果这张图片降低一个亮度等级，那么黄色块的颜色误差自然会好一些。</li>
+</ol>
+<h2 id="（七）问题定位"><a href="#（七）问题定位" class="headerlink" title="（七）问题定位"></a>（七）问题定位</h2><h3 id="1-局部偏色问题"><a href="#1-局部偏色问题" class="headerlink" title="1. 局部偏色问题"></a>1. 局部偏色问题</h3><p>局部偏色问题首先要分析Raw数据，确认是采集端引入还是后续算法处理引入。推荐灌Raw数据到HiISP 单板，操作PQTools 定位问题原因。</p>
+<ol>
+<li>确认黑电平和RGGB顺序正确</li>
+<li>Bypass 或Disable CCM、Gamma、ACM等影响颜色的模块，将AWB 问题和其他模块问题分开。</li>
+<li>打开3A分析工具，手动配置白平衡系数。选择左图中的灰色块，右键选择ApplyResult to Global，当前灰色块期望的AWB增益生效。</li>
+<li>观察图像中灰色区域颜色是否正常。示例图像仅做了Manual AWB，已经出现了局部区域偏粉，说明Raw数据有问题，请向前端追溯。</li>
+<li>如果以上步骤确认Raw数据是正常的，那么需要检查Gamma曲线是否合理。可以在板端配置Manual AWB，仅使能BLC、AWB、Demosaic和Gamma几个模块，开关Gamma对比偏色问题。 </li>
+<li>局部偏色问题，还要确认是否混合光源场景。可以用3A分析工具分别选不同的区域手动计算白平衡系数，如果不同区域期望的白平衡增益差异大，说明是混合光源场景。只能通过降低饱和度或者色温权重调整等方式优化颜色表现。 </li>
+</ol>
+<h3 id="2-3A分析工具看白色区域是否合理（AWB）"><a href="#2-3A分析工具看白色区域是否合理（AWB）" class="headerlink" title="2. 3A分析工具看白色区域是否合理（AWB）"></a>2. 3A分析工具看白色区域是否合理（AWB）</h3><ol>
+<li><p>从统计结果确认统计参数配置是否合理。选择白色块，正常情况CountAll应接近0xFFFF。如果CountAll为0，说明统计模块未找到灰点。 </p>
+</li>
+<li><p>关闭CrMax等灰点条件自适应功能。 </p>
+</li>
+<li><p>调整灰点配置参数，调试原则是：上限调大，下限调小，到3A分析工具显示的统计结果，CountAll接近0xFFFF为止。确认是哪个参数引入问题后，WhiteLevel和BlackLevel修改默认参数，Cr等需要调整数组。 </p>
+</li>
+<li><p>统计模块OK后，确认室内外检测是否正确，如果室内外检测错误，先用Manual的方式配置正确的室内外模式。 </p>
+</li>
+<li><p>确认检测色温有没有超出色温的上下限。将色温的上限调大，下限调小，观察问题是否有改善。 </p>
+</li>
+<li><p>确认灰色块有没有在白色区域范围内。</p>
+</li>
+<li><p>场景内有多个光源点时，需要排除肤色检测模块对算法的影响。 </p>
+</li>
+<li><p>仍然不能确定偏色原因时，将算法由Advance设置为LowCost，看能否解决；若不能解决，将Attr的ZoneSel设置为0，看能否解决；若还不能解决，就需要从滤光片、黑电平等模块系统分析。 </p>
+</li>
+</ol>
+<h2 id="（八）附录"><a href="#（八）附录" class="headerlink" title="（八）附录"></a>（八）附录</h2><h3 id="24色卡每个色块的RGB值以及名称"><a href="#24色卡每个色块的RGB值以及名称" class="headerlink" title="24色卡每个色块的RGB值以及名称"></a>24色卡每个色块的RGB值以及名称</h3><p><img src="https://image.qinxing.xyz/20210313223326.png" alt></p>
+<h3 id="监控上的颜色标准"><a href="#监控上的颜色标准" class="headerlink" title="监控上的颜色标准"></a>监控上的颜色标准</h3><p>判断色彩是否准确的方法是在不同的色温下拍摄24色卡后用imatest软件进行测量。 </p>
+<p>偏色的判定依据是连接图像坐标中心点和对应的目标方形色块点，得到一条直线，如果对应的圆形camera色块点，在这条直线上，则说明色差较小，方块和圆形的距离越远说明饱和度相差比较大，越近则饱和度相差比较小。 </p>
+<p>当坐标原点，方块ideal点和对应camera圆点，三点在一条直线上时，色差最小。camera圆点偏离的角度越大，则色差越大。当camera圆点越往外发散，则饱和度越高，越往内收敛，则饱和度越低。 </p>
+<p>24色卡中重点关注蓝色（13）绿色（14）红色（15）肤色（2）的色偏问题。 </p>
+<table>
+<thead>
+<tr>
+<th>色温</th>
+<th>imagetestSAT</th>
+<th>ΔE*abmean</th>
+<th>ΔE*abmax</th>
+<th>WBΔC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D75</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D65</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D50</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CWF</td>
+<td>110%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TL84</td>
+<td>110%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>3</td>
+</tr>
+<tr>
+<td>A/H</td>
+<td>100%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>3</td>
+</tr>
+</tbody></table>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/f695d596/">https://www.qinxing.xyz/posts/f695d596/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B5%B7%E6%80%9D/">海思</a><a class="post-meta__tags" href="/tags/%E9%A2%9C%E8%89%B2%E8%B0%83%E4%BC%98/">颜色调优</a><a class="post-meta__tags" href="/tags/%E8%89%B2%E5%BD%A9/">色彩</a><a class="post-meta__tags" href="/tags/%E6%80%BB%E7%BB%93/">总结</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20210313224153.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/6e2f9e70/"><img class="prev-cover" src="https://image.qinxing.xyz/20210313232753.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">海思HDR总结</div></div></a></div><div class="next-post pull-right"><a href="/posts/5366d370/"><img class="next-cover" src="https://image.qinxing.xyz/20210313152816.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">清晰度优化总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/7ccd3a22/" title="海思pqtools参数转代码工具"><img class="cover" src="https://image.qinxing.xyz/20210313143435.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-27</div><div class="title">海思pqtools参数转代码工具</div></div></a></div><div><a href="/posts/c230c3c4/" title="色彩标准及调试"><img class="cover" src="https://image.qinxing.xyz/20200330183210.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-08-06</div><div class="title">色彩标准及调试</div></div></a></div><div><a href="/posts/e72969e7/" title="ISP算法之色差矫正CAC总结"><img class="cover" src="https://image.qinxing.xyz/20210310235932.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">ISP算法之色差矫正CAC总结</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

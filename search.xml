@@ -3,7 +3,7 @@
   <entry>
     <title>Imagetools工具使用说明</title>
     <url>/posts/dd8c94f2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>这是一款图像相关的工具软件，扩展性好。目前集成有镜头计算器、抖动测试工具、看图工具等功能。可以方便的进行后期算法的验证（热更新、直观的图像显示和分析）。退出后会自动保存上次打开的窗口，以及窗口里的参数。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>这是一款自己设计的图像相关的工具软件，扩展性好。目前集成有镜头计算器、抖动测试工具、看图工具等功能。可以方便的进行后期算法的验证（热更新、直观的图像显示和分析）。退出后会自动保存上次打开的窗口，以及窗口里的参数。</p>
 <p>目前涉及到的算法：镜头景深计算，图像抖动程度的量化，数字水印，ISP算法（黑电平，去马赛克，白平衡，色彩校正，局部对比度增强，坏点矫正）</p>
 <p>安装包位置：<a href="https://github.com/xiaoqinxing/ImageTools/releases" target="_blank" rel="noopener">https://github.com/xiaoqinxing/ImageTools/releases</a></p>
 <hr>
@@ -154,6 +154,7 @@
       </categories>
       <tags>
         <tag>防抖</tag>
+        <tag>精品</tag>
         <tag>ISP</tag>
         <tag>imagetools</tag>
         <tag>算法验证</tag>
@@ -246,6 +247,7 @@
       </categories>
       <tags>
         <tag>原创</tag>
+        <tag>精品</tag>
         <tag>ISP</tag>
       </tags>
   </entry>
@@ -311,8 +313,8 @@
       <tags>
         <tag>算法</tag>
         <tag>ISP</tag>
-        <tag>CAC</tag>
         <tag>总结</tag>
+        <tag>CAC</tag>
         <tag>色差矫正</tag>
       </tags>
   </entry>
@@ -547,6 +549,192 @@
       </tags>
   </entry>
   <entry>
+    <title>海思HDR总结</title>
+    <url>/posts/6e2f9e70/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="与传统的FS-WDR的区别"><a href="#与传统的FS-WDR的区别" class="headerlink" title="与传统的FS-WDR的区别"></a>与传统的FS-WDR的区别</h2><p>FS-WDR 技术 是 HDR 技术的 一部分。但是在 FS-WDR 时代 ，由于显示端设备以及传输过程中 的能力 限制 造成我们使用多帧曝光 合成而 采集下来的高动态范围数据不能完全显示出来。因此 使用 了 DRC 进行 数据的动态范围压缩。 而使用了HDR 模式之后， 配合新的传输协议 和显示器显示能力， 可以达到将高动态范围数据进行端到端传输的要求。</p>
+<p><img src="https://image.qinxing.xyz/20210313221614.png" alt="人眼对亮度敏感度模型（ Barten 曲线 & Schreiber 曲线）"></p>
+<p>从 ITU-R 定的标准来看，目前主流以 Barten 的 建模结果作为主流测试结果。<br>环境 光越暗，人眼需要用来分辨亮度变化的 △ I 越大 。 这意味着如果亮度变化小于环境光的变化，人眼无法分辨 该处的细节无法体现。 这一 特性也可以用来指导传输曲线的设定 。</p>
+<p>Barten 曲线是对人眼对亮度识别度的数学建模结果，反应的是人眼对亮 度识别的敏感度阈值（JND），而 JND 最大的物理意义在于，任何变化如果小于 JND， 观察者感受不到，属于无效变化。因此研究 Barten 曲线与 HVS（Human Visual  System，视觉感知系统）的关系，能够为我们有效传输动态信息带来指导。</p>
+<p>具体到量化结果，通过实验结果我们得到，一般来说人眼的动态范围不超过 10^5。而目 前 SDR 的显示器显示亮度范围 0.5nit-500nit，则动态范围只在 103数量级上，未来 HDR 显示器的亮度规格要求在 0.05nit-1000nit，相比 SDR 显示器，动态范围拥有明显提升。</p>
+<p>用一句话形容，就是显示器和带宽能力提升，提升了摄像机信号的输出标准。</p>
+<h2 id="调试HDR遇到的问题"><a href="#调试HDR遇到的问题" class="headerlink" title="调试HDR遇到的问题"></a>调试HDR遇到的问题</h2><h3 id="1-海思WDR亮区偏粉"><a href="#1-海思WDR亮区偏粉" class="headerlink" title="1. 海思WDR亮区偏粉"></a>1. 海思WDR亮区偏粉</h3><p>WDR融合有两种模式，一种是wdr一种是fusion，fusion不带运动检测，看一下是否用的是fusion，如果用的是fusion，需要设备白平衡增益在WDR合成前的DG1处，其他模式都是在WB处</p>
+<h3 id="2-HDR的AF聚焦特别容易虚"><a href="#2-HDR的AF聚焦特别容易虚" class="headerlink" title="2. HDR的AF聚焦特别容易虚"></a>2. HDR的AF聚焦特别容易虚</h3><p>需要注意统计数据不能选到短帧上面去，短帧特别黑，细节太少，没法作为参考。<br>AF的统计数据如何选取，参考海思统计数据文档</p>
+<p>pstFEAeStat1、pstBEAeStat1 分别表示位于FE 及BE的全局1024 段直方图统计信息。建议在WDR 模式下数据开方使能，线性模式下数据开方关闭。像素值较小的数据开方处理后像素值明显变大，相当于统计信息通过压缩亮区的统计精度来提升了暗区的统计精度。使用FE统计信息时需要减去黑电平，直方图应减去10bit黑电平，均值应减去16bit黑电平。</p>
+<p>线性模式推荐使用 WDR 合成前(FE)1024段直方图。</p>
+<p>WDR 模式推荐使用WDR 合成前(FE)1024段直方图，或者使用WDR 合成后(BE)开方模式的1024段直方图。</p>
+<p>实际中对比了两处AE数据源，分别是BE处开方数据和FE出不开方数据。这两个地方数据区别在于，FE和BE分别是WDR合成前和合成后的数据，如果取FE数据，需要更改为取长帧数据FE1，并且减去黑电平，如果取BE数据，需要通过开方的形式来压缩亮区提升暗区精读。实验结果发现，BE处数据亮度压缩不大，整体画面比FE1更亮，动态范围没有FE1大，亮区过曝，画面亮度更接近正常画面，DRC调节相对容易，FE1亮区细节更好，但整体画面偏暗，需要针对暗区做进一步调节。目前暂时取FE1数据。</p>
+<h3 id="3-HDR下白平衡统计值偏小"><a href="#3-HDR下白平衡统计值偏小" class="headerlink" title="3. HDR下白平衡统计值偏小"></a>3. HDR下白平衡统计值偏小</h3><p>配置白平衡统计模块位置在DRC 后，并关闭亮度对白平衡权重的影响，可以优化WDR 模式下暗区偏红问题。</p>
+<h3 id="4-曝光比生效的步骤"><a href="#4-曝光比生效的步骤" class="headerlink" title="4. 曝光比生效的步骤"></a>4. 曝光比生效的步骤</h3><p>需要把曝光时间写入到AE结构体中aeResult->u32IntTime，ISP需要用这个曝光时间计算曝光比！！</p>
+<p>2 帧合成WDR模式下，u32IntTime[0~1]有效，配置值由小到大，依次表示最短到最长的曝光时间，用于计算长短帧曝光比，u32IntTime[1:3]建议配置等于u32IntTime[1]。</p>
+<h3 id="5-测试曝光比是否生效的方法"><a href="#5-测试曝光比是否生效的方法" class="headerlink" title="5. 测试曝光比是否生效的方法"></a>5. 测试曝光比是否生效的方法</h3><ol>
+<li>用普通的gamma特别的暗，因为图像中大部分用的都是长帧的数据，如果是16:1的曝光比的话，现在的动态范围就是原来的16倍，但是画面的主体还是集中在长帧（1/16），而原来的gamma对1/16的部分提升不够高，就会显得很暗，一般需要用DRC进行提亮</li>
+<li>通过长短帧融合的阈值进行判断，对着一个动态范围稍微大一点的场景，窗外的话长帧肯定是过曝了，看不出来什么，主要看比较暗的地方。把短帧的阈值降到最大，那么整张图都是用的短帧的数据，那么此刻图像暗处的噪声肯定是比原先大得多的，这样就可以证明长短帧的融合确实生效了</li>
+</ol>
+<h3 id="6-运动瑕疵"><a href="#6-运动瑕疵" class="headerlink" title="6. 运动瑕疵"></a>6. 运动瑕疵</h3><p>可以通过修改曝光表的方式，减少室外的快门时间</p>
+<h3 id="7-画面亮度暗"><a href="#7-画面亮度暗" class="headerlink" title="7. 画面亮度暗"></a>7. 画面亮度暗</h3><p>需要引入DRC模块对画面的动态范围重新分配。</p>
+<h3 id="8-暗处对比度差，画面偏红"><a href="#8-暗处对比度差，画面偏红" class="headerlink" title="8. 暗处对比度差，画面偏红"></a>8. 暗处对比度差，画面偏红</h3><p>引入CA模块，调整CA曲线，根据画面的亮度调节当前饱和度，降低暗处的饱和度。</p>
+<h3 id="9-调整CCM后，蓝色依然饱和度较低"><a href="#9-调整CCM后，蓝色依然饱和度较低" class="headerlink" title="9. 调整CCM后，蓝色依然饱和度较低"></a>9. 调整CCM后，蓝色依然饱和度较低</h3><p>引入CLUT，通过3D查找表的方式重新对蓝色进行调整。</p>
+<h3 id="10-蓝色屏幕有明显噪点跳动"><a href="#10-蓝色屏幕有明显噪点跳动" class="headerlink" title="10. 蓝色屏幕有明显噪点跳动"></a>10. 蓝色屏幕有明显噪点跳动</h3><p>调整CCM、CLUT、CA模块均无法有效改善。后面发现是DRC模块中PDStrength（去紫边参数）引入的。</p>
+<p>因为紫边矫正把正常的蓝色物体都检测成边缘了，同时带来一系列的噪声。该值默认设置为35，但是去紫边效果不好，反而抑制了正常场景下的蓝色，建议调低或者设为0。设置为0后蓝色饱和度明显提升，问题9中CLUT的强度可适当下调。</p>
+<h3 id="11-对比度微调"><a href="#11-对比度微调" class="headerlink" title="11. 对比度微调"></a>11. 对比度微调</h3><p>调整DRC模块中的contrastControl调节对比度。</p>
+<p>关闭CSC模块中bLimitedRangeEn选项，可提高画面对比度。</p>
+<p>同时也可以开启LDCI局部对比度增强。</p>
+<h3 id="12-拍摄高亮物体（灯）存在蓝紫边"><a href="#12-拍摄高亮物体（灯）存在蓝紫边" class="headerlink" title="12. 拍摄高亮物体（灯）存在蓝紫边"></a>12. 拍摄高亮物体（灯）存在蓝紫边</h3><p>调节DRC中的PDStrength （去紫边）参数从实验结果上看，并不能缓解紫边现象，反而会影响正常场景。可以引入CAC模块对紫边进行校正。WDR下紫边主要由短帧引入，因此可以采集短帧数据进行CAC标定和校正。从下图中看，虽然标定环境有限，但对紫边抑制上依然能够有一定效果。部分场景下仍存在紫边，可调整FSWDR模块Fusion.FusionThr中短帧的阈值来限制短帧最大亮度，去除紫边，但该值较小会让原本使用短帧的像素使用长帧，从而降低画面的动态范围。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>图像</category>
+      </categories>
+      <tags>
+        <tag>海思HDR</tag>
+        <tag>效果调试</tag>
+        <tag>sensor</tag>
+        <tag>HDR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>海思颜色调优总结</title>
+    <url>/posts/f695d596/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="一）综述"><a href="#一）综述" class="headerlink" title="(一）综述"></a>(一）综述</h2><h3 id="1-基础调色方案"><a href="#1-基础调色方案" class="headerlink" title="1. 基础调色方案"></a>1. 基础调色方案</h3><p>系统的颜色主要由AWB+CCM+GAMMA控制，颜色风格为整个色域内一致的风格，指的是由CCM的3x3矩阵将sensor的native色彩空间（设备相关的色彩）转换到sRGB 标准定义的色彩空间（设备无关的色彩）。特点是Sensor的响应被线性扩展到目标空间，即各种颜色获得同样的线性扩展。颜色的呈现随着sensor的光谱响应特性的不同而变化。<br>所有颜色的饱和度会随着CCM 变大和变小，不同的色调之间可能发生一些冲突，即优先调节某些色调会导致相邻的色调无法调整到位。由于3x3 矩阵的原因，暗处，中间亮度，高亮区域的颜色的调节是一致的，如果需要对三个亮度区域做不同的颜色调整，那么就不能满足需求。<br>如蓝色在高亮区域，饱和度比较低，在暗处饱和度比较高。而黄色在高亮区域饱和度比较高，在暗处饱和度比较低。</p>
+<h3 id="2-高级调色方案"><a href="#2-高级调色方案" class="headerlink" title="2. 高级调色方案"></a>2. 高级调色方案</h3><p>系统的颜色主要由AWB+CCM+CLUT+GAMMA+CA 控制，颜色风格可以按需调节。<br>使用高级调色方案可以调试出不同的颜色风格，比如对于饱和度高的颜色处理方法的不同可以产生不同的效果。<br>由于CCM矩阵3x3的局限性，可能会存在sensor上面的RGB，乘以CCM矩阵后，颜色饱和的情况。这种情况下，sensor能够感知到的色域就没有体现出来，少掉了一部分。<br>下面有两种映射的风格，根据不同的sensor去选择。<br>色域边缘的颜色向色域内映射的风格，指的是在CCM达到的颜色的基础上，将饱和度高的区域的颜色向色域内映射。特点是饱和度高的颜色的饱和度会降低，避免RGB 中有值发生小于0或者大于1 的现象。能将更多的高饱和颜色的变化保留下来，达到色域扩展的效果。适用于光谱响应比较好的sensor。这种调试目标会让饱和度中低的颜色在CCM 的作用下得到很好的表现，优先保留饱和度中低的颜色层次。<br>色域边缘的颜色向色域外映射的风格，指的是在CCM达到的颜色的基础上，将饱和度高的区域的颜色向色域外映射。特点是饱和度高的颜色的饱和度会增加，会更容易发生RGB 中有值小于0 或者大于1的现象。可以让颜色更鲜艳，突出画面中的主体。适用于光谱响应比较差的sensor，饱和度由CLUT补足，可以避免CCM的系数过大。这种调试目标会让饱和度中低的颜色在CCM的作用下不过于鲜艳，优先保留饱和度高的颜色层次。</p>
+<h2 id="（二）CCM"><a href="#（二）CCM" class="headerlink" title="（二）CCM"></a>（二）CCM</h2><h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CCM 标定的原理是，使用sensor抓拍到的24 色卡场景下前18 个色块的实际颜色信息和其期望值，计算3x3的CCM 矩阵。输入颜色经CCM 矩阵处理得到的颜色与其期望值差距越小，则CCM矩阵就越理想。</p>
+<h3 id="2-标定步骤"><a href="#2-标定步骤" class="headerlink" title="2. 标定步骤"></a>2. 标定步骤</h3><ol>
+<li>拍摄24色卡，调整AE 目标亮度，最亮灰阶(Block 19)的G 分量亮度在饱和值的0.8 倍左右（以12bitRAW数据为例，G分量数值在0xC00-0xD80 之间）。</li>
+<li>框定24色卡的每个色块</li>
+<li>设置当前生效的gamma，设置色块权重（如果针对肤色，可以把肤色的权重选大一点，然后就是红绿蓝的权重也要大一点），差异标准选CIE76 Delta E*ab，如果亮度达不到就autoGain，如果gamma是自定义的，就需要选择BT2020</li>
+<li>点击calibrate进行标定，在result页面可以手动调整色调和饱和度</li>
+</ol>
+<h3 id="3-手动修改CCM"><a href="#3-手动修改CCM" class="headerlink" title="3. 手动修改CCM"></a>3. 手动修改CCM</h3><p><img src="https://image.qinxing.xyz/20210313223407.png" alt></p>
+<p>为了保证白平衡不受破坏，参数必须满足条件：<br><code>ai0 + ai1 + ai2 = 1</code><br>R’中主要应该还是R分量的部分居多，因此必须满足条件：<br><code>aii ≥ 1</code><br>在满足以上条件的情况下，就可以微调颜色校正矩阵而不致产生破坏性影响。</p>
+<p>如果对比发现的红色块的B 分量偏大，导致红色块偏水红色，那么根据公式B’ = a20R+ a21G + a22B，且a20，a21，a22 的正负性分别为负，负，正，当前水红色的R，G，B值的大小顺序为R>B>G，且已知目标标准是(175,54,60)，而且a20 + a21 + a22 = 256，因此可以通过三种方式来实现B’减小的目的：</p>
+<ul>
+<li>增大a20 的绝对值，同时等量减小a21 的绝对值；</li>
+<li>增大a21 的绝对值，同时等量增大a22 的绝对值；</li>
+<li>增大a20 的绝对值，同时等量增大a22 的绝对值。</li>
+</ul>
+<p>通过这种方式，减小最终红色块的B’分量的值，从而将水红色的红色块校正回来。</p>
+<h2 id="（三）CA"><a href="#（三）CA" class="headerlink" title="（三）CA"></a>（三）CA</h2><h3 id="1-原理-1"><a href="#1-原理-1" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CSC模块把RGB转到YUV色彩空间后，CA颜色调整模块支持在YUV 空间进行色域调整的操作。<br>在 CA模式下，通过下面的公式可以将一个像素点（Y，U，V）映射到另一个像素点（Y’,U’,V’）。<br><code>Y’=Y;U’=aU;V’=aV;</code><br>其中a 是转换系数，采用这组公式可以在一定程度上保持亮度和色调的恒定，对像素点的饱和度做一个调整。转换系数a 和像素点亮度Y 联系，就可以根据亮度的变化来调整饱和度，达到局部调整饱和度的目的，亮处的颜色更鲜艳，暗处的色噪不明显。</p>
+<h3 id="2-调试方法"><a href="#2-调试方法" class="headerlink" title="2. 调试方法"></a>2. 调试方法</h3><p>通过au32YRatioLut调节亮区和暗区的饱和度，暗区的饱和度可以小一点，减少色噪，亮区的饱和度大一点<br>通过as32ISORatio根据增益调节饱和度</p>
+<h2 id="（四）CLUT"><a href="#（四）CLUT" class="headerlink" title="（四）CLUT"></a>（四）CLUT</h2><h3 id="1-原理-2"><a href="#1-原理-2" class="headerlink" title="1. 原理"></a>1. 原理</h3><p>CLUT 是一个改变线性RGB 值的模块，这个模块把用户的颜色调节需求，转化为源和目标RGB对的数据映射关系。<br>CLUT 是利用线性RGB 空间27x27x27分格的3D LUT 实现复杂的颜色调整操作，比如亮度，饱和度，色调的调整。可以对阴影，中间亮度，高亮区域分别调整。<br>可以参考此论文 《Strengths and limitations of a uniform 3D-LUT approach for digital camera characterization》</p>
+<h3 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2. 使用方法"></a>2. 使用方法</h3><ol>
+<li>使用源设备和目标设备同时拍摄色卡，获得色卡上面的颜色对</li>
+<li>使用源设备和目标设备同时拍摄同一场景，可以从场景中选择对应的物体表面，可以获得任意颜色对，指导CLUT表的生成。这种方法可以专门优化肤色</li>
+<li>在没有目标设备的情况下，用源设备拍摄场景后，可以选择想调节的颜色表面，然后通过调整HSL参数来获得目标RGB值，指导CLUT表的生成。hue范围+-20，sat范围0.4-1.6 倍，light范围0.6-1.4 倍。</li>
+</ol>
+<h2 id="（五）WDR模式下的调试"><a href="#（五）WDR模式下的调试" class="headerlink" title="（五）WDR模式下的调试"></a>（五）WDR模式下的调试</h2><p>对于WDR模式，因为CCM容易受到DRC 的影响，容易造成颜色难以矫正。所以对于WDR 模式来说，调整颜色需注意以下三点：</p>
+<ul>
+<li>在标准光源下（一般是三组光源，分别是D50，TL84，A 光源）拍标准24色卡，曝光比手动最大，同时也要调整亮度值，避免长帧过曝，采集长帧的RAW数据进行CCM的标定。标定过程中可以适当的降低饱和度，不能选择开启autoGain 功能。</li>
+<li>适当减少DRC曲线对图像亮度的大幅度提升，这样DRC对颜色的改变会较弱。此时，图像的亮度会有所降低达不到想要的亮度，这时，可以用gamma对亮度进行适当的提升。这样联调DRC和gamma模块，可以让整体的颜色调节更准确一些。</li>
+<li>对于WDR模式，因为大多场景是混合光源场景，容易出现亮处颜色偏色，人脸颜色偏红等问题，除了可以降低饱和度值以外，还可以使用CA 模块对这些区域适当的降低饱和度。</li>
+</ul>
+<h2 id="（六）调试注意点"><a href="#（六）调试注意点" class="headerlink" title="（六）调试注意点"></a>（六）调试注意点</h2><ol>
+<li>在修改红色块的B分量时，由于其他颜色的RGB大小顺序可能和红色块的冲突会导致其他色块的最终结果受到影响，所以要注意兼顾其他颜色，尤其是绿色块，肤色块，防止由于修改CCM矩阵带来的其他典型色块的偏色问题。</li>
+<li>对于深肤色和浅肤色这种三个颜色分量的值都差不多的色块，不是特别好单独调节。建议还是将红、绿、蓝这三个单色块的颜色校准确，其他颜色才会准确，因为其他颜色都是这三种颜色的混合色。</li>
+<li>由于参与CCM 标定的样本的影响，CCM的标定结果可能接近最佳而不是最佳。对CCM 标定的结果进行手动调节，可以参考下面的几种做法<ul>
+<li>CCM 主对角线以外元素均为负值会较好。如果a02为正数，会导致饱和度高的红色偏紫，如果a20 为正数，会导致饱和度高的蓝色偏紫。如果遇到这类偏紫的问题时，可以考虑手动将a02 或a20 从接近0 的正数改为比较小的负数。</li>
+<li>a10 为负值时，a10绝对值越大，CCM后红色的G通道值越小，红色的饱和度越高；a12 为负值时，a12 绝对值越大，CCM后蓝色的G 通道值越小，蓝色的饱和度越高。如果遇到红色或蓝色的饱和度过高的问题时，可以考虑减小a10 或a12的绝对值。</li>
+</ul>
+</li>
+<li>蓝色红色的误差最好分布在亮度维度上，因为如果红色和蓝色的误差分布在饱和度上，容易过饱和而超出色域。黄色的误差不用在意，因为在色卡中黄色属于这个画面亮度最高的色块，如果这张图片降低一个亮度等级，那么黄色块的颜色误差自然会好一些。</li>
+</ol>
+<h2 id="（七）问题定位"><a href="#（七）问题定位" class="headerlink" title="（七）问题定位"></a>（七）问题定位</h2><h3 id="1-局部偏色问题"><a href="#1-局部偏色问题" class="headerlink" title="1. 局部偏色问题"></a>1. 局部偏色问题</h3><p>局部偏色问题首先要分析Raw数据，确认是采集端引入还是后续算法处理引入。推荐灌Raw数据到HiISP 单板，操作PQTools 定位问题原因。</p>
+<ol>
+<li>确认黑电平和RGGB顺序正确</li>
+<li>Bypass 或Disable CCM、Gamma、ACM等影响颜色的模块，将AWB 问题和其他模块问题分开。</li>
+<li>打开3A分析工具，手动配置白平衡系数。选择左图中的灰色块，右键选择ApplyResult to Global，当前灰色块期望的AWB增益生效。</li>
+<li>观察图像中灰色区域颜色是否正常。示例图像仅做了Manual AWB，已经出现了局部区域偏粉，说明Raw数据有问题，请向前端追溯。</li>
+<li>如果以上步骤确认Raw数据是正常的，那么需要检查Gamma曲线是否合理。可以在板端配置Manual AWB，仅使能BLC、AWB、Demosaic和Gamma几个模块，开关Gamma对比偏色问题。 </li>
+<li>局部偏色问题，还要确认是否混合光源场景。可以用3A分析工具分别选不同的区域手动计算白平衡系数，如果不同区域期望的白平衡增益差异大，说明是混合光源场景。只能通过降低饱和度或者色温权重调整等方式优化颜色表现。 </li>
+</ol>
+<h3 id="2-3A分析工具看白色区域是否合理（AWB）"><a href="#2-3A分析工具看白色区域是否合理（AWB）" class="headerlink" title="2. 3A分析工具看白色区域是否合理（AWB）"></a>2. 3A分析工具看白色区域是否合理（AWB）</h3><ol>
+<li><p>从统计结果确认统计参数配置是否合理。选择白色块，正常情况CountAll应接近0xFFFF。如果CountAll为0，说明统计模块未找到灰点。 </p>
+</li>
+<li><p>关闭CrMax等灰点条件自适应功能。 </p>
+</li>
+<li><p>调整灰点配置参数，调试原则是：上限调大，下限调小，到3A分析工具显示的统计结果，CountAll接近0xFFFF为止。确认是哪个参数引入问题后，WhiteLevel和BlackLevel修改默认参数，Cr等需要调整数组。 </p>
+</li>
+<li><p>统计模块OK后，确认室内外检测是否正确，如果室内外检测错误，先用Manual的方式配置正确的室内外模式。 </p>
+</li>
+<li><p>确认检测色温有没有超出色温的上下限。将色温的上限调大，下限调小，观察问题是否有改善。 </p>
+</li>
+<li><p>确认灰色块有没有在白色区域范围内。</p>
+</li>
+<li><p>场景内有多个光源点时，需要排除肤色检测模块对算法的影响。 </p>
+</li>
+<li><p>仍然不能确定偏色原因时，将算法由Advance设置为LowCost，看能否解决；若不能解决，将Attr的ZoneSel设置为0，看能否解决；若还不能解决，就需要从滤光片、黑电平等模块系统分析。 </p>
+</li>
+</ol>
+<h2 id="（八）附录"><a href="#（八）附录" class="headerlink" title="（八）附录"></a>（八）附录</h2><h3 id="24色卡每个色块的RGB值以及名称"><a href="#24色卡每个色块的RGB值以及名称" class="headerlink" title="24色卡每个色块的RGB值以及名称"></a>24色卡每个色块的RGB值以及名称</h3><p><img src="https://image.qinxing.xyz/20210313223326.png" alt></p>
+<h3 id="监控上的颜色标准"><a href="#监控上的颜色标准" class="headerlink" title="监控上的颜色标准"></a>监控上的颜色标准</h3><p>判断色彩是否准确的方法是在不同的色温下拍摄24色卡后用imatest软件进行测量。 </p>
+<p>偏色的判定依据是连接图像坐标中心点和对应的目标方形色块点，得到一条直线，如果对应的圆形camera色块点，在这条直线上，则说明色差较小，方块和圆形的距离越远说明饱和度相差比较大，越近则饱和度相差比较小。 </p>
+<p>当坐标原点，方块ideal点和对应camera圆点，三点在一条直线上时，色差最小。camera圆点偏离的角度越大，则色差越大。当camera圆点越往外发散，则饱和度越高，越往内收敛，则饱和度越低。 </p>
+<p>24色卡中重点关注蓝色（13）绿色（14）红色（15）肤色（2）的色偏问题。 </p>
+<table>
+<thead>
+<tr>
+<th>色温</th>
+<th>imagetestSAT</th>
+<th>ΔE*abmean</th>
+<th>ΔE*abmax</th>
+<th>WBΔC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D75</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D65</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D50</td>
+<td>120%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CWF</td>
+<td>110%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TL84</td>
+<td>110%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>3</td>
+</tr>
+<tr>
+<td>A/H</td>
+<td>100%±5%</td>
+<td>13</td>
+<td>25</td>
+<td>3</td>
+</tr>
+</tbody></table>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>图像</category>
+      </categories>
+      <tags>
+        <tag>海思</tag>
+        <tag>颜色调优</tag>
+        <tag>色彩</tag>
+        <tag>总结</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>清晰度优化总结</title>
     <url>/posts/5366d370/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="（一）主观清晰度不够的原因"><a href="#（一）主观清晰度不够的原因" class="headerlink" title="（一）主观清晰度不够的原因"></a>（一）主观清晰度不够的原因</h2><ol>
@@ -636,10 +824,11 @@
 </body></html>]]></content>
       <categories>
         <category>工作</category>
-        <category>算法</category>
+        <category>图像</category>
       </categories>
       <tags>
         <tag>算法</tag>
+        <tag>精品</tag>
         <tag>ISP</tag>
         <tag>去马赛克</tag>
       </tags>
@@ -789,6 +978,33 @@
 <p>首先摄像头是线性感光的，现实世界的光线强度就是线性的，这个动态范围是很大的，通常摄像机拍出来的raw图都是12比特的，也就是说动态范围可以到10^12。即可以测量的最亮亮度是最暗亮度的4096倍，转换成db，就是72dB。当然即使是这样的动态范围，还是不足以完美的描述现实世界，因此搞了一系列的高动态范围的操作，可以让动态范围进一步的扩大。</p>
 <p>但是拍出来的照片需要考虑存储，如果线性存储的话，这个存储量是很惊人的。有没有方法把现实世界12比特以上的数据压缩到8比特呢？通过移位肯定是不行的，会造成精度损失。因此聪明的科学家根据人眼对亮度的感受是成指数的原理，对数据进行非线性压缩，这个gamma曲线是经过实验得出的。亮处压缩的多，暗处压缩的少</p>
 <p>最后一步就是对照片的还原。显示屏，和现实世界以及camera拍出来的raw图一样，都是一个线性的世界，而存储的图片亮度是个非线性域。图片怎么压缩的，就来一个反变换函数进行解析（解码）。<br>微软联合惠普和爱普生提出了sRGB标准，推荐显示器的gamma值为2.2。display P3的标准gamma值为2.6，由于这个gamma值更大一点，所以P3的照片用普通的显示器看应该更亮一点，sRGB的照片用p3显示器看应该更暗一点，还可能会让亮度的差异变得更加明显，不够平滑，导致大面积色块的问题。</p>
+<h2 id="gamma的发展"><a href="#gamma的发展" class="headerlink" title="gamma的发展"></a>gamma的发展</h2><p>Gamma 曲线的产生最早可以追溯到电子显像管的模拟时代：本来自然光线进入人眼是 一个线性变化结果，但是由于当年 CRT 显示器所使用的电子管的模拟特性，会使得电 子束发生亮度衰减，该衰减基本上符合幂函数：<br><code>F(x) = x^2.2, x∈[0,1]</code></p>
+<p>所以为了弥补 CRT 带来的衰减，模拟时代的电子工程师们在视频制作的时候加入一个 反向增益 <code>F(x) = x^(1/2.2), x∈[0,1]</code>。这条幂次约为 0.45 的曲线就是现在我们常用的 Gamma 曲线的原型。</p>
+<img src="https://image.qinxing.xyz/20210313224607.png" alt="CRT gamma curve & Gamma correction curve" style="zoom:50%;">
+
+<p>到了数字时代，本来 LCD 显示屏不存在衰减的问题，但是由于为了和模拟时代的视频 内容兼容，工程师人为在 LCD 显示上做了类似 CRT gamma 的信号衰减。并且意外的 发现带来了两个好处：</p>
+<ol>
+<li>CRT gamma 的曲线特征是压缩暗区，增大亮区。在早期显示亮度不够高的情况 下，能够有效压缩暗区噪声同时保留亮区细节</li>
+<li>在早期动态范围不够高的情况下（0.5~100 nit），CRT gamma 曲线与 Barten 曲线 契合度较高。这意味着 CRT gamma 曲线对码字的利用率很高。</li>
+</ol>
+<p>因此，CRT gamma 曲线就这么被保留下来并沿用至今。</p>
+<p>由于幂函数在 0 点的斜率为无限大，这意味着靠近信号 0 附近的噪声会被迅速放 大。为了抑制噪声，ITU-R 规定输入小于 0.018 的信号均使用一次线性函数进行“放 大”。为保证曲线平滑性，该线性函数的斜率与原幂函数在 0.018 处的斜率相等。最终 修正后得到了我们目前最常用的 Gamma 曲线（BT.709）：</p>
+<img src="https://image.qinxing.xyz/20210313232902.png" style="zoom:50%;">
+
+<p>虽然大部分情况下，使用 0.45 次幂的 Gamma 可以满足需求，但是如果观看环 境（ambient light）发生变化，则需要用不同的 Gamma 曲线来进行拟合。例如制作电 影时使用的 Gamma 曲线约为 0.45 次幂，但是在播放时采用的设备用的是 2.6 次幂，两 者拟合的结果并非线性，但是在电影院这种环境光很微弱的情况下，能够给观众带来 更好的对比度效果和观看体验（System Gamma）。</p>
+<p>在 SDR 时代，由于传输曲线需要表达的动态范围并不大（最大只有 300nit 左右），因此 Gamma 曲线性能是满足 JND 需求的。但是进入到 HDR 时代后，由于需要表示的动态范围大了至少两个数量级（103->105）， 因此 Gamma 曲线性 能已不能满足 JND 需求。所以研究人员认为，直接使用 Barten 曲线用来作为传输曲线，应该是性价比最高的方 法。通过数学拟合，研究人员得到了线性域下用来描述 Barten 曲线的数学公式。这便 是 PQ 曲线（Perceptual Quantized Curve）</p>
+<img src="https://image.qinxing.xyz/20210313224836.png" style="zoom:50%;">
+
+
+<p>其中：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">m1 = 2610/16384 = 0.1593017578125</span><br><span class="line">m2 = 2523/4096*128 = 78.84375 </span><br><span class="line">c1 = 3424/4096 = 0.8359375 = c3 - c2 + 1 </span><br><span class="line">c2 = 2413/4096*32 = 18.8515625 </span><br><span class="line">c3 = 2392/4095*32 = 18.6875</span><br></pre></td></tr></tbody></table></figure>
+
+<p>除了 PQ 曲线，研究人员在研究 Barten 曲线时发现，原 Gamma 曲线在低亮度区域的曲 线性能与 PQ 曲线近似，而在高亮度区域的曲线性能有较大损失，而满足 Log 形式的 曲线的曲线性能在高亮度区域与 PQ 曲线近似。因此研究人员决定将 Gamma 曲线和 Log 曲线结合成一条平滑连续的曲线作为传输曲线。这便是 HLG 曲线（Hybrid LogGamma Curve）</p>
+<img src="https://image.qinxing.xyz/20210313224909.png" style="zoom:50%;">
+
+<p>其中：<br><code>a=0.17883277, b=0.28466892, c=0.55991073</code></p>
+<p>不管是 SDR 的 Gamma 曲线，还是 HDR 的 PQ、HLG 曲线，都是为了尽量使用有限的 带宽来表达线性光的强度。如果观察采集、传输、显示这一整套端到端的系统，我们 会发现整个视频信号处理的过程，就是“将拍摄现场的场景光线颜色信息还原到观看 的显示设备的光线颜色信息”的过程。而这个过程，被称为 OOTF（Opto-optical Transfer Function，光-光转换曲线）</p>
+<p><img src="https://image.qinxing.xyz/20210313225015.png" alt="OOTF 系统框架示意图"></p>
 <h2 id="和渲染之间的联系"><a href="#和渲染之间的联系" class="headerlink" title="和渲染之间的联系"></a>和渲染之间的联系</h2><p>游戏界也长期忽略了显示器的gamma问题，导致渲染的画面偏暗，错了几十年。游戏渲染的其实是个线性世界，如果直接输出显示，由于显示器自带一个2.2的gamma，会导致渲染出来的画面总是暗沉沉的。因此游戏渲染在输出前需要先用gamma进行gamma矫正，再送去显示。</p>
 <h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>既然显示屏是按照2.2次方的gamma对图片进行还原，理论上isp应该让照片更加符合现实场景，那么为什么不直接在raw图上用1/2.2次方的gamma处理呢？</p>
 <p><strong>我的思考</strong>：可能是由于镜头的影响，sensor感知到世界和现实世界有一定的差距，同时很多时候都需要对图片进行一个对比度等效果的增强，如果在这个基础上再去乘以一个增益，会带来更多的精度损失，还不如用一条自定义的gamma一步到位。</p>
@@ -798,6 +1014,7 @@
         <category>图像</category>
       </categories>
       <tags>
+        <tag>精品</tag>
         <tag>ISP</tag>
         <tag>gamma</tag>
       </tags>
@@ -2240,6 +2457,7 @@
       <tags>
         <tag>原创</tag>
         <tag>镜头</tag>
+        <tag>精品</tag>
         <tag>多摄</tag>
         <tag>潜望式摄像头</tag>
       </tags>
@@ -2628,6 +2846,7 @@
         <tag>原创</tag>
         <tag>镜头</tag>
         <tag>畸变</tag>
+        <tag>精品</tag>
       </tags>
   </entry>
   <entry>
@@ -2983,8 +3202,30 @@
       </categories>
       <tags>
         <tag>原创</tag>
+        <tag>精品</tag>
         <tag>ISP</tag>
         <tag>科普</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一维卡尔曼滤波</title>
+    <url>/posts/124f9d98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
+<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
+<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
+<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
+<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>深度学习</tag>
       </tags>
   </entry>
   <entry>
@@ -3006,27 +3247,6 @@
 <p>带来的问题，L1损失基于全图的平均，导致图像模糊，细节丢失。这个损失函数也就决定了这个模型训练出来的就类似一个低通滤波器</p>
 <p><strong>疑问</strong>：为什么不可以直接用统计值去训练，而不是直接用像素一一对应  </p>
 <p>回答：如果只需要统计值，那可以说是非监督训练，一般来说，非监督训练99.9%不如监督训练，能用监督训练，就尽量用监督训练 </p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一维卡尔曼滤波</title>
-    <url>/posts/124f9d98/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
-<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
-<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
-<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
-<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -3463,8 +3683,8 @@
         <category>图像效果调试</category>
       </categories>
       <tags>
-        <tag>调试</tag>
         <tag>色彩</tag>
+        <tag>调试</tag>
       </tags>
   </entry>
   <entry>
@@ -6014,6 +6234,29 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>c++ private外部访问问题</title>
+    <url>/posts/1793d0bf/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
+</blockquote>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>private数据外部不能直接获取</li>
+<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
+<li>protected和private都可以利用指针在外部进行读取和修改</li>
+</ul>
+<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>问题：中文乱码</title>
     <url>/posts/16d19117/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="认识编码及Python乱码"><a href="#认识编码及Python乱码" class="headerlink" title="认识编码及Python乱码"></a>认识编码及Python乱码</h1><p><a href="https://blog.csdn.net/joyfixing/article/details/79971667" target="_blank" rel="noopener">彻底搞懂 python 中文乱码问题</a>这篇博客讲的很透彻，以及在Python中如何进行转码</p>
@@ -6037,29 +6280,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>中文乱码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c++ private外部访问问题</title>
-    <url>/posts/1793d0bf/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
-</blockquote>
-<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>private数据外部不能直接获取</li>
-<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
-<li>protected和private都可以利用指针在外部进行读取和修改</li>
-</ul>
-<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
       </tags>
   </entry>
   <entry>
@@ -6761,70 +6981,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>git常用命令</title>
-    <url>/posts/423abe9e/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
-<li>检出仓库：$ git clone git://github.com/jquery/jquery.git  </li>
-<li>查看远程仓库：$ git remote -v  </li>
-<li>添加远程仓库：$ git remote add [name] [url]  </li>
-<li>删除远程仓库：$ git remote rm [name]  </li>
-<li>修改远程仓库：$ git remote set-url –push[name][newUrl]  </li>
-<li>拉取远程仓库：$ git pull [remoteName] [localBranchName]  </li>
-<li>推送远程仓库：$ git push [remoteName] [localBranchName]  </li>
-</ul>
-<h1 id="分支操作相关命令"><a href="#分支操作相关命令" class="headerlink" title="分支操作相关命令"></a>分支操作相关命令</h1><ul>
-<li>查看本地分支：$ git branch  </li>
-<li>查看远程分支：$ git branch -r  </li>
-<li>创建本地分支：$ git branch [name] —-注意新分支创建后不会自动切换为当前分支  </li>
-<li>切换分支：$ git checkout [name]  </li>
-<li>创建新分支并立即切换到新分支：$ git checkout -b [name]  </li>
-<li>删除分支：$ git branch -d [name] —- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项  </li>
-<li>合并分支：$ git merge [name] —-将名称为[name]的分支与当前分支合并  </li>
-<li>创建远程分支(本地分支push到远程)：$ git push origin [name]  </li>
-<li>删除远程分支：$ git push origin :heads/[name]  </li>
-</ul>
-<p>我从master分支创建了一个issue5560分支，做了一些修改后，使用git push origin master提交，但是显示的结果却是’Everything up-to-date’，发生问题的原因是git push origin master 在没有track远程分支的本地分支中默认提交的master分支，因为master分支默认指向了origin master 分支，这里要使用git push origin issue5560：master 就可以把issue5560推送到远程的master分支了。</p>
-<ul>
-<li><p>如果想把本地的某个分支test提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，那么可以这么做。<br>$ git push origin test:master         // 提交本地test分支作为远程的master分支 //好像只写这一句，远程的github就会自动创建一个test分支<br>$ git push origin test:test              // 提交本地test分支作为远程的test分支</p>
-</li>
-<li><p>如果想删除远程的分支呢？类似于上面，如果:左边的分支为空，那么将删除:右边的远程的分支。<br>$ git push origin :test              // 刚提交到远程的test将被删除，但是本地还会保存的，不用担心</p>
-</li>
-</ul>
-<h1 id="版本-tag-操作相关命令"><a href="#版本-tag-操作相关命令" class="headerlink" title="版本(tag)操作相关命令"></a>版本(tag)操作相关命令</h1><ul>
-<li>查看版本：$ git tag</li>
-<li>创建版本：$ git tag [name]</li>
-<li>删除版本：$ git tag -d [name]</li>
-<li>查看远程版本：$ git tag -r</li>
-<li>创建远程版本(本地版本push到远程)：$ git push origin [name]</li>
-<li>删除远程版本：$ git push origin :refs/tags/[name]</li>
-</ul>
-<h1 id="子模块-submodule-相关操作命令"><a href="#子模块-submodule-相关操作命令" class="headerlink" title="子模块(submodule)相关操作命令"></a>子模块(submodule)相关操作命令</h1><ul>
-<li>添加子模块：$ git submodule add [url] [path]  </li>
-</ul>
-<p>如：$ git submodule add git://github.com/soberh/ui-libs.git src/main/webapp/ui-libs  </p>
-<ul>
-<li>初始化子模块：$ git submodule init —-只在首次检出仓库时运行一次就行</li>
-<li>更新子模块：$ git submodule update —-每次更新或切换分支后都需要运行一下</li>
-<li>删除子模块：<ul>
-<li>$ git rm –cached [path]</li>
-<li>编辑“.gitmodules”文件，将子模块的相关配置节点删除掉</li>
-<li>编辑“.git/config”文件，将子模块的相关配置节点删除掉</li>
-<li>手动删除子模块残留的目录</li>
-</ul>
-</li>
-</ul>
-<h1 id="忽略一些文件、文件夹不提交"><a href="#忽略一些文件、文件夹不提交" class="headerlink" title="忽略一些文件、文件夹不提交"></a>忽略一些文件、文件夹不提交</h1><p>在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可，如<br>target<br>bin<br>*.db  </p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo 多终端同步</title>
     <url>/posts/5f460a06/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
@@ -6932,6 +7088,70 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git常用命令</title>
+    <url>/posts/423abe9e/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
+<li>检出仓库：$ git clone git://github.com/jquery/jquery.git  </li>
+<li>查看远程仓库：$ git remote -v  </li>
+<li>添加远程仓库：$ git remote add [name] [url]  </li>
+<li>删除远程仓库：$ git remote rm [name]  </li>
+<li>修改远程仓库：$ git remote set-url –push[name][newUrl]  </li>
+<li>拉取远程仓库：$ git pull [remoteName] [localBranchName]  </li>
+<li>推送远程仓库：$ git push [remoteName] [localBranchName]  </li>
+</ul>
+<h1 id="分支操作相关命令"><a href="#分支操作相关命令" class="headerlink" title="分支操作相关命令"></a>分支操作相关命令</h1><ul>
+<li>查看本地分支：$ git branch  </li>
+<li>查看远程分支：$ git branch -r  </li>
+<li>创建本地分支：$ git branch [name] —-注意新分支创建后不会自动切换为当前分支  </li>
+<li>切换分支：$ git checkout [name]  </li>
+<li>创建新分支并立即切换到新分支：$ git checkout -b [name]  </li>
+<li>删除分支：$ git branch -d [name] —- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项  </li>
+<li>合并分支：$ git merge [name] —-将名称为[name]的分支与当前分支合并  </li>
+<li>创建远程分支(本地分支push到远程)：$ git push origin [name]  </li>
+<li>删除远程分支：$ git push origin :heads/[name]  </li>
+</ul>
+<p>我从master分支创建了一个issue5560分支，做了一些修改后，使用git push origin master提交，但是显示的结果却是’Everything up-to-date’，发生问题的原因是git push origin master 在没有track远程分支的本地分支中默认提交的master分支，因为master分支默认指向了origin master 分支，这里要使用git push origin issue5560：master 就可以把issue5560推送到远程的master分支了。</p>
+<ul>
+<li><p>如果想把本地的某个分支test提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，那么可以这么做。<br>$ git push origin test:master         // 提交本地test分支作为远程的master分支 //好像只写这一句，远程的github就会自动创建一个test分支<br>$ git push origin test:test              // 提交本地test分支作为远程的test分支</p>
+</li>
+<li><p>如果想删除远程的分支呢？类似于上面，如果:左边的分支为空，那么将删除:右边的远程的分支。<br>$ git push origin :test              // 刚提交到远程的test将被删除，但是本地还会保存的，不用担心</p>
+</li>
+</ul>
+<h1 id="版本-tag-操作相关命令"><a href="#版本-tag-操作相关命令" class="headerlink" title="版本(tag)操作相关命令"></a>版本(tag)操作相关命令</h1><ul>
+<li>查看版本：$ git tag</li>
+<li>创建版本：$ git tag [name]</li>
+<li>删除版本：$ git tag -d [name]</li>
+<li>查看远程版本：$ git tag -r</li>
+<li>创建远程版本(本地版本push到远程)：$ git push origin [name]</li>
+<li>删除远程版本：$ git push origin :refs/tags/[name]</li>
+</ul>
+<h1 id="子模块-submodule-相关操作命令"><a href="#子模块-submodule-相关操作命令" class="headerlink" title="子模块(submodule)相关操作命令"></a>子模块(submodule)相关操作命令</h1><ul>
+<li>添加子模块：$ git submodule add [url] [path]  </li>
+</ul>
+<p>如：$ git submodule add git://github.com/soberh/ui-libs.git src/main/webapp/ui-libs  </p>
+<ul>
+<li>初始化子模块：$ git submodule init —-只在首次检出仓库时运行一次就行</li>
+<li>更新子模块：$ git submodule update —-每次更新或切换分支后都需要运行一下</li>
+<li>删除子模块：<ul>
+<li>$ git rm –cached [path]</li>
+<li>编辑“.gitmodules”文件，将子模块的相关配置节点删除掉</li>
+<li>编辑“.git/config”文件，将子模块的相关配置节点删除掉</li>
+<li>手动删除子模块残留的目录</li>
+</ul>
+</li>
+</ul>
+<h1 id="忽略一些文件、文件夹不提交"><a href="#忽略一些文件、文件夹不提交" class="headerlink" title="忽略一些文件、文件夹不提交"></a>忽略一些文件、文件夹不提交</h1><p>在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可，如<br>target<br>bin<br>*.db  </p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
