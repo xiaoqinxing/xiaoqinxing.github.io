@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>清晰度优化总结 | 清新的日子</title><meta name="keywords" content="海思清晰度优化,清晰度,3DNR,清晰度不够的原因"><meta name="author" content="xiaoqinxing"><meta name="copyright" content="xiaoqinxing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="清晰度不够的原因有哪些？对主观和客观清晰度不够的原因进行总结海思平台该如何优化清晰度？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="清晰度优化总结">
+<meta property="og:url" content="https://www.qinxing.xyz/posts/5366d370/index.html">
+<meta property="og:site_name" content="清新的日子">
+<meta property="og:description" content="清晰度不够的原因有哪些？对主观和客观清晰度不够的原因进行总结海思平台该如何优化清晰度？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.qinxing.xyz/20210313152816.png">
+<meta property="article:published_time" content="2020-12-30T12:57:04.000Z">
+<meta property="article:modified_time" content="2021-03-13T08:00:48.867Z">
+<meta property="article:author" content="xiaoqinxing">
+<meta property="article:tag" content="海思清晰度优化">
+<meta property="article:tag" content="清晰度">
+<meta property="article:tag" content="3DNR">
+<meta property="article:tag" content="清晰度不够的原因">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.qinxing.xyz/20210313152816.png"><link rel="shortcut icon" href="/img/pwaicons/favicon.ico"><link rel="canonical" href="https://www.qinxing.xyz/posts/5366d370/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="google-site-verification" content="Osf5KuSN_EP3Uk2LaoVo568hFQb2-0VdKOOoJnxTC5g"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#fff"/><link rel="apple-touch-icon" sizes="180x180" href="/img/pwaicons/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/pwaicons/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/pwaicons/favicon-16x16.png"/><link rel="mask-icon" href="/img/pwaicons/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b21df310b77ed0cbce2ac9993f8a13f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "66531382");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '4.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: xiaoqinxing","link":"链接: ","source":"来源: 清新的日子","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-13 16:00:48'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://image.qinxing.xyz/dac12727b0ba786043e8cdefd90f1c35_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">101</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">110</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（一）主观清晰度不够的原因"><span class="toc-number">1.</span> <span class="toc-text">（一）主观清晰度不够的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（二）客观清晰度不够的原因（清晰度线不达标）"><span class="toc-number">2.</span> <span class="toc-text">（二）客观清晰度不够的原因（清晰度线不达标）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（三）海思锐化调试总结"><span class="toc-number">3.</span> <span class="toc-text">（三）海思锐化调试总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（四）海思2D降噪调试总结"><span class="toc-number">4.</span> <span class="toc-text">（四）海思2D降噪调试总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标定"><span class="toc-number">4.1.</span> <span class="toc-text">标定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数组成"><span class="toc-number">4.2.</span> <span class="toc-text">参数组成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（五）海思3DNR调试总结"><span class="toc-number">5.</span> <span class="toc-text">（五）海思3DNR调试总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数组成-1"><span class="toc-number">5.1.</span> <span class="toc-text">参数组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试方法"><span class="toc-number">5.2.</span> <span class="toc-text">调试方法</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://image.qinxing.xyz/20210313152816.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">清新的日子</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 收藏</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/website/"><i class="fa-fw fa fa-tag"></i><span> 网站</span></a></li></ul></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">清晰度优化总结</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-30T12:57:04.000Z" title="发表于 2020-12-30 20:57:04">2020-12-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-13T08:00:48.867Z" title="更新于 2021-03-13 16:00:48">2021-03-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E4%BD%9C/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><html><head></head><body><h2 id="（一）主观清晰度不够的原因"><a href="#（一）主观清晰度不够的原因" class="headerlink" title="（一）主观清晰度不够的原因"></a>（一）主观清晰度不够的原因</h2><ol>
+<li>从场景方面考虑：<ol>
+<li>物体本身由于反光等原因不清晰</li>
+<li>场景亮度过低，导致噪声大，画面模糊</li>
+</ol>
+</li>
+<li>从镜头方面考虑：<ol>
+<li>景深问题</li>
+<li>虚焦问题</li>
+<li>镜头上有脏东西</li>
+</ol>
+</li>
+<li>从ISP的方面考虑：<ol>
+<li>降噪开的太强</li>
+<li>锐化开的太低</li>
+<li>对比度太低</li>
+</ol>
+</li>
+<li>从编码方面考虑：<ol>
+<li>分辨率不够</li>
+<li>码率太低</li>
+</ol>
+</li>
+<li>从显示方面考虑：<ol>
+<li>电视机对比度太低，显得清晰度低</li>
+<li>不同电视机自带的锐化强度不同</li>
+</ol>
+</li>
+</ol>
+<h2 id="（二）客观清晰度不够的原因（清晰度线不达标）"><a href="#（二）客观清晰度不够的原因（清晰度线不达标）" class="headerlink" title="（二）客观清晰度不够的原因（清晰度线不达标）"></a>（二）客观清晰度不够的原因（清晰度线不达标）</h2><ol>
+<li><strong>没有手动聚焦</strong>：自动聚焦往往不能聚焦到最清晰的地方，需要手动调焦。这样也有利于对比修改参数前后，清晰度是否有改善。因为每次修改参数后，AF可能会重新聚焦，如果每次聚焦位置不一致，就会清晰度不一致，从而导致误判。</li>
+<li><strong>crosstalk开启</strong>：crosstalk开启会对清晰度有一些影响，一般sensor较好的不需要对绿平衡进行矫正</li>
+<li><strong>锐化强度不够</strong>：尤其是纹理层的锐化太弱</li>
+<li><strong>2D降噪太强</strong>：尤其是随机噪声去除的强度太大</li>
+<li><strong>3DNR的调试不够精细</strong>：时域降噪太弱</li>
+<li><strong>开启了LDCI（局部对比度增强）</strong>：导致画面较暗区域的噪声较大，需要加强降噪，反过来就导致清晰度降低</li>
+<li><strong>坏点矫正也会增加噪声</strong>：融合比率blendratio 值偏大会偏绿，同时增加跳动的噪声，导致需要加大降噪，造成清晰度下降</li>
+<li><strong>没有对不同环境亮度下的降噪和锐化参数进行调节</strong>：如果亮环境和暗环境都用同一套降噪锐化参数，由于需要照顾到中低照度下的效果，必然要加大降噪，会导致比较亮的环境下，清晰度下降</li>
+</ol>
+<h2 id="（三）海思锐化调试总结"><a href="#（三）海思锐化调试总结" class="headerlink" title="（三）海思锐化调试总结"></a>（三）海思锐化调试总结</h2><p>调试锐化之前需要先理解锐化的系统原理图。</p>
+<p><img src="https://image.qinxing.xyz/20210313153555.png" alt></p>
+<ol>
+<li>首先输入的图像经过了滤波分解成了三个图像，基础层、边缘层、细节层。基础层不进行变换；边缘层是有方向边缘，存在于物体的边缘；细节层是无方向纹理，存在于平坦区域的纹理或者是清晰度线极高的部分。</li>
+<li>边缘层和细节层分别通过edgestr和texturestr调节强度，通过edgefreq和texture调节增强的频率。</li>
+<li>将变换后的三张图像融合，融合参数两个，lumawgt调节画面中不同亮度区域的锐化权重，抑制部分颜色区域的最大锐化强度：Rgain(深红),Ggain(绿色),Bgain(深蓝),Skingain(肤色)</li>
+<li>最后对白边（overshoot)和黑边(undershoot)进行抑制，分为全局和局部的方法。</li>
+</ol>
+<p>懂了原理之后，我们就知道了如何调试锐化参数。</p>
+<ol>
+<li>首先我们要知道细节层和边缘层大概分布在图像的哪些位置，把边缘层强度开到最大，细节层强度开到0，从而确定边缘层的范围，反之可以确定细节层的范围。边缘层锐化出来的噪声比较小，调节edgefiltstr和DetailCtrlThr，可以调节边缘层和细节层的范围。还有一点需要注意，锐化原理图中没有DetailCtrl这个参数，这个参数是纹理区的shoot强度的控制，需要调大些，否则怎么调节纹理区的锐化强度都不明显。</li>
+<li>确定锐化的频率。先把边缘层和细节层的强度开到最大，调节EdgeFreq和TextureFreq，频率越大，边缘就纤薄细碎，反之就越粗越圆润。</li>
+<li>调试不同频率下的锐化强度。横坐标左边是高频纹理区域，右边是强边缘，如果对清晰度要求比较高，会需要把左侧抬高，否则清晰度很难达到指标。PS：经过实测，人脸皮肤的细节也在靠左的区域，如果像默认值那样调，皮肤区域的锐化太弱，会造成磨皮感太强的感觉。<br><img src="https://image.qinxing.xyz/20210313153521.png" alt></li>
+</ol>
+<ol start="4">
+<li>调节画面中不同亮度区域的锐化强度。lumawgt的横坐标从左到右的意义是亮度逐渐增加。根据我的调试经验来说，经过gamma之后，暗区有所提亮，造成噪声较多，不适合过多的锐化，调低一些。而亮区经过gamma之后，有所压缩，需要提升一些锐化强度。</li>
+<li>调试完降噪后，测试特殊颜色区域的噪声情况，注意深红色，绿色，蓝色和肤色区域的噪声，如果画面整体噪声控制的比较好，但是就这些区域的噪声比较大，就需要调整Rgain,Ggain,Bgain,Skingain这四个参数。</li>
+<li>最后是调整白边和黑边的强度，建议使用ShootSupStr和ShootSupAdj局部抑制白边和黑边。可以保证清晰度不明显下降。但是播放的视频，往往需要一些白边黑边，人眼才觉得清晰高，这部分不应过多的抑制。</li>
+</ol>
+<h2 id="（四）海思2D降噪调试总结"><a href="#（四）海思2D降噪调试总结" class="headerlink" title="（四）海思2D降噪调试总结"></a>（四）海思2D降噪调试总结</h2><p>2D降噪在锐化之前，可以减少锐化出来的噪声，减轻3DNR的压力。同时2D降噪在RAW域降噪，可以通过标定得到比较准确的噪声模型，对降噪提供参考。</p>
+<h3 id="标定"><a href="#标定" class="headerlink" title="标定"></a>标定</h3><ol>
+<li><p>拍摄24色卡，设置成目标增益，然后调整曝光时间，让24色卡左下角的白块，G分量亮度在饱和亮度的80%左右（RAW图），采集30帧raw数据。</p>
+</li>
+<li><p>然后曝光时间减少为原来的1/16，然后再抓取30帧raw数据。</p>
+</li>
+<li><p>重复前面两个步骤，把目标增益覆盖所需要的增益范围。</p>
+</li>
+<li><p>把数据导入到pqtools工具里面的ISP calibrate tool，可以标定出增益-噪声曲线</p>
+</li>
+<li><p>最后把标定结果导出为头文件，替换cmos_ex.h里的g_stIspNoiseCalibration。</p>
+</li>
+</ol>
+<p><img src="https://image.qinxing.xyz/20210313153335.png" alt></p>
+<h3 id="参数组成"><a href="#参数组成" class="headerlink" title="参数组成"></a>参数组成</h3><p>主要的参数就是CoringRatio(噪声保留强度，值越大，保留的噪声越多），CoringWgt（随机噪声保留强度），CoarseStr（整体降噪强度），注意随机噪声保留强度过小，会损失清晰度！建议随着照度增加，随机噪 声保留强度适当增大，改善冲击噪声及 pattern 噪声，使全图噪声均匀分布。</p>
+<h2 id="（五）海思3DNR调试总结"><a href="#（五）海思3DNR调试总结" class="headerlink" title="（五）海思3DNR调试总结"></a>（五）海思3DNR调试总结</h2><p>3DNR的参数特别多，如果每个参数都要去调教，花的时间太多了，这里教大家如何快速调试。如果还有更进一步的要求，需要仔细研究文档《Hi3559A╱C V100 3DNR参数配置说明》。</p>
+<h3 id="参数组成-1"><a href="#参数组成-1" class="headerlink" title="参数组成"></a>参数组成</h3><p>3DNR是可以添加多组降噪参数的，对不同增益下的画面设置不同的降噪参数，ISO100代表的是1倍增益，依次类推。一般低ISO的画面质量都比较好，降噪可以弱一点；中等ISO的噪声变大了，降噪要强一点；到了低照度下，过强的降噪会损失图像清晰度，需要减弱空域降噪，增加时域降噪，牺牲一些画面拖影的问题。</p>
+<p>然后需要了解3DNR的参数构成，如下图所示，可以划分为4个滤波器，第0级滤波器是带有时域参考的空域滤波器，中间两个第1、2级是带有动静判决的时域+空域滤波，最后一个第3级滤波器是纯粹的空域滤波。</p>
+<p>而每个滤波器的上方绿色的那排参数是空滤滤波，重要的参数就是SBS(图像中亮的区域的降噪强度），SDS（图像中暗的区域的降噪强度），STH是保边阈值；中间黑色的那排是时域和空域的权重(STR)，大小越大，时域降噪的强度就越大，下方绿色的那排是时域滤波参数，主要调试动静判决、频率和强度，第0、3滤波器没有可调的时域滤波参数。<br><img src="https://image.qinxing.xyz/20210313153449.png" alt></p>
+<h3 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h3><p>由于针对人脸抓拍应用场景，部分参数可以确定：SBF是滤波器的频率选择，第0, 1, 2级的需要设置成2 ,3 ,0，第 0，2，3 级的 STH 三段阈值调试比例为 1：2：4，第 1 级的 STH 的三段阈值调试比例接近 为 1：2：0，STR配置为13,13,13,这种调试方法可以获得人脸边缘过渡自然和整体空域去噪保边的效果。</p>
+<ol>
+<li>调试静止的场景。将 TFS 调最大63，将 MATH 调到刚好抑制雨点噪声，这时再适当调低 TFS，直到没有雨点，建议第1级的TFS强度大于第二级。MATH是动静判诀的阈值，MATH和TFS过大都会引起拖影，需要平衡。</li>
+<li>在静止画面时域去噪调试合理的基础上，接下来需要调试中间两级的动静判决的空域滤波参数，抑制运动区域的噪声，主要调试STH保边阈值，SBS,SDS降噪强度</li>
+<li>如果画面中还有部分噪声，就调节第3级的空域降噪，有两种模式可选，一种是简单的SBS，SDS控制，另外一种可以拉曲线，调试更加细致，噪声不多的话，用简单模式即可。同时噪声这块也需要和锐化进行平衡，噪声过大，可以适当地降低锐化。</li>
+<li>最后调试色噪，sfc设置成1，sfc/tfc/csfs就是降噪强度，csfs主要去除画面的低频噪声，sfc空域色度降噪强度，tfc是时域色度降噪强度，一般高增益下调节csfs效果很明显。</li>
+</ol>
+</body></html></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xiaoqinxing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.qinxing.xyz/posts/5366d370/">https://www.qinxing.xyz/posts/5366d370/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.qinxing.xyz" target="_blank">清新的日子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/ISP/">ISP</a><a class="post-meta__tags" href="/tags/%E5%8E%BB%E9%A9%AC%E8%B5%9B%E5%85%8B/">去马赛克</a></div><div class="post_share"><div class="social-share" data-image="https://image.qinxing.xyz/20210313152816.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/39e2a684/"><img class="prev-cover" src="https://image.qinxing.xyz/20210311221959.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数字水印</div></div></a></div><div class="next-post pull-right"><a href="/posts/7ccd3a22/"><img class="next-cover" src="https://image.qinxing.xyz/20210313143435.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">海思pqtools参数转代码工具</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/d206a04c/" title="ISP算法之demosaic"><img class="cover" src="https://image.qinxing.xyz/20210310233055.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-01</div><div class="title">ISP算法之demosaic</div></div></a></div><div><a href="/posts/506138d8/" title="ISP算法之坏点矫正"><img class="cover" src="https://image.qinxing.xyz/20210313002702.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-01</div><div class="title">ISP算法之坏点矫正</div></div></a></div><div><a href="/posts/e72969e7/" title="ISP算法之色差矫正CAC总结"><img class="cover" src="https://image.qinxing.xyz/20210310235932.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">ISP算法之色差矫正CAC总结</div></div></a></div><div><a href="/posts/39e2a684/" title="数字水印"><img class="cover" src="https://image.qinxing.xyz/20210311221959.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-20</div><div class="title">数字水印</div></div></a></div><div><a href="/posts/8da2c999/" title="ISP算法之3D降噪算法实现"><img class="cover" src="https://image.qinxing.xyz/20200520233103.png"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-16</div><div class="title">ISP算法之3D降噪算法实现</div></div></a></div><div><a href="/posts/42798c5a/" title="相机成像模型"><img class="cover" src="https://pic1.zhimg.com/v2-5912d68cfb8f6b511bc23a12ef14c709_1200x500.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-08</div><div class="title">相机成像模型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By xiaoqinxing</div><div class="footer_custom_text"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow"><img src="/img/又拍云_logo6.png" alt="CDN赞助商" style="max-height:2em"></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>苏ICP备20006733号</span></a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: '2pB7a7KQi6qQhvy3lVryrecn-gzGzoHsz',
+      appKey: 'CGbafSzCCsV7hW2NbXXSEjRM',
+      placeholder: '快来留言吧~\r\n昵称里面填qq号，可以自动出现昵称和邮箱~',
+      avatar: 'wavatar',
+      meta: 'nick,mail'.split(','),
+      pageSize: '10',
+      lang: 'zh-cn',
+      recordIP: false,
+      serverURLs: 'https://valine.qinxing.xyz',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
