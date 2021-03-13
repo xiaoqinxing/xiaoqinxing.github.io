@@ -312,6 +312,7 @@
       </categories>
       <tags>
         <tag>算法</tag>
+        <tag>精品</tag>
         <tag>ISP</tag>
         <tag>总结</tag>
         <tag>CAC</tag>
@@ -827,7 +828,6 @@
         <category>图像</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>精品</tag>
         <tag>ISP</tag>
         <tag>去马赛克</tag>
@@ -1515,6 +1515,7 @@
       </categories>
       <tags>
         <tag>算法</tag>
+        <tag>精品</tag>
         <tag>降噪</tag>
       </tags>
   </entry>
@@ -1986,6 +1987,8 @@
         <category>图像</category>
       </categories>
       <tags>
+        <tag>算法</tag>
+        <tag>精品</tag>
         <tag>AF</tag>
       </tags>
   </entry>
@@ -3208,27 +3211,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一维卡尔曼滤波</title>
-    <url>/posts/124f9d98/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
-<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
-<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
-<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
-<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
-</body></html>]]></content>
-      <categories>
-        <category>工作</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AI超微光简介</title>
     <url>/posts/a809ba60/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="任何一个函数都可以被一个两层的神经网络近似-–李宏毅"><a href="#任何一个函数都可以被一个两层的神经网络近似-–李宏毅" class="headerlink" title="任何一个函数都可以被一个两层的神经网络近似 –李宏毅"></a>任何一个函数都可以被一个两层的神经网络近似 –李宏毅</h2><p>这是神经网络的基础，可以去逼近真实的函数，不过也终究不会超过真实的函数<br><a href="http://neuralnetworksanddeeplearning.com/chap4.html" target="_blank" rel="noopener">http://neuralnetworksanddeeplearning.com/chap4.html</a></p>
@@ -3247,6 +3229,27 @@
 <p>带来的问题，L1损失基于全图的平均，导致图像模糊，细节丢失。这个损失函数也就决定了这个模型训练出来的就类似一个低通滤波器</p>
 <p><strong>疑问</strong>：为什么不可以直接用统计值去训练，而不是直接用像素一一对应  </p>
 <p>回答：如果只需要统计值，那可以说是非监督训练，一般来说，非监督训练99.9%不如监督训练，能用监督训练，就尽量用监督训练 </p>
+</body></html>]]></content>
+      <categories>
+        <category>工作</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一维卡尔曼滤波</title>
+    <url>/posts/124f9d98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">I = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> xk_1 == <span class="number">0</span> </span><br><span class="line">    xk_1 = x;</span><br><span class="line">    xk = x;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    zk = H*x;                   <span class="comment">% 观测量方程</span></span><br><span class="line">    <span class="comment">% 预测</span></span><br><span class="line">    X = A*xk_1;                 <span class="comment">% 状态预测             </span></span><br><span class="line">    P = A*Pk_1*A' + Q;          <span class="comment">% 误差协方差预测 	P = Pk-1 +Q</span></span><br><span class="line">    <span class="comment">% 更新(校正)</span></span><br><span class="line">    K = P*H'*inv(H*P*H'+R);     <span class="comment">% 卡尔曼增益更新	K = P * inv(P + R)</span></span><br><span class="line">    xk = X + K*(zk - H*X);      <span class="comment">% 更新校正	</span></span><br><span class="line">    xk_1 = xk;                  <span class="comment">% 保存校正后的值，下一次滤波使用	</span></span><br><span class="line">    Pk = (I - K*H)*P;           <span class="comment">% 更新误差协方差	Pk = (1 - K *H)*p</span></span><br><span class="line">    Pk_1 = Pk;                  <span class="comment">% 保存校正后的误差协方差，下一次滤波使用</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>以下是我的卡尔曼滤波代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kalman_filter</span><span class="params">(self,input_array,Q=<span class="number">0.0001</span>,R=<span class="number">0.005</span>)</span>:</span></span><br><span class="line">        <span class="comment"># r 测量噪声， Q预测噪声</span></span><br><span class="line">        out_array = []</span><br><span class="line">        xk = <span class="number">0</span></span><br><span class="line">        pk2_k = R*R</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(input_array)):</span><br><span class="line">            <span class="keyword">if</span>(i >= <span class="number">1</span>):</span><br><span class="line">                <span class="comment"># zk = input_array[i]	k = xk + 0.005*(input_array[i]-xk)</span></span><br><span class="line">                zk = input_array[i]</span><br><span class="line">                pk2_k_1 = pk2_k + Q*Q	</span><br><span class="line">                kk = math.sqrt(pk2_k_1/(pk2_k_1 + R*R))</span><br><span class="line">                xk = xk + kk*(zk - xk)</span><br><span class="line">                pk2_k = (<span class="number">1</span>-kk)*pk2_k_1</span><br><span class="line">                out_array.append(xk)n </span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                out_array.append(input_array[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> out_array</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>经过实验对比，用注释的一句代码替换代码的9-14行并没什么区别。注释的那句话用的是互补滤波的方法写的。</p>
+<p>卡尔曼滤波和互补滤波相比，主要特点是增益Kg可以变动的，会根据方差等计算出一个最优的增益。<br>不过这个公式里面的Kg跟输入一点关系都没有，只和Q和R有关，算来算去，就是这个增益按照一定的规则变化而已。<br>那为什么会有低通滤波的效果呢，因为你的Q值很小，这就导致了这个增益很小，更加信任上一次的值。 </p>
+<p>其实说到底这段程序就是上一次的值加上这次测量值的乘以一个很小的系数，而上一次的值又是之前的值累加起来的。<br>如果这个系数（增益）保持固定，就是普通的一阶低通滤波。</p>
+<p>一维的卡尔曼滤波退化成了一个普通的低通滤波。</p>
+<p>而这个增益的话，我觉得可以用自己的逻辑去控制，不需要用卡尔曼滤波这种看似复杂的算法。</p>
 </body></html>]]></content>
       <categories>
         <category>工作</category>
@@ -3464,8 +3467,8 @@
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>fd泄露</tag>
         <tag>hal</tag>
+        <tag>fd泄露</tag>
       </tags>
   </entry>
   <entry>
@@ -3683,8 +3686,8 @@
         <category>图像效果调试</category>
       </categories>
       <tags>
-        <tag>色彩</tag>
         <tag>调试</tag>
+        <tag>色彩</tag>
       </tags>
   </entry>
   <entry>
@@ -4390,8 +4393,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>推荐</tag>
         <tag>软件</tag>
+        <tag>推荐</tag>
       </tags>
   </entry>
   <entry>
@@ -4513,8 +4516,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>推荐</category>
       </categories>
       <tags>
-        <tag>网站</tag>
         <tag>推荐</tag>
+        <tag>网站</tag>
       </tags>
   </entry>
   <entry>
@@ -4536,60 +4539,6 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
       </categories>
       <tags>
         <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线程学习</title>
-    <url>/posts/c3eb2d02/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>深入解析锁和条件变量</p>
-</blockquote>
-<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
-<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
-<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
-<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
-<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
-<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
-<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
-<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
-<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
-<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
-<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
-<p>原子性的解锁并阻塞/等待条件变量。</p>
-<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
-<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
-<ul>
-<li>生产者和消费者都对条件变量的使用加了锁</li>
-<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
-<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
-<p>pthread_mutex_lock(&mutex);         //加锁</p>
-<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
-<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_cond_signal(&flag);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
-<p>pthread_mutex_lock(&mutex);</p>
-<p>pthread_mutex_unlock(&mutex);</p>
-<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
-<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
-<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
-<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
-<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -4668,6 +4617,60 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    void</span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>如果把signal放在unlock之前，消费者线程会被唤醒，获取mutex发现获取不到，就又去sleep了。浪费了资源.但是在LinuxThreads或者NPTL里面，就不会有这个问题，因为在Linux 线程中，有两个队列，分别是cond_wait队列和mutex_lock队列， cond_signal只是让线程从cond_wait队列移到mutex_lock队列，而不用返回到用户空间，不会有性能的损耗。<br>所以在Linux中推荐使用这种模式。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线程学习</title>
+    <url>/posts/c3eb2d02/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>深入解析锁和条件变量</p>
+</blockquote>
+<p>锁的概念：在CPU运行过程中，不会单一的取执行一个事件，而是通过线程，或者进程来进行执行，这样CPU的利用率才得以提高，但是在不同的线程之间，由于互相独立，那么对于资源的访问来说，就可能同时进行，假如A进程获取一个临时变量temp的值，但是在获取的同时，B进程却将temp的值改变了，这时就会出现资源访问的冲突，为了更好的解决这个问题，就有了锁的概念，说的明白些，他就像现实中的锁一样，我们程序中所有的资源，包括变量，内存等都存放在一个房子里，开始时，锁处于开锁状态，如果某一个线程需要访问资源时，就需要拿到这把锁，进到房子里，把门锁上，这样就不会有其他人来干扰你，等你对资源访问结束后，在把锁打开，放下锁，这样别人就可以进入，这样就保证了对资源访问的顺序，这种锁叫互斥锁，这种机制是我们所说的避免竞争。</p>
+<p>条件变量：条件变量是线程同步的一种机制。它给多个线程提供一个回合场所。所谓的条件变量就是需要满足这个条件，才可以继续进行操作。</p>
+<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>1)动态方式</p>
+<p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,const pthread_mutexattr_t *restrict attr);<br>mutex   出参，互斥锁<br>attr    互斥锁的属性，NULL表示默认/缺省的属性</p>
+<p>2)静态的方式<br>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;     //一般都选择静态方式</p>
+<h2 id="加锁："><a href="#加锁：" class="headerlink" title="加锁："></a>加锁：</h2><p>int pthread_mutex_lock(pthread_mutex_t *mutex);<br>给mutex互斥锁加锁<br>1.互斥锁没有被锁：加锁<br>2.互斥锁已经被锁：阻塞/等待，直到被解锁，然后再对mutex互斥锁加锁</p>
+<h2 id="解锁："><a href="#解锁：" class="headerlink" title="解锁："></a>解锁：</h2><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);</p>
+<h1 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h1><h2 id="什么是条件变量"><a href="#什么是条件变量" class="headerlink" title="什么是条件变量"></a>什么是条件变量</h2><p>条件变量是线程的另外一种同步机制，这些同步对象为线程提供了会合的场所，理解起来就是两个（或者多个）线程需要碰头（或者说进行交互-一个线程给另外的一个或者多个线程发送消息），我们指定在条件变量这个地方发生，一个线程用于修改这个变量使其满足其它线程继续往下执行的条件，其它线程则接收条件已经发生改变的信号。</p>
+<p>（核心作用）条件变量同锁一起使用使得线程可以以一种<strong>无竞争</strong>的方式等待任意条件的发生。所谓无竞争就是，条件改变这个信号会发送到所有等待这个信号的线程。而不是说一个线程接受到这个消息而其它线程就接收不到了。</p>
+<h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化:"></a>初始化:</h3><p>动态方式:<br>int pthread_cond_init(pthread_cond_t *restrict cond,const pthread_condattr_t *restrict attr);<br>静态的方式：<br>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</p>
+<h3 id="等待条件变量"><a href="#等待条件变量" class="headerlink" title="等待条件变量"></a>等待条件变量</h3><p>int pthread_cond_wait(pthread_cond_t *restrict cond,pthread_mutex_t *restrict mutex);</p>
+<p>原子性的解锁并阻塞/等待条件变量。</p>
+<h3 id="唤醒条件变量"><a href="#唤醒条件变量" class="headerlink" title="唤醒条件变量"></a>唤醒条件变量</h3><p>int pthread_cond_signal(pthread_cond_t *cond);</p>
+<h2 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h2><p>下例实现了生产者和消费者模型，生产者向队列中插入数据，消费者则在生产者发出<strong>队列准备好（有数据了）</strong>后接收消息，然后取出数据进行处理。实现的关键点在以下几个方面：</p>
+<ul>
+<li>生产者和消费者都对条件变量的使用加了锁</li>
+<li>消费者调用pthread_cond_wait,等待队列是否准备好的信息，注意参数有两个，一个是pthread_cond_t，另外一个是pthread_mutex_t.</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pthread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> {</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">m_next</span>;</span></span><br><span class="line"><span class="comment">/* ... more stuff here ... */</span></span><br><span class="line">};</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">workq</span>;</span></span><br><span class="line"><span class="keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;</span><br><span class="line"><span class="keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">process_msg(<span class="keyword">void</span>)</span><br><span class="line">{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> *<span class="title">mp</span>;</span></span><br><span class="line">    <span class="keyword">for</span> (;;) {</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    <span class="keyword">while</span> (workq == <span class="literal">NULL</span>)</span><br><span class="line">        pthread_cond_wait(&qready, &qlock);</span><br><span class="line">    mp = workq;</span><br><span class="line">    workq = mp->m_next;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    <span class="comment">/* now process the message mp */</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">enqueue_msg(struct msg *mp)</span><br><span class="line">{</span><br><span class="line">    pthread_mutex_lock(&qlock);</span><br><span class="line">    mp->m_next = workq;</span><br><span class="line">    workq = mp;</span><br><span class="line">    pthread_mutex_unlock(&qlock);</span><br><span class="line">    pthread_cond_signal(&qready);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="配合"><a href="#配合" class="headerlink" title="配合"></a>配合</h1><p>上面的是函数的介绍，为了方便查看，接下来说一下为什么cond和mutex要配合使用。</p>
+<p>首先：在pthread_cond_wait()函数之前，要人为获取一把锁，在pthread_cond_wait()执行时，会自动释放这个锁，并且处于等待/阻塞条件，等待信号来临，一但信号来临，那么在pthread_cond_wait()函数调用返回之前，自动将指定的互斥量重新锁住，所以必须在pthread_cond_wait()之后再人为释放锁。其结实际用法为下：</p>
+<p>pthread_mutex_lock(&mutex);         //加锁</p>
+<p>pthread_cond_wait(&flag,&mutex); //等待，清除标记flag</p>
+<p>pthread_mutex_unlock(&mutex);    //解锁<br>其次：对于pthread_cond_signal()函数有两种用法，第一种在加锁与解锁之间，第二种是在加锁解锁之后：</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_cond_signal(&flag);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>这种方式的缺点是：在某线程中，会遭虫等待线程从内核中唤醒(cond_signal是有内核发起的)，然后又回到内核空间(cond_wait返回后会有原子加锁的行为)，所以这一来一回会产生性能的问题，但是在Linux下或者NPTL里面不会，因为Linux线程中有两个队列即cond_wait和cond_signal两个队列，pthread_cond_signal()只是让线程在从wait队列移动到cond队列，不会再永和空间和内核之间往返，不会有应能损耗。</p>
+<p>pthread_mutex_lock(&mutex);</p>
+<p>pthread_mutex_unlock(&mutex);</p>
+<p>pthread_cond_signal(&flag);<br>这种方式的缺点是：如果在unlock和signal之前有一个优先级更低的线程正在等待mutex的话，那么他就会抢占高优先级的线程，而上面的情况则不会出现。</p>
+<p>优点是：不会产生性能的损耗，因为在signal之前就已经解锁了。</p>
+<p>cond和mutex两个组合使用是为了避免，在一个线程中，如果在wait之前，另一个函数已经完成signal了，那么这个线程将阻塞在这里，从而错过了signal，所以用mutex来实现两个进程的同步，当我等待前上锁，等待后释放锁，然后另一个线程获取锁，产生signal信号，在释放锁。</p>
+<h2 id="线程结束时发生死锁"><a href="#线程结束时发生死锁" class="headerlink" title="线程结束时发生死锁"></a>线程结束时发生死锁</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>媒控在红外的回调函数中，对ISP内部线程进行了关闭。在关闭函数中使用了pthread_cancel发送进程终止信号，之后用join等待线程的关闭。<br>经过检查，需要在线程中加入pthread_testcancel()，对线程终止信号进行处理，退出线程。然而并没有解决问题。<br>它的回调也在此线程之中，这就带来了一个问题。</p>
+<h3 id="线程死锁的原因"><a href="#线程死锁的原因" class="headerlink" title="线程死锁的原因"></a>线程死锁的原因</h3><p>线程A控制着线程B的运行和销毁。线程B中执行一个回调函数，会调用到线程A中对线程B的释放。线程A发送了一个线程销毁的信号并进行等待，但是必须等到线程B对这个销毁信号进行处理才能推出。而线程B又需要等待A执行完这个释放函数，才能去对销毁信号进行处理。因此发生了死锁。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>单独创建一个回调函数的线程C，和线程AB分离开来，在线程C中调用就没有什么问题了</p>
 </body></html>]]></content>
       <categories>
         <category>学习</category>
@@ -5656,8 +5659,8 @@ docker login ; docker push qinxing/cheers2019</code></pre><h2 id="（三）常�
         <category>BUG</category>
       </categories>
       <tags>
-        <tag>hal</tag>
         <tag>persist_set</tag>
+        <tag>hal</tag>
       </tags>
   </entry>
   <entry>
@@ -6234,29 +6237,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
-    <title>c++ private外部访问问题</title>
-    <url>/posts/1793d0bf/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
-<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
-</blockquote>
-<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>private数据外部不能直接获取</li>
-<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
-<li>protected和private都可以利用指针在外部进行读取和修改</li>
-</ul>
-<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>问题：中文乱码</title>
     <url>/posts/16d19117/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="认识编码及Python乱码"><a href="#认识编码及Python乱码" class="headerlink" title="认识编码及Python乱码"></a>认识编码及Python乱码</h1><p><a href="https://blog.csdn.net/joyfixing/article/details/79971667" target="_blank" rel="noopener">彻底搞懂 python 中文乱码问题</a>这篇博客讲的很透彻，以及在Python中如何进行转码</p>
@@ -6280,6 +6260,29 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>中文乱码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c++ private外部访问问题</title>
+    <url>/posts/1793d0bf/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
+<p>private可以防止其他模块进行访问，但如果利用指针，是否可以在其他模块获取到private的数据？<br>下面对此进行实验：</p>
+</blockquote>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><iostream></span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> {</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() {</span><br><span class="line">		a2 = <span class="number">3</span>;</span><br><span class="line">		a3 = <span class="number">4</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun3</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a3="</span> <<a3 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a3;</span><br><span class="line">	}</span><br><span class="line">	<span class="function"><span class="keyword">int</span>* <span class="title">fun2</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="built_in">cout</span> << <span class="string">"a2="</span> << a2 << <span class="built_in">endl</span>;   <span class="comment">//正确，类内访问</span></span><br><span class="line">		<span class="keyword">return</span> &a2;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">int</span> a2;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a3;</span><br><span class="line">};</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">	A itema;</span><br><span class="line">	<span class="keyword">int</span>* mytest;</span><br><span class="line">	<span class="comment">//不能直接获取</span></span><br><span class="line">	<span class="comment">//cout << "直接获取private值a3=" << itema.a3 << endl;</span></span><br><span class="line">	mytest = itema.fun3();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取private值a3="</span><<*mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun3();</span><br><span class="line"></span><br><span class="line">	mytest = itema.fun2();</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"通过指针获取protected值a3="</span> << *mytest << <span class="built_in">endl</span>;</span><br><span class="line">	*mytest = <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">cout</span> << <span class="string">"对private值进行修改："</span>;</span><br><span class="line">	itema.fun2();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>private数据外部不能直接获取</li>
+<li>private数据如果把地址传出来，可以在外部进行读取和修改</li>
+<li>protected和private都可以利用指针在外部进行读取和修改</li>
+</ul>
+<p>因此private不是万能的，同样可以走<code>后门</code>，进行修改，用同样的方法，我们还可以引出形参指针的地址等；当我们写程序时，也要注意private也可能被外部模块修改。</p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
       </tags>
   </entry>
   <entry>
@@ -6328,51 +6331,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       <tags>
         <tag>编程</tag>
         <tag>高通</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线程进程总结</title>
-    <url>/posts/9fc0e279/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
-<a id="more"></a>
-
-<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
-<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
-<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
-<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
-<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
-<p>（1）线程状态。</p>
-<p>（2）当线程不运行时，被保存的现场资源。</p>
-<p>（3）一组执行堆栈。</p>
-<p>（4）存放每个线程的局部变量主存区。</p>
-<p>（5）访问同一个进程中的主存和其它资源。</p>
-<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
-<p><strong>2）独立调度和分派的基本单位。</strong></p>
-<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
-<p><strong>3）可并发执行。</strong></p>
-<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
-<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
-<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
-<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
-<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
-<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
-<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
-<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
-<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
-<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
-<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
-<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>编程</category>
-        <category>c/c++</category>
-      </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -6524,6 +6482,51 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
         <tag>线程</tag>
         <tag>进程</tag>
         <tag>分布式进程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线程进程总结</title>
+    <url>/posts/9fc0e279/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>线程和进程是什么？为什么需要使用多线程？有什么可能存在的问题？如何使用线程？</p>
+<a id="more"></a>
+
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>线程，有时被称为轻量进程(Lightweight Process，LWP），是程序执行流的最小单元。一个标准的线程由线程ID，当前指令<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88/2878304" target="_blank" rel="noopener">指针</a>(PC），<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8/187682" target="_blank" rel="noopener">寄存器</a>集合和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032" target="_blank" rel="noopener">堆栈</a>组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程<strong>共享进程所拥有的全部资源</strong>。一个线程可以<strong>创建和撤消另一个线程</strong>，同一进程中的多个线程之间可以并发执行。</p>
+<p>线程有<a href="https://baike.baidu.com/item/%E5%B0%B1%E7%BB%AA/10932509" target="_blank" rel="noopener">就绪</a>、<a href="https://baike.baidu.com/item/%E9%98%BB%E5%A1%9E/9032404" target="_blank" rel="noopener">阻塞</a>和<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C/5480697" target="_blank" rel="noopener">运行</a>三种基本状态。就绪状态是指线程具备运行的所有条件，逻辑上可以运行，在等待处理机；运行状态是指线程占有处理机正在运行；阻塞状态是指线程在等待一个事件（如某个信号量），逻辑上不可执行。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。</p>
+<p>线程是程序中一个单一的顺序控制流程。进程内有一个相对独立的、可调度的执行单元，是系统独立调度和分派CPU的基本单位指令<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>时的程序的调度单位。在单个程序中同时运行多个线程完成不同的工作，称为<a href="https://baike.baidu.com/item/%E5%A4%9A%E7%BA%BF%E7%A8%8B/1190404" target="_blank" rel="noopener">多线程</a>。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p><strong>1）轻型实体</strong></p>
+<p>线程中的实体基本上不拥有<a href="https://baike.baidu.com/item/%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">系统资源</a>，只是有一点必不可少的、能保证独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的资源。</p>
+<p>线程的实体包括程序、数据和TCB。线程是动态概念，它的动态特性由线程控制块TCB（Thread Control Block）描述。TCB包括以下信息：</p>
+<p>（1）线程状态。</p>
+<p>（2）当线程不运行时，被保存的现场资源。</p>
+<p>（3）一组执行堆栈。</p>
+<p>（4）存放每个线程的局部变量主存区。</p>
+<p>（5）访问同一个进程中的主存和其它资源。</p>
+<p>用于指示被执行指令序列的<a href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8" target="_blank" rel="noopener">程序计数器</a>、保留<a href="https://baike.baidu.com/item/%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F" target="_blank" rel="noopener">局部变量</a>、少数状态参数和<a href="https://baike.baidu.com/item/%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">返回地址</a>等的一组<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8" target="_blank" rel="noopener">寄存器</a>和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>。</p>
+<p><strong>2）独立调度和分派的基本单位。</strong></p>
+<p>在多线程OS中，线程是能独立<a href="https://baike.baidu.com/item/%E8%BF%90%E8%A1%8C" target="_blank" rel="noopener">运行</a>的基本单位，因而也是独立调度和分派的基本单位。由于线程很“轻”，故线程的切换非常迅速且开销小（在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的）。</p>
+<p><strong>3）可并发执行。</strong></p>
+<p>在一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的多个线程之间，可以并发执行，甚至允许在一个进程中所有线程都能并发执行；同样，不同进程中的线程也能并发执行，充分利用和发挥了<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86%E6%9C%BA" target="_blank" rel="noopener">处理机</a>与外围设备并行工作的能力。</p>
+<p><strong>4）共享</strong><a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>资源。</p>
+<p><a href="https://baike.baidu.com/pic/%E7%BA%BF%E7%A8%8B/103101/0/a583631edbe8bbb41ad57610?fr=lemma&ct=single" target="_blank" rel="noopener" title="线程"><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=ae1c7b5b9d16fdfadc6cc1ec848e8cea/c8177f3e6709c93d793c8e879f3df8dcd00054f7.jpg" alt="线程"></a>线程</p>
+<p>在同一<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>中的各个线程，都可以共享该进程所拥有的资源，这首先表现在：所有线程都具有相同的<a href="https://baike.baidu.com/item/%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4" target="_blank" rel="noopener">地址空间</a>（进程的地址空间），这意味着，线程可以访问该地址空间的每一个虚地址；此外，还可以访问进程所拥有的已打开<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>、定时器、<a href="https://baike.baidu.com/item/%E4%BF%A1%E5%8F%B7%E9%87%8F" target="_blank" rel="noopener">信号量</a>机构等。由于同一个<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>内的线程<a href="https://baike.baidu.com/item/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98" target="_blank" rel="noopener">共享内存</a>和<a href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">文件</a>，所以线程之间互相通信不必调用<a href="https://baike.baidu.com/item/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">内核</a>。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>狭义定义：进程是正在运行的程序的实例（an instance of a computer program that is being executed）。</p>
+<p>广义定义：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/192" target="_blank" rel="noopener">操作系统</a>动态执行的<a href="https://baike.baidu.com/item/%E5%9F%BA%E6%9C%AC%E5%8D%95%E5%85%83" target="_blank" rel="noopener">基本单元</a>，在传统的<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">操作系统</a>中，进程既是基本的<a href="https://baike.baidu.com/item/%E5%88%86%E9%85%8D%E5%8D%95%E5%85%83" target="_blank" rel="noopener">分配单元</a>，也是基本的执行单元。</p>
+<p>进程的概念主要有两点：第一，进程是一个实体。每一个进程都有它自己的地址空间，一般情况下，包括<a href="https://baike.baidu.com/item/%E6%96%87%E6%9C%AC" target="_blank" rel="noopener">文本</a>区域（text region）、数据区域（data region）和<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88" target="_blank" rel="noopener">堆栈</a>（stack region）。文本区域存储处理器执行的代码；数据区域存储变量和进程执行期间使用的动态分配的内存；堆栈区域存储着活动过程调用的指令和本地变量。第二，进程是一个“执行中的程序”。程序是一个没有生命的实体，只有<a href="https://baike.baidu.com/item/%E5%A4%84%E7%90%86" target="_blank" rel="noopener">处理</a>器赋予程序生命时（操作系统执行之），它才能成为一个活动的实体，我们称其为<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B" target="_blank" rel="noopener">进程</a>。</p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p><strong>动态性</strong>：进程的实质是程序在<a href="https://baike.baidu.com/item/%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">多道程序系统</a>中的一次执行过程，进程是动态产生，动态消亡的。</p>
+<p><strong>并发性</strong>：任何进程都可以同其他进程一起并发执行</p>
+<p><strong>独立性</strong>：进程是一个能独立运行的基本单位，同时也是系统分配资源和调度的<strong>独立</strong>单位；</p>
+<p><strong>异步性</strong>：由于进程间的相互制约，使进程具有执行的间断性，即进程按各自独立的、不可预知的速度向前推进</p>
+<p><strong>结构特征</strong>：进程由程序、数据和<a href="https://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97" target="_blank" rel="noopener">进程控制块</a>三部分组成。</p>
+<p>多个不同的进程可以包含相同的程序：一个程序在不同的数据集里就构成不同的进程，能得到不同的结果；但是执行过程中，程序不能发生改变。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1></body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>编程</category>
+        <category>c/c++</category>
+      </categories>
+      <tags>
+        <tag>编程</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -6691,10 +6694,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><blockquote>
 <p>讨论车辆人员卡口的注意点，对以后可能遇到的问题进行指导</p>
 </blockquote>
-<a id="more"></a>
-
-
-
 <h1 id="产品类型"><a href="#产品类型" class="headerlink" title="产品类型"></a>产品类型</h1><ul>
 <li><p>4N   ==人脸</p>
 </li>
@@ -6981,6 +6980,70 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </tags>
   </entry>
   <entry>
+    <title>git常用命令</title>
+    <url>/posts/423abe9e/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
+<li>检出仓库：$ git clone git://github.com/jquery/jquery.git  </li>
+<li>查看远程仓库：$ git remote -v  </li>
+<li>添加远程仓库：$ git remote add [name] [url]  </li>
+<li>删除远程仓库：$ git remote rm [name]  </li>
+<li>修改远程仓库：$ git remote set-url –push[name][newUrl]  </li>
+<li>拉取远程仓库：$ git pull [remoteName] [localBranchName]  </li>
+<li>推送远程仓库：$ git push [remoteName] [localBranchName]  </li>
+</ul>
+<h1 id="分支操作相关命令"><a href="#分支操作相关命令" class="headerlink" title="分支操作相关命令"></a>分支操作相关命令</h1><ul>
+<li>查看本地分支：$ git branch  </li>
+<li>查看远程分支：$ git branch -r  </li>
+<li>创建本地分支：$ git branch [name] —-注意新分支创建后不会自动切换为当前分支  </li>
+<li>切换分支：$ git checkout [name]  </li>
+<li>创建新分支并立即切换到新分支：$ git checkout -b [name]  </li>
+<li>删除分支：$ git branch -d [name] —- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项  </li>
+<li>合并分支：$ git merge [name] —-将名称为[name]的分支与当前分支合并  </li>
+<li>创建远程分支(本地分支push到远程)：$ git push origin [name]  </li>
+<li>删除远程分支：$ git push origin :heads/[name]  </li>
+</ul>
+<p>我从master分支创建了一个issue5560分支，做了一些修改后，使用git push origin master提交，但是显示的结果却是’Everything up-to-date’，发生问题的原因是git push origin master 在没有track远程分支的本地分支中默认提交的master分支，因为master分支默认指向了origin master 分支，这里要使用git push origin issue5560：master 就可以把issue5560推送到远程的master分支了。</p>
+<ul>
+<li><p>如果想把本地的某个分支test提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，那么可以这么做。<br>$ git push origin test:master         // 提交本地test分支作为远程的master分支 //好像只写这一句，远程的github就会自动创建一个test分支<br>$ git push origin test:test              // 提交本地test分支作为远程的test分支</p>
+</li>
+<li><p>如果想删除远程的分支呢？类似于上面，如果:左边的分支为空，那么将删除:右边的远程的分支。<br>$ git push origin :test              // 刚提交到远程的test将被删除，但是本地还会保存的，不用担心</p>
+</li>
+</ul>
+<h1 id="版本-tag-操作相关命令"><a href="#版本-tag-操作相关命令" class="headerlink" title="版本(tag)操作相关命令"></a>版本(tag)操作相关命令</h1><ul>
+<li>查看版本：$ git tag</li>
+<li>创建版本：$ git tag [name]</li>
+<li>删除版本：$ git tag -d [name]</li>
+<li>查看远程版本：$ git tag -r</li>
+<li>创建远程版本(本地版本push到远程)：$ git push origin [name]</li>
+<li>删除远程版本：$ git push origin :refs/tags/[name]</li>
+</ul>
+<h1 id="子模块-submodule-相关操作命令"><a href="#子模块-submodule-相关操作命令" class="headerlink" title="子模块(submodule)相关操作命令"></a>子模块(submodule)相关操作命令</h1><ul>
+<li>添加子模块：$ git submodule add [url] [path]  </li>
+</ul>
+<p>如：$ git submodule add git://github.com/soberh/ui-libs.git src/main/webapp/ui-libs  </p>
+<ul>
+<li>初始化子模块：$ git submodule init —-只在首次检出仓库时运行一次就行</li>
+<li>更新子模块：$ git submodule update —-每次更新或切换分支后都需要运行一下</li>
+<li>删除子模块：<ul>
+<li>$ git rm –cached [path]</li>
+<li>编辑“.gitmodules”文件，将子模块的相关配置节点删除掉</li>
+<li>编辑“.git/config”文件，将子模块的相关配置节点删除掉</li>
+<li>手动删除子模块残留的目录</li>
+</ul>
+</li>
+</ul>
+<h1 id="忽略一些文件、文件夹不提交"><a href="#忽略一些文件、文件夹不提交" class="headerlink" title="忽略一些文件、文件夹不提交"></a>忽略一些文件、文件夹不提交</h1><p>在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可，如<br>target<br>bin<br>*.db  </p>
+</body></html>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>工具</category>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo 多终端同步</title>
     <url>/posts/5f460a06/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><p>#准备条件#<br>安装了Node.js,Git,Hexo环境<br>完成Github与本地Hexo的对接<br>这部分可以参考<a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="noopener">最详细的Hexo博客搭建图文教程</a></p>
@@ -7088,70 +7151,6 @@ Kdb remount</code></pre><h3 id="生成代码位置-1"><a href="#生成代码位�
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git常用命令</title>
-    <url>/posts/423abe9e/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><html><head></head><body><h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><ul>
-<li>检出仓库：$ git clone git://github.com/jquery/jquery.git  </li>
-<li>查看远程仓库：$ git remote -v  </li>
-<li>添加远程仓库：$ git remote add [name] [url]  </li>
-<li>删除远程仓库：$ git remote rm [name]  </li>
-<li>修改远程仓库：$ git remote set-url –push[name][newUrl]  </li>
-<li>拉取远程仓库：$ git pull [remoteName] [localBranchName]  </li>
-<li>推送远程仓库：$ git push [remoteName] [localBranchName]  </li>
-</ul>
-<h1 id="分支操作相关命令"><a href="#分支操作相关命令" class="headerlink" title="分支操作相关命令"></a>分支操作相关命令</h1><ul>
-<li>查看本地分支：$ git branch  </li>
-<li>查看远程分支：$ git branch -r  </li>
-<li>创建本地分支：$ git branch [name] —-注意新分支创建后不会自动切换为当前分支  </li>
-<li>切换分支：$ git checkout [name]  </li>
-<li>创建新分支并立即切换到新分支：$ git checkout -b [name]  </li>
-<li>删除分支：$ git branch -d [name] —- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项  </li>
-<li>合并分支：$ git merge [name] —-将名称为[name]的分支与当前分支合并  </li>
-<li>创建远程分支(本地分支push到远程)：$ git push origin [name]  </li>
-<li>删除远程分支：$ git push origin :heads/[name]  </li>
-</ul>
-<p>我从master分支创建了一个issue5560分支，做了一些修改后，使用git push origin master提交，但是显示的结果却是’Everything up-to-date’，发生问题的原因是git push origin master 在没有track远程分支的本地分支中默认提交的master分支，因为master分支默认指向了origin master 分支，这里要使用git push origin issue5560：master 就可以把issue5560推送到远程的master分支了。</p>
-<ul>
-<li><p>如果想把本地的某个分支test提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，那么可以这么做。<br>$ git push origin test:master         // 提交本地test分支作为远程的master分支 //好像只写这一句，远程的github就会自动创建一个test分支<br>$ git push origin test:test              // 提交本地test分支作为远程的test分支</p>
-</li>
-<li><p>如果想删除远程的分支呢？类似于上面，如果:左边的分支为空，那么将删除:右边的远程的分支。<br>$ git push origin :test              // 刚提交到远程的test将被删除，但是本地还会保存的，不用担心</p>
-</li>
-</ul>
-<h1 id="版本-tag-操作相关命令"><a href="#版本-tag-操作相关命令" class="headerlink" title="版本(tag)操作相关命令"></a>版本(tag)操作相关命令</h1><ul>
-<li>查看版本：$ git tag</li>
-<li>创建版本：$ git tag [name]</li>
-<li>删除版本：$ git tag -d [name]</li>
-<li>查看远程版本：$ git tag -r</li>
-<li>创建远程版本(本地版本push到远程)：$ git push origin [name]</li>
-<li>删除远程版本：$ git push origin :refs/tags/[name]</li>
-</ul>
-<h1 id="子模块-submodule-相关操作命令"><a href="#子模块-submodule-相关操作命令" class="headerlink" title="子模块(submodule)相关操作命令"></a>子模块(submodule)相关操作命令</h1><ul>
-<li>添加子模块：$ git submodule add [url] [path]  </li>
-</ul>
-<p>如：$ git submodule add git://github.com/soberh/ui-libs.git src/main/webapp/ui-libs  </p>
-<ul>
-<li>初始化子模块：$ git submodule init —-只在首次检出仓库时运行一次就行</li>
-<li>更新子模块：$ git submodule update —-每次更新或切换分支后都需要运行一下</li>
-<li>删除子模块：<ul>
-<li>$ git rm –cached [path]</li>
-<li>编辑“.gitmodules”文件，将子模块的相关配置节点删除掉</li>
-<li>编辑“.git/config”文件，将子模块的相关配置节点删除掉</li>
-<li>手动删除子模块残留的目录</li>
-</ul>
-</li>
-</ul>
-<h1 id="忽略一些文件、文件夹不提交"><a href="#忽略一些文件、文件夹不提交" class="headerlink" title="忽略一些文件、文件夹不提交"></a>忽略一些文件、文件夹不提交</h1><p>在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可，如<br>target<br>bin<br>*.db  </p>
-</body></html>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>工具</category>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
